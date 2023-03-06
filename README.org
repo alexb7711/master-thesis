@@ -1,0 +1,22 @@
+* Outline of topics
+- Position Allocation Problem (PAP) formulation
+  - Built on from the Berth Allocation Problem (BAP)
+  - Expand the formulation to not require information about the processing times
+- Include Consumption/demand cost in the objective
+  - Minimize the monetary cost of system by attempting to avoid peak hours
+  - Minimize the monetary cost of system by reducing the peak15 of the system
+- Nonlinear battery dynamics
+  - More accurately predict the charging and discharging dynamics of LIBs
+  - (Stretch) More accurately model the discharge of the buses via
+    - Inclines
+    - Driver behavior
+    - Different speeds
+- Fuzzy solution the LP
+  - Let the solution vary. Why have a rigorous plan in an uncertain world?
+- Minimize chargers
+  - Be able to predict what type of system setup is required for a set of routes
+- Penalty method to allow for the bus to go below charge percentage
+  - Having the charge be strictly above a certain percentage makes the solution space too small at times. This will allow the charges to vary more without killing the solver
+- Simulated Annealing (SA) implementation
+  - Pseudo code for the implementation
+  - Written in rust (🦀)
