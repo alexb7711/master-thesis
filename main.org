@@ -1,0 +1,29 @@
+# ======================================================================================================================
+# Preamble
+
+#+TITLE: Proposal For The Approach To The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints and Non-Linear Battery Dynamics
+#+DATE: \today
+#+EMAIL: A01704744@usu.edu
+#+LANGUAGE: en
+
+#+LATEX_HEADER: \usepackage[T1]{fontenc}
+#+LATEX_HEADER: \usepackage{lmodern}
+
+# Theorems/Lemmas/Definition headers
+#+LATEX_HEADER: \newtheorem{definition}{Definition}[section]
+
+#+begin_export latex
+\let\ref\autoref                            % Redifine `\ref` as `\autoref` because lazy
+#+end_export
+
+# ======================================================================================================================
+# Document
+
+
+# ======================================================================================================================
+# Bibliography
+
+#+cite_export: bibtex plain
+#+bibliography:citation-database/lit-ref.bib
+#+bibliography:citation-database/lib-ref.bib
+#+print_bibliography:
