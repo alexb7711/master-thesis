@@ -1,0 +1,15 @@
+[submodule "sup-doc/fuzzy-lp-paper"]
+	path = sup-doc/fuzzy-lp-paper
+	url = https://github.com/alexb7711/fuzzy-lp-paper.git
+[submodule "sup-doc/milp-pap-paper-frontiers"]
+	path = sup-doc/milp-pap-paper-frontiers
+	url = https://github.com/alexb7711/milp-pap-paper-frontiers.git
+[submodule "sup-doc/sa-pap-paper"]
+	path = sup-doc/sa-pap-paper
+	url = https://github.com/alexb7711/sa-pap-paper.git
+[submodule "org-doc-scripts"]
+	path = org-doc-scripts
+	url = https://github.com/alexb7711/org-doc-scripts
+[submodule "citation-database"]
+	path = citation-database
+	url = https://github.com/alexb7711/citation-database.git
