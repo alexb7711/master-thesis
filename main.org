@@ -9,6 +9,8 @@
 #+LATEX_HEADER: \usepackage[T1]{fontenc}
 #+LATEX_HEADER: \usepackage{lmodern}
 
+#+include: ./sections/preamble.org
+
 # Theorems/Lemmas/Definition headers
 #+LATEX_HEADER: \newtheorem{definition}{Definition}[section]
 
@@ -19,6 +21,15 @@
 # ======================================================================================================================
 # Document
 
+#+include: sup-doc/fuzzy-lp-paper/sections/preliminaries.org
+#+include: sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org
+#+include: sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org
+#+include: sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org
+#+include: sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org
+#+include: sup-doc/sa-pap-paper/sections/problem-description.org
+#+include: sup-doc/sa-pap-paper/sections/simulated-annealing.org
+#+include: sup-doc/sa-pap-paper/sections/optimization-problem.org
+#+include: sup-doc/sa-pap-paper/sections/optimization-algorithm.org
 
 # ======================================================================================================================
 # Bibliography
