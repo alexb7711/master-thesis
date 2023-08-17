@@ -1,4 +1,45 @@
-* Outline of topics
+* Outline
+** Introduction - Problem To Be Addressed
+*** Purpose Or Objective Of Proposed Work
+- The purpose is to introduce a simple method of determining a robust, optimal charging schedule for a fleet of Battery
+  Electric Buses (BEBs)
+*** Literature Review, Including Theoretical Analysis (If Applicable)
+- Pulling literature reviews/introductions from supporting documents
+
+*** Significance And Scope Of Proposed Work
+- Novel solution based off well studied problem
+- Robust solution to allow for variation of real world events
+- Accurate charge modeling due to nonlinear battery dynamics
+- Quick results do to SA?
+- Able to reduce peak hour usage
+- Model includes other benefits "for free" due to the structure of the problem
+  - Minimize chargers
+  - Minimize consumption cost
+
+** Background
+- Berth Allocation Problem
+- Position Allocation Problem
+- Simulated Annealing
+- Battery Dynamics (Linear/Nonlinear)
+- Fuzzy
+  - Fuzzy Sets
+  - Fully Fuzzy Linear Programming
+
+** Methods For Solving The Problem
+*** Plan For Accomplishing Objectives
+- Modeling and simulation
+
+*** Plan For Evaluating Results
+- Compare results with existing MILP-PAP project
+
+*** Timetable For Project Completion
+- 1 month SA-PAP implementation completion
+- 0.5-1 month battery dynamics
+- 0.5-1 month to implement fuzzy constraints
+
+* Components Of Topics
+The following is a list of desired items to be included in the proposal.
+
 - Position Allocation Problem (PAP) formulation
   - Built on from the Berth Allocation Problem (BAP)
   - Expand the formulation to not require information about the processing times
@@ -7,10 +48,6 @@
   - Minimize the monetary cost of system by reducing the peak15 of the system
 - Nonlinear battery dynamics
   - More accurately predict the charging and discharging dynamics of LIBs
-  - (Stretch) More accurately model the discharge of the buses via
-    - Inclines
-    - Driver behavior
-    - Different speeds
 - Fuzzy solution the LP
   - Let the solution vary. Why have a rigorous plan in an uncertain world?
 - Minimize chargers
