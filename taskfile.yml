@@ -1,0 +1,107 @@
+################################################################################
+# ENVIRONTMENT
+################################################################################
+version: '3'
+
+env:
+  TARGET : fuzzy-pap.pdf
+  DOC    : main
+  SCRIPTS: org-doc-scripts
+  MPAP_D : ./sup-doc/milp-pap-paper-frontiers
+
+
+################################################################################
+# RECIPES
+################################################################################
+
+tasks:
+
+##==============================================================================
+#
+  default:
+    cmds:
+      - task: precheck
+      - task: pdf
+
+##==============================================================================
+#
+  pipeline:
+    cmds:
+      - task: precheck
+      - task: set-version
+      - task: pdf
+
+##==============================================================================
+#
+  precheck:
+    desc: "Make sure that all the dependencies are installed."
+    cmds:
+      - sh {{.SCRIPTS}}/check-packages
+    silent: true
+
+##==============================================================================
+#
+  set-version:
+    desc: "Dynamically sets the version of the document."
+    vars:
+      MAIN: main.tex
+      VERSION:
+        sh: git describe --tags
+    cmds:
+      - sed -i 's/\\date{\\today/\\date{\\today:{{.VERSION}}/' {{.MAIN}}
+    silent: true
+##==============================================================================
+#
+  images:
+    desc: "Build all standalone images."
+    cmds:
+      - go-task --version >/dev/null 2>&1 && go-task -d {{.MPAP_D}} images || echo ""
+      - task --version >/dev/null 2>&1 && task -d {{.MPAP_D}} images || echo ""
+
+##==============================================================================
+#
+  pdf:
+    desc: "Output {{.TARGET}} PDF."
+    vars:
+    sources:
+      - ./{{.DOC}}.tex
+    generates:
+      - ./{{.DOC}}.pdf
+    cmds:
+      - task: images
+      - task: relative-path-bibtex
+      - sh {{.SCRIPTS}}/build-pdf {{.DOC}} {{.TARGET}}
+    silent: false
+
+##==============================================================================
+#
+  relative-path-bibtex:
+    desc: "Update the paths in the 'bibtex' command to be relative."
+    cmds:
+      - sh {{.SCRIPTS}}/relative-path-bibtex {{.DOC}}.tex
+
+##==============================================================================
+#
+  update-modules:
+    desc: "Update all the submodules"
+    vars:
+      DATE:
+        sh: date +%Y-%m-%d
+    cmds:
+      - |
+        git submodule foreach git pull
+        git commit -am "Update modules: {{.DATE}}"
+        git push
+
+##==============================================================================
+#
+  clean:
+    desc: "Clean up the project."
+    cmds:
+      - task --version >/dev/null 2>&1 && task -d {{.MPAP_D}} clean || echo ""
+      - go-task --version >/dev/null 2>&1 && go-task -d {{.MPAP_D}} clean || echo ""
+      - |
+        # Clean up the document files
+        rm -f {{.TARGET}}
+        latexmk -silent -C {{.DOC}}.tex
+    silent: true

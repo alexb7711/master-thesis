@@ -1,0 +1,4 @@
+* Proposed Project
+:PROPERTIES:
+:CUSTOM_ID: sec:proposed-project
+:END:
