@@ -28,8 +28,12 @@ that the charge received is proportional to the time spent on the charger
 [cite:@liu-2020-batter-elect;@yang-2018-charg-sched], which can be a valid assumption when the battery state-of-charge
 (SOC) is below 80% charge [cite:@liu-2020-batter-elect].
 
-The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
-modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
+The intent of the proposed work is to construct an optimal model to create an optimal charging schedule for a fleet of
+BEBs by build upon what is known as the Position Allocation Problem [cite:@qarebagh-2019-optim-sched]. The PAP is a
+modification of the well studied Berth Allocation Problem (BAP)
+
+#+begin_comment
+, as a means to schedule the charging of electric
 vehicles [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The BAP is a continuous time
 model that solves the problem of allocating space for incoming vessels to be berthed. Each arriving vessel requires both
 time and space to be serviced and thus must be carefully assigned a berthing location [cite:@imai-2001-dynam-berth].
@@ -38,6 +42,7 @@ Vessels are lined up parallel to the berth to be serviced and are horizontally q
 \autoref{subfig:papexample}. The PAP is formulated as a rectangle packing problem by assuming that vehicle charging will
 take a fixed amount of time, the amount of vehicles that can charge is limited by the physical width of the vehicles,
 and each vehicle visits the charger a single time [cite:@qarebagh-2019-optim-sched].
+#+end_comment
 
 # --------------------------------------------------------------------------------
 # BAP and PAP comparison
@@ -66,11 +71,3 @@ and each vehicle visits the charger a single time [cite:@qarebagh-2019-optim-sch
     \end{figure}
 \end{subfigures}
 #+end_src
-
-The main contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This includes
-modeling and incorporation of a proportional charging model into the MILP framework, consideration of multiple charger
-types, and inclusion of the route schedule for each bus. The last contribution is of importance because both the BAP and
-PAP consider each arrival to be unique; thus, a method of tracking buses must be implemented. Input parameters are
-selected in such a manner as to minimize the number of fast and slow charger utilized as well as minimize the power
-consumption. The result is a MILP formulation that coordinates charging times and charger type for every visit that each
-bus makes to the station while considering a dynamic charge model and scheduling constraints.
