@@ -2,3 +2,48 @@
 :PROPERTIES:
 :CUSTOM_ID: sec:proposed-project
 :END:
+
+#+begin_comment
+This includes modeling and incorporation of a nonlinear charging model into the MILP constraint framework, consideration
+of multiple charger types, and inclusion of the route schedule for each bus. The last contribution is of importance
+because both the BAP and PAP consider each arrival to be unique; thus, a method of tracking buses must be implemented.
+This is visually shown in \autoref{subfig:bapexample} and \autoref{subfig:papexample}. Input parameters are selected in
+such a manner as to minimize the number of fast and slow charger utilized as well as minimize the power consumption. The
+result is a MILP formulation that coordinates charging times and charger type for every visit that each bus makes to the
+station while considering a dynamic charge model and scheduling constraints.
+
+Each arriving vessel requires both time and space to be serviced and thus must be carefully assigned a berthing location
+[cite:@imai-2001-dynam-berth]. Vessels are lined up parallel to the berth to be serviced and are horizontally queued as
+shown in \autoref{subfig:bapexample}. The PAP utilizes this notion of queuing for scheduling vehicles to be charged, as
+shown in \autoref{subfig:papexample}. The PAP is formulated as a rectangle packing problem by assuming that vehicle
+charging will take a fixed amount of time, the amount of vehicles that can charge is limited by the physical width of
+the vehicles, and each vehicle visits the charger a single time [cite:@qarebagh-2019-optim-sched].
+#+end_comment
+
+# --------------------------------------------------------------------------------
+# BAP and PAP comparison
+#+begin_src latex
+\begin{subfigures}
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % BAP
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
+        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
+          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
+          arrow represents the direction of departure.}
+        \label{subfig:bapexample}
+    \end{figure}
+    \hfill
+
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % PAP
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
+        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
+          indicated by the arrow.}
+        \label{subfig:papexample}
+    \end{figure}
+\end{subfigures}
+#+end_src

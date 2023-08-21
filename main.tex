@@ -1,4 +1,4 @@
-% Created 2023-08-17 Thu 10:22
+% Created 2023-08-21 Mon 10:59
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt,a4paper,final]{article}
 \usepackage[a4paper, total={7in, 10in}]{geometry}
@@ -69,7 +69,7 @@
  pdftitle={Proposal For The Approach To The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints and Non-Linear Battery Dynamics},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 28.2 (Org mode 9.6.7)}, 
+ pdfcreator={Emacs 29.1 (Org mode 9.6.7)}, 
  pdflang={English}}
 \begin{document}
 
@@ -93,9 +93,7 @@ emissions, such as lower driving costs, lower maintenance costs, and reduced veh
 introduce new challenges such as larger upfront costs, and potentially several hours long ``refueling'' periods
 \cite{xylia-2018-role-charg,li-2016-batter-elect}. Furthermore, the problem is exacerbated by the constraints of the
 transit schedule to which the fleet must adhere, the limited amount of chargers available, and the adverse affects in
-the health of the battery due to fast charging \cite{lutsey-2019-updat-elect}. This paper presents a continuous
-scheduling framework for a BEB fleet that shares limited fast and slow chargers. This framework takes into consideration
-linear charging dynamics and a fixed bus schedule while meeting a certain battery charge threshold throughout the day.
+the health of the battery due to fast charging \cite{lutsey-2019-updat-elect}.
 
 Many recent efforts have been made to simultaneously solve the problems of route scheduling, and charging fleets and
 determining the infrastructure upon which they rely, e.g., \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. Several simplifications are made to make these problems
@@ -110,15 +108,25 @@ that the charge received is proportional to the time spent on the charger
 
 The intent of the proposed work is to build upon the Position Allocation Problem \cite{qarebagh-2019-optim-sched}, a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
-vehicles \cite{buhrkal-2011-model-discr,frojan-2015-contin-berth,imai-2001-dynam-berth}. The BAP is a continuous time
-model that solves the problem of allocating space for incoming vessels to be berthed. Each arriving vessel requires both
-time and space to be serviced and thus must be carefully assigned a berthing location \cite{imai-2001-dynam-berth}.
-Vessels are lined up parallel to the berth to be serviced and are horizontally queued as shown in
-\autoref{subfig:bapexample}. The PAP utilizes this notion of queuing for scheduling vehicles to be charged, as shown in
-\autoref{subfig:papexample}. The PAP is formulated as a rectangle packing problem by assuming that vehicle charging will
-take a fixed amount of time, the amount of vehicles that can charge is limited by the physical width of the vehicles,
-and each vehicle visits the charger a single time \cite{qarebagh-2019-optim-sched}.
+vehicles \cite{buhrkal-2011-model-discr,frojan-2015-contin-berth,imai-2001-dynam-berth}. The BAP model is a rectangle
+packing problem with the goal of allocating space for incoming vessels to be berthed and serviced as depicted in
+\autoref{subfig:bapexample}. The BAP can be modeled both continuously and discretely both temporally and spatially
+\cite{buhrkal-2011-model-discr,frojan-2015-contin-berth}. Furthermore, the demand to efficiently handle an
+ever-growing demand for servicing cargo, with an estimated 1.24 billion of the 8.02 billion tonnes of all shipping cargo
+in 2007 \cite{buhrkal-2011-model-discr}, provides a strong pool of robust literature to draw from. Methods of handling
+multiple quays to handle general berthing scenarios \cite{frojan-2015-contin-berth,dai-2008-suppl-chain-analy},
+heuristic procedures for quicker solve times have been introduced \cite{imai-2001-dynam-berth}, static (full time
+horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
+and even fuzzy set theory has been applied to allow for more flexible schedules \cite{bello-2019-fuzzy-activ}.
 
+Furthermore, this proposed work intends to extend the work of the PAP's novel approach to BEB charger scheduling even
+further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
+robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
+further research and development in regard to BEBs. What follows is a proposal for a Simulated Annealing (SA)
+implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints and nonlinear
+battery dynamics.
+\section{Proposed Project}
+\label{sec:proposed-project}
 \begin{subfigures}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % BAP
@@ -143,15 +151,6 @@ and each vehicle visits the charger a single time \cite{qarebagh-2019-optim-sche
     \end{figure}
 \end{subfigures}
 
-The main contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This includes
-modeling and incorporation of a proportional charging model into the MILP framework, consideration of multiple charger
-types, and inclusion of the route schedule for each bus. The last contribution is of importance because both the BAP and
-PAP consider each arrival to be unique; thus, a method of tracking buses must be implemented. Input parameters are
-selected in such a manner as to minimize the number of fast and slow charger utilized as well as minimize the power
-consumption. The result is a MILP formulation that coordinates charging times and charger type for every visit that each
-bus makes to the station while considering a dynamic charge model and scheduling constraints.
-\section{Proposed Project}
-\label{sec:proposed-project}
 \bibliographystyle{plain}
-\bibliography{c:/Users/1556048963C/AppData/Roaming/Documents/master-proposal/citation-database/lit-ref,c:/Users/1556048963C/AppData/Roaming/Documents/master-proposal/citation-database/lib-ref,~/Documents/citation-database/lit-ref,~/Documents/citation-database/lib-ref}
+\bibliography{/home/alex/Documents/docs/proposal/citation-database/lit-ref,/home/alex/Documents/docs/proposal/citation-database/lib-ref,~/Documents/citation-database/lit-ref,~/Documents/citation-database/lib-ref}
 \end{document}
