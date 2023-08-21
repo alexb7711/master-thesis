@@ -8,12 +8,10 @@ environmental impacts of petroleum based public transportation has driven an eff
 the electrification of public bus transportation via battery power, i.e., battery electric buses (BEBs), has received
 significant attention [cite:@li-2016-batter-elect]. Although the technology provides benefits beyond reduction in
 emissions, such as lower driving costs, lower maintenance costs, and reduced vehicle noise, battery powered systems
-introduce new challenges such as larger upfront costs, and potentially several hours long ``refueling'' periods
+introduce new challenges such as larger upfront costs, and potentially several hours long "refueling" periods
 [cite:@xylia-2018-role-charg;@li-2016-batter-elect]. Furthermore, the problem is exacerbated by the constraints of the
 transit schedule to which the fleet must adhere, the limited amount of chargers available, and the adverse affects in
-the health of the battery due to fast charging [cite:@lutsey-2019-updat-elect]. This paper presents a continuous
-scheduling framework for a BEB fleet that shares limited fast and slow chargers. This framework takes into consideration
-linear charging dynamics and a fixed bus schedule while meeting a certain battery charge threshold throughout the day.
+the health of the battery due to fast charging [cite:@lutsey-2019-updat-elect].
 
 Many recent efforts have been made to simultaneously solve the problems of route scheduling, and charging fleets and
 determining the infrastructure upon which they rely, e.g., [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
@@ -28,46 +26,22 @@ that the charge received is proportional to the time spent on the charger
 [cite:@liu-2020-batter-elect;@yang-2018-charg-sched], which can be a valid assumption when the battery state-of-charge
 (SOC) is below 80% charge [cite:@liu-2020-batter-elect].
 
-The intent of the proposed work is to construct an optimal model to create an optimal charging schedule for a fleet of
-BEBs by build upon what is known as the Position Allocation Problem [cite:@qarebagh-2019-optim-sched]. The PAP is a
-modification of the well studied Berth Allocation Problem (BAP)
+The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
+modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
+vehicles [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The BAP model is a rectangle
+packing problem with the goal of allocating space for incoming vessels to be berthed and serviced as depicted in
+\autoref{subfig:bapexample}. The BAP can be modeled both continuously and discretely both temporally and spatially
+[cite:@buhrkal-2011-model-discr; @frojan-2015-contin-berth]. Furthermore, the demand to efficiently handle an
+ever-growing demand for servicing cargo, with an estimated 1.24 billion of the 8.02 billion tonnes of all shipping cargo
+in 2007 [cite:@buhrkal-2011-model-discr], provides a strong pool of robust literature to draw from. Methods of handling
+multiple quays to handle general berthing scenarios [cite:@frojan-2015-contin-berth;@dai-2008-suppl-chain-analy],
+heuristic procedures for quicker solve times have been introduced [cite:@imai-2001-dynam-berth], static (full time
+horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
+and even fuzzy set theory has been applied to allow for more flexible schedules [cite:@bello-2019-fuzzy-activ].
 
-#+begin_comment
-, as a means to schedule the charging of electric
-vehicles [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The BAP is a continuous time
-model that solves the problem of allocating space for incoming vessels to be berthed. Each arriving vessel requires both
-time and space to be serviced and thus must be carefully assigned a berthing location [cite:@imai-2001-dynam-berth].
-Vessels are lined up parallel to the berth to be serviced and are horizontally queued as shown in
-\autoref{subfig:bapexample}. The PAP utilizes this notion of queuing for scheduling vehicles to be charged, as shown in
-\autoref{subfig:papexample}. The PAP is formulated as a rectangle packing problem by assuming that vehicle charging will
-take a fixed amount of time, the amount of vehicles that can charge is limited by the physical width of the vehicles,
-and each vehicle visits the charger a single time [cite:@qarebagh-2019-optim-sched].
-#+end_comment
-
-# --------------------------------------------------------------------------------
-# BAP and PAP comparison
-#+begin_src latex
-\begin{subfigures}
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % BAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
-        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
-          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
-          arrow represents the direction of departure.}
-        \label{subfig:bapexample}
-    \end{figure}
-    \hfill
-
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % PAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
-        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
-          indicated by the arrow.}
-        \label{subfig:papexample}
-    \end{figure}
-\end{subfigures}
-#+end_src
+Furthermore, this proposed work intends to extend the work of the PAP's novel approach to BEB charger scheduling even
+further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
+robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
+further research and development in regard to BEBs. What follows is a proposal for a Simulated Annealing (SA)
+implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints and nonlinear
+battery dynamics.
