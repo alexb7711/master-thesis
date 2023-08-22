@@ -37,7 +37,10 @@ in 2007 [cite:@buhrkal-2011-model-discr], provides a strong pool of robust liter
 multiple quays to handle general berthing scenarios [cite:@frojan-2015-contin-berth;@dai-2008-suppl-chain-analy],
 heuristic procedures for quicker solve times have been introduced [cite:@imai-2001-dynam-berth], static (full time
 horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
-and even fuzzy set theory has been applied to allow for more flexible schedules [cite:@bello-2019-fuzzy-activ].
+and even fuzzy set theory has been applied to allow for more flexible schedules [cite:@bello-2019-fuzzy-activ]. An
+example solution is visualized in [[img:baprep]]. The x and y-axis represent time and berthing space, respectively. The
+figure discretizes the berthing space, but it may be continuous if desired. The shaded rectangles' widths represent the
+allocated service time and the height represents the physical space taken.
 
 #+name: img:baprep
 #+caption: Visual representation of a spatio-temporal solution plotted on an X-Y plane. The x-axis represnts time and the y-axis is the berthing. The height of the grey rectangle represents the space that a vessel occupies, and the width is the time consumed to service the vessel.
@@ -48,5 +51,5 @@ Furthermore, this proposed work intends to extend the work of the PAP's novel ap
 further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
 robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
 further research and development in regard to BEBs. What follows is a proposal for a Simulated Annealing (SA)
-implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints and nonlinear
+implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints and non-linear
 battery dynamics.
