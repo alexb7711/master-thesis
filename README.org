@@ -10,7 +10,7 @@
 - Novel solution based off well studied problem
 - Robust solution to allow for variation of real world events
 - Accurate charge modeling due to nonlinear battery dynamics
-- Quick results do to SA?
+- Quick results due to SA?
 - Able to reduce peak hour usage
 - Model includes other benefits "for free" due to the structure of the problem
   - Minimize chargers
