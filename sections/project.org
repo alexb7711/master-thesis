@@ -46,6 +46,7 @@ FFLP problems is converting them into a classical (crisp) model
 and Kaurs method [cite:@kaur-2016-introd-fuzzy]. A model for the Fuzzy MILP-PAP has been drafted, but yet has been
 implemented.
 
+
 # --------------------------------------------------------------------------------
 # BAP and PAP comparison
 #+begin_src latex

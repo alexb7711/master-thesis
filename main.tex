@@ -1,4 +1,4 @@
-% Created 2023-08-21 Mon 19:20
+% Created 2023-08-21 Mon 19:32
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt,a4paper,final]{article}
 \usepackage[a4paper, total={7in, 10in}]{geometry}
@@ -119,6 +119,12 @@ heuristic procedures for quicker solve times have been introduced \cite{imai-200
 horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
 and even fuzzy set theory has been applied to allow for more flexible schedules \cite{bello-2019-fuzzy-activ}.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{sup-doc/milp-pap-paper-frontiers/img/baprep.pdf}
+\caption{\label{img:baprep}Visual representation of a spatio-temporal solution plotted on an X-Y plane. The x-axis represnts time and the y-axis is the berthing. The height of the grey rectangle represents the space that a vessel occupies, and the width is the time consumed to service the vessel.}
+\end{figure}
+
 Furthermore, this proposed work intends to extend the work of the PAP's novel approach to BEB charger scheduling even
 further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
 robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
@@ -169,6 +175,7 @@ FFLP problems is converting them into a classical (crisp) model
 \cite{bello-2019-fuzzy-activ,nasseri-2013-fully,kaur-2016-introd-fuzzy}. The chosen technique to pursue is the Kumar
 and Kaurs method \cite{kaur-2016-introd-fuzzy}. A model for the Fuzzy MILP-PAP has been drafted, but yet has been
 implemented.
+
 
 \begin{subfigures}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
