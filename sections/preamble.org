@@ -6,12 +6,13 @@
 # =========================================================================================================================
 # LaTeX packages
 #+LATEX_CLASS: article
+#+latex_header: \usepackage{amsfonts}                       % Cool math fonts
+#+latex_header: \usepackage{lipsum}                         % Dummy filler text
+#+latex_header: \usepackage{multicol}                       % Add capability to make columns
+#+latex_header: \usepackage{pgfgantt}                       % Add capability to create gantt charts
 #+latex_header: \usepackage{standalone}                     % Allow standalone documents
 #+latex_header: \usepackage{subcaption}                     % Allow subfigures
 #+latex_header: \usepackage{subfloat}                       % Subfigures
-#+latex_header: \usepackage{lipsum}                         % Dummy filler text
-#+latex_header: \usepackage{amsfonts}                       % Cool math fonts
-#+latex_header: \usepackage{multicol}                       % Add capability to make columns
 #+latex_header: \usepackage{hyperref}                       % Cool clean hyperlinks
 #+latex_header: \setlength\parindent{0pt}                   % No indent for paragraphs
 
