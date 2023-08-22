@@ -1,4 +1,4 @@
-% Created 2023-08-22 Tue 08:16
+% Created 2023-08-22 Tue 08:39
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt,a4paper,final]{article}
 \usepackage[a4paper, total={7in, 10in}]{geometry}
@@ -118,7 +118,10 @@ in 2007 \cite{buhrkal-2011-model-discr}, provides a strong pool of robust litera
 multiple quays to handle general berthing scenarios \cite{frojan-2015-contin-berth,dai-2008-suppl-chain-analy},
 heuristic procedures for quicker solve times have been introduced \cite{imai-2001-dynam-berth}, static (full time
 horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
-and even fuzzy set theory has been applied to allow for more flexible schedules \cite{bello-2019-fuzzy-activ}.
+and even fuzzy set theory has been applied to allow for more flexible schedules \cite{bello-2019-fuzzy-activ}. An
+example solution is visualized in \ref{img:baprep}. The x and y-axis represent time and berthing space, respectively. The
+figure discretizes the berthing space, but it may be continuous if desired. The shaded rectangles' widths represent the
+allocated service time and the height represents the physical space taken.
 
 \begin{figure}[htbp]
 \centering
@@ -130,7 +133,7 @@ Furthermore, this proposed work intends to extend the work of the PAP's novel ap
 further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
 robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
 further research and development in regard to BEBs. What follows is a proposal for a Simulated Annealing (SA)
-implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints and nonlinear
+implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints and non-linear
 battery dynamics.
 \section{Proposed Project}
 \label{sec:proposed-project}
@@ -155,10 +158,10 @@ while considering a dynamic charge model and scheduling constraints. The describ
 proof of concept in what is known as the MILP-PAP.
 
 While the linear battery dynamics is a valid assumption when the battery State-Of-Charge (SOC) is below 80\%
-\cite{liu-2020-batter-elect}, nonlinear battery dynamics can be implemented to increase the accuracy of the model's
+\cite{liu-2020-batter-elect}, non-linear battery dynamics can be implemented to increase the accuracy of the model's
 battery charging dynamics. A common way to model the non-linear battery dynamics is utilizing CCCV
 \cite{abdollahi-2016-optim-batter,chen-2008-desig-grey}. \cite{zhang-2021-optim-elect} further suggests that the
-dynamics can be modeled as a piecewise function containing a linear and nonlinear components. Others have modeled the
+dynamics can be modeled as a piecewise function containing a linear and non-linear components. Others have modeled the
 battery dynamics as a discrete first order dynamics model \cite{whitaker-2022-a-network}. The first-order differential
 system, when provided a step input, approximates the non-linear relationship between time and the current SOC
 \cite{whitaker-2022-a-network}. The first-order differential method is method proposed to be pursued.
@@ -202,7 +205,7 @@ implemented.
 \end{subfigures}
 
 \subsection{Method And Validation}
-\label{sec:org5f74d0e}
+\label{sec:orgde8b1c0}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust is
 chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is on of the best known metaheuristic
@@ -215,7 +218,7 @@ measure to compare the results of the proposed work. The major professor overloo
 will be monitoring the progress of the project on a bi-weekly basis.
 
 \subsection{Project Schedule}
-\label{sec:org27d880d}
+\label{sec:org2098f53}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
@@ -233,7 +236,7 @@ The estimated completion date is early to mid-November. Note that the blocks bef
     \gantttitlelist{1,...,24}{1} \\
     \ganttbar{MILP-PAP}{1}{12} \\
     \ganttbar{SA-PAP}{9}{21} \\
-    \ganttbar{Nonlinear Battery Dynamics}{20}{21} \\
+    \ganttbar{Non-Linear Battery Dynamics}{20}{21} \\
     \ganttbar{Fuzzy PAP}{18}{23} \\
     \ganttbar{Defense}{23}{24} \\
   \end{ganttchart}

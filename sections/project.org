@@ -24,10 +24,10 @@ while considering a dynamic charge model and scheduling constraints. The describ
 proof of concept in what is known as the MILP-PAP.
 
 While the linear battery dynamics is a valid assumption when the battery State-Of-Charge (SOC) is below 80%
-[cite:@liu-2020-batter-elect], nonlinear battery dynamics can be implemented to increase the accuracy of the model's
+[cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented to increase the accuracy of the model's
 battery charging dynamics. A common way to model the non-linear battery dynamics is utilizing CCCV
 [cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey]. [cite:@zhang-2021-optim-elect] further suggests that the
-dynamics can be modeled as a piecewise function containing a linear and nonlinear components. Others have modeled the
+dynamics can be modeled as a piecewise function containing a linear and non-linear components. Others have modeled the
 battery dynamics as a discrete first order dynamics model [cite:@whitaker-2022-a-network]. The first-order differential
 system, when provided a step input, approximates the non-linear relationship between time and the current SOC
 [cite:@whitaker-2022-a-network]. The first-order differential method is method proposed to be pursued.
@@ -103,7 +103,7 @@ The estimated completion date is early to mid-November. Note that the blocks bef
       \gantttitlelist{1,...,24}{1} \\
       \ganttbar{MILP-PAP}{1}{12} \\
       \ganttbar{SA-PAP}{9}{21} \\
-      \ganttbar{Nonlinear Battery Dynamics}{20}{21} \\
+      \ganttbar{Non-Linear Battery Dynamics}{20}{21} \\
       \ganttbar{Fuzzy PAP}{18}{23} \\
       \ganttbar{Defense}{23}{24} \\
     \end{ganttchart}
