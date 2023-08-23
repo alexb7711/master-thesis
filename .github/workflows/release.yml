@@ -31,5 +31,5 @@ jobs:
       run: task pipeline
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "fuzzy-pap.pdf"
+        artifacts: "proposal.pdf"
         bodyFile: "README.org"
