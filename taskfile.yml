@@ -4,7 +4,7 @@
 version: '3'
 
 env:
-  TARGET : fuzzy-pap.pdf
+  TARGET : proposal.pdf
   DOC    : main
   SCRIPTS: org-doc-scripts
   MPAP_D : ./sup-doc/milp-pap-paper-frontiers

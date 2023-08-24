@@ -94,7 +94,6 @@ The estimated completion date is early to mid-November. Note that the blocks bef
 
 #+begin_src latex
   \begin{figure}
-
     \begin{ganttchart}[
       vgrid={*{11}{gray, dotted}, *1{black, dashed}},
       bar label node/.append style={
@@ -113,5 +112,4 @@ The estimated completion date is early to mid-November. Note that the blocks bef
     \caption{Gantt chart for the proposed work.}
     \label{fig:gantt}
   \end{figure}
-
 #+end_src
