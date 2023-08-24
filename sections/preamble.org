@@ -2,10 +2,14 @@
 # Org LaTeX options
 #+OPTIONS: tex:t
 #+OPTIONS: ':t
+#+OPTIONS: date:nil
+#+OPTIONS: toc:nil
 
 # =========================================================================================================================
 # LaTeX packages
-#+LATEX_CLASS: article
+#+LATEX_CLASS: usuthesis
+
+#+latex_header: \usepackage{algorithm2e}                    % Algorithms
 #+latex_header: \usepackage{amsfonts}                       % Cool math fonts
 #+latex_header: \usepackage{lipsum}                         % Dummy filler text
 #+latex_header: \usepackage{multicol}                       % Add capability to make columns
@@ -13,6 +17,8 @@
 #+latex_header: \usepackage{standalone}                     % Allow standalone documents
 #+latex_header: \usepackage{subcaption}                     % Allow subfigures
 #+latex_header: \usepackage{subfloat}                       % Subfigures
+#+latex_header: \usepackage{listings}                       % Display code
+#+latex_header: \usepackage{doi}                            % Hyperling DOI
 #+latex_header: \usepackage{hyperref}                       % Cool clean hyperlinks
 #+latex_header: \setlength\parindent{0pt}                   % No indent for paragraphs
 
@@ -62,9 +68,26 @@
 #+latex_header: \newcommand{\Hset}{\mathcal{H}}             % Set of visits 1-H
 
 # =========================================================================================================================
+# Thesis Document Formatting
+
+#+latex_header: % The Committee
+#+latex_header: \majorprof{Dr. Droge, Ph.D.}
+#+latex_header: \firstreader{Robert L. Forward, Ph.D.}
+#+latex_header: \secondreader{Albert Einstein, Ph.D.}
+#+latex_header: \thirdreader{Gottfried Liebniz, Ph.D.}
+#+latex_header:
+#+latex_header: % Graduate Dean
+#+latex_header: \graddean{ D. Richard Cutler, Ph.D.}
+#+latex_header: \deantitle{ Vice Provost of Graduate Studies}
+#+latex_header:
+#+latex_header: % Degree Information
+#+latex_header: \degree{Master of Science}
+#+latex_header: \month{Dec}
+#+latex_header: \gradyear{2023}
+
+# =========================================================================================================================
 # More document configuration
 #+begin_export latex
-\parskip 3mm                                % Set the vetical space between paragraphs
 \let\ref\autoref                            % Redifine `\ref` as `\autoref` because lazy
 \SetCommentSty{mycommfont}                  % Set the comment color
 #+end_export
