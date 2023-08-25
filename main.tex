@@ -1,4 +1,4 @@
-% Created 2023-08-24 Thu 19:53
+% Created 2023-08-25 Fri 13:27
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -134,7 +134,7 @@ scheduling. The areas of interest will then be detailed to the work proposed in 
 (BAP) and the Position Allocation Problem (PAP).
 
 \subsection{State Of The Art}
-\label{sec:org8371eb5}
+\label{sec:orgc439be3}
 The intent of the proposed work is to build upon the Position Allocation Problem \cite{qarebagh-2019-optim-sched}, a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
 vehicles \cite{buhrkal-2011-model-discr,frojan-2015-contin-berth,imai-2001-dynam-berth}. The BAP model is a rectangle
@@ -159,7 +159,67 @@ heights represent the physical space taken by each vessel.
 \end{figure}
 \chapter{Objectives}
 \label{sec:objectives}
---
+\section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
+\label{sec:org4877f63}
+The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
+how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
+
+\begin{enumerate}
+\item Each arrival is modeled as a unique visit which is not how buses operate. The BEBs repeatedly visit the same stops,
+including the bus station where it is assumed they will be charged. The BEB must be given a unique identifier such
+that its SOC may be tracked over its many visits and even for the obvious reason of being able to identify and
+prescribe a BEB to their defined charging schedule.
+
+\item As alluded in the previous action, the method of tracking the SOC is also of interest so that the charging schedule
+provided does not result in undercharged BEBs being sent underway to perform their route, or on the opposite side, be
+over-charged. Furthermore, it is assumed that the BEBs initial SOC will be known at the beginning of the day, but the
+initial SOCs for subsequent visits will be known, and thus must be dynamically calculated. For accuracy of the SOC of
+the BEB while charging, non-linear battery dynamics will be assumed.
+
+\item The PAP models the charging station as a continuous bar, which is not favorable for the BEB model. It is of interest
+to discretize the charging station to accommodate both slow and fast chargers. The slow chargers with be incentivized
+whereas the fast chargers will be utilized only when required. This will be done for battery health (TODO: cite me).
+\end{enumerate}
+
+Note that for this objective, all the actions described have been researched and implemented bar the non-linear
+battery dynamics. The implementation of the above actions with linear battery dynamics will subsequently be referred to
+as the MILP-PAP.
+
+\section{Minimize the monetary cost of charging the BEBs}
+\label{sec:orgfc137b8}
+
+\begin{enumerate}
+\item The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
+in a reduction in monetary cost as it is cheaper in purchase and actively use slow chargers as they draw less
+electricity (TODO: cite me).
+
+\item Another method of minimizing the monetary cost is to minimize the consumption cost. That is, minimize the total
+amount of energy consumed by the system. Furthermore, the cost of electricity is not constant throughout the day,
+thus it would be of interest to allow accommodations for peak hours of electricity use to more aggressively reduce
+energy use.
+
+\item Electricity companies also calculate energy use based on a value known as the peak 15. The peak 15 defines a method
+of charging a base rate for electricity usage and adjusting based on power use. The power usage is monitored and averaged
+over 15 minutes increments. If the average energy use exceeds a predefined threshold, the rate for electricity will
+increase proportional to the new average. The cost is known as the demand cost and is of interest to minimize.
+\end{enumerate}
+
+\section{Mathematically model the PAP to provide a robust solution}
+\label{sec:org523c026}
+
+\begin{enumerate}
+\item The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
+problem arises when the lower bound specified does not allow for a solution to be generated because the minimum SOC
+percentage constraint has been violated. It is proposed to introduce a penalty method for the lower bound in an
+attempt to relax the constraint and create a larger solution space.
+
+\item One of the drawbacks of the MILP implementation is the strict solution that is generated. Suppose that a solution was
+generated, but due to weather conditions a bus arrives at the station five minutes late. The generated solution is no
+longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station.
+To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
+majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
+problem is that the time of arrival is uncertain. A potential solution to this problem is to fuzzify the MILP model.
+\end{enumerate}
 \chapter{Proposed Project}
 \label{sec:proposed-project}
 The PAP provides a basis for assigning BEBs to queues in order to be charged. Lets begin by defining some of the
@@ -231,7 +291,7 @@ and Kaurs method \cite{kaur-2016-introd-fuzzy}. A model for the Fuzzy MILP-PAP h
 implemented.
 
 \section{Method And Validation}
-\label{sec:orgc883e43}
+\label{sec:org12eb341}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust is
 chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -245,7 +305,7 @@ measure to compare the results of the proposed work. The major professor overloo
 will be monitoring the progress of the project on a bi-weekly basis.
 
 \section{Project Schedule}
-\label{sec:orge9ecd9d}
+\label{sec:org44d8066}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
