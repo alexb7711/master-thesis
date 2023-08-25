@@ -1,0 +1,62 @@
+
+
+* Proposed Project
+:PROPERTIES:
+:CUSTOM_ID: sec:proposed-project
+:END:
+
+** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-position-allocation-problem"
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation"
+
+** Minimize the monetary cost of charging the BEBs
+
+** Mathematically model the PAP to provide a robust solution
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:preliminaries"
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap"
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::#sec:the-fuzzy-pap"
+
+** Method And Validation
+The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust is
+chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
+packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
+methods for "addressing difficult black global optimization problems" [cite:@delahaye-2019-simul]. Note that the SA-PAP
+implementation has begun. At the moment the main development that has been completed is: project structure/design,
+implementation of the skeletal framework, code for importing route data, and some work has been done on the generating
+functions.
+
+As previously stated, the MILP-PAP has been implemented and tested. Thus the MILP-PAP shall be used as a baseline
+measure to compare the results of the proposed work. The major professor overlooking the project will be Dr. Droge who
+will be monitoring the progress of the project on a bi-weekly basis.
+
+** Project Schedule
+The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
+The estimated completion date is early to mid-November. Note that the blocks before the =TODAY= mark in
+\autoref{fig:gantt} is work that has been previously completed or is work in progress.
+
+#+begin_src latex
+  \begin{figure}
+    \begin{ganttchart}[
+      vgrid={*{11}{gray, dotted}, *1{black, dashed}},
+      bar label node/.append style={
+        align=left,
+        text width=width("Aim 2. Software verificationx")},
+      today=20
+      ]{1}{24}
+      \gantttitle{2022}{12} \gantttitle{2023}{12} \\
+      \gantttitlelist{1,...,24}{1} \\
+      \ganttbar{MILP-PAP}{1}{12} \\
+      \ganttbar{SA-PAP}{9}{21} \\
+      \ganttbar{Non-Linear Battery Dynamics}{20}{21} \\
+      \ganttbar{Fuzzy PAP}{18}{23} \\
+      \ganttbar{Defense}{23}{24} \\
+    \end{ganttchart}
+    \caption{Gantt chart for the proposed work.}
+    \label{fig:gantt}
+  \end{figure}
+#+end_src
