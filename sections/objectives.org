@@ -3,6 +3,10 @@
 :CUSTOM_ID: sec:objectives
 :END:
 
+The field of BEB and EV research provides exciting many avenues and is continuing to gain traction in industry as BEBs
+and EVs replace their gasoline counterparts. The identified concentration of study stated in this work is to provide a
+novel approach based on the well studied BAP problem that provides a robust charging schedule for BEBs that minimizes
+monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
 
 ** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
 The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
@@ -21,7 +25,8 @@ how the BAP is formulated. This modeling does not align with the BEBs for the fo
 
 3) The PAP models the charging station as a continuous bar, which is not favorable for the BEB model. It is of interest
    to discretize the charging station to accommodate both slow and fast chargers. The slow chargers with be incentivized
-   whereas the fast chargers will be utilized only when required. This will be done for battery health (TODO: cite me).
+   whereas the fast chargers will be utilized only when required. This will be done for battery health
+   [cite:@motapon-2020-gener-cycle].
 
 Note that for this objective, all the actions described have been researched and implemented bar the non-linear
 battery dynamics. The implementation of the above actions with linear battery dynamics will subsequently be referred to
@@ -31,7 +36,7 @@ as the MILP-PAP.
 
 1) The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
    in a reduction in monetary cost as it is cheaper in purchase and actively use slow chargers as they draw less
-   electricity (TODO: cite me).
+   electricity [cite:@he-2020-optim-charg].
 
 2) Another method of minimizing the monetary cost is to minimize the consumption cost. That is, minimize the total
    amount of energy consumed by the system. Furthermore, the cost of electricity is not constant throughout the day,

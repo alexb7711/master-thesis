@@ -1,4 +1,4 @@
-% Created 2023-08-25 Fri 13:27
+% Created 2023-08-25 Fri 13:56
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -134,7 +134,7 @@ scheduling. The areas of interest will then be detailed to the work proposed in 
 (BAP) and the Position Allocation Problem (PAP).
 
 \subsection{State Of The Art}
-\label{sec:orgc439be3}
+\label{sec:org4a0f63f}
 The intent of the proposed work is to build upon the Position Allocation Problem \cite{qarebagh-2019-optim-sched}, a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
 vehicles \cite{buhrkal-2011-model-discr,frojan-2015-contin-berth,imai-2001-dynam-berth}. The BAP model is a rectangle
@@ -159,8 +159,13 @@ heights represent the physical space taken by each vessel.
 \end{figure}
 \chapter{Objectives}
 \label{sec:objectives}
+The field of BEB and EV research provides exciting many avenues and is continuing to gain traction in industry as BEBs
+and EVs replace their gasoline counterparts. The identified concentration of study stated in this work is to provide a
+novel approach based on the well studied BAP problem that provides a robust charging schedule for BEBs that minimizes
+monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
+
 \section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
-\label{sec:org4877f63}
+\label{sec:org5053661}
 The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
 how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
 
@@ -178,7 +183,8 @@ the BEB while charging, non-linear battery dynamics will be assumed.
 
 \item The PAP models the charging station as a continuous bar, which is not favorable for the BEB model. It is of interest
 to discretize the charging station to accommodate both slow and fast chargers. The slow chargers with be incentivized
-whereas the fast chargers will be utilized only when required. This will be done for battery health (TODO: cite me).
+whereas the fast chargers will be utilized only when required. This will be done for battery health
+\cite{motapon-2020-gener-cycle}.
 \end{enumerate}
 
 Note that for this objective, all the actions described have been researched and implemented bar the non-linear
@@ -186,12 +192,12 @@ battery dynamics. The implementation of the above actions with linear battery dy
 as the MILP-PAP.
 
 \section{Minimize the monetary cost of charging the BEBs}
-\label{sec:orgfc137b8}
+\label{sec:org0581715}
 
 \begin{enumerate}
 \item The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
 in a reduction in monetary cost as it is cheaper in purchase and actively use slow chargers as they draw less
-electricity (TODO: cite me).
+electricity \cite{he-2020-optim-charg}.
 
 \item Another method of minimizing the monetary cost is to minimize the consumption cost. That is, minimize the total
 amount of energy consumed by the system. Furthermore, the cost of electricity is not constant throughout the day,
@@ -205,7 +211,7 @@ increase proportional to the new average. The cost is known as the demand cost a
 \end{enumerate}
 
 \section{Mathematically model the PAP to provide a robust solution}
-\label{sec:org523c026}
+\label{sec:org3bdfa8c}
 
 \begin{enumerate}
 \item The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
@@ -218,7 +224,7 @@ generated, but due to weather conditions a bus arrives at the station five minut
 longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station.
 To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
 majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
-problem is that the time of arrival is uncertain. A potential solution to this problem is to fuzzify the MILP model.
+problem is that the time of arrival is uncertain. A solution to this problem is to fuzzify the MILP model.
 \end{enumerate}
 \chapter{Proposed Project}
 \label{sec:proposed-project}
@@ -291,7 +297,7 @@ and Kaurs method \cite{kaur-2016-introd-fuzzy}. A model for the Fuzzy MILP-PAP h
 implemented.
 
 \section{Method And Validation}
-\label{sec:org12eb341}
+\label{sec:org092dca2}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust is
 chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -305,7 +311,7 @@ measure to compare the results of the proposed work. The major professor overloo
 will be monitoring the progress of the project on a bi-weekly basis.
 
 \section{Project Schedule}
-\label{sec:org44d8066}
+\label{sec:orgf865fd0}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
