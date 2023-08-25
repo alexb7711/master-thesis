@@ -30,6 +30,7 @@
 #+end_export
 
 #+include: sections/introduction.org
+#+include: sections/objectives.org
 #+include: sections/project.org
 
 # ======================================================================================================================

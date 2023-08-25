@@ -1,3 +1,7 @@
 *.bbl
 *.pdf
+*.lof
+*.lot
+*.fls
+
 .task/

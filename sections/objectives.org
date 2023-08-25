@@ -1,0 +1,63 @@
+* Objectives
+:PROPERTIES:
+:CUSTOM_ID: sec:objectives
+:END:
+
+The field of BEB and EV research provides exciting many avenues and is continuing to gain traction in industry as BEBs
+and EVs replace their gasoline counterparts. The identified concentration of study stated in this work is to provide a
+novel approach based on the well studied BAP problem that provides a robust charging schedule for BEBs that minimizes
+monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
+
+** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
+The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
+how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
+
+1) Each arrival is modeled as a unique visit which is not how buses operate. The BEBs repeatedly visit the same stops,
+   including the bus station where it is assumed they will be charged. The BEB must be given a unique identifier such
+   that its SOC may be tracked over its many visits and even for the obvious reason of being able to identify and
+   prescribe a BEB to their defined charging schedule.
+
+2) As alluded in the previous action, the method of tracking the SOC is also of interest so that the charging schedule
+   provided does not result in undercharged BEBs being sent underway to perform their route, or on the opposite side, be
+   over-charged. Furthermore, it is assumed that the BEBs initial SOC will be known at the beginning of the day, but the
+   initial SOCs for subsequent visits will be known, and thus must be dynamically calculated. For accuracy of the SOC of
+   the BEB while charging, non-linear battery dynamics will be assumed.
+
+3) The PAP models the charging station as a continuous bar, which is not favorable for the BEB model. It is of interest
+   to discretize the charging station to accommodate both slow and fast chargers. The slow chargers with be incentivized
+   whereas the fast chargers will be utilized only when required. This will be done for battery health
+   [cite:@motapon-2020-gener-cycle].
+
+Note that for this objective, all the actions described have been researched and implemented bar the non-linear
+battery dynamics. The implementation of the above actions with linear battery dynamics will subsequently be referred to
+as the MILP-PAP.
+
+** Minimize the monetary cost of charging the BEBs
+
+1) The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
+   in a reduction in monetary cost as it is cheaper in purchase and actively use slow chargers as they draw less
+   electricity [cite:@he-2020-optim-charg].
+
+2) Another method of minimizing the monetary cost is to minimize the consumption cost. That is, minimize the total
+   amount of energy consumed by the system. Furthermore, the cost of electricity is not constant throughout the day,
+   thus it would be of interest to allow accommodations for peak hours of electricity use to more aggressively reduce
+   energy use.
+
+3) Electricity companies also calculate energy use based on a value known as the peak 15. The peak 15 defines a method
+   of charging a base rate for electricity usage and adjusting based on power use. The power usage is monitored and averaged
+   over 15 minutes increments. If the average energy use exceeds a predefined threshold, the rate for electricity will
+   increase proportional to the new average. The cost is known as the demand cost and is of interest to minimize.
+
+** Mathematically model the PAP to provide a robust solution
+
+1) The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
+   problem arises when the lower bound specified does not allow for a solution to be generated because the minimum SOC
+   percentage constraint has been violated. It is proposed to introduce a penalty method for the lower bound in an
+   attempt to relax the constraint and create a larger solution space.
+
+2) One of the drawbacks of the MILP implementation is the strict solution that is generated. Suppose that a solution was
+   generated, but due to weather conditions a bus arrives at the station five minutes late. The generated solution is no
+   longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station.
+   To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
+   majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
+   problem is that the time of arrival is uncertain. A solution to this problem is to fuzzify the MILP model.

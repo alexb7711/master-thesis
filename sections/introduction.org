@@ -3,7 +3,7 @@
 :CUSTOM_ID: sec:introduction
 :END:
 
-The public transportation system is crucial in any urban area; however, the increased awareness and concern of
+Public transportation system are crucial in any urban area; however, the increased awareness and concern of
 environmental impacts of petroleum based public transportation has driven an effort to reduce the pollutant footprint
 [cite:@de-2014-simul-elect;@xylia-2018-role-charg;@guida-2017-zeeus-repor-europ;@li-2016-batter-elect]. Particularly,
 the electrification of public bus transportation via battery power, i.e., battery electric buses (BEBs), has received
@@ -27,6 +27,24 @@ that the charge received is proportional to the time spent on the charger
 [cite:@liu-2020-batter-elect;@yang-2018-charg-sched], which can be a valid assumption when the battery state-of-charge
 (SOC) is below 80% charge [cite:@liu-2020-batter-elect].
 
+The proposed work presented here intends to extend the work of the PAP's novel approach to BEB charger scheduling even
+further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
+robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
+further research and development in regard to BEBs. What follows is a proposal for a Simulated Annealing (SA)
+implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints with non-linear
+battery dynamics.
+
+** Background and Related Work
+:PROPERTIES:
+:CUSTOM_ID: sec:background-and-related-work
+:END:
+
+The charging problem is a problem that has been of increasing interest and therefore also increasing in relevancy in the
+EV/BEB industry. It is thus important to address the state of the art by introducing relevant problems in BEB
+scheduling. The areas of interest will then be detailed to the work proposed in this work, the Berth Allocation Problem
+(BAP) and the Position Allocation Problem (PAP).
+
+*** State Of The Art
 The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
 vehicles [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The BAP model is a rectangle
@@ -48,10 +66,3 @@ heights represent the physical space taken by each vessel.
 #+caption: Visual representation of a spatio-temporal solution plotted on an X-Y plane. The x-axis represnts time and the y-axis is the berthing space. The height of the shaded rectangles represent the space that a vessel occupies, and the width is the time consumed to service the vessel.
 #+attr_latex: :width 0.6\textwidth
 [[file:../sup-doc/milp-pap-paper-frontiers/img/baprep.pdf]]
-
-Furthermore, this proposed work intends to extend the work of the PAP's novel approach to BEB charger scheduling even
-further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
-robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
-further research and development in regard to BEBs. What follows is a proposal for a Simulated Annealing (SA)
-implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints with non-linear
-battery dynamics.
