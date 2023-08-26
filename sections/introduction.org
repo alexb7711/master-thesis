@@ -1,4 +1,4 @@
-* Introduction
+* INTRODUCTION
 :PROPERTIES:
 :CUSTOM_ID: sec:introduction
 :END:
@@ -137,3 +137,13 @@ FFLP problems is converting them into a classical (crisp) model
 [cite:@bello-2019-fuzzy-activ;@nasseri-2013-fully;@kaur-2016-introd-fuzzy]. The chosen technique to pursue is the Kumar
 and Kaurs method [cite:@kaur-2016-introd-fuzzy]. A model for the Fuzzy MILP-PAP has been drafted, but yet has been
 implemented.
+
+*** Mixed Integer Linear Programming
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :only-contents t
+
+*** Overview of the BAP
+:PROPERTIES:
+:CUSTOM_ID: sec:overview-of-the-bap
+:END:
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:overview-of-bap" :only-contents t

@@ -1,25 +1,111 @@
-
-
-* Proposed Project
+* APPROACH
 :PROPERTIES:
 :CUSTOM_ID: sec:proposed-project
 :END:
 
 ** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
+:PROPERTIES:
+:CUSTOM_ID: sec:math-model-pap
+:END:
 
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-position-allocation-problem"
+This section introduces the actions and formulations associated with the objective described in [[#sec:objectives]]. This
+section addresses the actions by deriving a method of identifying buses for subsequent visits, utilizing that to
+formulate a way of estimating the SOC during the BEBs charging phase. The method introduced in this section demonstrates
+the linear battery dynamics that have been implemented in the MILP-PAP. Non-linear dynamics will then be introduced with
+a brief description of the mathematical approach that will be taken. The derivation also demonstrates how the model will
+discretize the queuing space to accommodate chargers of multiple varieties.
 
+*** The PAP Formulation
+:PROPERTIES:
+:CUSTOM_ID: sec:the-pap-formulation
+:END:
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation"
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+
+*** A Rectangle Packing Formulation for BEB Charging
+:PROPERTIES:
+:CUSTOM_ID: sec:problemformulation
+:END:
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation"
 
-** Minimize the monetary cost of charging the BEBs
+*** TODO Non-Linear Battery Dynamics
+:PROPERTIES:
+:CUSTOM_ID: sec:non-linear-battery-dynamics
+:END:
 
 ** Mathematically model the PAP to provide a robust solution
+:PROPERTIES:
+:CUSTOM_ID: sec:math-model-robust
+:END:
 
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:preliminaries"
-#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap"
-#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::#sec:the-fuzzy-pap"
+In this section, the actions for the objective of providing a robust solution are discussed. The actions will be
+completed by introducing and formulating a Fully Fuzzy Mixed Linear Integer Program (FFMILP). The basics of fuzzy set
+theory is introduced as well as an introductory discussion of Fully Fuzzy Linear Programming (FFLP). A model for the
+Fuzzy BAP is derived and then interpreted into the Fuzzy PAP. The method of implementing the penalty function will be
+described early on in [[#sec:minimize-monetary-cost]] as it is a part of the objective function. While logically, the action
+fits within the current objective, the discussion of the mathematics is more coherent if discussed together.
+
+*** Fuzzy Sets Theory
+:PROPERTIES:
+:CUSTOM_ID: sec:fuzzy-sets-theory
+:END:
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fuzzy Sets Theory" :only-contents t
+
+*** Fully Fuzzy Linear Programming
+:PROPERTIES:
+:CUSTOM_ID: sec:fully-fuzzy-linear-programming
+:END:
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fully Fuzzy Linear Programming" :only-contents t
+
+*** The Fuzzy BAP
+:PROPERTIES:
+:CUSTOM_ID: sec:the-fuzzy-bap
+:END:
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap" :only-contents t
+
+*** The Fuzzy PAP
+:PROPERTIES:
+:CUSTOM_ID: sec:the-fuzzy-pap
+:END:
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::#sec:the-fuzzy-pap" :only-contents t
+
+The penalty function, introduced under [[#sec:obj-math-model-robust]], logically fits under the objective to provide a more
+robust solution as its intent is to widen the solution space; however, the mathematics to develop the penalty method is
+introduced in the objective function in the same way as the consumption and demand costs. The actions taken to develop
+the penalty function will therefore be presented in tandem with the consumption and demand costs next.
+
+** Minimize the monetary cost of charging the BEBs
+:PROPERTIES:
+:CUSTOM_ID: sec:minimize-monetary-cost
+:END:
+
+This section discusses the actions associated with the objective to minimize the monetary cost of charging the BEBs. To
+accomplish the task, an objective function is incrementally developed to introduce the components of the assignment and
+power costs. The assignment cost encodes the minimization of the chargers and encouraged use of slow chargers, as
+discussed in [[#sec:math-model-pap]]. The assignment cost also introduces the penalty function, for the objective in
+[[#sec:obj-math-model-robust]], in an attempt to broaden the solution space of the MILP. The power cost component
+encompasses the consumption and demand costs which will be derived. The method of more aggressively reducing demand cost
+for peak hours is also introduced with the power cost component.
+
+*** Objective Function
+:PROPERTIES:
+:CUSTOM_ID: sec:objective-function
+:END:
+
+#+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:objective-function" :only-contents t
+
+*** Constraints
+:PROPERTIES:
+:CUSTOM_ID: sec:constraints
+:END:
+
+#+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:constraints" :only-contents t
 
 ** Method And Validation
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust is
@@ -30,7 +116,7 @@ implementation has begun. At the moment the main development that has been compl
 implementation of the skeletal framework, code for importing route data, and some work has been done on the generating
 functions.
 
-As previously stated, the MILP-PAP has been implemented and tested. Thus the MILP-PAP shall be used as a baseline
+As previously stated, the MILP-PAP has been implemented and tested. Thus, the MILP-PAP shall be used as a baseline
 measure to compare the results of the proposed work. The major professor overlooking the project will be Dr. Droge who
 will be monitoring the progress of the project on a bi-weekly basis.
 

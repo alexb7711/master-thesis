@@ -1,4 +1,4 @@
-* Objectives
+* OBJECTIVES
 :PROPERTIES:
 :CUSTOM_ID: sec:objectives
 :END:
@@ -32,6 +32,23 @@ Note that for this objective, all the actions described have been researched and
 battery dynamics. The implementation of the above actions with linear battery dynamics will subsequently be referred to
 as the MILP-PAP.
 
+** Mathematically model the PAP to provide a robust solution
+:PROPERTIES:
+:CUSTOM_ID: sec:obj-math-model-robust
+:END:
+
+1) The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
+   problem arises when the lower bound specified does not allow for a solution to be generated because the minimum SOC
+   percentage constraint has been violated. It is proposed to introduce a penalty method for the lower bound in an
+   attempt to relax the constraint and create a larger solution space.
+
+2) One of the drawbacks of the MILP implementation is the strict solution that is generated. Suppose that a solution was
+   generated, but due to weather conditions a bus arrives at the station five minutes late. The generated solution is no
+   longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station.
+   To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
+   majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
+   problem is that the time of arrival is uncertain. A solution to this problem is to fuzzify the MILP model.
+
 ** Minimize the monetary cost of charging the BEBs
 
 1) The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
@@ -47,17 +64,3 @@ as the MILP-PAP.
    of charging a base rate for electricity usage and adjusting based on power use. The power usage is monitored and averaged
    over 15 minutes increments. If the average energy use exceeds a predefined threshold, the rate for electricity will
    increase proportional to the new average. The cost is known as the demand cost and is of interest to minimize.
-
-** Mathematically model the PAP to provide a robust solution
-
-1) The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
-   problem arises when the lower bound specified does not allow for a solution to be generated because the minimum SOC
-   percentage constraint has been violated. It is proposed to introduce a penalty method for the lower bound in an
-   attempt to relax the constraint and create a larger solution space.
-
-2) One of the drawbacks of the MILP implementation is the strict solution that is generated. Suppose that a solution was
-   generated, but due to weather conditions a bus arrives at the station five minutes late. The generated solution is no
-   longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station.
-   To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
-   majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
-   problem is that the time of arrival is uncertain. A solution to this problem is to fuzzify the MILP model.
