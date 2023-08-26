@@ -44,6 +44,13 @@ EV/BEB industry. It is thus important to address the state of the art by introdu
 scheduling. The areas of interest will then be detailed to the work proposed in this work, the Berth Allocation Problem
 (BAP) and the Position Allocation Problem (PAP).
 
+*** Problem Description
+:PROPERTIES:
+:CUSTOM_ID: sec:problem-description
+:END:
+
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org" :only-contents t
+
 *** State Of The Art
 The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
