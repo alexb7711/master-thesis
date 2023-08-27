@@ -9,8 +9,8 @@
 # LaTeX packages
 #+LATEX_CLASS: usuthesis
 
-#+latex_header:\usepackage{amsmath}                                  % Miscellaneous enhancements for mathematics
-#+latex_header:\usepackage{amssymb}                                  % Math symbols
+#+latex_header:\usepackage{amsmath}                         % Miscellaneous enhancements for mathematics
+#+latex_header:\usepackage{amssymb}                         % Math symbols
 #+latex_header: \usepackage{algorithm2e}                    % Algorithms
 #+latex_header: \usepackage{amsfonts}                       % Cool math fonts
 #+latex_header: \usepackage{booktabs}                       % Used for lines in table
@@ -31,6 +31,7 @@
 
 # =========================================================================================================================
 # `autoref' formatting
+#+latex_header: \renewcommand*{\chapterautorefname}{Chapter}
 #+latex_header: \renewcommand*{\sectionautorefname}{Section}
 #+latex_header: \renewcommand*{\subsectionautorefname}{Subsection}
 #+latex_header: \renewcommand*{\subsubsectionautorefname}{Subsubsection}

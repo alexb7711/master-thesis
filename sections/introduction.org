@@ -49,7 +49,7 @@ scheduling. The areas of interest will then be detailed to the work proposed in 
 :CUSTOM_ID: sec:problem-description
 :END:
 
-#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org" :only-contents t
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
 
 *** State Of The Art
 The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
@@ -64,17 +64,12 @@ of robust literature to draw from. Methods of handling multiple quays to handle 
 [cite:@frojan-2015-contin-berth;@dai-2008-suppl-chain-analy], heuristic procedures for quicker solve times have been
 introduced [cite:@imai-2001-dynam-berth], static (full time horizon) and dynamic (rolling-time horizon) models have been
 created for daily and real-time solutions, respectively, and even fuzzy set theory has been applied to allow for more
-flexible schedules [cite:@bello-2019-fuzzy-activ]. An example of a standard BAP solution is visualized in [[img:baprep]].
-The x and y-axis represent time and berthing space, respectively. The figure discretizes the berthing space, but it may
-be continuous if desired. The shaded rectangles' widths represent their respective allocated service times, and their
-heights represent the physical space taken by each vessel.
+flexible schedules [cite:@bello-2019-fuzzy-activ]. An example of a standard BAP solution is visualized in
+\autoref{fig:bap}. The x and y-axis represent time and berthing space, respectively. The figure discretizes the berthing
+space, but it may be continuous if desired. The shaded rectangles' widths represent their respective allocated service
+times, and their heights represent the physical space taken by each vessel.
 
-#+name: img:baprep
-#+caption: Visual representation of a spatio-temporal solution plotted on an X-Y plane. The x-axis represnts time and the y-axis is the berthing space. The height of the shaded rectangles represent the space that a vessel occupies, and the width is the time consumed to service the vessel.
-#+attr_latex: :width 0.6\textwidth
-[[file:../sup-doc/milp-pap-paper-frontiers/img/baprep.pdf]]
-
-The PAP provides a basis for assigning BEBs to queues in order to be charged. Lets begin by defining some of the
+The PAP provides a basis for assigning BEBs to queues in order to be charged. Let's begin by defining some of the
 assumptions made by the PAP. Each arriving vessel requires both time and space to be serviced and thus must be carefully
 assigned a berthing location [cite:@imai-2001-dynam-berth]. Vessels are lined up parallel to the berth to be serviced
 and are horizontally queued as shown in \autoref{subfig:bapexample}. The PAP utilizes this notion of queuing for
@@ -152,5 +147,14 @@ implemented.
 :PROPERTIES:
 :CUSTOM_ID: sec:overview-of-the-bap
 :END:
+
+#+begin_export latex
+  \begin{figure}
+    \centering
+    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
+    \caption{Example of rectangle packing problem.}
+    \label{fig:packexample}
+  \end{figure}
+#+end_export
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:overview-of-bap" :only-contents t

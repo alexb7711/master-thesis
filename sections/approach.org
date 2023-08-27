@@ -21,7 +21,7 @@ discretize the queuing space to accommodate chargers of multiple varieties.
 :CUSTOM_ID: sec:input-variables
 :END:
 
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation"
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
 
 *** A Rectangle Packing Formulation for BEB Charging
@@ -29,7 +29,7 @@ discretize the queuing space to accommodate chargers of multiple varieties.
 :CUSTOM_ID: sec:problemformulation
 :END:
 
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation"
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation" :only-contents t
 
 *** TODO Non-Linear Battery Dynamics
 :PROPERTIES:
