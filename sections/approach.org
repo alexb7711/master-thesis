@@ -31,10 +31,58 @@ discretize the queuing space to accommodate chargers of multiple varieties.
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation" :only-contents t
 
-*** TODO Non-Linear Battery Dynamics
+*** Non-Linear Battery Dynamics
 :PROPERTIES:
 :CUSTOM_ID: sec:non-linear-battery-dynamics
 :END:
+
+Modeling the charging dynamics is imperative to the model's accuracy as it is one of the main factors in terms of the
+decision variables. If the SOC is improperly modeled, that will produce an erroneous depiction of the state of BEB
+charges and could result in over charging or worse, undercharging. Thus, care must be taken into considering the BEB's
+charging model. There are various methods of modeling the SOC of a battery an can vary in complexity based on the
+attempt to incorporate temperature, battery degradation, and current
+[cite:@zhang-2021-optim-elect;@chen-2008-desig-grey;@watrin-2012-multip-lithium].
+
+Some of the conventional methods to charge batteries are: Constant Voltage (CV), Constant Current (CC), Constant Power
+(CP), and Constant Current Voltage (CCCV) [cite:@arabsalmanabadi-2018-charg-techn]. CCCV, as the name describes, is the
+combination of CCCV model [cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey; @wang-2021-resear-optim]. In CCCV,
+a constant current is applied to a battery until it reaches terminal voltage. At this point a constant voltage is
+applied as the charge current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey].
+
+As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80%
+[cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. As previously discussed,
+[cite:@zhang-2021-optim-elect] suggests that the SOC can be broken down into a linear and non-linear component. A plot
+of SOC of a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
+
+#+name: fig:soc-plot
+#+caption: Illistration of non-linear charging profile.
+[[file:../img/soc-plot.png]]
+
+While some leverage the linear and non-linear components to derive their SOC model [cite:@abdollahi-2016-optim-batter],
+others have derived a first order equation to model this behavior [cite:@whitaker-2022-a-network]. Assume that a charge
+will occur over $dt$ seconds. The SOC on the time step $h+1$ for bus $i$ can be determined by the simple discrete first
+order equation
+
+#+begin_export latex
+\begin{equation}
+  \eta_{\xi_i} = \bar{a}_q \eta_i - \bar{b}_q \kappa_{\Xi_i}
+\end{equation}
+#+end_export
+
+where
+
+#+begin_export latex
+\begin{equation}
+\begin{array}{cc}
+  \bar{a}_q = e^{a_q dt} & \bar{b}_q = e^{a_q dt} - 1
+\end{array}
+\end{equation}
+#+end_export
+
+The equation is developed by using exact discretization [cite:@hespanha-2018-linear], and is proved in
+[cite:@whitaker-2022-a-network]. In the same way as the linear dynamics, the $i^{\text{th}}$ visit's initial charge is
+indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
+the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
 ** Mathematically model the PAP to provide a robust solution
 :PROPERTIES:

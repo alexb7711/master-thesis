@@ -1,4 +1,4 @@
-% Created 2023-08-27 Sun 13:47
+% Created 2023-08-28 Mon 11:29
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -85,7 +85,7 @@
  pdftitle={The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 29.1 (Org mode 9.6.7)}, 
+ pdfcreator={Emacs 28.2 (Org mode 9.6.8)}, 
  pdflang={English}}
 \begin{document}
 
@@ -176,7 +176,7 @@ time horizon \(T\) as well as minimize the demand cost and consumption cost. The
 discussed in further detail in section \ref{sec:objective-function}.
 
 \subsection{State Of The Art}
-\label{sec:orgc280663}
+\label{sec:org71f8208}
 The intent of the proposed work is to build upon the Position Allocation Problem \cite{qarebagh-2019-optim-sched}, a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
 vehicles \cite{buhrkal-2011-model-discr,frojan-2015-contin-berth,imai-2001-dynam-berth}. The BAP model is a rectangle
@@ -263,7 +263,7 @@ and Kaurs method \cite{kaur-2016-introd-fuzzy}. A model for the Fuzzy MILP-PAP h
 implemented.
 
 \subsection{Mixed Integer Linear Programming}
-\label{sec:orgf00bd80}
+\label{sec:orgeaa1743}
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
 constraints \cite{chen-2010-applied}. Given a general objective function \(J\), decision variables (i.e. variables of
@@ -320,7 +320,7 @@ novel approach based on the well studied BAP problem that provides a robust char
 monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
 
 \section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
-\label{sec:org9853aae}
+\label{sec:org69dc801}
 The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
 how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
 
@@ -363,7 +363,7 @@ problem is that the time of arrival is uncertain. A solution to this problem is 
 \end{enumerate}
 
 \section{Minimize the monetary cost of charging the BEBs}
-\label{sec:orgc966771}
+\label{sec:org5996bc4}
 
 \begin{enumerate}
 \item The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
@@ -754,8 +754,53 @@ constraints. \autoref{subeq:gpgret} through \autoref{subeq:gwles} define the cha
 pairing. The last constraints \autoref{subeq:binaryspace}-\autoref{subeq:Ispace} define the sets of valid values for each
 variable.
 
-\subsection{{\bfseries\sffamily TODO} Non-Linear Battery Dynamics}
+\subsection{Non-Linear Battery Dynamics}
 \label{sec:non-linear-battery-dynamics}
+Modeling the charging dynamics is imperative to the model's accuracy as it is one of the main factors in terms of the
+decision variables. If the SOC is improperly modeled, that will produce an erroneous depiction of the state of BEB
+charges and could result in over charging or worse, undercharging. Thus, care must be taken into considering the BEB's
+charging model. There are various methods of modeling the SOC of a battery an can vary in complexity based on the
+attempt to incorporate temperature, battery degradation, and current
+\cite{zhang-2021-optim-elect,chen-2008-desig-grey,watrin-2012-multip-lithium}.
+
+Some of the conventional methods to charge batteries are: Constant Voltage (CV), Constant Current (CC), Constant Power
+(CP), and Constant Current Voltage (CCCV) \cite{arabsalmanabadi-2018-charg-techn}. CCCV, as the name describes, is the
+combination of CCCV model \cite{abdollahi-2016-optim-batter,chen-2008-desig-grey,wang-2021-resear-optim}. In CCCV,
+a constant current is applied to a battery until it reaches terminal voltage. At this point a constant voltage is
+applied as the charge current decreases and the battery reaches full charge \cite{chen-2008-desig-grey}.
+
+As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80\%
+\cite{liu-2020-batter-elect}. At this point the SOC becomes non-linear. As previously discussed,
+\cite{zhang-2021-optim-elect} suggests that the SOC can be broken down into a linear and non-linear component. A plot
+of SOC of a battery is shown in \ref{fig:soc-plot} to demonstrate these components \cite{zhang-2021-optim-elect}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{img/soc-plot.png}
+\caption{\label{fig:soc-plot}Illistration of non-linear charging profile.}
+\end{figure}
+
+While some leverage the linear and non-linear components to derive their SOC model \cite{abdollahi-2016-optim-batter},
+others have derived a first order equation to model this behavior \cite{whitaker-2022-a-network}. Assume that a charge
+will occur over \(dt\) seconds. The SOC on the time step \(h+1\) for bus \(i\) can be determined by the simple discrete first
+order equation
+
+\begin{equation}
+  \eta_{\xi_i} = \bar{a}_q \eta_i - \bar{b}_q \kappa_{\Xi_i}
+\end{equation}
+
+where
+
+\begin{equation}
+\begin{array}{cc}
+  \bar{a}_q = e^{a_q dt} & \bar{b}_q = e^{a_q dt} - 1
+\end{array}
+\end{equation}
+
+The equation is developed by using exact discretization \cite{hespanha-2018-linear}, and is proved in
+\cite{whitaker-2022-a-network}. In the same way as the linear dynamics, the \(i^{\text{th}}\) visit's initial charge is
+indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and the subsequent visit is indicated by \(\eta_{\xi_i}\). Thus,
+the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
 \section{Mathematically model the PAP to provide a robust solution}
 \label{sec:math-model-robust}
@@ -772,7 +817,7 @@ This section introduces the notion of fuzzy numbers and some basic definitions. 
 from \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:org4b96898}
+\label{sec:orgbabf890}
 Let's begin with what a fuzzy number is not. A classical (crisp) set is defined as a collection of elements \(x \in X\).
 Crisp sets are binary, either an element belongs in the set, or it does not \cite{zimmermann-2001-fuzzy-set}. For a
 fuzzy set, what is known as the characteristic function applies various degrees of membership for elements of a given
@@ -870,7 +915,7 @@ if \(m - \alpha\) is a real number.
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:orgd1e01c7}
+\label{sec:orgdc05bcf}
 If two triangular fuzzy numbers \(\tilde{a}_1 = \{a_1, a_2, a_3\}\) and \(\tilde{b}_1 = \{b_1, b_2, b_3\}\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -884,7 +929,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:orgf8b543f}
+\label{sec:orgcbdc2d6}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
@@ -1063,7 +1108,7 @@ detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, 
 \(i\), \(\tilde{\eta}_i\) will also become fuzzy values.
 
 \subsubsection{Objective Function}
-\label{sec:orgbdd914c}
+\label{sec:orgb4de9ed}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1081,7 +1126,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org453d9a4}
+\label{sec:orgb1d49b7}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1116,7 +1161,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:org9230bd2}
+\label{sec:org7954c87}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1433,7 +1478,7 @@ next discrete time step, \(dt_h\). The final constraint \ref{seq:c17} is the dis
 \(v_i \in \Qset\) is active.
 
 \section{Method And Validation}
-\label{sec:org2df36fe}
+\label{sec:org81f9bd1}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -1535,7 +1580,7 @@ availability, \(\C\). The output of each generator affects the tuple of decision
 
 \begin{enumerate}
 \item Generator Input
-\label{sec:org3709b2b}
+\label{sec:org4801591}
 Each generator has the tuple input of \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index, \(\I_i\) is the tuple \(\visit\)
 (\ref{sec:problem-description}), that describes the set of visits, and \(\C\) is the set that describes the availability for
 all chargers \(q \in \Qset\). In other words, \(\C\) defines the set of times when the chargers are not being utilized or are
@@ -1559,7 +1604,7 @@ Let \(\Sol\) denote the tuple \(\Sol \equiv (i, \I, \C)\).
 \end{equation}
 
 \item Generator Output
-\label{sec:org8566c4b}
+\label{sec:org20c8e8b}
 The output is a modified visit, noted as \(\I_i'\). In actuality only the decision variables are being altered which is a
 subset of \(\I_i\). Let this subset be defined by \(x_i' \equiv (v_i, u_i, d_i) \subset \I_i\) which is the chosen queue, initial
 charge time, and detach time from the generator, \((v_i, u_i, d_i)\). The nature of SA implies that the generators have a
@@ -2079,7 +2124,7 @@ updates the current solution with the candidate solution depending on the fitnes
 \end{algorithm}
 
 \section{Project Schedule}
-\label{sec:orgf1fcbd8}
+\label{sec:orgc72d931}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
