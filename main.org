@@ -31,7 +31,7 @@
 
 #+include: sections/introduction.org
 #+include: sections/objectives.org
-#+include: sections/project.org
+#+include: sections/approach.org
 
 # ======================================================================================================================
 # Bibliography
