@@ -14,25 +14,29 @@ introduce new challenges such as larger upfront costs, and potentially several h
 transit schedule to which the fleet must adhere, the limited amount of chargers available, and the adverse affects in
 the health of the battery due to fast charging [cite:@lutsey-2019-updat-elect].
 
-Many recent efforts have been made to simultaneously solve the problems of route scheduling, and charging fleets and
-determining the infrastructure upon which they rely, e.g., [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
-@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. Several simplifications are made to make these problems
-computationally feasible. These simplifications to the charge scheduling model include utilizing only fast chargers
-while planning [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;@wang-2017-optim-rechar;@zhou-2020-bi-objec;
-@yang-2018-charg-sched;@wang-2017-elect-vehic;@qin-2016-numer-analy;@liu-2020-batter-elect]. If slow chargers are used,
-they are only employed at the depot and not the station [cite:@he-2020-optim-charg;@tang-2019-robus-sched]. Some
-approaches also simplify by assuming a full charge is always achieved
-[cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar]. Others have assumed
-that the charge received is proportional to the time spent on the charger
-[cite:@liu-2020-batter-elect;@yang-2018-charg-sched], which can be a valid assumption when the battery state-of-charge
-(SOC) is below 80% charge [cite:@liu-2020-batter-elect].
+BEBs have been in service for many major markets, North America, Europe, and China, for more than a decade; however, the
+Asia Pacific market is forecasted to dominate the sales [cite:@deng-2021-survey-elect]. Other major companies are also
+beginning to enter the global market such as Volvo, BYD, and Proterra [cite:@deng-2021-survey-elect]. Much focus has
+been placed on the engineering of individual BEBs such as battery type, brake regenerative charging, optimal battery
+charging, and battery degradation [cite:@chen-2008-desig-grey; @abdollahi-2016-optim-batter;
+@kühne-2010-elect;@deng-2021-survey-elect]. The interest of route scheduling, charging fleets, and optimizing the
+infrastructure is are increasingly relevant problems [cite:@hoke-2014-accoun-lithium; @sebastiani-2016-evaluat-elect;
+@wei-2018-optim-spatio].
 
-The proposed work presented here intends to extend the work of the PAP's novel approach to BEB charger scheduling even
-further. The PAP's reenvisioning of the BAP provides the stepping stones on which to further extend the utility of this
-robust technology. The intended work to be introduced, much of which has been completed, promises much potential for
+The proposed work presented intends to develop a robust BEB charging model by extending the work of the Position
+Allocation Problem's (PAP's) novel approach to scheduling Electric Vehicles (EVs). The PAP is modeled after the Berth
+Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and serviced
+[cite:@buhrkal-2011-model-discr; @imai-2001-dynam-berth; @frojan-2015-contin-berth;]. Because of the PAP's extremely
+close modeling methods to the BAP, literature from the BAP can (and will) provide support for the development of the BAP
+in this work. The BAP has been studied in literature since the 1990s and provides a depth of work to derive from
+[cite:@rodrigues-2022-berth]. The work to be introduced, much of which has been completed, promises much potential for
 further research and development in regard to BEBs. What follows is a proposal for a Simulated Annealing (SA)
 implementation of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints with non-linear
 battery dynamics.
+
+In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
+statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
+objectives and approaches in [[#sec:objectives]] and [[#sec:approach]], respectively.
 
 ** Background and Related Work
 :PROPERTIES:
@@ -44,14 +48,58 @@ EV/BEB industry. It is thus important to address the state of the art by introdu
 scheduling. The areas of interest will then be detailed to the work proposed in this work, the Berth Allocation Problem
 (BAP) and the Position Allocation Problem (PAP).
 
+What follows is a description of the state of the art, a detailed problem description for the presented, as well as
+background of relevant theory.
+
+*** State Of The Art
+:PROPERTIES:
+:CUSTOM_ID: sec:state-of-the-art
+:END:
+
+Many recent efforts have been made to simultaneously solve the problems of route scheduling, and charging fleets and
+determining the infrastructure upon which they rely, e.g., [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
+@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. Several simplifications are made to make these problems
+computationally feasible. These simplifications to the charge scheduling model include utilizing only fast chargers
+while planning [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;@wang-2017-optim-rechar;@zhou-2020-bi-objec;
+@yang-2018-charg-sched;@wang-2017-elect-vehic;@qin-2016-numer-analy;@liu-2020-batter-elect]. If slow chargers are used,
+they are only employed at the depot and not the station [cite:@he-2020-optim-charg;@tang-2019-robus-sched]. Some
+approaches also simplify by assuming a full charge is always achieved
+[cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar].
+
+In some works, it was assumed that the charge received is proportional to the time spent on the charger
+[cite:@liu-2020-batter-elect;@yang-2018-charg-sched]. While the linear battery dynamics is a valid assumption when the
+battery State-Of-Charge (SOC) is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented
+to increase the accuracy of the model. A common way to model the non-linear battery dynamics is utilizing CCCV
+[cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey]. [cite:@zhang-2021-optim-elect] further suggests that the
+dynamics can be modeled as a piecewise function containing a linear and non-linear component. Others have modeled the
+battery dynamics as a discrete first order dynamics model [cite:@whitaker-2022-a-network]. The first-order differential
+system, when provided a step input, approximates the non-linear relationship between time and the current SOC
+[cite:@whitaker-2022-a-network].
+
+Works concerning charge planning primarily focused on a network flow approach
+[cite:@whitaker-2022-a-network;@liu-2020-batter-elect]. The network flow approach provides an easy method of modeling
+the scheduling by discretizing the time horizon to a set of $n_Q$ nodes. The nodes are the chargers than can have a
+maximum of one bus at a time. The buses can thus flow into a node to be charged and then later can exit allowing a now
+bus to enter. The more difficult portion is modeling the interconnection between the discrete sets of nodes such that
+flow between sets is consistent [cite:@whitaker-2022-a-network]. Another method that is more natural to modeling the BEB
+charging scenario is the PAP [cite:@qarebagh-2019-optim-sched]. While the visits remain as discrete events, the time
+that the BEB is on the charger is modeled in continuous time in a similar way as the BEB
+[cite:@frojan-2015-contin-berth; @qarebagh-2019-optim-sched].
+
+An issue with the modeling introduced in the previous paragraph is the strict nature of the solutions produced. Fuzzy
+mathematical programming is useful in situations where imprecise parameters exist [cite:@bello-2019-fuzzy-activ]. There
+are many methodologies that exist to solve Fully Fuzzy Linear Programs; however, the primary strategy of solving FFLP
+problems is converting them into a classical (crisp) model
+[cite:@bello-2019-fuzzy-activ;@nasseri-2013-fully;@kaur-2016-introd-fuzzy]. The BAP has been modeled utilizing Nasseri
+Method in [cite:@bello-2019-fuzzy-activ]; however, to the extent of the research done for this work, FFLP has not been
+applied to EV or BEB scheduling. Note that previous work has begun on the model for the Fuzzy MILP-PAP. The mathematics
+have been drafted, but yet has been implemented.
+
 *** Problem Description
 :PROPERTIES:
 :CUSTOM_ID: sec:problem-description
 :END:
 
-#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
-
-*** State Of The Art
 The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
 vehicles [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The BAP model is a rectangle
@@ -104,43 +152,11 @@ vehicle visits the charger a single time [cite:@qarebagh-2019-optim-sched].
 \end{subfigures}
 #+end_src
 
-As stated previously, the proposed project will further improve upon the PAP. While there are many avenues that may be
-taken, the first task is to adapt the PAP to accommodate a BEB charging scenario where a fleet of buses is prescribed a
-set of routes that they must adhere to. Firstly, due to the unknown charge state that a bus may arrive in, the charge
-time must be variable, rather than an input parameter as is done currently for the BAP and PAP. Furthermore, both the
-BAP and PAP consider each arrival to be unique; thus, a method of tracking buses must be implemented. As for queuing,
-the PAP models the set of chargers as one continuous line; thus, the set of chargers must be discretized. The last set
-of additions made upon the PAP is the design of the objective function. Input parameters are selected in such a manner
-as to minimize the number of fast and slow charger utilized as well as minimize the energy consumption. The result is a
-MILP formulation that coordinates charging times and charger type for every visit that each bus makes to the station
-while considering a proportional dynamic charging model with scheduling constraints. The described improvements have
-been completed as a proof of concept in what is known as the MILP-PAP. This proof of concept was written in the Python
-programming language using Gurobi as the MILP solver.
 
-While the linear battery dynamics is a valid assumption when the battery State-Of-Charge (SOC) is below 80%
-[cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented to increase the accuracy of the model. A
-common way to model the non-linear battery dynamics is utilizing CCCV [cite:@abdollahi-2016-optim-batter;
-@chen-2008-desig-grey]. [cite:@zhang-2021-optim-elect] further suggests that the dynamics can be modeled as a piecewise
-function containing a linear and non-linear component. Others have modeled the battery dynamics as a discrete first
-order dynamics model [cite:@whitaker-2022-a-network]. The first-order differential system, when provided a step input,
-approximates the non-linear relationship between time and the current SOC [cite:@whitaker-2022-a-network]. The
-first-order differential method is method proposed to be pursued.
-
-One of the drawbacks of the MILP implementation is the strict solution that is generated. Suppose that a solution was
-generated, but due to weather conditions a bus arrives at the station five minutes late. The generated solution is no
-longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station. To
-make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the majority of
-the solution is now void, and a new solution must be generated if optimality is desired. The crux of the problem is that
-the time of arrival is uncertain. A potential solution to this problem is to fuzzify the MILP model.
-
-Fuzzy mathematical programming is useful in situations where imprecise parameters exist [cite:@bello-2019-fuzzy-activ].
-There are many methodologies that exist to solve Fully Fuzzy Linear Programs; however, the primary strategy of solving
-FFLP problems is converting them into a classical (crisp) model
-[cite:@bello-2019-fuzzy-activ;@nasseri-2013-fully;@kaur-2016-introd-fuzzy]. The chosen technique to pursue is the Kumar
-and Kaurs method [cite:@kaur-2016-introd-fuzzy]. A model for the Fuzzy MILP-PAP has been drafted, but yet has been
-implemented.
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
 
 *** Mixed Integer Linear Programming
+
 #+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :only-contents t
 
 *** Overview of the BAP

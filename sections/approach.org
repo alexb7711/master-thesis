@@ -1,6 +1,6 @@
 * APPROACH
 :PROPERTIES:
-:CUSTOM_ID: sec:proposed-project
+:CUSTOM_ID: sec:approach
 :END:
 
 ** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
