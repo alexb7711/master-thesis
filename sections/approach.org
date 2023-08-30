@@ -96,27 +96,6 @@ Fuzzy BAP is derived and then interpreted into the Fuzzy PAP. The method of impl
 described early on in [[#sec:minimize-monetary-cost]] as it is a part of the objective function. While logically, the action
 fits within the current objective, the discussion of the mathematics is more coherent if discussed together.
 
-*** Fuzzy Sets Theory
-:PROPERTIES:
-:CUSTOM_ID: sec:fuzzy-sets-theory
-:END:
-
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fuzzy Sets Theory" :only-contents t
-
-*** Fully Fuzzy Linear Programming
-:PROPERTIES:
-:CUSTOM_ID: sec:fully-fuzzy-linear-programming
-:END:
-
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fully Fuzzy Linear Programming" :only-contents t
-
-*** The Fuzzy BAP
-:PROPERTIES:
-:CUSTOM_ID: sec:the-fuzzy-bap
-:END:
-
-#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap" :only-contents t
-
 *** The Fuzzy PAP
 :PROPERTIES:
 :CUSTOM_ID: sec:the-fuzzy-pap
@@ -207,3 +186,8 @@ The estimated completion date is early to mid-November. Note that the blocks bef
     \label{fig:gantt}
   \end{figure}
 #+end_src
+
+** Summary
+:PROPERTIES:
+:CUSTOM_ID: sec:approach-summary
+:END:
