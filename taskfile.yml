@@ -48,7 +48,7 @@ tasks:
       VERSION:
         sh: git describe --tags
     cmds:
-      - sed -i 's/\\date{\\today/\\date{\\today:{{.VERSION}}/' {{.MAIN}}
+      - sed -i 's/\\gradyear{/\\gradyear{2023 - \\\today:{{.VERSION}}/' {{.MAIN}}
     silent: true
 ##==============================================================================
 #
