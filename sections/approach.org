@@ -192,9 +192,11 @@ The estimated completion date is early to mid-November. Note that the blocks bef
 :CUSTOM_ID: sec:approach-summary
 :END:
 
-The previous sections have addressed Objectives 1 through three by describing the approach taken, the approach to be
-taken, or a derivation of the approach when available for the proposed research. This research intends to increase
-utility of the PAP by modifying it for BEBs to allow charge to be propagated, BEBs to be tracked, utilizing non-linear
-charging dynamics, as well as utilizing FFLP to develop a robust solution. Upon completion, the proposed research will
-demonstrate its full utility and extensibility due to the MILP's nature of adding additional constraints. This research
-project shall illustrate a robust BEB charging schedule with realistic applicability.
+The previous sections have addressed Objectives one through three by describing the approaches to be taken (or have
+taken) for each respective objective along with a derivation when available for the proposed approach. This research
+intends to increase utility of the PAP by first modifying the model to allow BEBs' charges to be propagated, include an
+identifier for BEBs to be tracked, utilize non-linear charging dynamics, as well as utilizing FFLP to develop a robust
+solution. This framework is intended to be implemented using a SA for its ease of implementation along with flexibility
+the numerical solver contains. Upon completion, the proposed research will demonstrate its full utility and
+extensibility due to the MILP's nature of adding additional constraints. This research project shall illustrate a robust
+BEB charging schedule with realistic applicability.
