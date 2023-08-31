@@ -1,4 +1,4 @@
-% Created 2023-08-30 Wed 18:47
+% Created 2023-08-30 Wed 19:19
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -266,7 +266,7 @@ time horizon \(T\) as well as minimize the demand cost and consumption cost. The
 discussed in further detail in section \ref{sec:objective-function}.
 
 \subsection{Mixed Integer Linear Programming}
-\label{sec:orga24c5ba}
+\label{sec:org214e2e4}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -331,7 +331,7 @@ This section introduces the notion of fuzzy numbers and some basic definitions. 
 from \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
 
 \paragraph{Fuzzy Sets}
-\label{sec:org96010b4}
+\label{sec:orgc701de4}
 Let's begin with what a fuzzy number is not. A classical (crisp) set is defined as a collection of elements \(x \in X\).
 Crisp sets are binary, either an element belongs in the set, or it does not \cite{zimmermann-2001-fuzzy-set}. For a
 fuzzy set, what is known as the characteristic function applies various degrees of membership for elements of a given
@@ -429,7 +429,7 @@ if \(m - \alpha\) is a real number.
 \end{definition}
 
 \paragraph{Fuzzy Arithmetic}
-\label{sec:org45b8380}
+\label{sec:org48d6b81}
 If two triangular fuzzy numbers \(\tilde{a}_1 = \{a_1, a_2, a_3\}\) and \(\tilde{b}_1 = \{b_1, b_2, b_3\}\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -443,7 +443,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \paragraph{Comparing Fuzzy Numbers}
-\label{sec:org068c312}
+\label{sec:org6deb4ef}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
@@ -626,7 +626,7 @@ novel approach based on the well studied BAP problem that provides a robust char
 monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
 
 \section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
-\label{sec:orgc6c169d}
+\label{sec:orgf2fdeef}
 The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
 how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
 
@@ -669,7 +669,7 @@ problem is that the time of arrival is uncertain. A solution to this problem is 
 \end{enumerate}
 
 \section{Minimize the monetary cost of charging the BEBs}
-\label{sec:orgf8b6566}
+\label{sec:orgfecb3d1}
 
 \begin{enumerate}
 \item The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
@@ -1127,7 +1127,7 @@ detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, 
 \(i\), \(\tilde{\eta}_i\) will also become fuzzy values.
 
 \subsubsection{Objective Function}
-\label{sec:orgd1f88dd}
+\label{sec:org9aca9e5}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1145,7 +1145,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org3ed9cdf}
+\label{sec:org09eea5a}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1180,7 +1180,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:orgb1114d2}
+\label{sec:org015b998}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1497,7 +1497,7 @@ next discrete time step, \(dt_h\). The final constraint \ref{seq:c17} is the dis
 \(v_i \in \Qset\) is active.
 
 \section{Method And Validation}
-\label{sec:org4fa80d4}
+\label{sec:orgb968002}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -1599,7 +1599,7 @@ availability, \(\C\). The output of each generator affects the tuple of decision
 
 \begin{enumerate}
 \item Generator Input
-\label{sec:orga8dc58a}
+\label{sec:orgc54c19c}
 Each generator has the tuple input of \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index, \(\I_i\) is the tuple \(\visit\)
 (\ref{sec:problem-description}), that describes the set of visits, and \(\C\) is the set that describes the availability for
 all chargers \(q \in \Qset\). In other words, \(\C\) defines the set of times when the chargers are not being utilized or are
@@ -1623,7 +1623,7 @@ Let \(\Sol\) denote the tuple \(\Sol \equiv (i, \I, \C)\).
 \end{equation}
 
 \item Generator Output
-\label{sec:orgb40eac4}
+\label{sec:org994dac0}
 The output is a modified visit, noted as \(\I_i'\). In actuality only the decision variables are being altered which is a
 subset of \(\I_i\). Let this subset be defined by \(x_i' \equiv (v_i, u_i, d_i) \subset \I_i\) which is the chosen queue, initial
 charge time, and detach time from the generator, \((v_i, u_i, d_i)\). The nature of SA implies that the generators have a
@@ -2143,7 +2143,7 @@ updates the current solution with the candidate solution depending on the fitnes
 \end{algorithm}
 
 \section{Project Schedule}
-\label{sec:orgdc9146c}
+\label{sec:org707b1b4}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
@@ -2170,5 +2170,12 @@ The estimated completion date is early to mid-November. Note that the blocks bef
 
 \section{Summary}
 \label{sec:approach-summary}
+The previous sections have addressed Objectives 1 through three by describing the approach taken, the approach to be
+taken, or a derivation of the approach when available for the proposed research. This research intends to increase
+utility of the PAP by modifying it for BEBs to allow charge to be propagated, BEBs to be tracked, utilizing non-linear
+charging dynamics, as well as utilizing FFLP to develop a robust solution. Upon completion, the proposed research will
+demonstrate its full utility and extensibility due to the MILP's nature of adding additional constraints. This research
+project shall illustrate a robust BEB charging schedule with realistic applicability.
+
 \references{citation-database/lib-ref,citation-database/lit-ref}{IEEEtran}
 \end{document}
