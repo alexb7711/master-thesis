@@ -5,19 +5,22 @@
 
 The BEB queue scheduling problem is one that has been of increasing interest and relevancy in the EV/BEB industry. It is
 thus important to address the state of the art by introducing relevant problems in BEB queue scheduling, which will be
-addressed first. A detailed problem description shall then be presented so the reader has a better understanding of the
+addressed first. A detailed problem description shall then be presented to give a better understanding of the
 proposition moving forward, and then miscellaneous introductory theory will be presented that.
 
-** State Of The Art
+** State Of The Art of Battery Electric Bus Charging
 :PROPERTIES:
 :CUSTOM_ID: sec:state-of-the-art
 :END:
 
-Many recent efforts have been made to simultaneously solve the problems of route scheduling, and charging fleets and
-determining the infrastructure upon which they rely, e.g., [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
-@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. Several simplifications are made to make these problems
-computationally feasible. These simplifications to the charge scheduling model include utilizing only fast chargers
-while planning [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;@wang-2017-optim-rechar;@zhou-2020-bi-objec;
+Recent efforts have been made to solve the problems of either route scheduling and charging fleets or
+determining the infrastructure upon which they rely [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
+@hoke-2014-accoun-lithium;@wang-2017-elect-vehic].
+
+Several simplifications are made throughout the literature to make
+these problems computationally feasible. These simplifications to the charge scheduling model include utilizing only
+fast chargers while planning
+[cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;@wang-2017-optim-rechar;@zhou-2020-bi-objec;
 @yang-2018-charg-sched;@wang-2017-elect-vehic;@qin-2016-numer-analy;@liu-2020-batter-elect]. If slow chargers are used,
 they are only employed at the depot and not the station [cite:@he-2020-optim-charg;@tang-2019-robus-sched]. Some
 approaches also simplify by assuming a full charge is always achieved
@@ -31,16 +34,16 @@ Voltage (CV), Constant Current (CC), Constant Power (CP), and Constant Current C
 [cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey]. It has also been suggested that the dynamics can be modeled
 as a piecewise function containing a linear and non-linear component from which a piecewise function approach may be
 taken for the CV and CC components [cite:@zhang-2021-optim-elect;@abdollahi-2016-optim-batter]. Others have modeled the
-battery dynamics as a discrete first order dynamics model [cite:@whitaker-2022-a-network]. The first-order differential
+battery dynamics as a discrete first order dynamics model [cite:@whitaker-2023-a-network]. The first-order differential
 system, when provided a step input, approximates the non-linear relationship between time and the current SOC
-[cite:@whitaker-2022-a-network].
+[cite:@whitaker-2023-a-network].
 
 Works concerning charge planning primarily focused on a network flow approach
-[cite:@whitaker-2022-a-network;@liu-2020-batter-elect]. The network flow approach provides an easy method of modeling
+[cite:@whitaker-2023-a-network;@liu-2020-batter-elect]. The network flow approach provides an easy method of modeling
 the scheduling by discretizing the time horizon to $n_Q$ sets of nodes. The nodes represent the chargers availability
 and can have a maximum of one bus at a time. The buses can flow into a node to be charged and then later can exit
 allowing a now bus to enter. The more difficult portion is modeling the interconnection between the discrete sets of
-nodes such that flow between sets is consistent [cite:@whitaker-2022-a-network]. Another method that is more natural to
+nodes such that flow between sets is consistent [cite:@whitaker-2023-a-network]. Another method that is more natural to
 modeling the BEB charging scenario is the PAP [cite:@qarebagh-2019-optim-sched]. While the visits remain as discrete
 events, the time that the BEB is on the charger is modeled in continuous time in a similar way as the BEB
 [cite:@frojan-2015-contin-berth; @qarebagh-2019-optim-sched]. As described previously, the BAP literature may be used
