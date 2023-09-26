@@ -1,4 +1,4 @@
-% Created 2023-09-21 Thu 13:31
+% Created 2023-09-26 Tue 03:51
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -115,24 +115,36 @@ the health of the battery due to fast charging \cite{lutsey-2019-updat-elect}.
 
 BEBs have been in service for many major markets, North America, Europe, and China, for more than a decade with expected
 growth in the near future \cite{deng-2021-survey-elect}. The Asia Pacific market is forecasted to dominate the sales
-and some major companies of the industry have also began to enter the global market such as Volvo, BYD, and Proterra by
+and some major companies of the industry have also begun to enter the global market such as Volvo, BYD, and Proterra by
 2025 \cite{deng-2021-survey-elect}. Much focus has been placed on the engineering of individual BEBs such as battery
 type, brake regenerative charging, optimal battery charging, and battery degradation \cite{chen-2008-desig-grey,abdollahi-2016-optim-batter,kühne-2010-elect,deng-2021-survey-elect}. The interest of route scheduling, charging
 fleets, and optimizing the infrastructure are problems of more recent interest and are therefore timely and increasingly
 relevant problems as EV/BEBs become more commonplace \cite{hoke-2014-accoun-lithium,sebastiani-2016-evaluat-elect,wei-2018-optim-spatio}.
 
-The proposed work to be presented intends to develop a robust BEB charging model by extending the work of the Position
-Allocation Problem's (PAP's) novel approach to scheduling Electric Vehicles (EVs). The PAP is modeled after the Berth
-Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and serviced
-\cite{buhrkal-2011-model-discr,imai-2001-dynam-berth,frojan-2015-contin-berth}. Because of the PAP's extremely
-close modeling methods to the BAP, literature from the BAP can (and will) provide support for the development of the PAP
-in this work. The BAP has been studied in literature since the 1990s and provides a depth of work to derive from
-\cite{rodrigues-2022-berth}. The proposed work also intends to introduce a sense of robustness by allowing uncertainty
-in the arrival times of the BEBs. By ``fuzzifying'' the model, the ``fuzzy'' variables are allowed have upper and lower
-bounds for which the model can provide solutions for. The work to be introduced promises much potential for further
-research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated Annealing (SA)
-implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints with
-non-linear battery dynamics.
+The literature shows an interest in solving the problem of assigning BEBs to charging queues or optimizing their
+infrastracture \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. In fact, many works attempt to solve both problems simultanously
+barring some simplification whether it be only allowing chargers of a single type
+\cite{he-2020-optim-charg,tang-2019-robus-sched}. If multiple chargers are used, then one of each type is assigned at
+each location. Others have also assumed that a BEB shall recieve full charge upon each arrival
+\cite{wei-2018-optim-spatio,wang-2017-elect-vehic,zhou-2020-bi-objec,wang-2017-optim-rechar}. Some works on the
+stochastic effects of energy consumption while on route for a BEB as well as trip times \cite{zhou-2020-collab-optim,bie-2021-optim-elect}. One other source, as far as the reseach for this work has shown, describes a method of producing
+a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to minimize
+over the total charger count \cite{whitaker-2023-a-network}.
+
+The work described in this paper is similar to the work in \cite{whitaker-2023-a-network}; however provides an
+alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
+after the Berth Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and
+serviced \cite{buhrkal-2011-model-discr,imai-2001-dynam-berth,frojan-2015-contin-berth}. The PAP utilizes this
+notion to develop a model of assigning EVs to queue in ordered to be charged \cite{qarebagh-2019-optim-sched}.
+
+Because of the PAP's extremely close modeling methods to the BAP, literature from the BAP can (and will) provide support
+for the development of the PAP in this work. The BAP has been studied in literature since the 1990s and provides a depth
+of work to derive from \cite{rodrigues-2022-berth}. The proposed work also intends to introduce a sense of robustness
+by allowing uncertainty in the arrival times of the BEBs. By ``fuzzifying'' the model, the ``fuzzy'' variables are allowed
+have upper and lower bounds for which the model can provide solutions for. The work to be introduced promises much
+potential for further research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated
+Annealing (SA) implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP)
+constraints with non-linear battery dynamics.
 
 In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
 statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
@@ -152,7 +164,7 @@ novel approach based on the well studied BAP problem that provides a robust char
 monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
 
 \section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
-\label{sec:org704d8b9}
+\label{sec:orge6da5ad}
 The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
 how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
 
@@ -195,7 +207,7 @@ problem is that the time of arrival is uncertain. A solution to this problem is 
 \end{enumerate}
 
 \section{Minimize the monetary cost of charging the BEBs}
-\label{sec:org745f11d}
+\label{sec:org9326eea}
 
 \begin{enumerate}
 \item The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
@@ -232,9 +244,9 @@ add additional complexities that warrant simplifications due to computational co
 Several simplifications are made throughout the literature to make these problems computationally feasible. These
 simplifications to the charge scheduling model include utilizing only fast chargers while planning
 \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,wang-2017-optim-rechar,zhou-2020-bi-objec,yang-2018-charg-sched,wang-2017-elect-vehic,qin-2016-numer-analy,liu-2020-batter-elect}. If slow chargers are used,
-they are only employed at the depot and not the station \cite{he-2020-optim-charg,tang-2019-robus-sched}. Some
-approaches also simplify by assuming a full charge is always achieved
-\cite{wei-2018-optim-spatio,wang-2017-elect-vehic,zhou-2020-bi-objec,wang-2017-optim-rechar}.
+they are only employed at the one location with fast chargers elsewhere
+\cite{he-2020-optim-charg,tang-2019-robus-sched}. Some approaches also simplify by assuming a full charge is always
+achieved \cite{wei-2018-optim-spatio,wang-2017-elect-vehic,zhou-2020-bi-objec,wang-2017-optim-rechar}.
 
 In some works, it was assumed that the charge received is proportional to the time spent on the charger
 \cite{liu-2020-batter-elect,yang-2018-charg-sched}. While the linear battery dynamics is a valid assumption when the
@@ -248,29 +260,29 @@ battery dynamics as a discrete first order dynamics model \cite{whitaker-2023-a-
 system, when provided a step input, approximates the non-linear relationship between time and the current SOC
 \cite{whitaker-2023-a-network}.
 
-Works concerning charge planning primarily focused on a network flow approach
-\cite{whitaker-2023-a-network,liu-2020-batter-elect}. The network flow approach provides an easy method of modeling
+Works concerning charge planning, as far as been able to be dicerned, primarily focus on a directed graph approach
+\cite{whitaker-2023-a-network,liu-2020-batter-elect}. The directed graph approach provides an easy method of modeling
 the scheduling by discretizing the time horizon to \(n_Q\) sets of nodes. The nodes represent the chargers availability
 and can have a maximum of one bus at a time. The buses can flow into a node to be charged and then later can exit
-allowing a now bus to enter. The more difficult portion is modeling the interconnection between the discrete sets of
-nodes such that flow between sets is consistent \cite{whitaker-2023-a-network}. Another method that is more natural to
-modeling the BEB charging scenario is the PAP \cite{qarebagh-2019-optim-sched}. While the visits remain as discrete
-events, the time that the BEB is on the charger is modeled in continuous time in a similar way as the BEB
-\cite{frojan-2015-contin-berth,qarebagh-2019-optim-sched}. As described previously, the BAP literature may be used
-for the PAP from the literature shows methods of handling multiple quays (sets of chargers) to handle general berthing
-scenarios \cite{frojan-2015-contin-berth,dai-2008-suppl-chain-analy}, heuristic procedures for quicker solve times
-have been introduced \cite{imai-2001-dynam-berth}, static (full time horizon) and dynamic (rolling-time horizon) models
-have been created for daily and real-time solutions, respectively, and even fuzzy set theory has been applied to allow
-for more flexible schedules \cite{bello-2019-fuzzy-activ}.
+allowing a new bus to enter. Another method that is more natural to modeling the BEB charging scenario is the PAP
+\cite{qarebagh-2019-optim-sched}. The PAP is derived from the BAP which takes an input of vessel arrival times and
+outpus the selection of the berthing quay. The PAP utilizes this model and redefines its inputs to EV arrival times and
+outputs queues for the EVs to be charged. While the visits remain as discrete events, the time that the BEB is on the
+charger is modeled in continuous time similar to \cite{frojan-2015-contin-berth,qarebagh-2019-optim-sched,zhou-2020-collab-optim}. Due to the close relationship between the BAP and PAP, BAP
+literature may be used for the PAP. The literature shows methods of handling multiple quays (sets of chargers) to handle
+general berthing scenarios \cite{frojan-2015-contin-berth,dai-2008-suppl-chain-analy}. Heuristic procedures for
+quicker solve times have also been introduced \cite{imai-2001-dynam-berth}. Methods of defining static (full time
+horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
+and even fuzzy set theory has been applied to allow for more flexible schedules \cite{bello-2019-fuzzy-activ}.
 
-An issue with the modeling introduced in the previous paragraph is the strict nature of the solutions produced. Fuzzy
-mathematical programming is useful in situations where imprecise parameters exist \cite{bello-2019-fuzzy-activ}. There
-are many methodologies that exist to solve Fully Fuzzy Linear Programs, but the primary strategy of solving FFLP
-problems is converting them into a classical (crisp) model
-\cite{bello-2019-fuzzy-activ,nasseri-2013-fully,kaur-2016-introd-fuzzy}. The BAP has been modeled utilizing Nasseri
-Method in \cite{bello-2019-fuzzy-activ}; however, to the extent of the research done for this work, FFLP has not been
-applied to EV or BEB scheduling. Note that previous work has begun on the model for the Fuzzy MILP-PAP. The mathematics
-have been drafted, but have yet been implemented.
+An issue with the models introduced in the previous paragraph is the strict nature of the solutions produced. Fuzzy
+mathematical programming is useful in situations where imprecise parameters exist \cite{bello-2019-fuzzy-activ}.
+Previous work shows that there has been previous work that utilized a stochastic approach \cite{bie-2021-optim-elect,duan-2021-refor-mixed,tang-2019-robus-sched}. Work related to the BAP shows a Fully Fuzzy Linear Program (FFLP)
+implementation that utilized the Nasseri Method in converting the FFLP to its ``crisp'' counterpart
+\cite{bello-2019-fuzzy-activ}; however, to the extent of the research done for this work, FFLP has not been applied to
+EV or BEB scheduling. FFLP provides a simple modeling solution that natually describes the innacuracies associated with
+arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
+from the uncertainties defined by the input parameters.
 
 \section{Problem Description}
 \label{sec:problem-description}
@@ -349,7 +361,7 @@ time horizon \(T\) as well as minimize the demand cost and consumption cost. The
 discussed in further detail in section \ref{sec:objective-function}.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org735c22d}
+\label{sec:orgde815b9}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -414,7 +426,7 @@ This section introduces the notion of fuzzy numbers and some basic definitions. 
 from \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:orgcb444ec}
+\label{sec:orgfac5e55}
 Let's begin with what a fuzzy number is not. A classical (crisp) set is defined as a collection of elements \(x \in X\).
 Crisp sets are binary, either an element belongs in the set, or it does not \cite{zimmermann-2001-fuzzy-set}. For a
 fuzzy set, what is known as the characteristic function applies various degrees of membership for elements of a given
@@ -512,7 +524,7 @@ if \(m - \alpha\) is a real number.
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:org3354f47}
+\label{sec:org8dc12e9}
 If two triangular fuzzy numbers \(\tilde{a}_1 = \{a_1, a_2, a_3\}\) and \(\tilde{b}_1 = \{b_1, b_2, b_3\}\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -526,7 +538,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:org9a3640e}
+\label{sec:org2086aa4}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
@@ -1135,7 +1147,7 @@ detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, 
 \(i\), \(\tilde{\eta}_i\) will also become fuzzy values.
 
 \subsubsection{Objective Function}
-\label{sec:org5fada4c}
+\label{sec:org6c8e1b2}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1153,7 +1165,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org95d7d70}
+\label{sec:orgaa7df30}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1188,7 +1200,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:org68824a9}
+\label{sec:orgb721f76}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1505,7 +1517,7 @@ next discrete time step, \(dt_h\). The final constraint \ref{seq:c17} is the dis
 \(v_i \in \Qset\) is active.
 
 \section{Method And Validation}
-\label{sec:org4784f89}
+\label{sec:orge12c92e}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -1607,7 +1619,7 @@ availability, \(\C\). The output of each generator affects the tuple of decision
 
 \begin{enumerate}
 \item Generator Input
-\label{sec:org7273961}
+\label{sec:orge496894}
 Each generator has the tuple input of \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index, \(\I_i\) is the tuple \(\visit\)
 (\ref{sec:problem-description}), that describes the set of visits, and \(\C\) is the set that describes the availability for
 all chargers \(q \in \Qset\). In other words, \(\C\) defines the set of times when the chargers are not being utilized or are
@@ -1631,7 +1643,7 @@ Let \(\Sol\) denote the tuple \(\Sol \equiv (i, \I, \C)\).
 \end{equation}
 
 \item Generator Output
-\label{sec:orgeb60c28}
+\label{sec:orga526b72}
 The output is a modified visit, noted as \(\I_i'\). In actuality only the decision variables are being altered which is a
 subset of \(\I_i\). Let this subset be defined by \(x_i' \equiv (v_i, u_i, d_i) \subset \I_i\) which is the chosen queue, initial
 charge time, and detach time from the generator, \((v_i, u_i, d_i)\). The nature of SA implies that the generators have a
@@ -2151,7 +2163,7 @@ updates the current solution with the candidate solution depending on the fitnes
 \end{algorithm}
 
 \section{Project Schedule}
-\label{sec:org96d68c6}
+\label{sec:org656ede0}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
