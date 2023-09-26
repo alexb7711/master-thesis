@@ -16,7 +16,7 @@ the health of the battery due to fast charging [cite:@lutsey-2019-updat-elect].
 
 BEBs have been in service for many major markets, North America, Europe, and China, for more than a decade with expected
 growth in the near future [cite:@deng-2021-survey-elect]. The Asia Pacific market is forecasted to dominate the sales
-and some major companies of the industry have also began to enter the global market such as Volvo, BYD, and Proterra by
+and some major companies of the industry have also begun to enter the global market such as Volvo, BYD, and Proterra by
 2025 [cite:@deng-2021-survey-elect]. Much focus has been placed on the engineering of individual BEBs such as battery
 type, brake regenerative charging, optimal battery charging, and battery degradation [cite:@chen-2008-desig-grey;
 @abdollahi-2016-optim-batter; @kühne-2010-elect;@deng-2021-survey-elect]. The interest of route scheduling, charging
@@ -24,18 +24,32 @@ fleets, and optimizing the infrastructure are problems of more recent interest a
 relevant problems as EV/BEBs become more commonplace [cite:@hoke-2014-accoun-lithium; @sebastiani-2016-evaluat-elect;
 @wei-2018-optim-spatio].
 
-The proposed work to be presented intends to develop a robust BEB charging model by extending the work of the Position
-Allocation Problem's (PAP's) novel approach to scheduling Electric Vehicles (EVs). The PAP is modeled after the Berth
-Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and serviced
-[cite:@buhrkal-2011-model-discr; @imai-2001-dynam-berth; @frojan-2015-contin-berth;]. Because of the PAP's extremely
-close modeling methods to the BAP, literature from the BAP can (and will) provide support for the development of the PAP
-in this work. The BAP has been studied in literature since the 1990s and provides a depth of work to derive from
-[cite:@rodrigues-2022-berth]. The proposed work also intends to introduce a sense of robustness by allowing uncertainty
-in the arrival times of the BEBs. By "fuzzifying" the model, the "fuzzy" variables are allowed have upper and lower
-bounds for which the model can provide solutions for. The work to be introduced promises much potential for further
-research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated Annealing (SA)
-implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints with
-non-linear battery dynamics.
+The literature shows an interest in solving the problem of assigning BEBs to charging queues or optimizing their
+infrastracture [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
+@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. In fact, many works attempt to solve both problems simultanously
+barring some simplification whether it be only allowing chargers of a single type
+[cite:@he-2020-optim-charg;@tang-2019-robus-sched]. If multiple chargers are used, then one of each type is assigned at
+each location. Others have also assumed that a BEB shall recieve full charge upon each arrival
+[cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar]. Some works on the
+stochastic effects of energy consumption while on route for a BEB as well as trip times [cite:@zhou-2020-collab-optim;
+@bie-2021-optim-elect]. One other source, as far as the reseach for this work has shown, describes a method of producing
+a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to minimize
+over the total charger count [cite:@whitaker-2023-a-network].
+
+The work described in this paper is similar to the work in [cite:@whitaker-2023-a-network]; however provides an
+alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
+after the Berth Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and
+serviced [cite:@buhrkal-2011-model-discr; @imai-2001-dynam-berth; @frojan-2015-contin-berth;]. The PAP utilizes this
+notion to develop a model of assigning EVs to queue in ordered to be charged [cite:@qarebagh-2019-optim-sched].
+
+Because of the PAP's extremely close modeling methods to the BAP, literature from the BAP can (and will) provide support
+for the development of the PAP in this work. The BAP has been studied in literature since the 1990s and provides a depth
+of work to derive from [cite:@rodrigues-2022-berth]. The proposed work also intends to introduce a sense of robustness
+by allowing uncertainty in the arrival times of the BEBs. By "fuzzifying" the model, the "fuzzy" variables are allowed
+have upper and lower bounds for which the model can provide solutions for. The work to be introduced promises much
+potential for further research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated
+Annealing (SA) implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP)
+constraints with non-linear battery dynamics.
 
 In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
 statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
