@@ -1,4 +1,4 @@
-% Created 2023-09-26 Tue 03:51
+% Created 2023-09-27 Wed 02:42
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -164,7 +164,7 @@ novel approach based on the well studied BAP problem that provides a robust char
 monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
 
 \section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
-\label{sec:orge6da5ad}
+\label{sec:orgf4a925d}
 The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
 how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
 
@@ -207,7 +207,7 @@ problem is that the time of arrival is uncertain. A solution to this problem is 
 \end{enumerate}
 
 \section{Minimize the monetary cost of charging the BEBs}
-\label{sec:org9326eea}
+\label{sec:orgf2e06a7}
 
 \begin{enumerate}
 \item The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
@@ -277,8 +277,8 @@ and even fuzzy set theory has been applied to allow for more flexible schedules 
 
 An issue with the models introduced in the previous paragraph is the strict nature of the solutions produced. Fuzzy
 mathematical programming is useful in situations where imprecise parameters exist \cite{bello-2019-fuzzy-activ}.
-Previous work shows that there has been previous work that utilized a stochastic approach \cite{bie-2021-optim-elect,duan-2021-refor-mixed,tang-2019-robus-sched}. Work related to the BAP shows a Fully Fuzzy Linear Program (FFLP)
-implementation that utilized the Nasseri Method in converting the FFLP to its ``crisp'' counterpart
+Previous work has utilized a stochastic approach to model uncentainties \cite{bie-2021-optim-elect,duan-2021-refor-mixed,tang-2019-robus-sched}. Work related to the BAP shows a Fully Fuzzy Linear Program (FFLP)
+converts the FFLP to its ``crisp'' counterpart using one of various methods, a popular one being the Nasseri Method
 \cite{bello-2019-fuzzy-activ}; however, to the extent of the research done for this work, FFLP has not been applied to
 EV or BEB scheduling. FFLP provides a simple modeling solution that natually describes the innacuracies associated with
 arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
@@ -298,7 +298,6 @@ representations are interchangeable) is visualized in \autoref{fig:bap}, note th
 The x and y-axis represent time and queuing space, respectively. The figure discretizes the queuing space, but it may be
 continuous if desired as previously stated. The shaded rectangles' widths represent their respective allocated charge
 times, and their heights represent the physical space taken by each EV.
-
 
 \begin{subfigures}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -324,44 +323,8 @@ times, and their heights represent the physical space taken by each EV.
     \end{figure}
 \end{subfigures}
 
-
-Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
-It is assumed that there are a total of \(I\) visits to the station by \(B\) buses. There are a total of \(Q\) queues for the
-bus at the station. Let \(\mathcal{Z}\) be the set of integers, given a set of bus arrivals to a charging station \(i \in \{1,..., I\}
-= \Iset \subset \mathcal{Z}\) with a set of chargers to be queued \(q \in \{1,..., Q\} = \Qset \subset \mathcal{Z}\) where the bus is indicated by an
-identification number \(b \in \{1,..., B\} = \Bset \subset \mathcal{Z}\). Each bus arrival, \(i\), can be represented by the tuple: \(\visit\),
-in which the ordered elements denote the bus identification number, \(b_i\), arrival time to the station, \(a_i\), departure
-time from the station, \(e_i\), time to start charging, \(u_i\), time to stop charging, \(d_i\), the charger queue for the bus
-to be placed into, \(v_i\), and the initial State Of Charge (SOC), \(\eta_i\).
-
-It is assumed that each visit occurs over the time horizon \(T = \{t : t_0 \le t \le t_f \}\). The set of all arrivals is
-represented by the set \(\I = \{\forall i \in \Iset \; \visit: b_i, \xi_i \in \Bset, a_i, e_i, u_i, d_i \in T, v_i \in \Qset \}\). The
-concept of ``arrivals'' is derived from the PAP \cite{qarebagh-2019-optim-sched}. This idea of arrivals is useful in the
-sense that it is easy to describe the state of any arbitrary arrival; however, although a bus may revisit the station
-multiple times, the model assumes that each arrival is unique (i.e. no two bus arrives twice) therefore a system must be
-put in place to track each bus over each arrival. That is why a bus identifier is placed in the tuple, and in that way
-each bus can be tracked over each arrival.
-
-For each arrival a bus must be placed in a singular queue, \(v_i \in \Qset\). The charger \(q\) is assumed to be either a fast
-or slow charger or no charger at all. A bus is only allowed to visit one queue per visit; however, there may be multiple
-buses charging simultaneously. The amount of time the bus is allowed to charge is dictated by the scheduled arrival time
-and required departure time, \([a_i, e_i]\). Although a bus must be placed in a queue, if a bus does not require much
-charge, or none at all, partial charges, or no charging, is allowed. It is not allowed for the bus to charge over its
-battery capacity limit. The battery charging rate is modeled as linear, which remains accurate up to about an SOC of 80\%
-charge \cite{li-2016-batter-elect}.
-
-Each bus arrival, except for the last arrival for each bus, has a paired ``route'' that the bus must perform. This route,
-as one would expect, causes the bus to discharge by some certain amount. This paper assumes an average discharge over a
-period of in which an estimated discharge is calculated for each route, \(\Delta_i\). The charge supplied while at the station
-is required to supply enough charge for each route with an additional battery capacity percentage, \(m\), acting as a
-safety factor.
-
-The scheduler's task shall be to schedule the set of arrivals \(\I\) to fulfill the minimum charge requirements over the
-time horizon \(T\) as well as minimize the demand cost and consumption cost. The objective function and constraints are
-discussed in further detail in section \ref{sec:objective-function}.
-
 \section{Mixed Integer Linear Programming}
-\label{sec:orgde815b9}
+\label{sec:orgd4b3714}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -389,7 +352,7 @@ variable to value \cite{kaur-2016-introd-fuzzy}.
   \centering
   \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
   \caption{Example of rectangle packing problem.}
-  \label{fig:packexample}
+  \label{fig:bap}
 \end{figure}
 
 The BAP is a rectangle packing problem where a set of rectangles, \(\mathbb{O}\), are attempted to be optimally placed in
@@ -412,6 +375,16 @@ the height represents the amount of space the vessel requires on the berth. The 
 time that the vessel arrives and is available to be berthed. ``Berthing Time'' is the time the vessel is berthed and
 begins being serviced. ``Completion time'' represents the time at which the berthing space becomes available again.
 
+\section{Overwiew of the PAP}
+\label{sec:overview-of-the-pap}
+The BAP defines the foundation of the PAP; however, there are some differences in the way the variables are interpreted. For
+the \(i^{th}\) visit, starting service time is now the starting charge time, the berth location is now the charger queue
+for assignment, and the service time is now the elapsed charge time. There are also a few clarifying concepts about how
+the system is modeled. The PAP models the set of chargers as one continuous line; that is, the natural behavior of the
+PAP model is to allow vehicles to be queued anywhere along the ``charge strip'' \([0,S]\). Similarly, the charge times are
+continuous and can be placed anywhere on the time horizon, \([0,T]\), as long as the allocated times do not interfere with
+other scheduled charge times.
+
 \section{Fuzzy Preliminaries}
 \label{sec:fuzzy-preliminaries}
 This section introduces the concept of fuzzy set theory by providing some basic definitions. The theory is then built on
@@ -426,7 +399,7 @@ This section introduces the notion of fuzzy numbers and some basic definitions. 
 from \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:orgfac5e55}
+\label{sec:org752585a}
 Let's begin with what a fuzzy number is not. A classical (crisp) set is defined as a collection of elements \(x \in X\).
 Crisp sets are binary, either an element belongs in the set, or it does not \cite{zimmermann-2001-fuzzy-set}. For a
 fuzzy set, what is known as the characteristic function applies various degrees of membership for elements of a given
@@ -524,7 +497,7 @@ if \(m - \alpha\) is a real number.
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:org8dc12e9}
+\label{sec:orgc1d5ad4}
 If two triangular fuzzy numbers \(\tilde{a}_1 = \{a_1, a_2, a_3\}\) and \(\tilde{b}_1 = \{b_1, b_2, b_3\}\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -538,7 +511,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:org2086aa4}
+\label{sec:org1b0e6d9}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
@@ -1147,7 +1120,7 @@ detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, 
 \(i\), \(\tilde{\eta}_i\) will also become fuzzy values.
 
 \subsubsection{Objective Function}
-\label{sec:org6c8e1b2}
+\label{sec:org72cda53}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1165,7 +1138,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:orgaa7df30}
+\label{sec:org2defe8c}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1200,7 +1173,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:orgb721f76}
+\label{sec:orga562bf5}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1517,7 +1490,7 @@ next discrete time step, \(dt_h\). The final constraint \ref{seq:c17} is the dis
 \(v_i \in \Qset\) is active.
 
 \section{Method And Validation}
-\label{sec:orge12c92e}
+\label{sec:org01646b6}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -1619,7 +1592,7 @@ availability, \(\C\). The output of each generator affects the tuple of decision
 
 \begin{enumerate}
 \item Generator Input
-\label{sec:orge496894}
+\label{sec:orgd5b0d97}
 Each generator has the tuple input of \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index, \(\I_i\) is the tuple \(\visit\)
 (\ref{sec:problem-description}), that describes the set of visits, and \(\C\) is the set that describes the availability for
 all chargers \(q \in \Qset\). In other words, \(\C\) defines the set of times when the chargers are not being utilized or are
@@ -1643,7 +1616,7 @@ Let \(\Sol\) denote the tuple \(\Sol \equiv (i, \I, \C)\).
 \end{equation}
 
 \item Generator Output
-\label{sec:orga526b72}
+\label{sec:orgcd8f26b}
 The output is a modified visit, noted as \(\I_i'\). In actuality only the decision variables are being altered which is a
 subset of \(\I_i\). Let this subset be defined by \(x_i' \equiv (v_i, u_i, d_i) \subset \I_i\) which is the chosen queue, initial
 charge time, and detach time from the generator, \((v_i, u_i, d_i)\). The nature of SA implies that the generators have a
@@ -2163,7 +2136,7 @@ updates the current solution with the candidate solution depending on the fitnes
 \end{algorithm}
 
 \section{Project Schedule}
-\label{sec:org656ede0}
+\label{sec:org3ed55c4}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.

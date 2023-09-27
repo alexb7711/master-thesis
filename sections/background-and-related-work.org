@@ -87,7 +87,6 @@ The x and y-axis represent time and queuing space, respectively. The figure disc
 continuous if desired as previously stated. The shaded rectangles' widths represent their respective allocated charge
 times, and their heights represent the physical space taken by each EV.
 
-
 #+begin_src latex
 \begin{subfigures}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -114,9 +113,10 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 #+end_src
 
-
+#+begin_comment
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
 #+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
+#+end_comment
 
 ** Mixed Integer Linear Programming
 
@@ -132,11 +132,24 @@ Now that the problem has been defined conceptually, the problem shall be defined
     \centering
     \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
     \caption{Example of rectangle packing problem.}
-    \label{fig:packexample}
+    \label{fig:bap}
   \end{figure}
 #+end_export
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:overview-of-bap" :only-contents t
+
+** Overwiew of the PAP
+:PROPERTIES:
+:CUSTOM_ID: sec:overview-of-the-pap
+:END:
+
+The BAP defines the foundation of the PAP; however, there are some differences in the way the variables are interpreted. For
+the $i^{th}$ visit, starting service time is now the starting charge time, the berth location is now the charger queue
+for assignment, and the service time is now the elapsed charge time. There are also a few clarifying concepts about how
+the system is modeled. The PAP models the set of chargers as one continuous line; that is, the natural behavior of the
+PAP model is to allow vehicles to be queued anywhere along the "charge strip" $[0,S]$. Similarly, the charge times are
+continuous and can be placed anywhere on the time horizon, $[0,T]$, as long as the allocated times do not interfere with
+other scheduled charge times.
 
 ** Fuzzy Preliminaries
 :PROPERTIES:
