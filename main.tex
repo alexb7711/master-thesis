@@ -1,4 +1,4 @@
-% Created 2023-09-27 Wed 02:42
+% Created 2023-10-03 Tue 02:59
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -160,69 +160,31 @@ in \ref{sec:objectives} and the approach for each objective will be discussed in
 \label{sec:objectives}
 The field of BEB and EV research provides exciting many avenues and is continuing to gain traction in industry as BEBs
 and EVs replace their gasoline counterparts. The identified concentration of study stated in this work is to provide a
-novel approach based on the well studied BAP problem that provides a robust charging schedule for BEBs that minimizes
-monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
+novel approach that provides a robust charging schedule for BEBs that minimizes monetary costs for the user. This
+approach, being based off the PAP, provides a solid foundation from which this work derives. It does not encapsulate the
+problem perfectly and thus needs some modifications to accommodate the BEB model. The PAP does not account for the
+revisits of a BEB and therefore the SOC cannot be tracked. The model does not account for multiple charger types, and in
+fact models the charger as a single continuous bar. These accommodations must be accounted for and are included in the
+objectives for the proposed BEB charging plan below.
 
-\section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
-\label{sec:orgf4a925d}
+\section{Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health}
+\label{sec:org536fc5f}
 The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
 how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
 
 \begin{enumerate}
-\item Each arrival is modeled as a unique visit which is not how buses operate. The BEBs repeatedly visit the same stops,
-including the bus station where it is assumed they will be charged. The BEB must be given a unique identifier such
-that its SOC may be tracked over its many visits and even for the obvious reason of being able to identify and
-prescribe a BEB to their defined charging schedule.
+\item Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
 
-\item As alluded in the previous action, the method of tracking the SOC is also of interest so that the charging schedule
-provided does not result in undercharged BEBs being sent underway to perform their route, or on the opposite side, be
-over-charged. Furthermore, it is assumed that the BEBs initial SOC will be known at the beginning of the day, but the
-initial SOCs for subsequent visits will be known, and thus must be dynamically calculated. For accuracy of the SOC of
-the BEB while charging, non-linear battery dynamics will be assumed.
+\item Incorporate non-linear battery dynamics into the PAP model
 
-\item The PAP models the charging station as a continuous bar, which is not favorable for the BEB model. It is of interest
-to discretize the charging station to accommodate both slow and fast chargers. The slow chargers with be incentivized
-whereas the fast chargers will be utilized only when required. This will be done for battery health
-\cite{motapon-2020-gener-cycle}.
+\item Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
+incentivized for battery health.
 \end{enumerate}
 
-Note that for this objective, all the actions described have been researched and implemented bar the non-linear
-battery dynamics. The implementation of the above actions with linear battery dynamics will subsequently be referred to
-as the MILP-PAP.
-
-\section{Mathematically model the PAP to provide a robust solution}
+\section{Develop robust charger allocation capabilities to account for BEB arrival time uncertainties}
 \label{sec:obj-math-model-robust}
 \begin{enumerate}
-\item The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
-problem arises when the lower bound specified does not allow for a solution to be generated because the minimum SOC
-percentage constraint has been violated. It is proposed to introduce a penalty method for the lower bound in an
-attempt to relax the constraint and create a larger solution space.
-
-\item One of the drawbacks of the MILP implementation is the strict solution that is generated. Suppose that a solution was
-generated, but due to weather conditions a bus arrives at the station five minutes late. The generated solution is no
-longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station.
-To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
-majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
-problem is that the time of arrival is uncertain. A solution to this problem is to fuzzify the MILP model.
-\end{enumerate}
-
-\section{Minimize the monetary cost of charging the BEBs}
-\label{sec:orgf2e06a7}
-
-\begin{enumerate}
-\item The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
-in a reduction in monetary cost as it is cheaper in purchase and actively use slow chargers as they draw less
-electricity \cite{he-2020-optim-charg}.
-
-\item Another method of minimizing the monetary cost is to minimize the consumption cost. That is, minimize the total
-amount of energy consumed by the system. Furthermore, the cost of electricity is not constant throughout the day,
-thus it would be of interest to allow accommodations for peak hours of electricity use to more aggressively reduce
-energy use.
-
-\item Electricity companies also calculate energy use based on a value known as the peak 15. The peak 15 defines a method
-of charging a base rate for electricity usage and adjusting based on power use. The power usage is monitored and averaged
-over 15 minutes increments. If the average energy use exceeds a predefined threshold, the rate for electricity will
-increase proportional to the new average. The cost is known as the demand cost and is of interest to minimize.
+\item Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times.
 \end{enumerate}
 \chapter{BACKGROUND AND RELATED WORK}
 \label{sec:background-and-related-work}
@@ -324,7 +286,7 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgd4b3714}
+\label{sec:orga00b0d5}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -395,17 +357,45 @@ discussed.
 
 \subsection{Fuzzy Sets Theory}
 \label{sec:fuzzy-sets-theory}
-This section introduces the notion of fuzzy numbers and some basic definitions. Concepts from this section are pulled
-from \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
+This section introduces the notion of fuzzy numbers and some basic definitions. Concepts from this section are
+referenced from
+\cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:org752585a}
-Let's begin with what a fuzzy number is not. A classical (crisp) set is defined as a collection of elements \(x \in X\).
-Crisp sets are binary, either an element belongs in the set, or it does not \cite{zimmermann-2001-fuzzy-set}. For a
-fuzzy set, what is known as the characteristic function applies various degrees of membership for elements of a given
-set \cite{zimmermann-2001-fuzzy-set}.
+\label{sec:org80e99ae}
+A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
+is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
+not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
+degrees of membership for elements of a given set \cite{zimmermann-2001-fuzzy-set}. The membership of a value in a
+fuzzy set may vary may differ among other characteristic functions, but their intended purpose remains the same. The
+membership function is said to be normalized if \(\text{sup}_x \mu_{\tilde{A}}(x) = 1\). As an example,
+\ref{fig:lr-fuzzy-characteristic} demonstrates a membership function of an LR flat fuzzy number. For a formal definition, consider
+the \ref{def:membership-function}:
+
+\begin{subfigures}
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % LR Characteristic
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{img/lr-flat-fuzzy}
+        \caption{Example of a characteristic function for an LR flat fuzzy number. The line segments $[a,b)$ and $(c,d]$
+          may be any function that satisfies \ref{def:reference-function}.}
+        \label{fig:lr-fuzzy-characteristic}
+    \end{figure}
+    \hfill
+
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % Triangular characteristic
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{img/trang-characteristic}
+        \caption{Example plot of a characteristic function for a triangular fuzzy number.}
+        \label{fig:triang-characteristic}
+    \end{figure}
+\end{subfigures}
 
 \begin{definition}
+\label{def:membership-function}
 Let \(X\) be a collection of objects (often called the universe of discourse \cite{bello-2019-fuzzy-activ}). If \(X\) is denoted
 generically by \(x\), then a fuzzy set \(\tilde{A}\) in \(X\) is a set of ordered pairs as shown in \ref{eq:membership-function}.
 
@@ -420,27 +410,66 @@ generically by \(x\), then a fuzzy set \(\tilde{A}\) in \(X\) is a set of ordere
 membership of \(x\) in \(\tilde{A}\).
 \end{definition}
 
-This paper will use fuzzy sets defined over the set of real numbers \(\mathbb{R}\). There are multiple ways to represent fuzzy
-numbers over the set of real numbers. The representation is defined by membership function which describes the shape of
-the fuzzy number. As an example, consider the following definition.
+The shape of a fuzzy number type is defined by membership function. The general definition of fuzzy numbers is known as
+LR fuzzy numbers \cite{kaur-2016-introd-fuzzy,zimmermann-2001-fuzzy-set}. \ref{def:reference-function} describes the
+property that an \(L\) and \(R\) functions must have. The \(L\) function describes the properties that the left portion of the
+fuzzy number has, and the \(R\) function describes the properties of the right.
 
 \begin{definition}
-A fuzzy number that is represented by \(\tilde{A} = (a,b,c)\) is said to be triangular if its membership function is
-defined as \ref{eq:triangular-fuzzy-number}.
+\label{def:reference-function}
+A function \(L:[0,\infty) \rightarrow [0,1]\) (or \(R:[0,\infty) \rightarrow [0,1]\)) is said to be reference a function of the fuzzy number if and only
+if
+
+\begin{enumerate}
+\item \(L(0) = 1\) (or \(R(0) = 1\))
+\item \(L\) (or \(R\)) is non-increasing on \([0,\infty)\)
+\end{enumerate}
+\end{definition}
+
+The definition of an LR fuzzy number may now be developed given the basis of what properties an \(L\) (or \(R\)) function
+must have. Consider \ref{def:lr-flat}-\ref{def:lr-non-negative}.
+
+\begin{definition}
+\label{def:lr-flat} A fuzzy number \(\tilde{A}\) defined on the set of real numbers, \(\mathbb{R}\), denoted as the tuple
+\((m,n,\alpha,\beta)_{LR}\), is said to be an \(LR\) flat fuzzy number if its membership function \(\mu_{\tilde{A}}(x)\) is defined as
+shown in \ref{eq:lr-flat-fuzzy}. Note that the underscore in the tuple, \((\cdot)_{LR}\) is used to indicate that the tuple is for
+an LR fuzzy number.
+
+\begin{equation}
+\label{eq:lr-flat-fuzzy}
+\mu_{\tilde{A}}(x) =
+\begin{cases}
+L(\frac{m-x}{\alpha}) & x \le m, \alpha > 0 \\
+R(\frac{m-n}{\beta}) & x \ge m, \beta > 0 \\
+1                & m \le x \le n
+\end{cases}
+\end{equation}
+\end{definition}
+
+\begin{definition}
+\label{def:lr-non-negative}
+An \(LR\) flat fuzzy number \(\tilde{A} = (m,n,\alpha,\beta)_{LR}\) is said to be a non-negative \(LR\) flat fuzzy number if and only
+if \(m-\alpha \ge 0\) and is said to be non-positive \(LR\) flat fuzzy number if and only if \(m - \alpha \le 0\) is a real number.
+\end{definition}
+
+A simplification to the LR flat fuzzy number is the triangular fuzzy number, which is what will be utilized in this work
+(\ref{fig:triang-characteristic}). The triangular fuzzy numbers shall also be defined over the set of real numbers \(\mathbb{R}\). Consider
+\ref{def:triangular-fuzzy-number} - \ref{def:triangular-nonnegative}
+
+\begin{definition}
+\label{def:triangular-fuzzy-number} A fuzzy number that is represented by \(\tilde{A} = (a,b,c)\) is said to be triangular
+if its membership function is defined as \ref{eq:triangular-fuzzy-number}. \ref{fig:triang-characteristic} depicts a visual
+representation of a triangular fuzzy number.
 
 \begin{equation}
 \label{eq:triangular-fuzzy-number}
   \mu_{\tilde{A}}(x) =
   \begin{cases}
     \frac{(x-a)}{(b-a)} & a \le x \le b \\
-    \frac{(d-x)}{(d-b)} & c \le x \le d \\
+    \frac{(c-x)}{(c-b)} & c \le x \le d \\
     0                   & \text{otherwise}
   \end{cases}
 \end{equation}
-\end{definition}
-
-\begin{definition}
-The fuzzy set \(\tilde{A}\) in \(\mathbb{R}\) is normal if \(\text{max}_x \mu_{\tilde{A}}(x) = 1\).
 \end{definition}
 
 \begin{definition}
@@ -452,53 +481,17 @@ A fuzzy set \(\tilde{A}\) in \(\mathbb{R}\) is convex if and only if the members
 \end{definition}
 
 \begin{definition}
-A fuzzy number is a normal convex fuzzy set in \(\mathbb{R}\).
+A fuzzy number is a normal and convex fuzzy set in \(\mathbb{R}\).
 \end{definition}
 
 \begin{definition}
+\label{def:triangular-nonnegative}
 The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
 \end{definition}
 
-A more general definition of fuzzy numbers is known as LR fuzzy numbers
-\cite{kaur-2016-introd-fuzzy,zimmermann-2001-fuzzy-set}.
-
-\begin{definition}
-A function \(L:[0,\infty] \rightarrow [0,1]\) (or \(R:[0,\infty] \rightarrow [0,1]\)) is said to be reference a function of the fuzzy number if and only
-if
-
-\begin{enumerate}
-\item \(L(0) = 1\) (or \(R(0) = 1\))
-\item \(L\) (or \(R\)) is non-increasing on \([0,\infty)\)
-\end{enumerate}
-\end{definition}
-
-\begin{definition}
-A fuzzy number \(\tilde{A}\) defined on the set of real numbers, \(\mathbb{R}\), denoted as \((m,n,\alpha,\beta)_{LR}\), is said to be an \(LR\)
-flat fuzzy number if its membership function \(\mu_{\tilde{A}}(x)\) is defined as
-
-\begin{equation}
-\mu_{\tilde{A}}(x) =
-\begin{cases}
-L(\frac{m-x}{\alpha}) & x \le m, \alpha > 0 \\
-R(\frac{m-n}{\beta}) & x \ge m, \beta > 0 \\
-1                & m \le x \le n
-\end{cases}
-\end{equation}
-\end{definition}
-
-\begin{definition}
-An \(LR\) flat fuzzy number \(\tilde{A} = (m,n,\alpha,\beta)_{LR}\) is said to be a non-negative \(LR\) flat fuzzy number if and only
-if \(m-\alpha \ge 0\) and is said to be non-positive \(LR\) flat fuzzy number if and only if \(m - \alpha \le 0\) is a real number.
-\end{definition}
-
-\begin{definition}
-An \(LR\) flat fuzzy number \(\tilde{A} = (m,n,\alpha,\beta)_{LR}\) is said to be an unrestricted \(LR\) flat fuzzy number if and only
-if \(m - \alpha\) is a real number.
-\end{definition}
-
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:orgc1d5ad4}
-If two triangular fuzzy numbers \(\tilde{a}_1 = \{a_1, a_2, a_3\}\) and \(\tilde{b}_1 = \{b_1, b_2, b_3\}\) are nonnegative
+\label{sec:org7caf6fb}
+If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
 \begin{equation}
@@ -511,14 +504,15 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:org1b0e6d9}
+\label{sec:org71d34f7}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
 rationality, and robustness \cite{jimenez-2007-linear-progr,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. These
 methods are commonly known as ranking functions or ordering functions
-\cite{bello-2019-fuzzy-activ,das-2016-mathem-model,kaur-2016-introd-fuzzy}. Commonly, including in this work, the First
-index of Yager \cite{yager-1981-proced-order} is used (\ref{eq:first-index-yager}).
+\cite{bello-2019-fuzzy-activ,das-2016-mathem-model,kaur-2016-introd-fuzzy}. Commonly, including in this work, the
+First index of Yager \cite{yager-1981-proced-order} is used. Let a fuzzy number be represented as \(\tilde{A} =
+(a_1,a_2,...)\), then the First index of Yager is defined as \ref{eq:first-index-yager}.
 
 \begin{equation}
 \label{eq:first-index-yager}
@@ -531,20 +525,22 @@ average of the values in the fuzzy number. As a result, \(A \le B\) when \(\math
 
 \subsection{Fully Fuzzy Linear Programming}
 \label{sec:fully-fuzzy-linear-programming}
-Much like the MILP, Fully Fuzzy Linear Programs (FFLP), it is a class of constrained optimization in which one seeks to
-find a set of continuous variables that either maximizes or minimizes an objective function, \(J\), while satisfying a set
-of constraints. The key difference in FFLP is that it is designed to accommodate imprecise information
-\cite{bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. In FFLP, the parameters and decision variables are fuzzy and
-linear. A general FFLP is represented as shown in \ref{eq:general-fflp}. The subscripts \(\cdot_e\), \(\cdot_l\), and \(\cdot_g\) indicate to
-equality, less than, and greater than constraints, respectively.
+Much like the Linear Programs (LP), Fully Fuzzy Linear Programs (FFLP), it is a class of constrained optimization in
+which one seeks to find a set of continuous variables that either maximizes or minimizes an objective function, \(J\),
+while satisfying a set of constraints. The key difference in FFLP is that it is designed to accommodate imprecise
+information \cite{bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. In FFLP, the parameters and decision variables are
+fuzzy and linear. A general FFLP is represented as shown in \ref{eq:general-fflp}. The subscripts \(\cdot_e\), \(\cdot_l\), and \(\cdot_g\)
+indicate to equality, less than, and greater than constraints, respectively. As an example, the notation
+\(\tilde{a}_{ej}\) is read as the \(e^{\text{th}}\) equality constraint for the \(j^{\text{th}}\) value in the fuzzy number
+tuple for the fuzzy number \(\tilde{a}\). All variables besides \(\tilde{X} = (x_1, x_2, ...)\) are input variables.
 
 \begin{equation}
 \label{eq:general-fflp}
 \begin{array}{lll}
-\text{max}   & J = \sum_j \tilde{C}_j \otimes \tilde{X}_j              &                 \\
-\text{subject to} & \sum_j \tilde{a}_{ej} \otimes \tilde{x}_j = \tilde{b}_e &  \forall e = 1,2,3,... \\
-                  & \sum_j \tilde{a}_{lj} \otimes \tilde{x}_j \le \tilde{b}_l &  \forall l = 1,2,3,... \\
-                  & \sum_j \tilde{a}_{gj} \otimes \tilde{x}_j \ge \tilde{b}_l &  \forall g = 1,2,3,...
+\underset{{\tilde{x}}}{\text{max}} & J = \sum_j \tilde{C}_j \otimes \tilde{X}_j              &                 \\
+\text{subject to}                  & \sum_j \tilde{a}_{ej} \otimes \tilde{x}_j = \tilde{b}_e &  \forall e = 1,2,3,... \\
+                                   & \sum_j \tilde{a}_{lj} \otimes \tilde{x}_j \le \tilde{b}_l &  \forall l = 1,2,3,... \\
+                                   & \sum_j \tilde{a}_{gj} \otimes \tilde{x}_j \ge \tilde{b}_l &  \forall g = 1,2,3,...
 \end{array}
 \end{equation}
 
@@ -558,12 +554,14 @@ definition of fuzzy set multiplication defined in \ref{eq:fuzzy-arithmetic}. The
 exponent rather than the subscript to clearly distinguish between the indexed value in the fuzzy number and the
 constraint index (i.e. \(\tilde{A} = (a^1,a^2,a^3)\)). Furthermore, it is assumed that the fuzzy numbers are nonnegative.
 Although the following equation can be written in terms of general nonnegative LR fuzzy numbers, the parameters and
-decision variables are written in terms of nonnegative triangular fuzzy numbers.
+decision variables are written in terms of nonnegative triangular fuzzy numbers. Consider the equality constraint in
+\ref{eq:general-fflp}. For each equality constraint there will be a lower, middle, and upper bound to the constraint. That
+constitutes three equality constraints. \ref{eq:nasseri-solution} expands each constraint.
 
 \begin{equation}
 \label{eq:nasseri-solution}
 \begin{array}{lclc}
-\text{max}   & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3)(x_j^1,x_j^2,x_j^3)\Big) &\\
+\underset{{\tilde{x}}}{\text{max}}   & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3)(x_j^1,x_j^2,x_j^3)\Big) &\\
 \text{subject to} & \sum_j a_{ej}^1 x_j^1 = b_e^1 & & \forall e = 1,2,3,... \\
                   & \sum_j a_{lj}^1 x_j^1 \le b_l^1 & & \forall l = 1,2,3,... \\
                   & \sum_j a_{gj}^1 x_j^1 \ge b_g^1  & & \forall g = 1,2,3,... \\
@@ -583,7 +581,7 @@ To be more succinct, the FFLP can also equivalently be written as \ref{eq:nasser
 \begin{equation}
 \label{eq:nasseri-solution-condensed}
 \begin{array}{llc}
-\text{max}   & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3) \otimes (x_j^1,x_j^2,x_j^3)\Big) &\\
+\underset{{\tilde{x}}}{\text{max}} & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3) \otimes (x_j^1,x_j^2,x_j^3)\Big) &\\
 \text{subject to} & \sum_j a_{ej}^k x_j^k = b_e^k &  \forall e = 1,2,3,... \\
                   & \sum_j a_{lj}^k x_j^k \le b_l^k &  \forall l = 1,2,3,... \\
                   & \sum_j a_{gj}^k x_j^k \ge b_g^k  &  \forall g = 1,2,3,... \\
@@ -605,7 +603,7 @@ problems with inequality constraints having LR flat fuzzy numbers. Given the FFL
 \begin{equation}
 \label{eq:kumar-kaurs-fuzzy}
 \begin{array}{lll}
-\text{max}   & J = \sum_j \tilde{C}_j \otimes \tilde{X}_j              &                                              \\
+\underset{{\tilde{x}}}{\text{max}} & J = \sum_j \tilde{C}_j \otimes \tilde{X}_j              &                                              \\
 \text{subject to} & \sum_j \tilde{a}_{ej} \otimes \tilde{x}_j               = \tilde{b}_e & \forall e = 1,2,3,...                \\
                   & \sum_j \tilde{a}_{lj} \otimes \tilde{x}_j \oplus \tilde{S}_l = \tilde{b}_l \oplus \tilde{S'}_l & \forall l = 1,2,3,... \\
                   & \sum_j \tilde{a}_{gj} \otimes \tilde{x}_j \oplus \tilde{S}_g = \tilde{b}_g \oplus \tilde{S'}_g & \forall g = 1,2,3,... \\
@@ -620,7 +618,7 @@ Expanding the set of equations and using the condensed notation in \ref{eq:nasse
 \begin{equation}
 \label{eq:kumar-kaurs-crisp}
 \begin{array}{lllc}
-\text{max}    & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3) \otimes (x_j^1,x_j^2,x_j^3)\Big) &                             &                                          \\
+\underset{{\tilde{x}}}{\text{max}} & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3) \otimes (x_j^1,x_j^2,x_j^3)\Big) &                             &                                          \\
 \text{subject to}  & \sum_j a_{ej}^k x_j^k = b_e^k                                &                                &   \forall e = 1,2,3,...        \\
                    & \sum_j a_{lj}^k x_j^k s_l^k \le s_l^{'k} b_l^k                 &                                &   \forall l = 1,2,3,...       \\
                    & \sum_j a_{gj}^k x_j^k s_g^k \ge s_l^{'k} b_l^k                 &                                &   \forall g = 1,2,3,...      \\
@@ -660,9 +658,9 @@ represents the quay of interest.
 \end{array}
 \end{equation}
 
-One may note the similarities to the previously presented BAB and PAP models in \ref{eq:fuzzy-bap}. It is, however, not
-defined in a way useful for the purposes of this paper yet. The adaptation of the Fuzzy BAP (FBAP) to the Fuzzy PAP
-(FPAP) is discussed next in \ref{sec:the-fuzzy-pap}. An example solution of \ref{eq:fuzzy-bap} for 2 quays, provided by
+One may note the similarities to the previously presented BAB and PAP models in \ref{eq:fuzzy-bap}. It has yet been defined
+in a way useful for the purposes for this work. The adaptation of the Fuzzy BAP (FBAP) to the Fuzzy PAP (FPAP) is
+discussed next in \ref{sec:the-fuzzy-pap}. An example solution of \ref{eq:fuzzy-bap} for 2 quays, provided by
 \cite{bello-2019-fuzzy-activ}, is shown in \ref{fig:bap-example-solution}. The figure represents the robustness of the fuzzy
 berthing plan.
 
@@ -676,7 +674,7 @@ small triangle.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.9\linewidth]{img/bap-example-fuzzy-solution.png}
+\includegraphics[width=.9\linewidth]{../img/bap-example-fuzzy-solution.png}
 \caption{\label{fig:bap-example-solution}Example solution of a fuzzy BAP model over multiple quays. The parallelograms represent the fuzzy solution visually by depicting the lower and upper bounds for the arrival and departure times with the vertial sloped lines. The yellow filled squares represent the average crisp solution.}
 \end{figure}
 \chapter{APPROACH}
@@ -1106,9 +1104,7 @@ the propagation mechanics remain untouched while the underlying battery dynamics
 In this section, the actions for the objective of providing a robust solution are discussed. The actions will be
 completed by introducing and formulating a Fully Fuzzy Mixed Linear Integer Program (FFMILP). The basics of fuzzy set
 theory is introduced as well as an introductory discussion of Fully Fuzzy Linear Programming (FFLP). A model for the
-Fuzzy BAP is derived and then interpreted into the Fuzzy PAP. The method of implementing the penalty function will be
-described early on in \ref{sec:minimize-monetary-cost} as it is a part of the objective function. While logically, the action
-fits within the current objective, the discussion of the mathematics is more coherent if discussed together.
+Fuzzy BAP is derived and then interpreted into the Fuzzy PAP.
 
 \subsection{The Fuzzy PAP}
 \label{sec:the-fuzzy-pap}
@@ -1120,7 +1116,7 @@ detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, 
 \(i\), \(\tilde{\eta}_i\) will also become fuzzy values.
 
 \subsubsection{Objective Function}
-\label{sec:org72cda53}
+\label{sec:org6dbbf94}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1138,7 +1134,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org2defe8c}
+\label{sec:org72ed64a}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1173,7 +1169,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:orga562bf5}
+\label{sec:org9234c0a}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1490,7 +1486,7 @@ next discrete time step, \(dt_h\). The final constraint \ref{seq:c17} is the dis
 \(v_i \in \Qset\) is active.
 
 \section{Method And Validation}
-\label{sec:org01646b6}
+\label{sec:org0062fbb}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -1592,7 +1588,7 @@ availability, \(\C\). The output of each generator affects the tuple of decision
 
 \begin{enumerate}
 \item Generator Input
-\label{sec:orgd5b0d97}
+\label{sec:orga6f8adf}
 Each generator has the tuple input of \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index, \(\I_i\) is the tuple \(\visit\)
 (\ref{sec:problem-description}), that describes the set of visits, and \(\C\) is the set that describes the availability for
 all chargers \(q \in \Qset\). In other words, \(\C\) defines the set of times when the chargers are not being utilized or are
@@ -1616,7 +1612,7 @@ Let \(\Sol\) denote the tuple \(\Sol \equiv (i, \I, \C)\).
 \end{equation}
 
 \item Generator Output
-\label{sec:orgcd8f26b}
+\label{sec:orgf01f2da}
 The output is a modified visit, noted as \(\I_i'\). In actuality only the decision variables are being altered which is a
 subset of \(\I_i\). Let this subset be defined by \(x_i' \equiv (v_i, u_i, d_i) \subset \I_i\) which is the chosen queue, initial
 charge time, and detach time from the generator, \((v_i, u_i, d_i)\). The nature of SA implies that the generators have a
@@ -2136,7 +2132,7 @@ updates the current solution with the candidate solution depending on the fitnes
 \end{algorithm}
 
 \section{Project Schedule}
-\label{sec:org3ed55c4}
+\label{sec:org5d8d191}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.

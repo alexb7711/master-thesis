@@ -92,9 +92,13 @@ the propagation mechanics remain untouched while the underlying battery dynamics
 In this section, the actions for the objective of providing a robust solution are discussed. The actions will be
 completed by introducing and formulating a Fully Fuzzy Mixed Linear Integer Program (FFMILP). The basics of fuzzy set
 theory is introduced as well as an introductory discussion of Fully Fuzzy Linear Programming (FFLP). A model for the
-Fuzzy BAP is derived and then interpreted into the Fuzzy PAP. The method of implementing the penalty function will be
+Fuzzy BAP is derived and then interpreted into the Fuzzy PAP.
+
+#+begin_comment
+The method of implementing the penalty function will be
 described early on in [[#sec:minimize-monetary-cost]] as it is a part of the objective function. While logically, the action
 fits within the current objective, the discussion of the mathematics is more coherent if discussed together.
+#+end_comment
 
 *** The Fuzzy PAP
 :PROPERTIES:

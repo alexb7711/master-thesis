@@ -5,13 +5,23 @@
 
 The field of BEB and EV research provides exciting many avenues and is continuing to gain traction in industry as BEBs
 and EVs replace their gasoline counterparts. The identified concentration of study stated in this work is to provide a
-novel approach based on the well studied BAP problem that provides a robust charging schedule for BEBs that minimizes
-monetary costs for the user. The objectives proposed for the BEB charging plan research includes what follows.
+novel approach that provides a robust charging schedule for BEBs that minimizes monetary costs for the user. This
+approach, being based off the PAP, provides a solid foundation from which this work derives. It does not encapsulate the
+problem perfectly and thus needs some modifications to accommodate the BEB model. The PAP does not account for the
+revisits of a BEB and therefore the SOC cannot be tracked. The model does not account for multiple charger types, and in
+fact models the charger as a single continuous bar. These accommodations must be accounted for and are included in the
+objectives for the proposed BEB charging plan below.
 
-** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
-The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
-how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
+** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 
+1) Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
+
+2) Incorporate non-linear battery dynamics into the PAP model
+
+3) Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
+   incentivized for battery health.
+
+#+begin_comment
 1) Each arrival is modeled as a unique visit which is not how buses operate. The BEBs repeatedly visit the same stops,
    including the bus station where it is assumed they will be charged. The BEB must be given a unique identifier such
    that its SOC may be tracked over its many visits and even for the obvious reason of being able to identify and
@@ -31,12 +41,17 @@ how the BAP is formulated. This modeling does not align with the BEBs for the fo
 Note that for this objective, all the actions described have been researched and implemented bar the non-linear
 battery dynamics. The implementation of the above actions with linear battery dynamics will subsequently be referred to
 as the MILP-PAP.
+#+end_comment
 
-** Mathematically model the PAP to provide a robust solution
+** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties
 :PROPERTIES:
 :CUSTOM_ID: sec:obj-math-model-robust
 :END:
 
+1) Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be
+   produced, but with added flexibility to its application.
+
+#+begin_comment
 1) The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
    problem arises when the lower bound specified does not allow for a solution to be generated because the minimum SOC
    percentage constraint has been violated. It is proposed to introduce a penalty method for the lower bound in an
@@ -48,8 +63,9 @@ as the MILP-PAP.
    To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
    majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
    problem is that the time of arrival is uncertain. A solution to this problem is to fuzzify the MILP model.
+#+end_comment
 
-** Minimize the monetary cost of charging the BEBs
+** Minimize the monetary cost of charging the BEBs :noexport:
 
 1) The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
    in a reduction in monetary cost as it is cheaper in purchase and actively use slow chargers as they draw less
@@ -64,3 +80,4 @@ as the MILP-PAP.
    of charging a base rate for electricity usage and adjusting based on power use. The power usage is monitored and averaged
    over 15 minutes increments. If the average energy use exceeds a predefined threshold, the rate for electricity will
    increase proportional to the new average. The cost is known as the demand cost and is of interest to minimize.
+#+end_comment
