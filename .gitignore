@@ -1,7 +1,9 @@
+*.aux
 *.bbl
 *.pdf
 *.lof
 *.lot
+*.log
 *.fls
 
 .task/
