@@ -16,9 +16,7 @@ objectives for the proposed BEB charging plan below.
 
 1) Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
 
-2) Incorporate non-linear battery dynamics into the PAP model
-
-3) Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
+2) Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
    incentivized for battery health.
 
 #+begin_comment
@@ -43,13 +41,15 @@ battery dynamics. The implementation of the above actions with linear battery dy
 as the MILP-PAP.
 #+end_comment
 
-** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties
+** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
 :PROPERTIES:
 :CUSTOM_ID: sec:obj-math-model-robust
 :END:
 
 1) Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be
    produced, but with added flexibility to its application.
+
+2) Incorporate non-linear battery dynamics into the FFLP PAP model
 
 #+begin_comment
 1) The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A

@@ -1,4 +1,4 @@
-% Created 2023-10-03 Tue 02:59
+% Created 2023-10-04 Wed 01:17
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -168,23 +168,22 @@ fact models the charger as a single continuous bar. These accommodations must be
 objectives for the proposed BEB charging plan below.
 
 \section{Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health}
-\label{sec:org536fc5f}
-The PAP, as previously described, was designed for a predefined stream of EVs with a known SOC upon arrival, much like
-how the BAP is formulated. This modeling does not align with the BEBs for the following reasons and must be addressed:
+\label{sec:org1ce1fb4}
 
 \begin{enumerate}
 \item Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
-
-\item Incorporate non-linear battery dynamics into the PAP model
 
 \item Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
 incentivized for battery health.
 \end{enumerate}
 
-\section{Develop robust charger allocation capabilities to account for BEB arrival time uncertainties}
+\section{Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics}
 \label{sec:obj-math-model-robust}
 \begin{enumerate}
-\item Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times.
+\item Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be
+produced, but with added flexibility to its application.
+
+\item Incorporate non-linear battery dynamics into the FFLP PAP model
 \end{enumerate}
 \chapter{BACKGROUND AND RELATED WORK}
 \label{sec:background-and-related-work}
@@ -286,7 +285,7 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orga00b0d5}
+\label{sec:org534558a}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -362,7 +361,7 @@ referenced from
 \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:org80e99ae}
+\label{sec:org153a315}
 A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
 is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
 not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
@@ -490,7 +489,7 @@ The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:org7caf6fb}
+\label{sec:org843b72a}
 If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -504,7 +503,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:org71d34f7}
+\label{sec:org539726f}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
@@ -672,14 +671,14 @@ relationship of the fuzzy departure/arrival times of the vessels. For example, i
 to allow a late berthing and servicing. On the graph, that would represent a berthing time located somewhere above the
 small triangle.
 
-\begin{figure}[htbp]
+\begin{figure}[h]
 \centering
-\includegraphics[width=.9\linewidth]{../img/bap-example-fuzzy-solution.png}
+\includegraphics[width=0.7\textwidth]{./img/bap-example-fuzzy-solution.png}
 \caption{\label{fig:bap-example-solution}Example solution of a fuzzy BAP model over multiple quays. The parallelograms represent the fuzzy solution visually by depicting the lower and upper bounds for the arrival and departure times with the vertial sloped lines. The yellow filled squares represent the average crisp solution.}
 \end{figure}
 \chapter{APPROACH}
 \label{sec:approach}
-\section{Mathematically model the PAP to optimally assign BEBs to station with unknown charging times}
+\section{Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health}
 \label{sec:math-model-pap}
 This section introduces the actions and formulations associated with the objective described in \ref{sec:objectives}. This
 section addresses the actions by deriving a method of identifying buses for subsequent visits, utilizing that to
@@ -1099,7 +1098,7 @@ The equation is developed by using exact discretization \cite{hespanha-2018-line
 indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and the subsequent visit is indicated by \(\eta_{\xi_i}\). Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
-\section{Mathematically model the PAP to provide a robust solution}
+\section{Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics}
 \label{sec:math-model-robust}
 In this section, the actions for the objective of providing a robust solution are discussed. The actions will be
 completed by introducing and formulating a Fully Fuzzy Mixed Linear Integer Program (FFMILP). The basics of fuzzy set
@@ -1116,7 +1115,7 @@ detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, 
 \(i\), \(\tilde{\eta}_i\) will also become fuzzy values.
 
 \subsubsection{Objective Function}
-\label{sec:org6dbbf94}
+\label{sec:orgd419652}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1134,7 +1133,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org72ed64a}
+\label{sec:org6cc1067}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1169,7 +1168,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:org9234c0a}
+\label{sec:org768672c}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1484,678 +1483,6 @@ and \ref{seq:c14} ensure that the initial charge time for visit \(i\), \(u_i\), 
 h\), being checked. Similarly, \ref{seq:c15} and \ref{seq:c16} ensure that the final charge time, \(d_i\), is less than the
 next discrete time step, \(dt_h\). The final constraint \ref{seq:c17} is the discrete representation of whether charger
 \(v_i \in \Qset\) is active.
-
-\section{Method And Validation}
-\label{sec:org0062fbb}
-The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
-been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
-packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
-methods for ``addressing difficult black global optimization problems'' \cite{delahaye-2019-simul}. Note that the SA-PAP
-implementation has begun. At the moment the main development that has been completed is: project structure/design,
-implementation of the skeletal framework, code for importing route data, and some work has been done on the generating
-functions. As previously stated, the MILP-PAP has been implemented and tested. Thus, the MILP-PAP shall be used as a
-baseline measure to compare the results of the proposed work. An introduction to Simulated Annealing as well as the
-proposed method of implementation will subsequently be outlined and discussed.
-
-\subsection{Simulated Annealing}
-\label{sec:simulated-annealing}
-SA is an exploitation oriented, single-solution based (as compared to population based) metaheuristic approach in which
-its main advantage is its simplicity both theoretically and in its implementation as well its inherit ability to
-overcome nonlinearities \cite{gendreau-2018-handb-metah,radosavljevic-2018-metah-optim}. This model is named after its
-analogized process where a crystalline solid is heated then allowed to cool very slowly until it achieves its most
-regular possible crystal lattice configuration \cite{henderson-1989-theor-pract}. There are five key components to SA:
-initial temperature, cooling schedule (temperature function), generation mechanism, acceptance criteria, local search
-iteration count (temperature change counter) \cite{keller-2019-multi-objec}.
-
-\subsubsection{Cooling Equation (Experimental)}
-\label{cooling-equation-experimental}
-The initial temperature and cooling schedule are used to regulate the speed at which the solution attempts to converge
-to the best known solution. When the temperature is high, SA encourages exploration. As it cools down (in accordance to
-the cooling schedule), it begins to encourage local exploitation of the solution
-\cite{rutenbar-1989-simul-anneal-algor,henderson-1989-theor-pract}]. There are three basic types of cooling equations
-as shown in \ref{fig:cool} \cite{keller-2019-multi-objec}. The different types merely dictate the rate at which the algorithm
-progressively disallows exploration. A linear cooling schedule is defined by \ref{eq:cool0}.
-
-\begin{equation}
-\label{eq:cool0}
-\Tau[n] = \Tau[n-1] - \Delta_0
-\end{equation}
-
-with \(\Tau[0] = \Tau_0\) and \(\Delta_0 = 1/2\; C^\circ\) in \ref{fig:cool}. A geometric cooling schedule is mostly used in practice
-\cite{keller-2019-multi-objec}. It is defined by \ref{eq:cool1}.
-
-\begin{equation}
-\label{eq:cool1}
-\Tau[n] = \alpha \Tau[n-1]
-\end{equation}
-
-where \(\alpha = 0.995\) in \ref{fig:cool}. An Exponential cooling schedule is defined by the difference equation is defined as
-\ref{eq:cool2}.
-
-\begin{equation}
-\label{eq:cool2}
-\Tau[n] = e^{\beta}\Tau[n-1]
-\end{equation}
-
-where \(\beta = 0.01\) in \ref{fig:cool}. The initial temperature, \(T_0\), in the case of \ref{fig:cool}, is set to \(500^\circ\; C\) and
-each schedule's final temperature is \(1\; C^\circ\).
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{img/cool-func.jpg}
-\caption{\label{fig:cool}Cooling equations}
-\end{figure}
-
-\subsubsection{Acceptance Criteria}
-\label{sec:acceptance}
-Acceptance criteria describes the method to accept or reject a given candidate solution. In SA, if a new candidate
-solution is more fit than the currently stored solution it is always accepted as the new solution. However, within SA,
-worse candidate solutions may be accepted as the new solution. The probability of accepting the candidate solution is
-described by the function \(\exp(-\frac{J(x) - J(x')}{\Tau})\) where \(J(\cdot)\) is the objective functions described in
-\ref{sec:objective-function}. The probability of acceptance is a function of the cooling equation just described and
-difference of the current solution and a new candidate solution. Let \(\Delta E \equiv J(x) - J(x')\) where \(x\) is the current
-solution and \(x'\) is the new candidate solution. The probability of acceptance of \(x'\) is defined by \ref{eq:candaccept}
-\cite{keller-2019-multi-objec}.
-
-\begin{equation}
-\label{eq:candaccept}
-f(x,x',T) =
-\begin{cases}
-  1                 & \Delta E > 0 \\
-  e^{- \frac{\Delta E}{T}} & \text{otherwise}
-\end{cases}
-\end{equation}
-
-\subsubsection{Generation Mechanisms}
-\label{sec:generation-mechanisms}
-Generation mechanisms in SA are used to generate random solutions to propose to the optimizer, these are known as
-candidate solutions. In the case of the problem statement made in \ref{sec:problem-description}, five generation mechanism
-shall be used: new visit, slide visit, new charger, remove, new window. The purpose of each of these generators is to
-assign new visits to a charger, adjust a bus visits initial and final charge time within the same time frame/queue,
-remove a bus from a charger, and place a bus visit into a new time slot/queue. Each generator will be discussed in more
-detail in \ref{sec:generators}.
-
-These generator mechanisms will in turn be utilized by two wrapper functions. The schedule generation is to used create
-candidate solutions for SA to compare with other solutions, and the perturb schedule generator is used to take a
-candidate solution and alter it slightly in an attempt to fall into a global/local minimum.
-
-\paragraph{Generator Input/Output}
-\label{sec:generator-input-output}
-This section discusses in detail the expected inputs and output of each generator. It is important to discuss these
-parameters in order to have an understanding of the generating algorithms derived. The input consists of the bus visit
-index of interest, information about the current state of arrivals, \(\I\), and the current state of the chargers'
-availability, \(\C\). The output of each generator affects the tuple of decision variables \((v_i, u_i, d_i) \subset \I_i\).
-
-\begin{enumerate}
-\item Generator Input
-\label{sec:orga6f8adf}
-Each generator has the tuple input of \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index, \(\I_i\) is the tuple \(\visit\)
-(\ref{sec:problem-description}), that describes the set of visits, and \(\C\) is the set that describes the availability for
-all chargers \(q \in \Qset\). In other words, \(\C\) defines the set of times when the chargers are not being utilized or are
-``inactive''.
-
-To derive \(\C\), consider its inverse, \(\C'\), which is the set of ``active'' time periods for each charger, \(\C' = \bigcup
-\{\C_q' : q \in \mathcal{Q}\}\) where \(\C_q' \subset \C'\) describes the active times for chagrer \(q\). Focusing on an individual charger,
-consider \(\C_q'\) before a schedule has been imposed upon it, \(\C_q' \in \varnothing\). In other words, no buses have been
-assigned to be charged over the time period of \([u_i, d_i]\). After the scheduling process is complete, \(\C_q'\) will have
-a set of active periods of the form \(\C_q' \in \{[u_j, d_j]: j \in \Jsetq \}\) where \(\Jsetq \subset \mathcal{I}\). For \(\C_q'\) to be of
-value, its compliment is to be found, \(\C_q\). Let \(j\text{th}\) inactive period shall be denoted as \(\C^j_q\).
-
-To determine the inverse of \(\C_q'\), begin by noting \(\C_q' \bigcap \{[u_j, d_j] : j \in \Jsetq\} = \varnothing\), is said to be
-disjoint \cite{halmos-1974-naive-set-theor}. The inverse of a disjoint set can be found by the De Morgan Law as shown
-in \ref{eq:demorgan}. Using \ref{eq:demorgan}, the set of inactive periods can be written as \(\C_q \equiv \bigcup \{[u_j, d_j]': j \in \Jsetq\}\).
-Let \(\Sol\) denote the tuple \(\Sol \equiv (i, \I, \C)\).
-
-\begin{equation}
-\label{eq:demorgan}
-(A \cap B)' = A' \cup B'
-\end{equation}
-
-\item Generator Output
-\label{sec:orgf01f2da}
-The output is a modified visit, noted as \(\I_i'\). In actuality only the decision variables are being altered which is a
-subset of \(\I_i\). Let this subset be defined by \(x_i' \equiv (v_i, u_i, d_i) \subset \I_i\) which is the chosen queue, initial
-charge time, and detach time from the generator, \((v_i, u_i, d_i)\). The nature of SA implies that the generators have a
-sense of randomness. Because of that, some of the generators may have multiple choices for what \(x_i'\) may be. Let the
-set of candidates for the output be defined as \(x_i' \in X_i'\). Furthermore, set the set of candidate visits be denoted as
-\(\I_i' \in \I'\).
-\end{enumerate}
-
-\paragraph{Generators}
-\label{sec:generators}
-This section describes and outlines the algorithm pool for the different generator types that are utilized in the
-wrapper functions. Note that to satisfy constraints, \(B\) extra idle queues that provide no power to the bus. Because of
-this, the set of queues is fully defined as \(q \in \{1,..., Q, Q+1,..., Q+B\}\) where \(Q\) is the total amount of chargers
-and \(b\) is the bus ID. The use case for this is for when a bus is not to be placed on a charger, it will be placed in
-the queue, \(v_i \in \{Q+1,..., Q+B\}\), which will satisfy the constraints above while allowing the bus to be ``set aside''
-while others charge.
-
-\begin{enumerate}
-\item New visit
-\label{new-visit}
-The new visit generator describes the process of moving bus \(b\) from the idle queue, \(v_i \in \{Q+1,..., Q+B\}\) to a valid
-charging queue, \(v_i \in \{1,..., Q\}\). Lines 2-4 extracts the visit, \(i\), arrival time, \(a_i\), and departure time, \(e_i\).
-Note that in subsequent algorithms these lines will be omitted for conciseness. Line 5 loops through the inactive time
-periods that contain the time the bus is at the station, \([a_i, e_i]\). \(\U_{\cdot}\) indicates that an element is selected
-randomly with a uniform distribution from the set \(\{\cdot\}\). Line 6 verifies that the inactive period selected is valid
-and returns a random charging time, \([u_i, d_i]\), if it is. Line 7 returns the new visit.
-
-\begin{algorithm}[H]
-\caption{New visit algorithm} \label{alg:new-visit}
-    \LinesNumbered
-    \TitleOfAlgo{New Visit}
-    \KwIn{($\Sol$)}
-    \KwOut{$\I_i'$}
-
-    \SetKwFunction{Union}{Union}
-    \SetKwFunction{findFreeTime}{findFreeTime}
-
-    \Begin
-    {
-        $i    \leftarrow \{i: i \in \Sol \}$ \tcc*{The index of the visit $i$}
-        $a_i  \leftarrow \{ a_i \in \I_i : \I_i \in \I \subset \Sol \}$ \tcc*{Get the arrival time for visit $i$}
-        $e_i  \leftarrow \{ e_i \in \I_i : \I_i \in \I \subset \Sol \}$ \tcc*{Get the departure time for visit $i$}
-
-        \tcc{Randomly select a free time, $j$, from any charger $q \in \Qset$ that is within the time frame $[a_i e_i]$}
-        \While {$C_q^j \in \{[a_i, e_i]\} \subset \U_{\C}$}
-        {
-            \If(\tcc*[f]{If there is time available in $C_q^j$}){$x_i' \leftarrow$ \findFreeTime{$C_q^j, (a_i, e_i)$} $\not\in \varnothing$}
-            {
-                \Return{$\I_i' \leftarrow x_i'$} \tcc*[f]{Return visit}
-            }
-        }
-    }
-\end{algorithm}
-
-The function \texttt{findFreeTime} in \ref{alg:new-visit} is defined in \ref{alg:find-free-time}. \(L\) and \(U\) are the lower
-and upper bound of the time between scheduled times. The possible use cases are depicted in \ref{fig:find-free}. In each case
-depicted by \ref{fig:find-free}, the red line shows the arrival and departure time for an arbitrary bus visit, \(i\). The blue
-lines indicate reigons in which charger \(q\) is active. \(C \in \C_q \subset \C\) represents one of the regions between the blue
-lines, \([L, U]\) which stand for the lower and upper portions of the regions, respectively. The output of
-\ref{alg:find-free-time}. That is, the only scheduling constraint is that the arrival time is before charger \(q\) is
-available to charge the bus. Therefore, the bus must wait intil \(L\) before changer \(q\) may charge it. Furthermore, the
-range that \(u_i\) must be selected from is \([L,e]\).
-
-\begin{figure}
-\centering
-\begin{subfigure}{\textwidth}
-    \centering
-    \caption{Valid position: $a \leq u \leq d \leq e$}
-    \label{subfig:sandwich}
-    \begin{tikzpicture}[scale=2]
-        \coordinate (A) at (0,0);
-        \coordinate (B) at (1.5,0);
-        \coordinate (C) at (2.0,0);
-        \coordinate (D) at (3.5,0);
-        \coordinate (E) at (4.0,0);
-        \coordinate (F) at (5.5,0);
-
-        \draw[blue] (A) -- (B);
-        \draw[red]  (C) -- (D);
-        \draw[blue] (E) -- (F);
-
-        \node[circle,fill=blue,radius=0.15]                     at (A) {};
-        \node[circle,fill=blue,radius=0.15,label=above : $L$]   at (B) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $a$] at (C) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $e$] at (D) {};
-        \node[circle,fill=blue,radius=0.15,label=above : $U$]   at (E) {};
-        \node[circle,fill=blue,radius=0.15]                     at (F) {};
-    \end{tikzpicture}
-\end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}{\textwidth}
-    \centering
-    \caption{Valid position: $L \leq u \leq d \leq e$}
-    \label{subfig:all}
-    \begin{tikzpicture}[scale=2]
-        \coordinate (A) at (0,0);
-        \coordinate (B) at (2.5,0);
-        \coordinate (C) at (2.0,0);
-        \coordinate (D) at (3.5,0);
-        \coordinate (E) at (4.0,0);
-        \coordinate (F) at (5.5,0);
-
-        \draw[blue] (A) -- (B);
-        \draw[red]  (C) -- (D);
-        \draw[blue] (E) -- (F);
-
-        \node[circle,fill=blue,radius=0.15]                     at (A) {};
-        \node[circle,fill=blue,radius=0.15,label=above : $L$]   at (B) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $a$] at (C) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $e$] at (D) {};
-        \node[circle,fill=blue,radius=0.15,label=above : $U$]   at (E) {};
-        \node[circle,fill=blue,radius=0.15]                     at (F) {};
-    \end{tikzpicture}
-\end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}{\textwidth}
-    \centering
-    \caption{Valid position: $a \leq u \le d \leq U$}
-    \label{subfig:egu}
-    \begin{tikzpicture}[scale=2]
-        \coordinate (A) at (0,0);
-        \coordinate (B) at (1.5,0);
-        \coordinate (C) at (2.0,0);
-        \coordinate (D) at (3.5,0);
-        \coordinate (E) at (3.0,0);
-        \coordinate (F) at (5.5,0);
-
-        \draw[blue] (A) -- (B);
-        \draw[red]  (C) -- (D);
-        \draw[blue] (E) -- (F);
-
-        \node[circle,fill=blue,radius=0.15]                     at (A) {};
-        \node[circle,fill=blue,radius=0.15,label=above : $L$]   at (B) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $a$] at (C) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $e$] at (D) {};
-        \node[circle,fill=blue,radius=0.15,label=above : $U$]   at (E) {};
-        \node[circle,fill=blue,radius=0.15]                     at (F) {};
-    \end{tikzpicture}
-\end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}{\textwidth}
-    \centering
-    \caption{Valid position: $L \le u \leq d \leq U$}
-    \label{subfig:invertsandwhich}
-    \begin{tikzpicture}[scale=2]
-        \coordinate (A) at (0,0);
-        \coordinate (B) at (1.5,0);
-        \coordinate (C) at (2.0,0);
-        \coordinate (D) at (3.5,0);
-        \coordinate (E) at (4.0,0);
-        \coordinate (F) at (5.5,0);
-
-        \draw[blue] (A) -- (C);
-        \draw[blue] (D) -- (F);
-        \draw[red]  (B) -- (E);
-
-        \node[circle,fill=blue,radius=0.15]                    at (A) {};
-        \node[circle,fill=red,radius=0.15,label=above : $a$]   at (B) {};
-        \node[circle,fill=blue,radius=0.15,label=above  : $L$] at (C) {};
-        \node[circle,fill=blue,radius=0.15,label=above  : $U$] at (D) {};
-        \node[circle,fill=red,radius=0.15,label=above : $e$]   at (E) {};
-        \node[circle,fill=blue,radius=0.15]                    at (F) {};
-    \end{tikzpicture}
-\end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}{\textwidth}
-    \centering
-    \caption{Invalid position upper bound}
-    \label{subfig:invalid-upper}
-    \begin{tikzpicture}[scale=2]
-        \coordinate (A) at (0.0,0);
-        \coordinate (B) at (5.5,0);
-        \coordinate (C) at (1.5,0);
-        \coordinate (D) at (3.5,0);
-
-        \draw[-{Latex[width=3mm]},blue]  (A) -- (B);
-        \draw[red]  (C) -- (D);
-
-        \node[circle,fill=blue,radius=0.15,label=above : $U$] at (A) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $a$] at (C) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $e$] at (D) {};
-    \end{tikzpicture}
-\end{subfigure}
-
-\par\bigskip
-
-\begin{subfigure}{\textwidth}
-    \centering
-    \caption{Invalid position lower bound}
-    \label{subfig:invalid-lower}
-    \begin{tikzpicture}[scale=2]
-        \coordinate (A) at (0.0,0);
-        \coordinate (B) at (5.5,0);
-        \coordinate (C) at (1.5,0);
-        \coordinate (D) at (3.5,0);
-
-        \draw[-{Latex[width=3mm]},blue]  (B) -- (A);
-        \draw[red]  (C) -- (D);
-
-        \node[circle,fill=blue,radius=0.15,label=above : $L$] at (B) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $a$] at (C) {};
-        \node[circle,fill=red,radius=0.15,label=above  : $e$] at (D) {};
-    \end{tikzpicture}
-\end{subfigure}
-
-\caption{Outlines the different cases that requested time and charger allocated time can overlap}
-\label{fig:find-free}
-\end{figure}
-
-\begin{algorithm}[h]
-\caption{Find free time algorithm searches and returns the available time frames} \label{alg:find-free-time}
-    \LinesNumbered
-    \TitleOfAlgo{Find Free Time}
-    \KwIn{$(L,U,a,e)$}
-    \KwOut{$(u,d)$}
-
-    \Begin
-    {
-        \If(\tcc*[f]{If $L < a < e < U]$ (\autoref{subfig:sandwich})}){$L \leq a$ and $U \geq e$}
-        {
-                u $\leftarrow$ $\U_{[a,e]}$\;
-                d $\leftarrow$ $\U_{[u,e]}$\;
-        }
-        \ElseIf(\tcc*[f]{Else if $a < L < e < U$ (\autoref{subfig:all})}){$L > a$ and $U \geq e$}
-        {
-                u $\leftarrow$ $\U_{[L,e]}$\;
-                d $\leftarrow$ $\U_{[u,e]}$\;
-        }
-        \ElseIf(\tcc*[f]{Else if $L < a < U < e$ (\autoref{subfig:egu})}){$L \leq a$ and $U < e$}
-        {
-                u $\leftarrow$ $\U_{[a,U]}$\;
-                d $\leftarrow$ $\U_{[u,U]}$\;
-        }
-        \ElseIf(\tcc*[f]{Else if $a \leq u \leq d \leq L$ or $U \leq a \leq d \leq e$ (\autoref{subfig:invertsandwhich})}){$L > a$ and $U < e$}
-        {
-                u $\leftarrow$ $\U_{[a,L], [U,e]}$\;
-                d $\leftarrow$ $\U_{[u,L], [u,e]}$\;
-        }
-        \Else(\tcc*[f]{Otherwise the bus cannot be scheduled in this time frame (\autoref{subfig:invalid-lower}, \autoref{subfig:invalid-upper})})
-        {
-                u $\leftarrow$ $\varnothing$\;
-                d $\leftarrow$ $\varnothing$\;
-        }
-
-        \Return{(u,d)}
-    }
-\end{algorithm}
-
-\item Slide visit
-\label{slide-visit}
-Slide visit (\ref{alg:slide-visit}) is used for buses that have already been scheduled. Because of the constraint
-\ref{seq:c10} there may be some room to move \(u_i\) and \(d_i\) within the window \([a_i, e_i]\). Two new values, \(u_i\) and
-\(d_i\) are selected with a uniform distribution to satisfy the constraint \(a_i \leq u_i \leq d_i \leq e_i\). Line 2 randomly loops
-through the other inactive time frames from charger \(v_i\) that is within the time that the bus is at the station, \([a_i,
-e_i]\). Line 3 verifies the time frame previously selected and returns a new charging time. Line 4 returns the new visit.
-
-\begin{algorithm}[H]
-\caption{Slide Visit Algorithm} \label{alg:slide-visit}
-    \LinesNumbered
-    \TitleOfAlgo{Slide Visit}
-    \KwIn{$\Sol$}
-    \KwOut{$\I_i'$}
-
-    \Begin
-    {
-        \tcc{Randomly select an inactive time frame, $j$, from charger $v_i$ that is within the time frame $[a_i, e_i]$}
-        \While {$C_q^j \in \{[a_i, e_i]\} \subset \U_{\C_{v_i}}$}
-        {
-            \If(\tcc*[f]{If there is time available in $C_q^j$}){$x_i' \leftarrow$ \findFreeTime{$C_q^j$, ($a_i, e_i$)} $\not\in \varnothing$}
-            {
-                \Return{$\I_i \leftarrow x_i'$} \tcc*[f]{Return visit}
-            }
-        }
-    }
-\end{algorithm}
-
-\item New charger
-\label{new-charger}
-The new charger generator takes a visit \(\I_i\) and changes the charger it is on while maintianing the same charge time,
-\([u_i, d_i]\). Similar to \ref{alg:new-visit}, the new candidate, \(x_i'\), must be checked before being added to the set \(X_i'\).
-Line 2 randomly loops through any time frame from any charger, \(C_q^j\), that is within the time frame that the bus is at
-the station, \([a_i, e_i]\). Line 3 verifies the selection and line 4 returns the new visit.
-
-\begin{algorithm}[H]
-\caption{New Charger Algorithm} \label{alg:new-charger}
-    \LinesNumbered
-    \TitleOfAlgo{New Charger}
-    \KwIn{$\Sol$}
-    \KwOut{$\I_i'$}
-
-    \Begin
-    {
-        \tcc{Randomly select an inactive time frame, $j$, from any charger $q \in \Qset$ that is within the time frame $[a_i, e_i]$}
-        \While {$C_q^j \in \{[a_i, e_i] \} \subset \U_{\C}$}
-        {
-            \If (\tcc*[f]{If the charge time is within the region $[L,U]$}) {$L \leq u_i$ \And $U \geq d_i$}
-            {
-                \Return{$\I_i \leftarrow x_i'$} \tcc*[f]{Return visit}
-            }
-        }
-
-    }
-\end{algorithm}
-
-\item Remove
-\label{sec:remove}
-The remove generator simply removes a bus from a charger queue and places it in its idle queue, \(v_i \in
-\{Q,...,Q+B\}\).
-
-\begin{algorithm}[H]
-\caption{Remove algorithm} \label{alg:remove}
-    \LinesNumbered
-    \TitleOfAlgo{Remove}
-    \KwIn{$\Sol$}
-    \KwOut{$\I_i'$}
-
-    \Begin
-    {
-       \Return{$\I_i' \leftarrow (Q+b,a_i,e_i)$}
-    }
-\end{algorithm}
-
-\item New Window
-\label{sec:new-visit}
-New window is a combination of the remove and then new visit generators (\ref{sec:remove} and \ref{sec:new-visit}). By this it is
-meant that current scheduled tuple \((v_i, u_i, d_i)\) is removed and added back in as if it were a new visit.
-
-\begin{algorithm}[H]
-\caption{New window algorithm}
-    \LinesNumbered
-    \TitleOfAlgo{New Window}
-    \KwIn{$\Sol$}
-    \KwOut{$\I_i'$}
-
-    \Begin
-    {
-        \SetKwFunction{NewVisit}{NewVisit}
-        \SetKwFunction{Remove}{Remove}
-
-        $\I_i' \leftarrow$ \Remove{$v,u,d$}   \tcc*{Remove visit $i$ from its charger}
-        $\Sol \leftarrow \I_i'$               \tcc*{Update the route information tuple}
-        $\I_i' \leftarrow$ \NewVisit{$\Sol'$} \tcc*{Add visit $i$ back in randomly}
-
-        \Return{$(v,u,d)$}
-    }
-\label{alg:new-window}
-\end{algorithm}
-\end{enumerate}
-
-\paragraph{Generator Wrappers}
-\label{generator-wrappers}
-This section covers the algorithms utilized to select and execute different generation processes for the SA process. The
-generator wrappers are the method immediately called by SA. Each wrapper utilizes the generators previously described
-and returns either metadata about the bus routes or a new valid charger schedule.
-
-\begin{enumerate}
-\item Schedule Generation
-\label{schedule-generation}
-The objective of this generator is to generate a candidate solution to the given schedule. To generate a candidate
-solution, the generator is given \(\I\), a bus is picked at random, \(b \in \Bset\), then a random visit is picked. The new
-visit generator (\ref{alg:new-visit}) is then utilized. This process is repeated for each visit. This algorithm is
-summarized in \ref{alg:schedule-generation}. Recall from \ref{sec:input-variables}, \(\Jset_B \subset \I\) is used to indicate the
-set of visit indices for bus \(b\).
-
-\begin{algorithm}[H]
-\caption{Schedule generation algorithm} \label{alg:schedule-generation}
-    \LinesNumbered
-    \TitleOfAlgo{ScheduleGeneration}
-    \KwIn{$\I$, $\C$}
-    \KwOut{$\I'$, $\C'$}
-
-    \SetKwFunction{Union}{Union}
-    \SetKwFunction{NewVisit}{NewVisit}
-    \SetKwFunction{UpdateQueues}{UpdateQueues}
-
-    \Begin
-    {
-        $\I' \leftarrow \; \varnothing$\;
-        \For {$\I_i' in \I$}
-        {
-            $b \leftarrow\; \U_{\Bset}$ \tcc*{Randomly select a bus with uniform distribution}
-            $i\leftarrow\; \U_{\Jset_b}$ \tcc*{Randomly select a visit from bus $b$ with uniform distribution}
-            $\I_i' \leftarrow \NewVisit{(visit.a, visit.e)}$ \tcc*{Assign the bus to a charger}
-            \UpdateQueues{($\I_i'$, $\C_q$)} \tcc*{Update $\C_q$ with information in $I_i'$}
-        }
-            \Return{$\I'$, $\C'$}
-    }
-\end{algorithm}
-
-\item Perturb Schedule
-\label{tweak-schedule}
-As described in SA, local searches are also employed to try and exploit a given solution
-\cite{radosavljevic-2018-metah-optim}. The method that will be employed to exploit the given solution is as follows:
-pick a bus, pick a visit, pick a generator. The algorithm is outlined in \ref{alg:perturb-schedule}.
-
-\begin{algorithm}[H]
-\caption{Perturb schedule algorithm}
-
-    \LinesNumbered
-    \TitleOfAlgo{PerturbSchedule}
-    \KwIn{$\I$, $\C$}
-    \KwOut{$\I_i'$, $\C'$}
-
-    \SetKwFunction{GeneratorCallback}{GeneratorCallback}
-
-    \Begin
-    {
-        $b \leftarrow\; \U_{\Bset}$ \tcc*{Randomly select a bus with uniform distribution}
-        $i\leftarrow\; \U_{\Jset_b}$ \tcc*{Randomly select a visit from bus $b$ with uniform distribution}
-        $G \leftarrow\; \U_{[1,G_size]}$ \tcc*{Select one of the generator functions}
-        $\I_i', \C' \leftarrow$ \GeneratorCallback{($G$, $j, \I, \C$)} \tcc*{Excecute the generator function}
-        \UpdateQueues{($\I_i'$, $\C_q$)} \tcc*{Update $\C_q$ with information in $I_i'$}
-        \Return{$\I'$, $\C$}
-    }
-\label{alg:perturb-schedule}
-\end{algorithm}
-\end{enumerate}
-
-\subsection{Optimization Algorithm}
-\label{sec:optimization-algorithm}
-This final section combines the generation algorithms and the optimization problem into a single algorithm. It begins
-with an introduction to a general SA algorithm which will be used to springboard into the construction of the SA PAP
-algorithm. For the case of the pseudo SA algorithm to be presented, the notation pesented will be self-contained and not
-related to any of the variables presented for SA PAP thus far. Consider \ref{alg:sa-pseudo} \cite{henderson-1989-theor-pract}.
-\(\omega\) and \(\omega'\) are the current solution and the candidate solution, respectively. \(t_k\) is the temperature cooling
-schedule, \(T\) is the initial temperature that will iterate until \(k = K\). \(M_k\) is the repetition counter, it defines
-the number of iterations to execute for each temperture \(t_k\).
-
-The algorithm behaves as follows: initialize the SA algorithm with an initial solution, temperature schedule, and
-repetition schedule. The first loops until \(T = t_K\), the second loop finished whin \(m = M_k\). For each loop, create a
-new solution, calculate the difference in the fitness of \(\omega\) and \(\omega'\). Update \(\omega\) with \(\omega'\) if the candidate solution is
-better. Update \(\omega\) with \(\omega'\) with probability \(e^{\frac{-\Delta_{\omega , \omega'}}{t_k}}\) if the candidate solution is worse than the
-current solution. This is repeated until the stopping criteria is met.
-
-\begin{algorithm}[H]
-\caption{Pseudo-code for SA} \label{alg:sa-pseudo}
-    \LinesNumbered
-    \TitleOfAlgo{SA Pseudo-Code}
-
-    \SetKwFunction{f}{f}
-    \Begin
-    {
-        $\omega \in W$ \tcc*{Select an initial solution}
-        $k=0$ \tcc*{Select the temperature change counter}
-        $t_k$ \tcc*{Select a temperature cooling schedule}
-        $T = t_0 \geq 0$ \tcc*{Select an initial temperature}
-        $\forall q \in \Qset : \C_q \in \{[0,T]\}$ \tcc*{Set the initial inactive time for each charger to the time horizon}
-        \tcc{Select a repetition schedule $M_k$, that defines the number of iterations executed at each temerature $t_k$}
-
-        \While{Stopping criterion not met}
-        {
-            $m \rightarrow 0$ \tcc*{Set repetition counter}
-            \While{$m = M_k$}
-            {
-                $\omega' \in N(\omega)$ \tcc*{Generate a new solution}
-                $\Delta_{\omega,\omega'} \rightarrow$ \f{$\omega'$} - \f{$\omega$} \tcc*{Calculate the difference of fitness scores}
-                \If{$\Delta_{\omega , \omega'} \le 0$}{$\omega \rightarrow \omega'$}
-                \If{$\Delta_{\omega , \omega'} > 0$}{$\omega \rightarrow \omega'$ with probability $e^{\frac{-\Delta_{\omega , \omega'}}{t_k}}$}
-                $m \rightarrow m+1$\;
-            }
-
-        $k \rightarrow k+1$\;
-        }
-    }
-\end{algorithm}
-
-The objective now is to outline SA-PAP in \ref{alg:sa-pap}. Lines 2-4 initialize the SA algorithm by defining the initial
-temperature, selecting the cooling schedule, and setting the repetition schedule. Line 5 loops through each of the step
-in the temperature schedule \(\Tau \in \{ \Tau_0, \Tau_1, ..., \Tau_m \}\). Lines 6 and 7 generate a new solution and
-calculates its fitness. \(\nu\) in this context is defined as \(\nu = (u, d, v, \eta)\) Lines 8 through 13 updates the solution
-depending on if the new solution is better or worse than the previous solution. Line 14 iterates through the repetition
-schedule, \(k \in \{1, 2, ..., K\}\). Lines 15-23 perturbs the previously generated solution, calculates its fitness, and
-updates the current solution with the candidate solution depending on the fitness.
-
-\begin{algorithm}[H]
-\caption{Simulated annealing approach to the position allocation problem} \label{alg:sa-pap}
-    \LinesNumbered
-    \TitleOfAlgo{SA PAP}
-    \KwIn{$\I$}
-    \KwOut{$\I'$}
-
-    \SetKwFunction{CoolingEquation}{CoolingEquation}
-    \SetKwFunction{ScheduleGeneration}{ScheduleGeneration}
-    \SetKwFunction{PerturbSchedule}{PerturbSchedule}
-    \SetKwFunction{J}{J}
-
-    \Begin
-    {
-        $\Tau_0$ \tcc*{Initialize temperature}
-        $\Tau_{M} \leftarrow$ \CoolingEquation{$\Tau_0$} \tcc*{Select cooling equation}
-        $K$ \tcc*{Set a repetition schedule}
-
-        \For{$\Tau_m \in \{\Tau_0, \Tau_1, ..., \Tau_M\}$}
-        {
-            $\upsilon' \in Y \leftarrow$ \ScheduleGeneration{$\I$} \tcc*{Generate a new solution}
-            $\Nu_{\upsilon, \upsilon'} = $ \J{$\upsilon'$}  - \J{$\upsilon$} \tcc*{Calculate the difference of fitness scores}
-            \If{$\Nu_{\upsilon, \upsilon'} \le 0$}{$\upsilon \leftarrow \upsilon'$}
-            \If{$\Nu_{\upsilon, \upsilon'} \le 0$}{$\upsilon \leftarrow \upsilon'$ with probability $e^{\frac{\Nu_{\upsilon, \upsilon'}}{\Tau_m}}$}
-
-            \For{$k \in \{1, 2, ..., K\}$}
-            {
-                $\upsilon' \in Y \leftarrow$ \PerturbSchedule{$\I$} \tcc*{Perturb the solution and reassess}
-                $\Nu_{\upsilon, \upsilon'} = $ \J{$\upsilon'$}  - \J{$\upsilon$} \tcc*{Calculate}
-                \If{$\Nu_{\upsilon, \upsilon'} \le 0$}{$\upsilon \leftarrow \upsilon'$}
-                \If{$\Nu_{\upsilon, \upsilon'} \le 0$}{$\upsilon \leftarrow \upsilon'$ with probability $e^{\frac{\Nu_{\upsilon, \upsilon'}}{\Tau_m}}$}
-            } % For k
-        }     % For \Tau
-    }         % Begin
-\end{algorithm}
-
-\section{Project Schedule}
-\label{sec:org5d8d191}
-The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
-The estimated completion date is early to mid-November. Note that the blocks before the \texttt{TODAY} mark in
-\autoref{fig:gantt} is work that has been previously completed or is work in progress.
-
-\begin{figure}
-  \begin{ganttchart}[
-    vgrid={*{11}{gray, dotted}, *1{black, dashed}},
-    bar label node/.append style={
-      align=left,
-      text width=width("Aim 2. Software verificationx")},
-    today=20
-    ]{1}{24}
-    \gantttitle{2022}{12} \gantttitle{2023}{12} \\
-    \gantttitlelist{1,...,24}{1} \\
-    \ganttbar{MILP-PAP}{1}{12} \\
-    \ganttbar{SA-PAP}{9}{21} \\
-    \ganttbar{Non-Linear Battery Dynamics}{20}{21} \\
-    \ganttbar{Fuzzy PAP}{18}{23} \\
-    \ganttbar{Defense}{23}{24} \\
-  \end{ganttchart}
-  \caption{Gantt chart for the proposed work.}
-  \label{fig:gantt}
-\end{figure}
 
 \section{Summary}
 \label{sec:approach-summary}

@@ -3,7 +3,7 @@
 :CUSTOM_ID: sec:approach
 :END:
 
-** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
+** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 :PROPERTIES:
 :CUSTOM_ID: sec:math-model-pap
 :END:
@@ -84,7 +84,7 @@ The equation is developed by using exact discretization [cite:@hespanha-2018-lin
 indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
-** Mathematically model the PAP to provide a robust solution
+** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
 :PROPERTIES:
 :CUSTOM_ID: sec:math-model-robust
 :END:
@@ -139,7 +139,7 @@ for peak hours is also introduced with the power cost component.
 
 #+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:constraints" :only-contents t
 
-** Method And Validation
+** Method And Validation :noexport:
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -164,7 +164,7 @@ proposed method of implementation will subsequently be outlined and discussed.
 
 #+include: "../sup-doc/sa-pap-paper/sections/optimization-algorithm.org::#optimization-algorithm" :only-contents t
 
-** Project Schedule
+** Project Schedule :noexport:
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the =TODAY= mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
