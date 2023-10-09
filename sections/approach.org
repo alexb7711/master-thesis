@@ -31,6 +31,7 @@ discretize the queuing space to accommodate chargers of multiple varieties.
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation" :only-contents t
 
+** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
 *** Non-Linear Battery Dynamics
 :PROPERTIES:
 :CUSTOM_ID: sec:non-linear-battery-dynamics
@@ -50,7 +51,7 @@ a constant current is applied to a battery until it reaches terminal voltage. At
 applied as the charge current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey].
 
 As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80%
-[cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. As previously discussed,
+[cite:@liu-2020-batter-elect]. At this point the SOC Becomes non-linear. As previously discussed,
 [cite:@zhang-2021-optim-elect] suggests that the SOC can be broken down into a linear and non-linear component. A plot
 of SOC of a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
 
@@ -84,7 +85,6 @@ The equation is developed by using exact discretization [cite:@hespanha-2018-lin
 indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
-** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
 :PROPERTIES:
 :CUSTOM_ID: sec:math-model-robust
 :END:
@@ -112,7 +112,7 @@ robust solution as its intent is to widen the solution space; however, the mathe
 introduced in the objective function in the same way as the consumption and demand costs. The actions taken to develop
 the penalty function will therefore be presented in tandem with the consumption and demand costs next.
 
-** Minimize the monetary cost of charging the BEBs
+** Minimize the monetary cost of charging the BEBs :noexport:
 :PROPERTIES:
 :CUSTOM_ID: sec:minimize-monetary-cost
 :END:
