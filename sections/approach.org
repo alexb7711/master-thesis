@@ -3,26 +3,20 @@
 :CUSTOM_ID: sec:approach
 :END:
 
+This section introduces the actions and formulations associated with the objectives described in [[#sec:objectives]]. The
+actions shall be presented in the same order as [[#sec:objectives]] for consistency. Furthermore, as some of the research
+proposed in this work has been completed, this section aims to identify complete and incomplete aspects of the research
+as its being presented.
+
 ** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 :PROPERTIES:
-:CUSTOM_ID: sec:math-model-pap
+:CUSTOM_ID: sec:act-math-model-pap
 :END:
 
-This section introduces the actions and formulations associated with the objective described in [[#sec:objectives]]. This
-section addresses the actions by deriving a method of identifying buses for subsequent visits, utilizing that to
+This section addresses the actions by deriving a method of identifying buses for subsequent visits which is utilized to
 formulate a way of estimating the SOC during the BEBs charging phase. The method introduced in this section demonstrates
-the linear battery dynamics that have been implemented in the MILP-PAP. Non-linear dynamics will then be introduced with
-a brief description of the mathematical approach that will be taken. The derivation also demonstrates how the model will
-discretize the queuing space to accommodate chargers of multiple varieties.
-
-*** The PAP Formulation
-:PROPERTIES:
-:CUSTOM_ID: sec:the-pap-formulation
-:CUSTOM_ID: sec:input-variables
-:END:
-
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+the linear battery dynamics that have been implemented in the MILP-PAP. The derivation also demonstrates how the model
+will discretize the queuing space to accommodate multiple types of chargers.
 
 *** A Rectangle Packing Formulation for BEB Charging
 :PROPERTIES:
@@ -30,6 +24,15 @@ discretize the queuing space to accommodate chargers of multiple varieties.
 :END:
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation" :only-contents t
+
+** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
+:PROPERTIES:
+:CUSTOM_ID: sec:act-math-model-robust
+:END:
+
+In this section, non-linear dynamics will be introduced with a brief description of the mathematical approach that
+will be taken. Proceeding this, the Fuzzy PAP (FPAP) shall be introduced in its entirety. The work presented in this
+section has yet to be completed.
 
 *** Non-Linear Battery Dynamics
 :PROPERTIES:
@@ -50,12 +53,14 @@ a constant current is applied to a battery until it reaches terminal voltage. At
 applied as the charge current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey].
 
 As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80%
-[cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. As previously discussed,
+[cite:@liu-2020-batter-elect]. At this point the SOC Becomes non-linear. As previously discussed,
 [cite:@zhang-2021-optim-elect] suggests that the SOC can be broken down into a linear and non-linear component. A plot
 of SOC of a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
 
 #+name: fig:soc-plot
 #+caption: Illistration of non-linear charging profile.
+#+attr_org: :width 500
+#+attr_latex: :width 0.5\textwidth
 [[file:../img/soc-plot.png]]
 
 While some leverage the linear and non-linear components to derive their SOC model [cite:@abdollahi-2016-optim-batter],
@@ -84,11 +89,6 @@ The equation is developed by using exact discretization [cite:@hespanha-2018-lin
 indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
-** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
-:PROPERTIES:
-:CUSTOM_ID: sec:math-model-robust
-:END:
-
 In this section, the actions for the objective of providing a robust solution are discussed. The actions will be
 completed by introducing and formulating a Fully Fuzzy Mixed Linear Integer Program (FFMILP). The basics of fuzzy set
 theory is introduced as well as an introductory discussion of Fully Fuzzy Linear Programming (FFLP). A model for the
@@ -107,12 +107,7 @@ fits within the current objective, the discussion of the mathematics is more coh
 
 #+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::#sec:the-fuzzy-pap" :only-contents t
 
-The penalty function, introduced under [[#sec:obj-math-model-robust]], logically fits under the objective to provide a more
-robust solution as its intent is to widen the solution space; however, the mathematics to develop the penalty method is
-introduced in the objective function in the same way as the consumption and demand costs. The actions taken to develop
-the penalty function will therefore be presented in tandem with the consumption and demand costs next.
-
-** Minimize the monetary cost of charging the BEBs
+** Minimize the monetary cost of charging the BEBs :noexport:
 :PROPERTIES:
 :CUSTOM_ID: sec:minimize-monetary-cost
 :END:

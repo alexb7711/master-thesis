@@ -151,6 +151,16 @@ PAP model is to allow vehicles to be queued anywhere along the "charge strip" $[
 continuous and can be placed anywhere on the time horizon, $[0,T]$, as long as the allocated times do not interfere with
 other scheduled charge times.
 
+**** The PAP Formulation
+:PROPERTIES:
+:CUSTOM_ID: sec:the-pap-formulation
+:CUSTOM_ID: sec:input-variables
+:END:
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+
+
 ** Fuzzy Preliminaries
 :PROPERTIES:
 :CUSTOM_ID: sec:fuzzy-preliminaries

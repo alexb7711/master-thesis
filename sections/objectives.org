@@ -13,6 +13,9 @@ fact models the charger as a single continuous bar. These accommodations must be
 objectives for the proposed BEB charging plan below.
 
 ** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
+:PROPERTIES:
+:CUSTOM_ID: sec:obj-math-model-pap
+:END:
 
 1) Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
 
