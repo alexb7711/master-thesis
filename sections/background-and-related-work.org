@@ -33,9 +33,9 @@ achieved [cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec
 
 In some works, it was assumed that the charge received is proportional to the time spent on the charger
 [cite:@liu-2020-batter-elect;@yang-2018-charg-sched]. While the linear battery dynamics is a valid assumption when the
-battery State-Of-Charge (SOC) is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented
-more accurately model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant
-Voltage (CV), Constant Current (CC), Constant Power (CP), and Constant Current Constant Power (CCCV)
+battery SOC is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented more accurately
+model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant Voltage (CV),
+Constant Current (CC), Constant Power (CP), and Constant Current Constant Power (CCCV)
 [cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey]. It has also been suggested that the dynamics can be modeled
 as a piecewise function containing a linear and non-linear component from which a piecewise function approach may be
 taken for the CV and CC components [cite:@zhang-2021-optim-elect;@abdollahi-2016-optim-batter]. Others have modeled the
@@ -128,10 +128,19 @@ Now that the problem has been defined conceptually, the problem shall be defined
 :END:
 
 #+begin_export latex
+  %% Rectangle packing figure
   \begin{figure}
     \centering
     \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
-    \caption{Example of rectangle packing problem.}
+    \caption{Example of rectangle packing problem. The large square represented by $O$ indicates the canstrained area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
+    \label{fig:packexample}
+  \end{figure}
+
+  %% BAP/PAP solution plot example
+  \begin{figure}
+    \centering
+    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
+    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent schedules vessels to serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dasched lines are associated with vessel D and represent the arrival time, berthing time, sercivce completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
     \label{fig:bap}
   \end{figure}
 #+end_export
@@ -159,7 +168,6 @@ other scheduled charge times.
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
-
 
 ** Fuzzy Preliminaries
 :PROPERTIES:
@@ -198,3 +206,11 @@ problems is converting them into a classical (crisp) model
 :END:
 
 #+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap" :only-contents t
+
+** Summary
+In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
+methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
+charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
+along with a short introduction to MILP, the BAP, and the PAP along with its formulation. An introduction to fuzzy set
+theory was provided followed by a description of the FFLP. A model for the Fuzzy BAP was then discussed along with an
+example solution.

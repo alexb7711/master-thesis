@@ -1,4 +1,4 @@
-% Created 2023-10-11 Wed 15:20
+% Created 2023-10-12 Thu 11:22
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -64,9 +64,8 @@
 \newcommand{\Hset}{\mathcal{H}}             % Set of visits 1-H
 % The Committee
 \majorprof{Dr. Droge, Ph.D.}
-\firstreader{Robert L. Forward, Ph.D.}
-\secondreader{Albert Einstein, Ph.D.}
-\thirdreader{Gottfried Liebniz, Ph.D.}
+\firstreader{Dr. Gunther, Ph.D.}
+\secondreader{Dr. Sarsilmaz, Ph.D.}
 
 % Graduate Dean
 \graddean{ D. Richard Cutler, Ph.D.}
@@ -164,14 +163,14 @@ and EVs replace their gasoline counterparts. The identified concentration of stu
 novel approach that provides a robust charging schedule for BEBs that minimizes monetary costs for the user. This
 approach, being based off the PAP, provides a solid foundation from which this work derives. It does not encapsulate the
 problem perfectly and thus needs some modifications to accommodate the BEB model. The PAP does not account for the
-revisits of a BEB and therefore the SOC cannot be tracked. The model does not account for multiple charger types, and in
-fact models the charger as a single continuous bar. These accommodations must be accounted for and are included in the
-objectives for the proposed BEB charging plan below.
+revisits of a BEB and therefore the State-Of-Charge (SOC) cannot be tracked. The model does not account for multiple
+charger types, and in fact models the charger as a single continuous bar. These accommodations must be accounted for and
+are included in the objectives for the proposed BEB charging plan below.
 
 \section{Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health}
 \label{sec:obj-math-model-pap}
 \begin{enumerate}
-\item Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
+\item Modify PAP to enable multiple visits by a BEB with variable charger duration per visit.
 
 \item Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
 incentivized for battery health.
@@ -185,6 +184,14 @@ produced, but with added flexibility to its application.
 
 \item Incorporate non-linear battery dynamics into the FFLP PAP model
 \end{enumerate}
+
+\section{Summary}
+\label{sec:org3cc7b9f}
+The objectives for the proposed work was outlined here. The main objectives are to modify the PAP so that it can be
+utilized for a fleet of BEBs. Furthermore, the modeling of the chargers from the PAP is to be modified to accommodate
+multiple types of chargers. The other main objective is to ``fuzzify'' the model to allow for uncertainty temporally. This
+is desired to allow for a flexible schedule. A non-linear model is then to be applied to have a more accurate depiction
+of the SOC.
 \chapter{BACKGROUND AND RELATED WORK}
 \label{sec:background-and-related-work}
 The BEB queue scheduling problem is one that has been of increasing interest and relevancy in the EV/BEB industry. It is
@@ -211,9 +218,9 @@ achieved \cite{wei-2018-optim-spatio,wang-2017-elect-vehic,zhou-2020-bi-objec,wa
 
 In some works, it was assumed that the charge received is proportional to the time spent on the charger
 \cite{liu-2020-batter-elect,yang-2018-charg-sched}. While the linear battery dynamics is a valid assumption when the
-battery State-Of-Charge (SOC) is below 80\% \cite{liu-2020-batter-elect}, non-linear battery dynamics can be implemented
-more accurately model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant
-Voltage (CV), Constant Current (CC), Constant Power (CP), and Constant Current Constant Power (CCCV)
+battery SOC is below 80\% \cite{liu-2020-batter-elect}, non-linear battery dynamics can be implemented more accurately
+model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant Voltage (CV),
+Constant Current (CC), Constant Power (CP), and Constant Current Constant Power (CCCV)
 \cite{abdollahi-2016-optim-batter,chen-2008-desig-grey}. It has also been suggested that the dynamics can be modeled
 as a piecewise function containing a linear and non-linear component from which a piecewise function approach may be
 taken for the CV and CC components \cite{zhang-2021-optim-elect,abdollahi-2016-optim-batter}. Others have modeled the
@@ -285,7 +292,7 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgad16343}
+\label{sec:org4540506}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -309,10 +316,19 @@ variable to value \cite{kaur-2016-introd-fuzzy}.
 
 \section{Overview of the BAP}
 \label{sec:overview-of-the-bap}
+%% Rectangle packing figure
 \begin{figure}
   \centering
   \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
-  \caption{Example of rectangle packing problem.}
+  \caption{Example of rectangle packing problem. The large square represented by $O$ indicates the canstrained area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
+  \label{fig:packexample}
+\end{figure}
+
+%% BAP/PAP solution plot example
+\begin{figure}
+  \centering
+  \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
+  \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent schedules vessels to serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dasched lines are associated with vessel D and represent the arrival time, berthing time, sercivce completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
   \label{fig:bap}
 \end{figure}
 
@@ -474,7 +490,6 @@ begin to be serviced to stay within the time horizon. \autoref{subeq:bapsdspace}
   \end{tabularx}
 \end{table}
 
-
 \section{Fuzzy Preliminaries}
 \label{sec:fuzzy-preliminaries}
 This section introduces the concept of fuzzy set theory by providing some basic definitions. The theory is then built on
@@ -490,7 +505,7 @@ referenced from
 \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:org28f2287}
+\label{sec:org03c5c12}
 A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
 is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
 not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
@@ -618,7 +633,7 @@ The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:orgb4657ed}
+\label{sec:org789c0d6}
 If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -632,7 +647,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:orgc29ac92}
+\label{sec:org5b4da3d}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
@@ -805,6 +820,15 @@ small triangle.
 \includegraphics[width=0.7\textwidth]{./img/bap-example-fuzzy-solution.png}
 \caption{\label{fig:bap-example-solution}Example solution of a fuzzy BAP model over multiple quays. The parallelograms represent the fuzzy solution visually by depicting the lower and upper bounds for the arrival and departure times with the vertial sloped lines. The yellow filled squares represent the average crisp solution.}
 \end{figure}
+
+\section{Summary}
+\label{sec:org48e076f}
+In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
+methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
+charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
+along with a short introduction to MILP, the BAP, and the PAP along with its formulation. An introduction to fuzzy set
+theory was provided followed by a description of the FFLP. A model for the Fuzzy BAP was then discussed along with an
+example solution.
 \chapter{APPROACH}
 \label{sec:approach}
 This section introduces the actions and formulations associated with the objectives described in \ref{sec:objectives}. The
@@ -825,11 +849,11 @@ Applying the PAP to BEB charging requires four fundamental changes. The first is
 charging is allowed to vary. Thus, \(s_i\) becomes a variable of optimization. Second, in the PAP each charging visit is
 assumed to be a different vehicle. For the BEB charging problem, each bus may make multiple visits to the station
 throughout the day and the resulting charge for a bus at a given time is dependent upon each of the prior visits made.
-The third fundamental change is related to the first two. The charge of each bus must be tracked in
-the optimization to ensure that charging across multiple visits is sufficient to allow each bus to execute its route throughout the day.
-The final change in the PAP, the charger is one continuous bar with vehicle width effectively restricting the number of vehicles
-charging simultaneously. For the BEB, it is assumed that a discrete number of chargers exist. Moreover, it is assumed
-that these chargers have different charge rates.
+The third fundamental change is related to the first two. The charge of each bus must be tracked in the optimization to
+ensure that charging across multiple visits is sufficient to allow each bus to execute its route throughout the day. The
+final change in the PAP is associated with the fact that the charger is modeled as one continuous bar. For the BEB, it
+will be assumed that a discrete number of chargers exist. Moreover, it is assumed that these chargers may have different
+charge rates.
 
 The discussion of the four changes are separated into two sections. \autoref{sec:queuing} discusses the changes in the
 spatial-temporal constraint formulation to form a queuing constraint. \autoref{sec:batt_dynamics} then discusses the
@@ -879,9 +903,9 @@ respective routes and each bus must end the day with a specific charge threshold
 
 The charge at the beginning of visit \(i\) is denoted as \(\eta_i\). As a charge on the bus is dependent upon the visits that
 bus makes to the station, the mapping \(\Upsilon: \mathbb{V} \rightarrow \mathbb{V} \bigcup \{\varnothing\}\) is used to determine the next visit
-that corresponds to the same bus, with \(\Upsilon_i\) being shorthand notation. Thus, \(\Gamma_i\) and \(\Gamma_{\Upsilon_i}\) would both map to the
-same bus index as long as \(\Upsilon_i\) is not the null element, \(\varnothing\). That is, \(\Gamma_{\Upsilon_i}\) where \(\Upsilon_i = 0\) indicates
-that there are no future visits for bus \(i\).
+that corresponds to the same bus, with \(\Upsilon_i\) being shorthand notation. Thus, \(\Gamma_j\) and \(\Gamma_{\Upsilon_i}\), for \(\Upsilon_i = j\), would
+both map to the same bus index as long as \(\Upsilon_i\) is not the null element, \(\varnothing\). That is, \(\Gamma_{\Upsilon_i}\) where \(\Upsilon_i =
+0\) indicates that there are no future visits for bus \(i\).
 
 To drive time spent on the charger, \(s_i\), as well as define initial, final, and intermediate bus charges for each visit
 \(i\), the sets for initial and final visits must be defined. Let the mapping of the first visit by each bus be denoted as
@@ -1121,7 +1145,7 @@ written in their fuzzy form; however, in practice the equations will be expanded
 \ref{sec:fuzzy-preliminaries}.
 
 \subsubsection{Objective Function}
-\label{sec:orgfd07d76}
+\label{sec:org0abc709}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1139,7 +1163,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:orgb95d226}
+\label{sec:org7e8ac94}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1174,7 +1198,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:orga22e87b}
+\label{sec:org6a468de}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is

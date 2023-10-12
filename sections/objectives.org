@@ -8,16 +8,16 @@ and EVs replace their gasoline counterparts. The identified concentration of stu
 novel approach that provides a robust charging schedule for BEBs that minimizes monetary costs for the user. This
 approach, being based off the PAP, provides a solid foundation from which this work derives. It does not encapsulate the
 problem perfectly and thus needs some modifications to accommodate the BEB model. The PAP does not account for the
-revisits of a BEB and therefore the SOC cannot be tracked. The model does not account for multiple charger types, and in
-fact models the charger as a single continuous bar. These accommodations must be accounted for and are included in the
-objectives for the proposed BEB charging plan below.
+revisits of a BEB and therefore the State-Of-Charge (SOC) cannot be tracked. The model does not account for multiple
+charger types, and in fact models the charger as a single continuous bar. These accommodations must be accounted for and
+are included in the objectives for the proposed BEB charging plan below.
 
 ** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 :PROPERTIES:
 :CUSTOM_ID: sec:obj-math-model-pap
 :END:
 
-1) Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
+1) Modify PAP to enable multiple visits by a BEB with variable charger duration per visit.
 
 2) Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
    incentivized for battery health.
@@ -84,3 +84,10 @@ as the MILP-PAP.
    over 15 minutes increments. If the average energy use exceeds a predefined threshold, the rate for electricity will
    increase proportional to the new average. The cost is known as the demand cost and is of interest to minimize.
 #+end_comment
+
+** Summary
+The objectives for the proposed work was outlined here. The main objectives are to modify the PAP so that it can be
+utilized for a fleet of BEBs. Furthermore, the modeling of the chargers from the PAP is to be modified to accommodate
+multiple types of chargers. The other main objective is to "fuzzify" the model to allow for uncertainty temporally. This
+is desired to allow for a flexible schedule. A non-linear model is then to be applied to have a more accurate depiction
+of the SOC.
