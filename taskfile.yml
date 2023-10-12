@@ -8,6 +8,7 @@ env:
   DOC    : main
   SCRIPTS: org-doc-scripts
   MPAP_D : ./sup-doc/milp-pap-paper-frontiers
+  FZZY_D : ./sup-doc/fuzzy-lp-paper
 
 
 ################################################################################
@@ -52,11 +53,13 @@ tasks:
     silent: true
 ##==============================================================================
 #
-  images:
+  sup-images:
     desc: "Build all standalone images."
     cmds:
       - go-task --version >/dev/null 2>&1 && go-task -d {{.MPAP_D}} images || echo ""
       - task --version >/dev/null 2>&1 && task -d {{.MPAP_D}} images || echo ""
+      - go-task --version >/dev/null 2>&1 && go-task -d {{.FZZY_D}} images || echo ""
+      - task --version >/dev/null 2>&1 && task -d {{.FZZY_D}} images || echo ""
 
 ##==============================================================================
 #
@@ -68,7 +71,7 @@ tasks:
     generates:
       - ./{{.DOC}}.pdf
     cmds:
-      - task: images
+      - task: sup-images
       - task: relative-path-bibtex
       - sh {{.SCRIPTS}}/build-pdf {{.DOC}} {{.TARGET}}
     silent: false
@@ -100,6 +103,8 @@ tasks:
     cmds:
       - task --version >/dev/null 2>&1 && task -d {{.MPAP_D}} clean || echo ""
       - go-task --version >/dev/null 2>&1 && go-task -d {{.MPAP_D}} clean || echo ""
+      - task --version >/dev/null 2>&1 && task -d {{.FZZY_D}} clean || echo ""
+      - go-task --version >/dev/null 2>&1 && go-task -d {{.FZZY_D}} clean || echo ""
       - |
         # Clean up the document files
         rm -f {{.TARGET}}

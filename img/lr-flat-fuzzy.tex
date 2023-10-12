@@ -1,0 +1,30 @@
+\documentclass[float=false, crop=true]{standalone}
+
+\usepackage{tikz}
+\usepackage{graphicx}
+
+\usetikzlibrary{automata, positioning, arrows.meta}                             % Tikz macros
+
+\begin{document}
+\resizebox{0.45\columnwidth}{!}{%
+  \begin{tikzpicture}[scale=1]    % Draw axes
+    \draw [<->,thick] (0,1.5) node (yaxis) [above] {$y$}
+    |- (3.5,0) node (xaxis) [right] {$x$};
+    % Draw two intersecting lines
+    \draw (0.5,0) coordinate (a_1) -- (1,1) coordinate (a_2);
+    \draw (1,1) coordinate (b_1) -- (2,1) coordinate (b_2);
+    \draw (2,1) coordinate (c_1) -- (3,0) coordinate (c_2);
+
+    \filldraw [black] (a_1) circle (1pt);
+    \filldraw [black] (a_2) circle (1pt);
+    \filldraw [black] (b_2) circle (1pt);
+    \filldraw [black] (c_2) circle (1pt);
+
+    \node[yshift=0.2cm] at (a_1) {a};
+    \node[yshift=0.2cm] at (a_2) {b};
+    \node[yshift=0.2cm] at (b_2) {c};
+    \node[yshift=0.2cm] at (c_2) {d};
+  \end{tikzpicture}%
+}
+
+\end{document}

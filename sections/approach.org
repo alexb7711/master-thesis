@@ -3,26 +3,20 @@
 :CUSTOM_ID: sec:approach
 :END:
 
-** Mathematically model the PAP to optimally assign BEBs to station with unknown charging times
+This section introduces the actions and formulations associated with the objectives described in [[#sec:objectives]]. The
+actions shall be presented in the same order as [[#sec:objectives]] for consistency. Furthermore, as some of the research
+proposed in this work has been completed, this section aims to identify complete and incomplete aspects of the research
+as its being presented.
+
+** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 :PROPERTIES:
-:CUSTOM_ID: sec:math-model-pap
+:CUSTOM_ID: sec:act-math-model-pap
 :END:
 
-This section introduces the actions and formulations associated with the objective described in [[#sec:objectives]]. This
-section addresses the actions by deriving a method of identifying buses for subsequent visits, utilizing that to
+This section addresses the actions by deriving a method of identifying buses for subsequent visits which is utilized to
 formulate a way of estimating the SOC during the BEBs charging phase. The method introduced in this section demonstrates
-the linear battery dynamics that have been implemented in the MILP-PAP. Non-linear dynamics will then be introduced with
-a brief description of the mathematical approach that will be taken. The derivation also demonstrates how the model will
-discretize the queuing space to accommodate chargers of multiple varieties.
-
-*** The PAP Formulation
-:PROPERTIES:
-:CUSTOM_ID: sec:the-pap-formulation
-:CUSTOM_ID: sec:input-variables
-:END:
-
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+the linear battery dynamics that have been implemented in the MILP-PAP. The derivation also demonstrates how the model
+will discretize the queuing space to accommodate multiple types of chargers.
 
 *** A Rectangle Packing Formulation for BEB Charging
 :PROPERTIES:
@@ -31,6 +25,15 @@ discretize the queuing space to accommodate chargers of multiple varieties.
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation" :only-contents t
 
+** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
+:PROPERTIES:
+:CUSTOM_ID: sec:act-math-model-robust
+:END:
+
+In this section, non-linear dynamics will be introduced with a brief description of the mathematical approach that
+will be taken. Proceeding this, the Fuzzy PAP (FPAP) shall be introduced in its entirety. The work presented in this
+section has yet to be completed.
+
 *** Non-Linear Battery Dynamics
 :PROPERTIES:
 :CUSTOM_ID: sec:non-linear-battery-dynamics
@@ -38,28 +41,31 @@ discretize the queuing space to accommodate chargers of multiple varieties.
 
 Modeling the charging dynamics is imperative to the model's accuracy as it is one of the main factors in terms of the
 decision variables. If the SOC is improperly modeled, that will produce an erroneous depiction of the state of BEB
-charges and could result in over charging or worse, undercharging. Thus, care must be taken into considering the BEB's
-charging model. There are various methods of modeling the SOC of a battery an can vary in complexity based on the
-attempt to incorporate temperature, battery degradation, and current
+charges and could result in over or under charging. Thus, care must be taken into considering the BEB's charging model.
+There are various methods of modeling the SOC of a battery an can vary in complexity based on the attempt to incorporate
+temperature, battery degradation, and current
 [cite:@zhang-2021-optim-elect;@chen-2008-desig-grey;@watrin-2012-multip-lithium].
 
-Some of the conventional methods to charge batteries are: Constant Voltage (CV), Constant Current (CC), Constant Power
-(CP), and Constant Current Voltage (CCCV) [cite:@arabsalmanabadi-2018-charg-techn]. CCCV, as the name describes, is the
+Some of the conventional methods to charge batteries are: Constant Voltage (CV), Constant Current (CC), and Constant
+Current Constant Voltage (CCCV) [cite:@arabsalmanabadi-2018-charg-techn]. CCCV, as the name describes, is the
 combination of CCCV model [cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey; @wang-2021-resear-optim]. In CCCV,
 a constant current is applied to a battery until it reaches terminal voltage. At this point a constant voltage is
-applied as the charge current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey].
+applied as the charge current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey]. Thus, by
+extension, CV merely applies a constant voltage and CC a constant current.
 
 As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80%
-[cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. As previously discussed,
-[cite:@zhang-2021-optim-elect] suggests that the SOC can be broken down into a linear and non-linear component. A plot
-of SOC of a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
+[cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. Naturally, it has been suggested by
+[cite:@zhang-2021-optim-elect] that the SOC can be broken down into a linear and non-linear component. A plot of SOC of
+a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
 
 #+name: fig:soc-plot
 #+caption: Illistration of non-linear charging profile.
+#+attr_org: :width 500
+#+attr_latex: :width 0.5\textwidth
 [[file:../img/soc-plot.png]]
 
 While some leverage the linear and non-linear components to derive their SOC model [cite:@abdollahi-2016-optim-batter],
-others have derived a first order equation to model this behavior [cite:@whitaker-2022-a-network]. Assume that a charge
+others have derived a first order equation to model this behavior [cite:@whitaker-2023-a-network]. Assume that a charge
 will occur over $dt$ seconds. The SOC on the time step $h+1$ for bus $i$ can be determined by the simple discrete first
 order equation
 
@@ -80,21 +86,9 @@ where
 #+end_export
 
 The equation is developed by using exact discretization [cite:@hespanha-2018-linear], and is proved in
-[cite:@whitaker-2022-a-network]. In the same way as the linear dynamics, the $i^{\text{th}}$ visit's initial charge is
+[cite:@whitaker-2023-a-network]. In the same way as the linear dynamics, the $i^{\text{th}}$ visit's initial charge is
 indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
-
-** Mathematically model the PAP to provide a robust solution
-:PROPERTIES:
-:CUSTOM_ID: sec:math-model-robust
-:END:
-
-In this section, the actions for the objective of providing a robust solution are discussed. The actions will be
-completed by introducing and formulating a Fully Fuzzy Mixed Linear Integer Program (FFMILP). The basics of fuzzy set
-theory is introduced as well as an introductory discussion of Fully Fuzzy Linear Programming (FFLP). A model for the
-Fuzzy BAP is derived and then interpreted into the Fuzzy PAP. The method of implementing the penalty function will be
-described early on in [[#sec:minimize-monetary-cost]] as it is a part of the objective function. While logically, the action
-fits within the current objective, the discussion of the mathematics is more coherent if discussed together.
 
 *** The Fuzzy PAP
 :PROPERTIES:
@@ -103,12 +97,7 @@ fits within the current objective, the discussion of the mathematics is more coh
 
 #+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::#sec:the-fuzzy-pap" :only-contents t
 
-The penalty function, introduced under [[#sec:obj-math-model-robust]], logically fits under the objective to provide a more
-robust solution as its intent is to widen the solution space; however, the mathematics to develop the penalty method is
-introduced in the objective function in the same way as the consumption and demand costs. The actions taken to develop
-the penalty function will therefore be presented in tandem with the consumption and demand costs next.
-
-** Minimize the monetary cost of charging the BEBs
+** Minimize the monetary cost of charging the BEBs :noexport:
 :PROPERTIES:
 :CUSTOM_ID: sec:minimize-monetary-cost
 :END:
@@ -135,7 +124,7 @@ for peak hours is also introduced with the power cost component.
 
 #+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:constraints" :only-contents t
 
-** Method And Validation
+** Method And Validation :noexport:
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -160,7 +149,7 @@ proposed method of implementation will subsequently be outlined and discussed.
 
 #+include: "../sup-doc/sa-pap-paper/sections/optimization-algorithm.org::#optimization-algorithm" :only-contents t
 
-** Project Schedule
+** Project Schedule :noexport:
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be completed.
 The estimated completion date is early to mid-November. Note that the blocks before the =TODAY= mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
@@ -192,11 +181,9 @@ The estimated completion date is early to mid-November. Note that the blocks bef
 :CUSTOM_ID: sec:approach-summary
 :END:
 
-The previous sections have addressed Objectives one through three by describing the approaches to be taken (or have
-taken) for each respective objective along with a derivation when available for the proposed approach. This research
-intends to increase utility of the PAP by first modifying the model to allow BEBs' charges to be propagated, include an
-identifier for BEBs to be tracked, utilize non-linear charging dynamics, as well as utilizing FFLP to develop a robust
-solution. This framework is intended to be implemented using a SA for its ease of implementation along with flexibility
-the numerical solver contains. Upon completion, the proposed research will demonstrate its full utility and
-extensibility due to the MILP's nature of adding additional constraints. This research project shall illustrate a robust
-BEB charging schedule with realistic applicability.
+The previous sections discussed the approaches to be taken (or have taken) for each respective objective along with a
+derivation when available for the proposed approach. This research intends to increase utility of the PAP by first
+modifying the model to allow BEBs' charges to be propagated, include an identifier for BEBs to be tracked, utilize
+non-linear charging dynamics, as well as utilizing FFLP to develop a robust solution. Upon completion, the proposed
+research will demonstrate its full utility and extensibility due to the MILP's nature of adding additional constraints.
+This research project shall illustrate a robust BEB charging schedule with realistic applicability.

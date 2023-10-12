@@ -1,0 +1,216 @@
+* BACKGROUND AND RELATED WORK
+:PROPERTIES:
+:CUSTOM_ID: sec:background-and-related-work
+:END:
+
+The BEB queue scheduling problem is one that has been of increasing interest and relevancy in the EV/BEB industry. It is
+thus important to address the state of the art by introducing relevant problems in BEB queue scheduling, which will be
+addressed first. A detailed problem description shall then be presented to give a better understanding of the
+proposition moving forward, and then miscellaneous introductory theory will be presented that.
+
+** State Of The Art of Battery Electric Bus Charging
+:PROPERTIES:
+:CUSTOM_ID: sec:state-of-the-art
+:END:
+
+Two of the main problems that have been of recent interest are solving the problems of route scheduling and charging
+fleets as well as determining the infrastructure upon which they rely. In fact, the prospect of solving both problems
+simultaneously has received much attention [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
+@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. These problems vary by including assignment of buses to routes
+[cite:@rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim; @tang-2019-robus-sched; @li-2014-trans-bus], determining
+whether a set of existing combustion based buses should be replaced with BEBs [cite:@zhou-2020-bi-objec;
+@duan-2021-refor-mixed; @rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim], accounting for uncertainties
+[cite:@bie-2021-optim-elect; @duan-2021-refor-mixed; @tang-2019-robus-sched;@ursavas-2016-optim-polic]. These problems
+add additional complexities that warrant simplifications due to computational complexities.
+
+Several simplifications are made throughout the literature to make these problems computationally feasible. These
+simplifications to the charge scheduling model include utilizing only fast chargers while planning
+[cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;@wang-2017-optim-rechar;@zhou-2020-bi-objec;
+@yang-2018-charg-sched;@wang-2017-elect-vehic;@qin-2016-numer-analy;@liu-2020-batter-elect]. If slow chargers are used,
+they are only employed at the one location with fast chargers elsewhere
+[cite:@he-2020-optim-charg;@tang-2019-robus-sched]. Some approaches also simplify by assuming a full charge is always
+achieved [cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar].
+
+In some works, it was assumed that the charge received is proportional to the time spent on the charger
+[cite:@liu-2020-batter-elect;@yang-2018-charg-sched]. While the linear battery dynamics is a valid assumption when the
+battery SOC is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented more accurately
+model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant Voltage (CV),
+Constant Current (CC), Constant Power (CP), and Constant Current Constant Power (CCCV)
+[cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey]. It has also been suggested that the dynamics can be modeled
+as a piecewise function containing a linear and non-linear component from which a piecewise function approach may be
+taken for the CV and CC components [cite:@zhang-2021-optim-elect;@abdollahi-2016-optim-batter]. Others have modeled the
+battery dynamics as a discrete first order dynamics model [cite:@whitaker-2023-a-network]. The first-order differential
+system, when provided a step input, approximates the non-linear relationship between time and the current SOC
+[cite:@whitaker-2023-a-network].
+
+Works concerning charge planning, as far as been able to be dicerned, primarily focus on a directed graph approach
+[cite:@whitaker-2023-a-network;@liu-2020-batter-elect]. The directed graph approach provides an easy method of modeling
+the scheduling by discretizing the time horizon to $n_Q$ sets of nodes. The nodes represent the chargers availability
+and can have a maximum of one bus at a time. The buses can flow into a node to be charged and then later can exit
+allowing a new bus to enter. Another method that is more natural to modeling the BEB charging scenario is the PAP
+[cite:@qarebagh-2019-optim-sched]. The PAP is derived from the BAP which takes an input of vessel arrival times and
+outpus the selection of the berthing quay. The PAP utilizes this model and redefines its inputs to EV arrival times and
+outputs queues for the EVs to be charged. While the visits remain as discrete events, the time that the BEB is on the
+charger is modeled in continuous time similar to [cite:@frojan-2015-contin-berth;
+@qarebagh-2019-optim-sched;@zhou-2020-collab-optim]. Due to the close relationship between the BAP and PAP, BAP
+literature may be used for the PAP. The literature shows methods of handling multiple quays (sets of chargers) to handle
+general berthing scenarios [cite:@frojan-2015-contin-berth;@dai-2008-suppl-chain-analy]. Heuristic procedures for
+quicker solve times have also been introduced [cite:@imai-2001-dynam-berth]. Methods of defining static (full time
+horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
+and even fuzzy set theory has been applied to allow for more flexible schedules [cite:@bello-2019-fuzzy-activ].
+
+An issue with the models introduced in the previous paragraph is the strict nature of the solutions produced. Fuzzy
+mathematical programming is useful in situations where imprecise parameters exist [cite:@bello-2019-fuzzy-activ].
+Previous work has utilized a stochastic approach to model uncentainties [cite:@bie-2021-optim-elect;
+@duan-2021-refor-mixed; @tang-2019-robus-sched]. Work related to the BAP shows a Fully Fuzzy Linear Program (FFLP)
+converts the FFLP to its "crisp" counterpart using one of various methods, a popular one being the Nasseri Method
+[cite:@bello-2019-fuzzy-activ]; however, to the extent of the research done for this work, FFLP has not been applied to
+EV or BEB scheduling. FFLP provides a simple modeling solution that natually describes the innacuracies associated with
+arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
+from the uncertainties defined by the input parameters.
+
+** Problem Description
+:PROPERTIES:
+:CUSTOM_ID: sec:problem-description
+:END:
+
+The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
+modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
+vehicles [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The PAP's goal is that of
+allocating space for incoming BEBs to be queued and charged as depicted in \autoref{subfig:papexample}. The BEBs are
+assumed to be on schedules that are defined in advance. That is, the times the BEBs are on their respective routes and
+the time they are at the station are known. The BEBs' initial charges are assumed to be known, the discharges are
+estimated by calculating an average bus speed, the time on route, and an average amount of energy consumed per mile, and
+a specified final charge must be met for each BEB. An example of a standard PAP/BAP solution (their visual
+representations are interchangeable) is visualized in \autoref{fig:bap}, note that the figure utilized BAP terminology.
+The x and y-axis represent time and queuing space, respectively. The figure discretizes the queuing space, but it may be
+continuous if desired as previously stated. The shaded rectangles' widths represent their respective allocated charge
+times, and their heights represent the physical space taken by each EV.
+
+#+begin_src latex
+\begin{subfigures}
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % BAP
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
+        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
+          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
+          arrow represents the direction of departure.}
+        \label{subfig:bapexample}
+    \end{figure}
+    \hfill
+
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % PAP
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
+        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
+          indicated by the arrow.}
+        \label{subfig:papexample}
+    \end{figure}
+\end{subfigures}
+#+end_src
+
+#+begin_comment
+Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
+#+end_comment
+
+** Mixed Integer Linear Programming
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :only-contents t
+
+** Overview of the BAP
+:PROPERTIES:
+:CUSTOM_ID: sec:overview-of-the-bap
+:END:
+
+#+begin_export latex
+  %% Rectangle packing figure
+  \begin{figure}
+    \centering
+    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
+    \caption{Example of rectangle packing problem. The large square represented by $O$ indicates the canstrained area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
+    \label{fig:packexample}
+  \end{figure}
+
+  %% BAP/PAP solution plot example
+  \begin{figure}
+    \centering
+    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
+    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent schedules vessels to serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dasched lines are associated with vessel D and represent the arrival time, berthing time, sercivce completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
+    \label{fig:bap}
+  \end{figure}
+#+end_export
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:overview-of-bap" :only-contents t
+
+** Overwiew of the PAP
+:PROPERTIES:
+:CUSTOM_ID: sec:overview-of-the-pap
+:END:
+
+The BAP defines the foundation of the PAP; however, there are some differences in the way the variables are interpreted. For
+the $i^{th}$ visit, starting service time is now the starting charge time, the berth location is now the charger queue
+for assignment, and the service time is now the elapsed charge time. There are also a few clarifying concepts about how
+the system is modeled. The PAP models the set of chargers as one continuous line; that is, the natural behavior of the
+PAP model is to allow vehicles to be queued anywhere along the "charge strip" $[0,S]$. Similarly, the charge times are
+continuous and can be placed anywhere on the time horizon, $[0,T]$, as long as the allocated times do not interfere with
+other scheduled charge times.
+
+**** The PAP Formulation
+:PROPERTIES:
+:CUSTOM_ID: sec:the-pap-formulation
+:CUSTOM_ID: sec:input-variables
+:END:
+
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
+#+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+
+** Fuzzy Preliminaries
+:PROPERTIES:
+:CUSTOM_ID: sec:fuzzy-preliminaries
+:END:
+
+This section introduces the concept of fuzzy set theory by providing some basic definitions. The theory is then built on
+to discuss Fully Fuzzy Linear Programming (FFLP). FFLP is a branch of Linear Programming where some of the parameters
+are allowed to have uncertainty which will be further elaborated on. In this section a method of constructing FFLP is
+introduced. Once the FFLP model has been introduced, a derivation of the Fuzzy BAP (FBAP) is introduced and
+discussed.
+
+*** Fuzzy Sets Theory
+:PROPERTIES:
+:CUSTOM_ID: sec:fuzzy-sets-theory
+:END:
+
+#+begin_comment
+are many methodologies that exist to solve Fully Fuzzy Linear Programs (FFLP), but the primary strategy of solving FFLP
+problems is converting them into a classical (crisp) model
+[cite:@bello-2019-fuzzy-activ;@nasseri-2013-fully;@kaur-2016-introd-fuzzy].
+#+end_comment
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fuzzy Sets Theory" :only-contents t
+
+*** Fully Fuzzy Linear Programming
+:PROPERTIES:
+:CUSTOM_ID: sec:fully-fuzzy-linear-programming
+:END:
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fully Fuzzy Linear Programming" :only-contents t
+
+*** The Fuzzy BAP
+:PROPERTIES:
+:CUSTOM_ID: sec:the-fuzzy-bap
+:END:
+
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap" :only-contents t
+
+** Summary
+In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
+methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
+charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
+along with a short introduction to MILP, the BAP, and the PAP along with its formulation. An introduction to fuzzy set
+theory was provided followed by a description of the FFLP. A model for the Fuzzy BAP was then discussed along with an
+example solution.
