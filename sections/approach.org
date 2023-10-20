@@ -8,7 +8,7 @@ actions shall be presented in the same order as [[#sec:objectives]] for consiste
 proposed in this work has been completed, this section aims to identify complete and incomplete aspects of the research
 as its being presented.
 
-** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
+** Objective 1: Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 :PROPERTIES:
 :CUSTOM_ID: sec:act-math-model-pap
 :END:
@@ -18,14 +18,25 @@ formulate a way of estimating the SOC during the BEBs charging phase. The method
 the linear battery dynamics that have been implemented in the MILP-PAP. The derivation also demonstrates how the model
 will discretize the queuing space to accommodate multiple types of chargers.
 
-*** A Rectangle Packing Formulation for BEB Charging
+*** Task 1.1: Modify PAP to enable multiple visits by a BEB with variable charger duration per visit
 :PROPERTIES:
-:CUSTOM_ID: sec:problemformulation
+:CUSTOM_ID: sec:app-modify-pap
 :END:
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation" :only-contents t
 
-** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
+*** Task 1.2: Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be incentivized for battery health.
+:PROPERTIES:
+:CUSTOM_ID: sec:app-incorporate-pap
+:END:
+
+The kernel of this task was developed in [[#sec:queuing]] TODO: CONTINUE WRITING
+To encourage the MILP PAP problem to utilize the fewest number of chargers, the value of $m_q$ in the objective
+function, \ref{eq:objective}, is $\forall q \in n_Q; m_q = 1000q$. The charge duration scalar, $\epsilon_q$, is defined as $\epsilon_q =
+r_q$ to create a consumption cost term, $g_{iq}\epsilon_q$. This is utilized to also encourage the model to minimize active
+charger times, particuarly for the fast chargers.
+
+** Objective 2: Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
 :PROPERTIES:
 :CUSTOM_ID: sec:act-math-model-robust
 :END:
@@ -34,7 +45,7 @@ In this section, non-linear dynamics will be introduced with a brief description
 will be taken. Proceeding this, the Fuzzy PAP (FPAP) shall be introduced in its entirety. The work presented in this
 section has yet to be completed.
 
-*** Non-Linear Battery Dynamics
+*** Task 2.1: Incorporate non-linear battery dynamics into the FFLP PAP model
 :PROPERTIES:
 :CUSTOM_ID: sec:non-linear-battery-dynamics
 :END:
@@ -90,7 +101,7 @@ The equation is developed by using exact discretization [cite:@hespanha-2018-lin
 indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
-*** The Fuzzy PAP
+*** Task 2.2: Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be produced, but with added flexibility to its application.
 :PROPERTIES:
 :CUSTOM_ID: sec:the-fuzzy-pap
 :END:
