@@ -3,91 +3,25 @@
 :CUSTOM_ID: sec:objectives
 :END:
 
-The field of BEB and EV research provides exciting many avenues and is continuing to gain traction in industry as BEBs
-and EVs replace their gasoline counterparts. The identified concentration of study stated in this work is to provide a
-novel approach that provides a robust charging schedule for BEBs that minimizes monetary costs for the user. This
-approach, being based off the PAP, provides a solid foundation from which this work derives. It does not encapsulate the
-problem perfectly and thus needs some modifications to accommodate the BEB model. The PAP does not account for the
-revisits of a BEB and therefore the State-Of-Charge (SOC) cannot be tracked. The model does not account for multiple
-charger types, and in fact models the charger as a single continuous bar. These accommodations must be accounted for and
-are included in the objectives for the proposed BEB charging plan below.
+The field of BEB research provides exciting many avenues and is continuing to gain traction in industry as BEBs replace
+their gasoline counterparts. This work will introduce a novel approach to BEB scheduling that minimizes monetary costs
+for the user, provides a robust solution, and includes an accurate dynamic battery model. The PAP provides a solid
+foundation from which this work derived. However, the PAP does not perfectly encapsulate the problem and thus needs some
+modifications to accommodate the BEB model. The PAP does not account for the revisits of a BEB and therefore the
+State-Of-Charge (SOC) cannot be tracked. The model does not account for multiple charger types, and in fact models the
+charger as a single continuous bar. These accommodations must be accounted for and are included in the objectives for
+the proposed BEB charging plan below.
 
-** Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
-:PROPERTIES:
-:CUSTOM_ID: sec:obj-math-model-pap
-:END:
+- *Objective 1*: Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 
-1) Modify PAP to enable multiple visits by a BEB with variable charger duration per visit.
+  - *Task 1.1*: Modify PAP to enable multiple visits by a BEB with variable charger duration per visit.
 
-2) Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging. Slow charging will be
-   incentivized for battery health.
+  - *Task 1.2*: Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging, minimize
+    and total charger count. Slow charging will be incentivized for battery health and consumption cost.
 
-#+begin_comment
-1) Each arrival is modeled as a unique visit which is not how buses operate. The BEBs repeatedly visit the same stops,
-   including the bus station where it is assumed they will be charged. The BEB must be given a unique identifier such
-   that its SOC may be tracked over its many visits and even for the obvious reason of being able to identify and
-   prescribe a BEB to their defined charging schedule.
+- *Objective 2*: Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
 
-2) As alluded in the previous action, the method of tracking the SOC is also of interest so that the charging schedule
-   provided does not result in undercharged BEBs being sent underway to perform their route, or on the opposite side, be
-   over-charged. Furthermore, it is assumed that the BEBs initial SOC will be known at the beginning of the day, but the
-   initial SOCs for subsequent visits will be known, and thus must be dynamically calculated. For accuracy of the SOC of
-   the BEB while charging, non-linear battery dynamics will be assumed.
+  - *Task 2.1*: Incorporate non-linear battery dynamics into the FFLP PAP model
 
-3) The PAP models the charging station as a continuous bar, which is not favorable for the BEB model. It is of interest
-   to discretize the charging station to accommodate both slow and fast chargers. The slow chargers with be incentivized
-   whereas the fast chargers will be utilized only when required. This will be done for battery health
-   [cite:@motapon-2020-gener-cycle].
-
-Note that for this objective, all the actions described have been researched and implemented bar the non-linear
-battery dynamics. The implementation of the above actions with linear battery dynamics will subsequently be referred to
-as the MILP-PAP.
-#+end_comment
-
-** Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
-:PROPERTIES:
-:CUSTOM_ID: sec:obj-math-model-robust
-:END:
-
-1) Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be
+  - *Task 2.2*: Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be
    produced, but with added flexibility to its application.
-
-2) Incorporate non-linear battery dynamics into the FFLP PAP model
-
-#+begin_comment
-1) The MILP-PAP addresses the problem of specifying a lower bound for the BEBs when creating a charging schedule. A
-   problem arises when the lower bound specified does not allow for a solution to be generated because the minimum SOC
-   percentage constraint has been violated. It is proposed to introduce a penalty method for the lower bound in an
-   attempt to relax the constraint and create a larger solution space.
-
-2) One of the drawbacks of the MILP implementation is the strict solution that is generated. Suppose that a solution was
-   generated, but due to weather conditions a bus arrives at the station five minutes late. The generated solution is no
-   longer valid due to one bus arriving late. This also could arise as an issue if a bus arrives early to the station.
-   To make matters worse, if a bus were to not adhere to the generated solution early on in the working day, the
-   majority of the solution is now void, and a new solution must be generated if optimality is desired. The crux of the
-   problem is that the time of arrival is uncertain. A solution to this problem is to fuzzify the MILP model.
-#+end_comment
-
-** Minimize the monetary cost of charging the BEBs :noexport:
-
-1) The previous objective mentioned the fact of favoring the use of slow chargers over fast chargers. This also results
-   in a reduction in monetary cost as it is cheaper in purchase and actively use slow chargers as they draw less
-   electricity [cite:@he-2020-optim-charg].
-
-2) Another method of minimizing the monetary cost is to minimize the consumption cost. That is, minimize the total
-   amount of energy consumed by the system. Furthermore, the cost of electricity is not constant throughout the day,
-   thus it would be of interest to allow accommodations for peak hours of electricity use to more aggressively reduce
-   energy use.
-
-3) Electricity companies also calculate energy use based on a value known as the peak 15. The peak 15 defines a method
-   of charging a base rate for electricity usage and adjusting based on power use. The power usage is monitored and averaged
-   over 15 minutes increments. If the average energy use exceeds a predefined threshold, the rate for electricity will
-   increase proportional to the new average. The cost is known as the demand cost and is of interest to minimize.
-#+end_comment
-
-** Summary
-The objectives for the proposed work was outlined here. The main objectives are to modify the PAP so that it can be
-utilized for a fleet of BEBs. Furthermore, the modeling of the chargers from the PAP is to be modified to accommodate
-multiple types of chargers. The other main objective is to "fuzzify" the model to allow for uncertainty temporally. This
-is desired to allow for a flexible schedule. A non-linear model is then to be applied to have a more accurate depiction
-of the SOC.

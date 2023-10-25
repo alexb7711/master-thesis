@@ -36,7 +36,7 @@ stochastic effects of energy consumption while on route for a BEB as well as tri
 a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to minimize
 over the total charger count [cite:@whitaker-2023-a-network].
 
-The work described in this paper is similar to the work in [cite:@whitaker-2023-a-network]; however provides an
+The work described in this paper is similar to the work in [cite:@whitaker-2023-a-network]; however it provides an
 alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
 after the Berth Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and
 serviced [cite:@buhrkal-2011-model-discr; @imai-2001-dynam-berth; @frojan-2015-contin-berth;]. The PAP utilizes this
@@ -53,14 +53,8 @@ constraints with non-linear battery dynamics.
 
 In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
 statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
-objectives and approaches in [[#sec:objectives]] and [[#sec:approach]], respectively.
-
-** Summary
-:PROPERTIES:
-:CUSTOM_ID: sec:intro-summary
-:END:
-
-The BEB queue scheduling problem discussed throughout this section is of particular interest at this time in the BEB
-industry and requires more attention. The research proposed directly approaches this problem by improving upon existing
-implementations to provide a robust and accurate solution. In the subsequent sections the objectives will be introduced
-in [[#sec:objectives]] and the approach for each objective will be discussed in [[#sec:approach]].
+objectives and approaches in [[#sec:objectives]] and [[#sec:approach]], respectively. The BEB queue scheduling problem discussed
+throughout this section is of particular interest at this time in the BEB industry and requires more attention. The
+research proposed directly approaches this problem by improving upon existing implementations to provide a robust and
+accurate solution. In the subsequent sections the objectives will be introduced in [[#sec:objectives]] and the approach for
+each objective will be discussed in [[#sec:approach]].
