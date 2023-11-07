@@ -1,4 +1,4 @@
-% Created 2023-11-07 Tue 09:31
+% Created 2023-11-07 Tue 11:26
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -118,7 +118,7 @@ BEBs have been in service for many major markets, North America, Europe, and Chi
 growth in the near future \cite{deng-2021-survey-elect}. The Asia Pacific market is forecasted to dominate the sales
 and some major companies of the industry have also begun to enter the global market such as Volvo, BYD, and Proterra by
 2025 \cite{deng-2021-survey-elect}. Much focus has been placed on the engineering of individual BEBs such as battery
-type, brake regenerative charging, optimal battery charging, and battery degradation \cite{chen-2008-desig-grey,abdollahi-2016-optim-batter,kühne-2010-elect,deng-2021-survey-elect}. The interest of route scheduling, charging
+type, brake regenerative charging, optimal battery charging, and battery degradation \cite{chen-2008-desig-grey,abdollahi-2016-optim-batter,kuhne-2010-elect,deng-2021-survey-elect}. The interest of route scheduling, charging
 fleets, and optimizing the infrastructure are problems of more recent interest and are therefore timely and increasingly
 relevant problems as EV/BEBs become more commonplace \cite{hoke-2014-accoun-lithium,sebastiani-2016-evaluat-elect,wei-2018-optim-spatio}.
 
@@ -246,7 +246,7 @@ arrival times of BEBs. Furthermore, the result produced from an FFLP model descr
 from the uncertainties defined by the input parameters.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org5e727dd}
+\label{sec:org77fefd7}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -471,7 +471,7 @@ referenced from
 \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:org3016611}
+\label{sec:orgd2117e9}
 A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
 is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
 not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
@@ -599,7 +599,7 @@ The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:org7aa74d2}
+\label{sec:orgdab0bc7}
 If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -613,7 +613,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:orgfbe4e9b}
+\label{sec:org0bcda54}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages \cite{mccahon-1990-compar}. Different properties have been applied to justify comparison of fuzzy
@@ -835,7 +835,7 @@ small triangle.
 \end{figure}
 
 \section{Summary}
-\label{sec:orge106a9c}
+\label{sec:orgfcbd616}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1174,7 +1174,7 @@ written in their fuzzy form; however, in practice the equations will be expanded
 \ref{sec:fuzzy-preliminaries}.
 
 \subsubsection{Objective Function}
-\label{sec:org4647745}
+\label{sec:org2a411a3}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1192,7 +1192,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org1cb45d5}
+\label{sec:orgfe3d5e3}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1227,7 +1227,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:orgc6f7b72}
+\label{sec:org612bbeb}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1272,7 +1272,7 @@ constraint validity is maintained \cite{ghanbari-2019-fuzzy}.
 \end{multicols}
 
 \section{Project Schedule}
-\label{sec:orgcef8e86}
+\label{sec:orgbb0d666}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be
 completed. The estimated completion date is med to late-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
