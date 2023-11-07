@@ -4,6 +4,8 @@
 #+TITLE: The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics
 #+AUTHOR: Alexander Brown
 #+EMAIL: A01704744@usu.edu
+
+#+OPTIONS: title:nil
 #+LANGUAGE: en
 
 #+include: sections/preamble.org
@@ -12,11 +14,13 @@
 #+LATEX_HEADER: \newtheorem{definition}{Definition}[section]
 
 #+begin_export latex
+\preliminaries   % set frontmatter style
+
+\maketitle
+
 \tableofcontents
 \listoftables
 \listoffigures
-
-\let\ref\autoref                            % Redifine `\ref` as `\autoref` because lazy
 #+end_export
 
 # ======================================================================================================================

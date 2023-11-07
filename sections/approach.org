@@ -174,7 +174,7 @@ completed. The estimated completion date is med to late-November. Note that the 
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
 
 #+begin_src latex
-  \begin{figure}[h]
+  \begin{figure}[ht]
     \begin{ganttchart}[
       vgrid={*{11}{gray, dotted}, *1{black, dashed}},
       bar label node/.append style={
