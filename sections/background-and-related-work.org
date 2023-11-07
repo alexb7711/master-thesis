@@ -19,7 +19,7 @@ simultaneously has received much attention [cite:@wei-2018-optim-spatio;@sebasti
 @hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. These problems vary by including assignment of buses to routes
 [cite:@rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim; @tang-2019-robus-sched; @li-2014-trans-bus], determining
 whether a set of existing combustion based buses should be replaced with BEBs [cite:@zhou-2020-bi-objec;
-@duan-2021-refor-mixed; @rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim], accounting for uncertainties
+@duan-2021-refor-mixed; @rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim], and accounting for uncertainties
 [cite:@bie-2021-optim-elect; @duan-2021-refor-mixed; @tang-2019-robus-sched;@ursavas-2016-optim-polic]. These problems
 add additional complexities that warrant simplifications due to computational complexities.
 
@@ -35,19 +35,23 @@ In some works, it was assumed that the charge received is proportional to the ti
 [cite:@liu-2020-batter-elect;@yang-2018-charg-sched]. While the linear battery dynamics is a valid assumption when the
 battery SOC is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented more accurately
 model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant Voltage (CV),
-Constant Current (CC), Constant Power (CP), and Constant Current Constant Power (CCCV)
-[cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey]. It has also been suggested that the dynamics can be modeled
-as a piecewise function containing a linear and non-linear component from which a piecewise function approach may be
-taken for the CV and CC components [cite:@zhang-2021-optim-elect;@abdollahi-2016-optim-batter]. Others have modeled the
-battery dynamics as a discrete first order dynamics model [cite:@whitaker-2023-a-network]. The first-order differential
-system, when provided a step input, approximates the non-linear relationship between time and the current SOC
-[cite:@whitaker-2023-a-network].
+Constant Current (CC), and Constant Current Constant Voltage (CCCV) [cite:@abdollahi-2016-optim-batter;
+@chen-2008-desig-grey]. It has also been suggested that the dynamics can be modeled as a piecewise function containing a
+linear and non-linear component from which a piecewise function approach may be taken for the CV and CC components
+[cite:@zhang-2021-optim-elect;@abdollahi-2016-optim-batter]. Others have modeled the battery dynamics as a discrete
+first order dynamics model [cite:@whitaker-2023-a-network]. The first-order differential system, when provided a step
+input, approximates the non-linear relationship between time and the current SOC [cite:@whitaker-2023-a-network].
 
-Works concerning charge planning, as far as been able to be dicerned, primarily focus on a directed graph approach
-[cite:@whitaker-2023-a-network;@liu-2020-batter-elect]. The directed graph approach provides an easy method of modeling
-the scheduling by discretizing the time horizon to $n_Q$ sets of nodes. The nodes represent the chargers availability
-and can have a maximum of one bus at a time. The buses can flow into a node to be charged and then later can exit
-allowing a new bus to enter. Another method that is more natural to modeling the BEB charging scenario is the PAP
+Works concerning charge planning often use a version of the vehicle scheduling problem [cite:@tang-2019-robus-sched;
+@li-2014-trans-bus; @he-2020-optim-charg]. Variants of this problem address infrastructure as well as determining
+existing buses that should be replaced by a BEB [cite:@zhou-2020-bi-objec; @duan-2021-refor-mixed;
+@rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim]. Other works introduce a directed graph approach to model the flow
+of BEBs [cite:@whitaker-2023-a-network;@liu-2020-batter-elect], where this concept was expanded to simultaneously
+accounting for multiple charger types, partial charging, non-linear battery charge profiles
+[cite:@whitaker-2023-a-network]. The directed graph approach provides an easy method of modeling the scheduling by
+discretizing the time horizon to $n_Q$ sets of nodes. The nodes represent the chargers availability and can have a
+maximum of one bus at a time. The buses can flow into a node to be charged and then later can exit allowing a new bus to
+enter. Another similar method to directed graph that fits the of modeling the BEB charging scenario is the PAP
 [cite:@qarebagh-2019-optim-sched]. The PAP is derived from the BAP which takes an input of vessel arrival times and
 outpus the selection of the berthing quay. The PAP utilizes this model and redefines its inputs to EV arrival times and
 outputs queues for the EVs to be charged. While the visits remain as discrete events, the time that the BEB is on the
@@ -69,7 +73,7 @@ EV or BEB scheduling. FFLP provides a simple modeling solution that natually des
 arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
 from the uncertainties defined by the input parameters.
 
-** Problem Description
+** Problem Description :noexport:
 :PROPERTIES:
 :CUSTOM_ID: sec:problem-description
 :END:
