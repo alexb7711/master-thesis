@@ -1,4 +1,4 @@
-% Created 2023-10-12 Thu 11:22
+% Created 2023-11-07 Tue 06:13
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -131,7 +131,7 @@ stochastic effects of energy consumption while on route for a BEB as well as tri
 a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to minimize
 over the total charger count \cite{whitaker-2023-a-network}.
 
-The work described in this paper is similar to the work in \cite{whitaker-2023-a-network}; however provides an
+The work described in this proposal is similar to the work in \cite{whitaker-2023-a-network}; however provides an
 alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
 after the Berth Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and
 serviced \cite{buhrkal-2011-model-discr,imai-2001-dynam-berth,frojan-2015-contin-berth}. The PAP utilizes this
@@ -186,7 +186,7 @@ produced, but with added flexibility to its application.
 \end{enumerate}
 
 \section{Summary}
-\label{sec:org3cc7b9f}
+\label{sec:org0f33d67}
 The objectives for the proposed work was outlined here. The main objectives are to modify the PAP so that it can be
 utilized for a fleet of BEBs. Furthermore, the modeling of the chargers from the PAP is to be modified to accommodate
 multiple types of chargers. The other main objective is to ``fuzzify'' the model to allow for uncertainty temporally. This
@@ -292,27 +292,40 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org4540506}
+\label{sec:org41feb09}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
-constraints \cite{chen-2010-applied}. Given a general objective function \(J\), decision variables (i.e. variables of
-optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\), and input parameters \(c_j, d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has the
-mathematical structure represented in \ref{eq:milp-structure} \cite{chen-2010-applied}.
+constraints \cite{chen-2010-applied}. Given an objective function \(J\), decision variables (i.e. variables of
+optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\), and input parameters \(c_j, d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a
+mathematical structure represented as shown in \ref{eq:milp-structure} \cite{chen-2010-applied}
 
-\begin{equation}
+\begin{subequations}
 \label{eq:milp-structure}
-\begin{array}{lll}
-\text{max}   & J = \sum_j c_j x_j + \sum_k d_k y_k            &                 \\
-\text{subject to} & \sum_j a_{ij} x_j + \sum_k g_{ik} y_k  \le b_i & (i = 1,2,...,m) \\
-                  & x_j \ge 0                                      & (j = 1,2,...,n) \\
-                  & y_k \in \mathbb{Z^+}0                          & (k = 1,2,...,n) \\
-\end{array}
-\end{equation}
+\begin{align}
+&\text{max}        &J = \sum_j c_j x_j + \sum_k d_k y_k&         &               &\label{eq:fuzzy-milp-objective}\\
+&\text{subject to} &\sum_j a_{ij} x_j + \sum_k g_{ik} y_k \le b_i&  &(i = 1,2,...,m)& \label{eq:fuzzy-milp-constraint}\\
+&                  &x_j \ge 0&                              &(j = 1,2,...,n)& \label{eq:fuzzy-milp-continuous}\\
+&                  &y_k \in \mathbb{Z^+}&                   &(k = 1,2,...,n)& \label{eq:fuzzy-milp-integer}\\
+&\end{align}
+\end{subequations}
 
-This formulation of the MILP is also referred to as ``crisp''. By this it is meant that each variable in the formulation
-acts as an injective mapping to its number representation. In other words, every variable has a one-to-one mapping from
-variable to value \cite{kaur-2016-introd-fuzzy}.
+The objective function in \ref{eq:fuzzy-milp-objective} comprises two parts, the continuous part, \(\sum_j c_j x_j\), and
+integer part, \(\sum_k d_k y_k\). The decision variable of the first part, \(x_j\), is continuous whereas the decision variable
+of the second, \(y_j\), is integer. Their respective input parameters may be integer or continuous, in the case of this
+example they are modeled as continuous. The objective function's utility is to provide a numerical score to a system
+(provided that a set of decision variables and input parameters are defined). While an individual score may not have any
+intrinsic meaning, it provides a method of ranking different solutions of the same model. The constraint equations
+(\ref{eq:fuzzy-milp-constraint} - \ref{eq:fuzzy-milp-integer}) must all be satisfied for the output of an objective
+function to have any meaning. Thus, the constraint equations limit the solution space of the decision variables.
+\ref{eq:fuzzy-milp-constraint} states that the summation of the products of the respective continuous and integer
+decision variables and input parameters must be less than or equal to some value \(b_i\). \ref{eq:fuzzy-milp-continuous}
+and \ref{eq:fuzzy-milp-integer} state that the decision variables \(x_j\) and \(y_k\), must be greater than or equal to 0,
+respectively.
+
+This formulation of the MILP in \ref{eq:milp-structure} is also referred to as ``crisp''. By this it is meant that each
+variable in the formulation acts as an injective mapping to its number representation. In other words, every variable
+has a one-to-one mapping from variable to value \cite{kaur-2016-introd-fuzzy}.
 
 \section{Overview of the BAP}
 \label{sec:overview-of-the-bap}
@@ -340,17 +353,16 @@ the widths and height of the rectangles represent the physical width and heights
 \cite{murata-1995-rectan}. Other problems, such as the BAP can allow one side of the rectangle to vary depending on its
 assigned position (e.g. the varying lengths of the vessels) \cite{buhrkal-2011-model-discr}.
 
-The BAP solves the problem of optimally assigning incoming vessels to berth positions to be serviced
-(\autoref{subfig:bapexample}). The width and height of \(O\) time horizon \(T\) and represent the berth length \(S\),
-respectively. Similarly, the width and height for \(\mathbb{O}\) represent the time spent to service vessel \(i\) and the
-space taken by docking vessel \(i\), respectively. In the BAP, the vessel characteristics (length of the vessel, arrival
-time, handling time, desired departure time) are assumed to be known for all vessels to be serviced. A representation of
-a BAP solution is shown in \autoref{fig:bap}. The x and y-axis represent time and space, respectively. The grey squares,
-labeled A, B, C, and D, represent berthed vessels. The width of the boxes represent the time spent being serviced, and
-the height represents the amount of space the vessel requires on the berth. The vertical line adjacent
- ``Arrival Time'' represents the actual
-time that the vessel arrives and is available to be berthed. ``Berthing Time'' is the time the vessel is berthed and
-begins being serviced. ``Completion time'' represents the time at which the berthing space becomes available again.
+The BAP solves the problem of optimally assigning incoming vessels to berth positions to be serviced. The width and
+ height of \(O\) time horizon \(T\) and represent the berth length \(S\), respectively. Similarly, the width and height for
+ \(\mathbb{O}\) represent the time spent to service vessel \(i\) and the space taken by docking vessel \(i\), respectively. In
+ the BAP, the vessel characteristics (length of the vessel, arrival time, handling time, desired departure time) are
+ assumed to be known for all vessels to be serviced. A representation of a BAP solution is shown in \autoref{fig:bap}.
+ The x and y-axis represent time and space, respectively. The grey squares, labeled A, B, C, and D, represent berthed
+ vessels. The width of the boxes represent the time spent being serviced, and the height represents the amount of space
+ the vessel requires on the berth. The vertical line adjacent ``Arrival Time'' represents the actual time that the
+ vessel arrives and is available to be berthed. ``Berthing Time'' is the time the vessel is berthed and begins being
+ serviced. ``Completion time'' represents the time at which the berthing space becomes available again.
 
 \section{Overwiew of the PAP}
 \label{sec:overview-of-the-pap}
@@ -364,9 +376,9 @@ other scheduled charge times.
 
 \subsubsection{The PAP Formulation}
 \label{sec:input-variables}
-The BAP forms the basis of the PAP; however, there are some differences in the way the variables are interpreted. For the
-\(i^{th}\) visit, starting service time, \(u_i\), is now the starting charge time, the berth location, \(v_i\), is now the
-charger queue for assignment, and the service time, \(s_i\), is now the elapsed charge time. There are also a few clarifying concepts
+The BAP forms the basis of the PAP; however, there are some differences in the way the variables are interpreted. For
+the \(i^{th}\) visit, starting service time, \(u_i\), is the starting charge time, the berth location, \(v_i\), is the charger
+queue for assignment, and the service time, \(s_i\), is the elapsed charge time. There are also a few clarifying concepts
 about how the system is modeled. The PAP models the set of chargers as one continuous line; that is, the natural
 behavior of the PAP model is to allow vehicles to be queued anywhere along \([0,S]\). Similarly, the charge times are
 continuous and can be placed anywhere on the time horizon, \([0,T]\), as long as the allocated times do not interfere with
@@ -374,11 +386,11 @@ other scheduled charge times. The PAP formulation's parameters can be divided in
 decision variables. Each type will now be introduced. The following parameters are constant inputs into the MILP.
 
 \begin{itemize}
-	\item $S$   : Size of the vehicle
+	\item $L$   : Size of the vehicle
 	\item $T$   : time horizon
 	\item $n_V$ : total number of incoming vehicles
 	\item $s_i$ : charging time for vehicle $i;\; 1 \leq i \leq n_N$
-	\item $s_i$ : width of vehicle $i;\; 1 \leq i \leq n_N$
+	\item $l_i$ : width of vehicle $i;\; 1 \leq i \leq n_N$
 	\item $a_i$ : arrival time of vehicle $i;\; 1 \leq i \leq n_N$
 \end{itemize}
 
@@ -406,14 +418,14 @@ Subject to:
 \label{eq:bapconstrs}
 \begin{align}
     u_j - u_i - s_i - (\sigma_{ij} - 1)T \geq 0                  \label{subeq:baptime}          \\
-    v_j - v_i - s_i - (\psi_{ij} - 1)S \geq 0                \label{subeq:bapspace}           \\
+    v_j - v_i - l_i - (\psi_{ij} - 1)L \geq 0                \label{subeq:bapspace}           \\
     \sigma_{ij} + \sigma_{ji} + \psi_{ij} + \psi_{ji} \geq 1 \label{subeq:bapvalid_pos}     \\
     \sigma_{ij} + \sigma_{ji} \leq 1                              \label{subeq:bapsigma}        \\
     \psi_{ij} + \psi_{ji} \leq 1                              \label{subeq:bapdelta}        \\
     s_i + u_i = d_i                                               \label{subeq:bapdetach}       \\
     a_i \leq u_i \leq (T - s_i)                                   \label{subeq:bapvalid_starts} \\
     \sigma_{ij} \in \{0,1\},\;\psi_{ij} \in \{0,1\}\;           \label{subeq:bapsdspace}      \\
-    v_i \in [0, S ]                                               \label{subeq:bapvspace}
+    v_i \in [0, L ]                                               \label{subeq:bapvspace}
 \end{align}
 \end{subequations}
 
@@ -502,10 +514,10 @@ discussed.
 \label{sec:fuzzy-sets-theory}
 This section introduces the notion of fuzzy numbers and some basic definitions. Concepts from this section are
 referenced from
-\cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ}.
+\cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:org03c5c12}
+\label{sec:orgc522a81}
 A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
 is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
 not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
@@ -633,7 +645,7 @@ The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:org789c0d6}
+\label{sec:org6089e59}
 If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -647,15 +659,15 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:org5b4da3d}
+\label{sec:orge5a8f36}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
-disadvantages. Different properties have been applied to justify comparison of fuzzy numbers, such as: preference,
-rationality, and robustness \cite{jimenez-2007-linear-progr,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. These
-methods are commonly known as ranking functions or ordering functions
-\cite{bello-2019-fuzzy-activ,das-2016-mathem-model,kaur-2016-introd-fuzzy}. Commonly, including in this work, the
-First index of Yager \cite{yager-1981-proced-order} is used. Let a fuzzy number be represented as \(\tilde{A} =
-(a_1,a_2,...)\), then the First index of Yager is defined as \ref{eq:first-index-yager}.
+disadvantages \cite{mccahon-1990-compar}. Different properties have been applied to justify comparison of fuzzy
+numbers, such as: preference, rationality, and robustness
+\cite{jimenez-2007-linear-progr,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. These methods are commonly known as
+ranking functions or ordering functions \cite{bello-2019-fuzzy-activ,das-2016-mathem-model,kaur-2016-introd-fuzzy}.
+Commonly, including in this work, the First index of Yager \cite{yager-1981-proced-order} is used. Let a fuzzy number
+be represented as \(\tilde{A} = (a_1,a_2,...)\), then the First index of Yager is defined as \ref{eq:first-index-yager}.
 
 \begin{equation}
 \label{eq:first-index-yager}
@@ -688,8 +700,8 @@ tuple for the fuzzy number \(\tilde{a}\). All variables besides \(\tilde{X} = (x
 \end{equation}
 
 There are many methods of solving FFLP
-\cite{bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy,ebrahimnejad-2016-new-method,nasseri-2013-fully}; however, the
-general strategy is to convert the fuzzy model into a crisp model that can be solved using traditional methods
+\cite{bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy,ebrahimnejad-2016-new-method,nasseri-2013-fully}; however, a
+common strategy is to convert the fuzzy model into a crisp model that can be solved using traditional methods
 \cite{bello-2019-fuzzy-activ}. In \cite{nasseri-2013-fully,bello-2019-fuzzy-activ}, the method of converting the FFLP
 into a crisp MILP is simply done by applying the ranking function to the objective function and breaking the constraints
 down into a set of crisp constraints as shown in \ref{eq:nasseri-solution}. The constraints are separated according to the
@@ -763,16 +775,63 @@ Expanding the set of equations and using the condensed notation in \ref{eq:nasse
 \begin{array}{lllc}
 \underset{{\tilde{x}}}{\text{max}} & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3) \otimes (x_j^1,x_j^2,x_j^3)\Big) &                             &                                          \\
 \text{subject to}  & \sum_j a_{ej}^k x_j^k = b_e^k                                &                                &   \forall e = 1,2,3,...        \\
-                   & \sum_j a_{lj}^k x_j^k s_l^k \le s_l^{'k} b_l^k                 &                                &   \forall l = 1,2,3,...       \\
-                   & \sum_j a_{gj}^k x_j^k s_g^k \ge s_l^{'k} b_l^k                 &                                &   \forall g = 1,2,3,...      \\
-                   & \mathfrak{R}(\tilde{S_l}) - \mathfrak{R}(\tilde{S_l'}) = 0                      &                                &  \forall l = 1,2,3,...          \\
-                   & \mathfrak{R}(\tilde{S_g}) - \mathfrak{R}(\tilde{S_g'}) = 0                      &                                &  \forall g = 1,2,3,...          \\
-                   & x_j^2 - x_j^1 \ge 0                                              &x_j^3 - x_j^2 \ge 0 &         \\
-                   & s_j^2 - s_j^1 \ge 0                                              &s_j^3 - s_j^2 \ge 0 &         \\
-                   & s_j^{'2} - s_j^{'1} \ge 0                                        &s_j^{'3} - s_j^{'2} \ge 0 & \\
+                   & \sum_j a_{lj}^k x_j^k + s_l^k = s_l^{'k} + b_l^k                 &                                &   \forall l = 1,2,3,...       \\
+                   & \sum_j a_{gj}^k x_j^k + s_g^k = s_l^{'k} + b_l^k                 &                                &   \forall g = 1,2,3,...      \\
+                   & \mathfrak{R}(\tilde{S_l}) - \mathfrak{R}(\tilde{S_l'}) \ge 0                      &                                &  \forall l = 1,2,3,...          \\
+                   & \mathfrak{R}(\tilde{S_g}) - \mathfrak{R}(\tilde{S_g'}) \le 0                      &                                &  \forall g = 1,2,3,...          \\
+                   & x_j^2 - x_j^1 \ge 0                                         & x_j^3 - x_j^2 \ge 0              &         \\
                    & \forall k \in \{1,2,...\}                                            &                            &                       \\
 \end{array}
 \end{equation}
+
+\subsubsection{Example}
+\label{sec:fully-fuzzy-linear-programming-example}
+To demonstrate the process of decomposing an FFLP into its crisp counterpart, a simple example is to be provided.
+Consider the following convex non-negative triangular fuzzy FFLP show in \ref{eq:fflp-example}. The example is pulled from
+\cite{nasseri-2013-fully}.
+
+\begin{equation}
+\label{eq:fflp-example}
+\begin{array}{ll}
+\underset{{\tilde{x}}}{\text{max}} & (1,2,3) \otimes \tilde{x}_1 \oplus (2,3,4) \otimes \tilde{x}_2 \\
+\text{subject to}                  & (0,1,2) \otimes \tilde{x}_1 \oplus (1,2,3) \otimes \tilde{x}_2 \le (1,10,27) \\
+                                   & (1,2,3) \otimes \tilde{x}_1 \oplus (0,1,2) \otimes \tilde{x}_2 \le (2,11,28)
+\end{array}
+\end{equation}
+
+Using the method described in \ref{sec:fully-fuzzy-linear-programming}, the FFLP can be expanded into the following form
+described in \ref{eq:fflp-example-crisp}. The objective function is expanded using the First Index of Yager. Each constraint
+is then decomposed into three constraints with slack variables appended to the left-hand side and right-hand side of
+their respective equation. The constraints for the slack variables are then included to ensure values of the triangular
+fuzzy numbers for the slack variables are valid. \ref{eq:fflp-example-crisp} is now said to be a crisp representation of
+\ref{eq:fflp-example} in standard form. Solving the FFLP utilizing the Octave LP module (using both the Nasseri and Kumar
+methods to verify the results), the example problem has a solution as displayed in \ref{tab:fflp-example-solution}.
+
+\begin{equation}
+\label{eq:fflp-example-crisp}
+\begin{array}{ll}
+\underset{x}{\text{max}} & J = (\frac{1+2+3}{3})  (\frac{x_1^1 + x_1^2 + x_1^3}{3}) + (\frac{2,3,4}{3})  (\frac{x_2^1 + x_2^2 + x_2^3}{3}) \\
+\text{subject to}        &  0x_1^1 + 1x_2^1 + s_1^1 = 1 + s_1^{1'}                                                                  \\
+                         &  1x_1^2 + 2x_2^2 + s_1^2 = 10 + s_1^{2'}                                                                  \\
+                         &  2x_1^3 + 3x_2^3 + s_1^3 = 27 + s_1^{3'}                                                                  \\
+                         &  1x_1^1 + 0x_2^1 + s_1^1 = 2 + s_1^{1'}                                                                  \\
+                         &  2x_1^2 + 1x_2^2 + s_1^2 = 11 + s_1^{2'}                                                                  \\
+                         &  3x_1^3 + 2x_2^3 + s_1^3 = 28 + s_1^{3'}                                                                  \\
+                         & \mathfrak{R}(\tilde{S_1}) - \mathfrak{R}(\tilde{S_1'}) \ge 0                                                                    \\
+                         & \mathfrak{R}(\tilde{S_2}) - \mathfrak{R}(\tilde{S_2'}) \ge 0                                                                    \\
+                         & x_j^2 - x_j^1 \ge 0                                                                                        \\
+                         & x_j^3 - x_j^2 \ge 0                                                                                        \\
+\end{array}
+\end{equation}
+
+\begin{table}[htbp]
+\caption{\label{tab:fflp-example-solution}Solution to the crisp representation of the FFLP.}
+\centering
+\begin{tabular}{rrrrrrrrrrrr}
+\(x_1^1\) & \(x_1^2\) & \(x_1^3\) & \(x_2^1\) & \(x_2^2\) & \(x_2^3\) & \(s_1^1\) & \(s_1^2\) & \(s_1^3\) & \(s_1^{1'}\) & \(s_1^{2'}\) & \(s_1^{3'}\)\\[0pt]
+2 & 4 & 6 & 1 & 3 & 5 & 0 & 0 & 0 & 0 & 0 & 0\\[0pt]
+\end{tabular}
+\end{table}
 
 \subsection{The Fuzzy BAP}
 \label{sec:the-fuzzy-bap}
@@ -822,7 +881,7 @@ small triangle.
 \end{figure}
 
 \section{Summary}
-\label{sec:org48e076f}
+\label{sec:orgbb41273}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1145,7 +1204,7 @@ written in their fuzzy form; however, in practice the equations will be expanded
 \ref{sec:fuzzy-preliminaries}.
 
 \subsubsection{Objective Function}
-\label{sec:org0abc709}
+\label{sec:orga7784ea}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1163,7 +1222,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org7e8ac94}
+\label{sec:orgf2981c4}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1198,7 +1257,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:org6a468de}
+\label{sec:org7966b25}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
