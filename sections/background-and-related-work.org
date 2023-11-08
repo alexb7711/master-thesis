@@ -53,7 +53,7 @@ discretizing the time horizon to $n_Q$ sets of nodes. The nodes represent the ch
 maximum of one bus at a time. The buses can flow into a node to be charged and then later can exit allowing a new bus to
 enter. Another similar method to directed graph that fits the of modeling the BEB charging scenario is the PAP
 [cite:@qarebagh-2019-optim-sched]. The PAP is derived from the BAP which takes an input of vessel arrival times and
-outpus the selection of the berthing quay. The PAP utilizes this model and redefines its inputs to EV arrival times and
+output the selection of the berthing quay. The PAP utilizes this model and redefines its inputs to EV arrival times and
 outputs queues for the EVs to be charged. While the visits remain as discrete events, the time that the BEB is on the
 charger is modeled in continuous time similar to [cite:@frojan-2015-contin-berth;
 @qarebagh-2019-optim-sched;@zhou-2020-collab-optim]. Due to the close relationship between the BAP and PAP, BAP
@@ -144,7 +144,7 @@ Now that the problem has been defined conceptually, the problem shall be defined
   \begin{figure}
     \centering
     \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
-    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent schedules vessels to serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dasched lines are associated with vessel D and represent the arrival time, berthing time, sercivce completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
+    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed lines are associated with vessel D and represent the arrival time, berthing time, serviced completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
     \label{fig:bap}
   \end{figure}
 #+end_export
