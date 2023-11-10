@@ -27,13 +27,13 @@ Several simplifications are made throughout the literature to make these problem
 simplifications to the charge scheduling model include utilizing only fast chargers while planning
 [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;@wang-2017-optim-rechar;@zhou-2020-bi-objec;
 @yang-2018-charg-sched;@wang-2017-elect-vehic;@qin-2016-numer-analy;@liu-2020-batter-elect]. If slow chargers are used,
-they are only employed at the one location with fast chargers elsewhere
+they are only deployed at the one location with fast chargers being deployed elsewhere
 [cite:@he-2020-optim-charg;@tang-2019-robus-sched]. Some approaches also simplify by assuming a full charge is always
 achieved [cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar].
 
 In some works, it was assumed that the charge received is proportional to the time spent on the charger
 [cite:@liu-2020-batter-elect;@yang-2018-charg-sched]. While the linear battery dynamics is a valid assumption when the
-battery SOC is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented more accurately
+battery SOC is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynamics can be implemented to more accurately
 model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant Voltage (CV),
 Constant Current (CC), and Constant Current Constant Voltage (CCCV) [cite:@abdollahi-2016-optim-batter;
 @chen-2008-desig-grey]. It has also been suggested that the dynamics can be modeled as a piecewise function containing a
@@ -51,9 +51,9 @@ accounting for multiple charger types, partial charging, non-linear battery char
 [cite:@whitaker-2023-a-network]. The directed graph approach provides an easy method of modeling the scheduling by
 discretizing the time horizon to $n_Q$ sets of nodes. The nodes represent the chargers availability and can have a
 maximum of one bus at a time. The buses can flow into a node to be charged and then later can exit allowing a new bus to
-enter. Another similar method to directed graph that fits the of modeling the BEB charging scenario is the PAP
+enter. Another method similar to the directed graph that fits the modeling of the BEB charging scenario is the PAP
 [cite:@qarebagh-2019-optim-sched]. The PAP is derived from the BAP which takes an input of vessel arrival times and
-output the selection of the berthing quay. The PAP utilizes this model and redefines its inputs to EV arrival times and
+outputs the selection of the berthing quay. The PAP utilizes this model and redefines its inputs to EV arrival times and
 outputs queues for the EVs to be charged. While the visits remain as discrete events, the time that the BEB is on the
 charger is modeled in continuous time similar to [cite:@frojan-2015-contin-berth;
 @qarebagh-2019-optim-sched;@zhou-2020-collab-optim]. Due to the close relationship between the BAP and PAP, BAP
@@ -65,11 +65,11 @@ and even fuzzy set theory has been applied to allow for more flexible schedules 
 
 An issue with the models introduced in the previous paragraph is the strict nature of the solutions produced. Fuzzy
 mathematical programming is useful in situations where imprecise parameters exist [cite:@bello-2019-fuzzy-activ].
-Previous work has utilized a stochastic approach to model uncentainties [cite:@bie-2021-optim-elect;
+Previous work has utilized a stochastic approach to model uncertainties [cite:@bie-2021-optim-elect;
 @duan-2021-refor-mixed; @tang-2019-robus-sched]. Work related to the BAP shows a Fully Fuzzy Linear Program (FFLP)
 converts the FFLP to its "crisp" counterpart using one of various methods, a popular one being the Nasseri Method
 [cite:@bello-2019-fuzzy-activ]; however, to the extent of the research done for this work, FFLP has not been applied to
-EV or BEB scheduling. FFLP provides a simple modeling solution that natually describes the innacuracies associated with
+EV or BEB scheduling. FFLP provides a simple modeling solution that naturally describes the inaccuracies associated with
 arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
 from the uncertainties defined by the input parameters.
 
