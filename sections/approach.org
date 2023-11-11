@@ -74,8 +74,8 @@ extension, CV merely applies a constant voltage and CC a constant current.
 
 As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80%
 [cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. Naturally, it has been suggested by
-[cite:@zhang-2021-optim-elect] that the SOC can be broken down into a linear and non-linear component. A plot of SOC of
-a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
+[cite:@zhang-2021-optim-elect] that the SOC can be broken down into a linear and non-linear component. A plot of the SOC
+for a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
 
 #+name: fig:soc-plot
 #+caption: Illistration of non-linear charging profile.
@@ -170,7 +170,7 @@ proposed method of implementation will subsequently be outlined and discussed.
 
 ** Project Schedule
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be
-completed. The estimated completion date is med to late-November. Note that the blocks before the =TODAY= mark in
+completed. The estimated completion date is mid to late-November. Note that the blocks before the =TODAY= mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
 
 #+begin_src latex
