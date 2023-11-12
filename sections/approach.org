@@ -61,8 +61,8 @@ section has yet to be completed.
 Modeling the charging dynamics is imperative to the model's accuracy as it is one of the main factors in terms of the
 decision variables. If the SOC is improperly modeled, that will produce an erroneous depiction of the state of BEB
 charges and could result in over or under charging. Thus, care must be taken into considering the BEB's charging model.
-There are various methods of modeling the SOC of a battery an can vary in complexity based on the attempt to incorporate
-temperature, battery degradation, and current
+There are various methods of modeling the SOC of a battery and can vary in complexity based on the attempt to
+incorporate temperature, battery degradation, and current
 [cite:@zhang-2021-optim-elect;@chen-2008-desig-grey;@watrin-2012-multip-lithium].
 
 Some of the conventional methods to charge batteries are: Constant Voltage (CV), Constant Current (CC), and Constant
