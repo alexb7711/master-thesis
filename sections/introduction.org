@@ -3,7 +3,7 @@
 :CUSTOM_ID: sec:introduction
 :END:
 
-Public transportation system are crucial in any urban area; however, the increased awareness and concern of
+Public transportation systems are crucial in any urban area; however, the increased awareness and concern of
 environmental impacts of petroleum based public transportation has driven an effort to reduce the pollutant footprint
 [cite:@de-2014-simul-elect;@xylia-2018-role-charg;@guida-2017-zeeus-repor-europ;@li-2016-batter-elect]. Particularly,
 the electrification of public bus transportation via battery power, i.e., battery electric buses (BEBs), has received
@@ -25,7 +25,7 @@ relevant problems as EV/BEBs become more commonplace [cite:@hoke-2014-accoun-lit
 @wei-2018-optim-spatio].
 
 The literature shows an interest in solving the problem of assigning BEBs to charging queues or optimizing their
-infrastracture [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
+infrastructure [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
 @hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. In fact, many works attempt to solve both problems simultanously
 barring some simplification whether it be only allowing chargers of a single type
 [cite:@he-2020-optim-charg;@tang-2019-robus-sched]. If multiple chargers are used, then one of each type is assigned at
@@ -46,7 +46,7 @@ Because of the PAP's extremely close modeling methods to the BAP, literature fro
 for the development of the PAP in this work. The BAP has been studied in literature since the 1990s and provides a depth
 of work to derive from [cite:@rodrigues-2022-berth]. The proposed work also intends to introduce a sense of robustness
 by allowing uncertainty in the arrival times of the BEBs. By "fuzzifying" the model, the "fuzzy" variables are allowed
-have upper and lower bounds for which the model can provide solutions for. The work to be introduced promises much
+to have upper and lower bounds for which the model can provide solutions for. The work to be introduced promises much
 potential for further research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated
 Annealing (SA) implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP)
 constraints with non-linear battery dynamics.
