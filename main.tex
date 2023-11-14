@@ -1,4 +1,4 @@
-% Created 2023-11-11 Sat 18:00
+% Created 2023-11-13 Mon 21:04
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,msthesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -246,7 +246,7 @@ arrival times of BEBs. Furthermore, the result produced from an FFLP model descr
 from the uncertainties defined by the input parameters.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgdf96e46}
+\label{sec:orgac3bb77}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -471,12 +471,12 @@ referenced from
 \cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}.
 
 \subsubsection{Fuzzy Sets}
-\label{sec:orge36b6a2}
+\label{sec:org98f609c}
 A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
 is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
 not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
 degrees of membership for elements of a given set \cite{zimmermann-2001-fuzzy-set}. The membership of a value in a
-fuzzy set may vary may differ among other characteristic functions, but their intended purpose remains the same. The
+fuzzy set may differ among other characteristic functions, but their intended purpose remains the same. The
 membership function is said to be normalized if \(\text{sup}_x \mu_{\tilde{A}}(x) = 1\). As an example,
 \ref{fig:lr-fuzzy-characteristic} demonstrates a membership function of an LR flat fuzzy number. For a formal definition, consider
 the \ref{def:membership-function}:
@@ -526,7 +526,7 @@ fuzzy number has, and the \(R\) function describes the properties of the right.
 
 \begin{definition}
 \label{def:reference-function}
-A function \(L:[0,\infty) \rightarrow [0,1]\) (or \(R:[0,\infty) \rightarrow [0,1]\)) is said to be reference a function of the fuzzy number if and only
+A function \(L:[0,\infty) \rightarrow [0,1]\) (or \(R:[0,\infty) \rightarrow [0,1]\)) is said to be a reference function of the fuzzy number if and only
 if
 
 \begin{enumerate}
@@ -599,7 +599,7 @@ The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
 \end{definition}
 
 \subsubsection{Fuzzy Arithmetic}
-\label{sec:orga7bcc4b}
+\label{sec:orgae3329f}
 If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -613,7 +613,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \subsubsection{Comparing Fuzzy Numbers}
-\label{sec:org629ad11}
+\label{sec:orgd559760}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages \cite{mccahon-1990-compar}. Different properties have been applied to justify comparison of fuzzy
@@ -621,7 +621,7 @@ numbers, such as: preference, rationality, and robustness
 \cite{jimenez-2007-linear-progr,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. These methods are commonly known as
 ranking functions or ordering functions \cite{bello-2019-fuzzy-activ,das-2016-mathem-model,kaur-2016-introd-fuzzy}.
 Commonly, including in this work, the First index of Yager \cite{yager-1981-proced-order} is used. Let a fuzzy number
-be represented as \(\tilde{A} = (a_1,a_2,...)\), then the First index of Yager is defined as \ref{eq:first-index-yager}.
+be represented as \(\tilde{A} = (a_1,a_2,...)\), then the First index of Yager is defined as \ref{eq:first-index-yager}
 
 \begin{equation}
 \label{eq:first-index-yager}
@@ -659,7 +659,7 @@ common strategy is to convert the fuzzy model into a crisp model that can be sol
 \cite{bello-2019-fuzzy-activ}. In \cite{nasseri-2013-fully,bello-2019-fuzzy-activ}, the method of converting the FFLP
 into a crisp MILP is simply done by applying the ranking function to the objective function and breaking the constraints
 down into a set of crisp constraints as shown in \ref{eq:nasseri-solution}. The constraints are separated according to the
-definition of fuzzy set multiplication defined in \ref{eq:fuzzy-arithmetic}. The fuzzy number index is represented is the
+definition of fuzzy set multiplication defined in \ref{eq:fuzzy-arithmetic}. The fuzzy number index is represented in the
 exponent rather than the subscript to clearly distinguish between the indexed value in the fuzzy number and the
 constraint index (i.e. \(\tilde{A} = (a^1,a^2,a^3)\)). Furthermore, it is assumed that the fuzzy numbers are nonnegative.
 Although the following equation can be written in terms of general nonnegative LR fuzzy numbers, the parameters and
@@ -699,7 +699,7 @@ To be more succinct, the FFLP can also equivalently be written as \ref{eq:nasser
 \end{array}
 \end{equation}
 
-Where \(k\) has a max value equal to the cardinality to the type of fuzzy number being utilized. This can be further be
+Where \(k\) has a max value equal to the cardinality to the type of fuzzy number being utilized. This can be further
 elaborated on by rewriting the inequality constraints as equality constraints by introducing slack variables. This is
 useful as it represents the formulation in a standard form \cite{chen-2010-applied,vanderbei-2020-linear-progr}.
 
@@ -835,7 +835,7 @@ small triangle.
 \end{figure}
 
 \section{Summary}
-\label{sec:org046f717}
+\label{sec:orgc3ffe23}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -903,10 +903,10 @@ modified queuing constraints can be written as shown in \autoref{eq:packconstrs}
 \end{subequations}
 
 The constraint in \autoref{subeq:space} is nearly identical to \autoref{subeq:bapspace}, but rather than viewing the
-charger as a continuous strip of length \(S\), it is discretized into \(n_Q\) queues a width of unit length one. A BEB is
-also assigned a unit length of one which is reflected in \autoref{subeq:space} by \(\cdot \geq 1\). \autoref{subeq:valid_depart}
-ensures that the time the BEB is detatched from the charger, \(d_i\), is before its departure time, \(\tau_i\).
-\autoref{subeq:vspace} defines the integer set of indices for queues for \(v_i\).
+charger as a continuous strip of length \(S\), it is discretized into \(n_Q\) queues each with a width of unit length one. A
+BEB is also assigned a unit length of one which is reflected in \autoref{subeq:space} by \(\cdot \geq 1\).
+\autoref{subeq:valid_depart} ensures that the time the BEB is detached from the charger, \(d_i\), is before its departure
+time, \(\tau_i\). \autoref{subeq:vspace} defines the integer set of indices for queues for \(v_i\).
 
 \subsubsection{Battery Charge Dynamic Constraints}
 \label{sec:batt_dynamics}
@@ -1087,7 +1087,7 @@ Subject to the constraints
 
 \autoref{subeq:m_time}-\autoref{subeq:m_valid_depart} are reiterations of the queuing constraints in
 \autoref{eq:packconstrs}. \autoref{subeq:init_charge}-\autoref{subeq:final_charge} provide the battery charge
-constraints. \autoref{subeq:gpgret} through \autoref{subeq:gwles} define the charge gain of every visit/queue
+constraints. \autoref{subeq:gpgret}-\autoref{subeq:gwles} define the charge gain of every visit/queue
 pairing. The last constraints \autoref{subeq:binaryspace}-\autoref{subeq:Ispace} define the sets of valid values for each
 variable.
 
@@ -1169,12 +1169,12 @@ objective function, queuing constraints, and charging constraints. Before derivi
 set of fuzzy variables. Similarly to the Fuzzy BAP, the arrival times, \(\tilde{a}_i\), berthing time \(\tilde{u}_i\), and
 detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, indirectly, the service time,
 \(\tilde{s}_i\), the linearization constraint in \ref{eq:slack_gain}, \(\tilde{g}_{iq}\), and the initial charge for visit
-\(i\), \(\tilde{\eta}_i\) will also become fuzzy values. Note for the sake space, constraints and objective functions shall be
-written in their fuzzy form; however, in practice the equations will be expanded as described in
+\(i\), \(\tilde{\eta}_i\) will also become fuzzy values. Note for the sake of brevity, constraints and objective functions
+shall be written in their fuzzy form; however, in practice, the equations will be expanded as described in
 \ref{sec:fuzzy-preliminaries}.
 
 \subsubsection{Objective Function}
-\label{sec:org40dbe71}
+\label{sec:org2c8be3b}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -1192,7 +1192,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \subsubsection{Queuing Constraints}
-\label{sec:org61f75ed}
+\label{sec:org3db4aa9}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -1227,7 +1227,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \subsubsection{Charging Constraints}
-\label{sec:orga5b2265}
+\label{sec:orga6c6284}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
@@ -1272,7 +1272,7 @@ constraint validity is maintained \cite{ghanbari-2019-fuzzy}.
 \end{multicols}
 
 \section{Project Schedule}
-\label{sec:org5711130}
+\label{sec:org172a574}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be
 completed. The estimated completion date is mid to late-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.
