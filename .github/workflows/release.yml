@@ -1,8 +1,5 @@
 name: LaTeX Release
 
-permissions:
-  contents: write
-
 on:
   push:
     tags: 'v*.**'
@@ -12,24 +9,15 @@ jobs:
     name: "Release"
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Update and Intall Dependencies
+    - name: "Update Packages"
       run: sudo apt-get update && sudo apt-get install -y texlive-full latexmk
-    - name: Setup go-task
-      uses: arduino/setup-task@v1
-      with:
-        version: 3.x
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Clean Project
-      run: task clean
-    - name: List Project
-      run: ls -R
-    - name: Build PDF
-      run: task pipeline
-    - uses: ncipollo/release-action@v1
+    - name: "Build Release PDF"
+      run: make clean && make pipeline
+    - name: "Create Release"
+      uses: ncipollo/release-action@v1
       with:
         artifacts: "proposal.pdf"
         bodyFile: "README.org"
