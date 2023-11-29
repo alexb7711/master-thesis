@@ -7,7 +7,7 @@
 
 # =========================================================================================================================
 # LaTeX packages
-#+LATEX_CLASS: usuthesis
+#+LATEX_CLASS: usuproposal
 
 #+latex_header:\usepackage{amsmath}                         % Miscellaneous enhancements for mathematics
 #+latex_header:\usepackage{amssymb}                         % Math symbols
@@ -25,6 +25,8 @@
 #+latex_header: \usepackage{listings}                       % Display code
 #+latex_header: \usepackage{doi}                            % Hyperling DOI
 #+latex_header: \usepackage{hyperref}                       % Cool clean hyperlinks
+#+latex_header: \hypersetup{colorlinks=true, linkcolor=blue,
+#+latex_header:   citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 
 #+latex_header: \usetikzlibrary{arrows.meta}                % Arrows for tikz
 
@@ -77,13 +79,13 @@
 # Thesis Document Formatting
 
 #+latex_header: % The Committee
-#+latex_header: \majorprof{Dr. Droge, Ph.D.}
-#+latex_header: \firstreader{Dr. Gunther, Ph.D.}
-#+latex_header: \secondreader{Dr. Sarsilmaz, Ph.D.}
+#+latex_header: \majorprof{Dr. Greg Droge, Ph.D.}
+#+latex_header: \firstreader{Dr. Jacob Gunther, Ph.D.}
+#+latex_header: \secondreader{Dr. Burak Sarsilmaz, Ph.D.}
 #+latex_header:
-#+latex_header: % Graduate Dean
-#+latex_header: \graddean{ D. Richard Cutler, Ph.D.}
-#+latex_header: \deantitle{ Vice Provost of Graduate Studies}
+# +latex_header: % Graduate Dean
+# +latex_header: \graddean{ D. Richard Cutler, Ph.D.}
+# +latex_header: \deantitle{ Vice Provost of Graduate Studies}
 #+latex_header:
 #+latex_header: % Degree Information
 #+latex_header: \degree{Master of Science}

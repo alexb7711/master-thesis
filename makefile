@@ -50,6 +50,7 @@ emacs: $(ALL)
 ##------------------------------------------------------------------------------
 #
 images: $(FIGURES_PDF) ## Generate all the images for the project
+	make -C sup-doc/milp-pap-paper-frontiers images
 
 ##------------------------------------------------------------------------------
 # Resources:
