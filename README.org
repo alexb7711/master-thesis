@@ -21,9 +21,6 @@
 - Position Allocation Problem
 - Simulated Annealing
 - Battery Dynamics (Linear/Nonlinear)
-- Fuzzy
-  - Fuzzy Sets
-  - Fully Fuzzy Linear Programming
 
 ** Methods For Solving The Problem
 *** Plan For Accomplishing Objectives
@@ -35,7 +32,6 @@
 *** Timetable For Project Completion
 - 1 month SA-PAP implementation completion
 - 0.5-1 month battery dynamics
-- 0.5-1 month to implement fuzzy constraints
 
 * Components Of Topics
 The following is a list of desired items to be included in the proposal.
@@ -48,8 +44,6 @@ The following is a list of desired items to be included in the proposal.
   - Minimize the monetary cost of system by reducing the peak15 of the system
 - Nonlinear battery dynamics
   - More accurately predict the charging and discharging dynamics of LIBs
-- Fuzzy solution the LP
-  - Let the solution vary. Why have a rigorous plan in an uncertain world?
 - Minimize chargers
   - Be able to predict what type of system setup is required for a set of routes
 - Penalty method to allow for the bus to go below charge percentage
