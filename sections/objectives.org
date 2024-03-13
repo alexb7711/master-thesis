@@ -19,9 +19,6 @@ the proposed BEB charging plan below.
   - *Task 1.2*: Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging, minimize
     and total charger count. Slow charging will be incentivized for battery health and consumption cost.
 
-- *Objective 2*: Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
+- *Objective 2*: Develop robust charger allocation capabilities to account for non-linear battery dynamics
 
   - *Task 2.1*: Incorporate non-linear battery dynamics into the FFLP PAP model
-
-  - *Task 2.2*: Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be
-   produced, but with added flexibility to its application.

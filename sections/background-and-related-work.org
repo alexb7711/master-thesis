@@ -73,7 +73,7 @@ EV or BEB scheduling. FFLP provides a simple modeling solution that naturally de
 arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
 from the uncertainties defined by the input parameters.
 
-** Problem Description :noexport:
+** Problem Description
 :PROPERTIES:
 :CUSTOM_ID: sec:problem-description
 :END:
@@ -117,10 +117,8 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 #+end_src
 
-#+begin_comment
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
 #+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
-#+end_comment
 
 ** Mixed Integer Linear Programming
 
@@ -183,44 +181,6 @@ other scheduled charge times.
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
-
-** Fuzzy Preliminaries
-:PROPERTIES:
-:CUSTOM_ID: sec:fuzzy-preliminaries
-:END:
-
-This section introduces the concept of fuzzy set theory by providing some basic definitions. The theory is then built on
-to discuss Fully Fuzzy Linear Programming (FFLP). FFLP is a branch of Linear Programming where some of the parameters
-are allowed to have uncertainty which will be further elaborated on. In this section a method of constructing FFLP is
-introduced. Once the FFLP model has been introduced, a derivation of the Fuzzy BAP (FBAP) is introduced and
-discussed.
-
-*** Fuzzy Sets Theory
-:PROPERTIES:
-:CUSTOM_ID: sec:fuzzy-sets-theory
-:END:
-
-#+begin_comment
-are many methodologies that exist to solve Fully Fuzzy Linear Programs (FFLP), but the primary strategy of solving FFLP
-problems is converting them into a classical (crisp) model
-[cite:@bello-2019-fuzzy-activ;@nasseri-2013-fully;@kaur-2016-introd-fuzzy].
-#+end_comment
-
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fuzzy Sets Theory" :only-contents t
-
-*** Fully Fuzzy Linear Programming
-:PROPERTIES:
-:CUSTOM_ID: sec:fully-fuzzy-linear-programming
-:END:
-
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Fully Fuzzy Linear Programming" :only-contents t
-
-*** The Fuzzy BAP
-:PROPERTIES:
-:CUSTOM_ID: sec:the-fuzzy-bap
-:END:
-
-#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap" :only-contents t
 
 ** Summary
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution

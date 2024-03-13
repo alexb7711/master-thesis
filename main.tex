@@ -1,4 +1,4 @@
-% Created 2024-03-13 Wed 14:04
+% Created 2024-03-13 Wed 14:17
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,proposal]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -139,12 +139,10 @@ notion to develop a model of assigning EVs to queue in ordered to be charged \ci
 
 Because of the PAP's extremely close modeling methods to the BAP, literature from the BAP can (and will) provide support
 for the development of the PAP in this work. The BAP has been studied in literature since the 1990s and provides a depth
-of work to derive from \cite{rodrigues-2022-berth}. The proposed work also intends to introduce a sense of robustness
-by allowing uncertainty in the arrival times of the BEBs. By ``fuzzifying'' the model, the ``fuzzy'' variables are allowed
-to have upper and lower bounds for which the model can provide solutions for. The work to be introduced promises much
-potential for further research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated
-Annealing (SA) implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP)
-constraints with non-linear battery dynamics.
+of work to derive from \cite{rodrigues-2022-berth}. The work to be introduced promises much potential for further
+research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated Annealing (SA)
+implementation and extension of the PAP utilizing Mixed Integer Linear Programming (MILP) constraints with non-linear
+battery dynamics.
 
 In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
 statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
@@ -174,13 +172,10 @@ the proposed BEB charging plan below.
 and total charger count. Slow charging will be incentivized for battery health and consumption cost.
 \end{itemize}
 
-\item \textbf{Objective 2}: Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics
+\item \textbf{Objective 2}: Develop robust charger allocation capabilities to account for non-linear battery dynamics
 
 \begin{itemize}
 \item \textbf{Task 2.1}: Incorporate non-linear battery dynamics into the FFLP PAP model
-
-\item \textbf{Task 2.2}: Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be
-produced, but with added flexibility to its application.
 \end{itemize}
 \end{itemize}
 \chapter{BACKGROUND AND RELATED WORK}
@@ -244,8 +239,148 @@ EV or BEB scheduling. FFLP provides a simple modeling solution that naturally de
 arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
 from the uncertainties defined by the input parameters.
 
+\section{Problem Description}
+\label{sec:problem-description}
+The intent of the proposed work is to build upon the Position Allocation Problem \cite{qarebagh-2019-optim-sched}, a
+modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
+vehicles \cite{buhrkal-2011-model-discr,frojan-2015-contin-berth,imai-2001-dynam-berth}. The PAP's goal is that of
+allocating space for incoming BEBs to be queued and charged as depicted in \autoref{subfig:papexample}. The BEBs are
+assumed to be on schedules that are defined in advance. That is, the times the BEBs are on their respective routes and
+the time they are at the station are known. The BEBs' initial charges are assumed to be known, the discharges are
+estimated by calculating an average bus speed, the time on route, and an average amount of energy consumed per mile, and
+a specified final charge must be met for each BEB. An example of a standard PAP/BAP solution (their visual
+representations are interchangeable) is visualized in \autoref{fig:bap}, note that the figure utilized BAP terminology.
+The x and y-axis represent time and queuing space, respectively. The figure discretizes the queuing space, but it may be
+continuous if desired as previously stated. The shaded rectangles' widths represent their respective allocated charge
+times, and their heights represent the physical space taken by each EV.
+
+\begin{subfigures}
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % BAP
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
+        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
+          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
+          arrow represents the direction of departure.}
+        \label{subfig:bapexample}
+    \end{figure}
+    \hfill
+
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % PAP
+    \begin{figure}[htpb]
+    \centering
+        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
+        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
+          indicated by the arrow.}
+        \label{subfig:papexample}
+    \end{figure}
+\end{subfigures}
+
+Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
+This section introduces and defines the problem to be addressed by this work. A general description is given and
+followed by a mathematical interpretation. The scope of this work will also be provided as well as a high level
+introduction to the individual problems that will be addressed in order to achieve the proposed goal.
+
+Consider a fleet of BEBs scheduled to perform a set of prescribed routes on a given day. Suppose that an individual BEB
+from said fleet begins and completes an individual route at the same station from which it also receives its charge.
+During each route, the BEB's State of Charge (SOC) depletes by a certain amount. The charge supplied during its visit
+must be enough that it sustains the BEB's SOC at an appropriate level such that it may complete its next route. The
+charge may be supplied from any single charger given a set of chargers at the station. Each time the BEB arrives at the
+station, let that be denoted as an ``arrival''. Once the BEB has awaited its predetermined time (whether it has received a
+charge or not), and departs from the station, let that be denoted as a ``visit''. Generalizing this to all BEBs, each BEB
+will have a set of prescribed routes from which their SOC is depleted by some amount. Once their respective routes are
+completed, each BEB arrives at the station to receive a charge that is sufficient to complete the next route. Each BEB
+may have multiple visits to the station throughout their working day. This paper describes a method to optimize the
+assignment of each visit to a charger given a schedule for a fleet of BEBs that follow the behavior described above. The
+model presented in this work optimizes over power and energy consumption, as well as attempts to optimize the amount of
+chargers utilized.
+
+Consider a fleet of \(n_B\) BEBs that collectively visit a station \(n_V\) times. At said station, let there exist a pool of
+\(n_Q\) charging queues from which a visiting BEB may be assigned. Let \(\mathbb{Z}\) define the set of integers. The set of arrivals
+is denoted as \(\Iset = \{ 1, ... n_V \} \subset \mathbb{Z}\). Each BEB is provided an identification number \(B = \{ 1, ..., n_B \} \subset \mathbb{Z}\).
+Each visit can be represented by the tuple: \(\visit\), in which the elements within the tuple denote the visit index, \(i
+\in I\), BEB identification number, \(b \in B\), arrival time to the station, \(a \in \mathbb{R}\), departure time from the station, \(e \in
+\mathbb{R}\), initial charge time, \(u \in \mathbb{R}\), final charge time, \(d \in \mathbb{R}\), the charger queue for the BEB to be placed into, \(q \in Q\),
+the SOC upon arrival, \(\eta \in \mathbb{R}\), and the index of the next visit for the currently visiting BEB, \(\xi \in I\). Let the ordered
+set of visits be denoted as \(\I\).
+
+For each visit, a BEB must be placed in a single queue, \(q \in \Qset\). The charger \(q\) is assumed to be either a fast
+charger, slow charger, or no charger at all (denoted as an idle queue). A BEB is only allowed to be assigned to one
+queue per visit; however, there may be multiple BEBs charging simultaneously across different queues. The amount of time
+the BEB is allowed to charge is dictated by the scheduled arrival time and required departure time, \([a_i, e_i]\).
+Partial charging is allowed; however, the SOC may not exceed the BEB battery capacity and the SOC must stay above 0\%.
+The battery dynamics in this work is modeled as linear, which remains accurate up to about an SOC of 80\% charge
+\cite{li-2016-batter-elect}.
+
+Each BEB arrival, except for the last arrival for each BEB, has a paired ``route'' that the BEB must perform after the
+visit. This route, as one would expect, causes the BEB to discharge by some certain amount. The estimation of the SOC
+lost during its route in it of itself poses a focus of research, which is not of this work. Thus, a simplified model of
+pre-calculating an average discharge is employed. The simplified model assumes a fixed discharge rate that is multiplied
+by the route duration. Let the discharge of the route for visit \(i\) be denoted as \(\Delta_i \in \mathbb{R}\). The charge supplied is
+encouraged to maintain the SOC of each BEB visit above a minimum battery percentage, \(\nu_b \in [0, 1]\). By this it is meant
+that the SOC of a BEB is allowed to go below \(\nu_b\kappa_b\); however, if it does, the system heavily punishes the fitness
+score of schedule.
+
+\begin{figure}[ht!]
+  \centering
+  \scalebox{0.5}{
+  \centerline{
+    \begin{tikzpicture}
+      % Variables
+      \def \arrx   {2.0}
+      \def \initx  {3.5}
+      \def \endx   {8.5}
+      \def \depx   {10.0}
+      \def \yshift {5}
+
+      % Axis
+      \draw [thick,<->] (0,15) node[above]{Queues} -- (0,0) -- (15,0) node[right]{Time};
+
+      % Rectangles
+      \node[rectangle, draw, fill=gray, minimum width=4cm, minimum height = 3cm] at (3,12) {A};
+      \node[rectangle, draw, fill=gray, minimum width=3cm, minimum height = 3cm] at (9,12) {B};
+      \node[rectangle, draw, fill=gray, minimum width=5cm, minimum height = 3cm] at (6,7) {D};
+      \node[rectangle, draw, fill=gray, minimum width=6cm, minimum height = 3cm] at (12,2) {C};
+
+      % X-axis labels
+      \node [below,align=center] at (\arrx,0) {\scriptsize Arrival     \\ \scriptsize Time \\ $a_D$};
+      \node [below, align=center] at (\initx,0) {\scriptsize Charge    \\ \scriptsize Initiation  \\ $u_D$};
+      \node [below, align=center] at (\endx,0) {\scriptsize Charge     \\ \scriptsize End \\ $d_D$};
+      \node [below, align=center] at (\depx,0) {\scriptsize Departure  \\ \scriptsize Time \\ $e_D$};
+
+      % Y-axis labels
+      \node[rotate=90] at (-1, 2.25) {Queue 1};
+      \node[rotate=90] at (-1, 7.25) {Queue 2};
+      \node[rotate=90] at (-1, 12.25) {Queue 3};
+
+      % Vertical lines
+      \draw[dashed] (\arrx,\yshift)--(\arrx,0);
+      \draw[dashed] (\initx,\yshift)--(\initx,0);
+      \draw[dashed] (\endx,\yshift)--(\endx,0);
+      \draw[dashed] (\depx,\yshift)--(\depx,0);
+
+      % Horizontal lines
+      \draw[dotted] (0, 4.5) -- (15, 4.5);
+      \draw[dotted] (0, 9.5) -- (15, 9.5);
+
+    \end{tikzpicture}
+  }}
+  \caption{The representation of the queue-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete queuing locations. The shaded rectangles represent schedules BEBs to be charged. The height of each shaded rectangle represents the space taken on the queue and the width being the time to service said BEB. The vertical dashed lines are associated with vessel D and represent the arrival time, initial charge time, charge completion time, and departure time. Note that the arrival time may be before the initial charge time and the completion time may before the departure time.}
+  \label{fig:spacial-and-temporal-constr}
+\end{figure}
+
+The task of this paper shall be to define a method of scheduling the set of visits \(\I\) to fulfill the minimum charge
+requirements over the time horizon, \(\T\), while minimizing the cost, which can be decomposed into a utility cost and an
+assignment cost. The utility cost encapsulates the consumption and demand costs, and the assignment cost encapsulates
+the cost of assigning a BEB to a charger and a penalty method that punishes poor BEB assignment. An objective function
+is utilized to calculate this cost as a means of measuring the relative fitness of the results. Constraints are employed
+to ensure the validity of the prescribed schedule. Both the objective function and constraints are discussed in further
+detail in the proceeding section. An example output schedule is shown in \ref{fig:spacial-and-temporal-constr}.
+
 \section{Mixed Integer Linear Programming}
-\label{sec:org9f5c744}
+\label{sec:org4476be6}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -467,386 +602,8 @@ begin to be serviced to stay within the time horizon. \autoref{subeq:bapsdspace}
   \end{tabularx}
 \end{table}
 
-\section{Fuzzy Preliminaries}
-\label{sec:fuzzy-preliminaries}
-This section introduces the concept of fuzzy set theory by providing some basic definitions. The theory is then built on
-to discuss Fully Fuzzy Linear Programming (FFLP). FFLP is a branch of Linear Programming where some of the parameters
-are allowed to have uncertainty which will be further elaborated on. In this section a method of constructing FFLP is
-introduced. Once the FFLP model has been introduced, a derivation of the Fuzzy BAP (FBAP) is introduced and
-discussed.
-
-\subsection{Fuzzy Sets Theory}
-\label{sec:fuzzy-sets-theory}
-This section introduces the notion of fuzzy numbers and some basic definitions. Concepts from this section are
-referenced from
-\cite{zimmermann-2001-fuzzy-set,das-2016-mathem-model,yaghobi-2014-compar-fuzzy,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}.
-
-\subsubsection{Fuzzy Sets}
-\label{sec:orgcc5af47}
-A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
-is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
-not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
-degrees of membership for elements of a given set \cite{zimmermann-2001-fuzzy-set}. The membership of a value in a
-fuzzy set may differ among other characteristic functions, but their intended purpose remains the same. The
-membership function is said to be normalized if \(\text{sup}_x \mu_{\tilde{A}}(x) = 1\). As an example,
-\ref{fig:lr-fuzzy-characteristic} demonstrates a membership function of an LR flat fuzzy number. For a formal definition, consider
-the \ref{def:membership-function}:
-
-\begin{subfigures}
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % LR Characteristic
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{img/lr-flat-fuzzy}
-        \caption{Example of a characteristic function for an LR flat fuzzy number. The line segments $[a,b)$ and $(c,d]$
-          may be any function that satisfies \ref{def:reference-function}.}
-        \label{fig:lr-fuzzy-characteristic}
-    \end{figure}
-    \hfill
-
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % Triangular characteristic
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{img/trang-characteristic}
-        \caption{Example plot of a characteristic function for a triangular fuzzy number.}
-        \label{fig:triang-characteristic}
-    \end{figure}
-\end{subfigures}
-
-\begin{definition}
-\label{def:membership-function}
-Let \(X\) be a collection of objects (often called the universe of discourse \cite{bello-2019-fuzzy-activ}). If \(X\) is denoted
-generically by \(x\), then a fuzzy set \(\tilde{A}\) in \(X\) is a set of ordered pairs as shown in \ref{eq:membership-function}.
-
-\begin{equation}
-\label{eq:membership-function}
-\tilde{A} = \{(x, \mu_{\tilde{A}}(x))| x\in X\}
-\end{equation}
-
-\noindent
-\(\mu_{\tilde{A}}\) is called the membership function where \(\mu_{\tilde{A}}\) is the mapping \(\mu_{\tilde{A}} : X \rightarrow
-[0,1]\); which assigns a real number to the interval \([0,1]\). The value of \(\mu_{\tilde{A}}\) represents the degree of
-membership of \(x\) in \(\tilde{A}\).
-\end{definition}
-
-The shape of a fuzzy number type is defined by membership function. The general definition of fuzzy numbers is known as
-LR fuzzy numbers \cite{kaur-2016-introd-fuzzy,zimmermann-2001-fuzzy-set}. \ref{def:reference-function} describes the
-property that an \(L\) and \(R\) functions must have. The \(L\) function describes the properties that the left portion of the
-fuzzy number has, and the \(R\) function describes the properties of the right.
-
-\begin{definition}
-\label{def:reference-function}
-A function \(L:[0,\infty) \rightarrow [0,1]\) (or \(R:[0,\infty) \rightarrow [0,1]\)) is said to be a reference function of the fuzzy number if and only
-if
-
-\begin{enumerate}
-\item \(L(0) = 1\) (or \(R(0) = 1\))
-\item \(L\) (or \(R\)) is non-increasing on \([0,\infty)\)
-\end{enumerate}
-\end{definition}
-
-The definition of an LR fuzzy number may now be developed given the basis of what properties an \(L\) (or \(R\)) function
-must have. Consider \ref{def:lr-flat}-\ref{def:lr-non-negative}.
-
-\begin{definition}
-\label{def:lr-flat} A fuzzy number \(\tilde{A}\) defined on the set of real numbers, \(\mathbb{R}\), denoted as the tuple
-\((m,n,\alpha,\beta)_{LR}\), is said to be an \(LR\) flat fuzzy number if its membership function \(\mu_{\tilde{A}}(x)\) is defined as
-shown in \ref{eq:lr-flat-fuzzy}. Note that the underscore in the tuple, \((\cdot)_{LR}\) is used to indicate that the tuple is for
-an LR fuzzy number.
-
-\begin{equation}
-\label{eq:lr-flat-fuzzy}
-\mu_{\tilde{A}}(x) =
-\begin{cases}
-L(\frac{m-x}{\alpha}) & x \le m, \alpha > 0 \\
-R(\frac{m-n}{\beta}) & x \ge m, \beta > 0 \\
-1                & m \le x \le n
-\end{cases}
-\end{equation}
-\end{definition}
-
-\begin{definition}
-\label{def:lr-non-negative}
-An \(LR\) flat fuzzy number \(\tilde{A} = (m,n,\alpha,\beta)_{LR}\) is said to be a non-negative \(LR\) flat fuzzy number if and only
-if \(m-\alpha \ge 0\) and is said to be non-positive \(LR\) flat fuzzy number if and only if \(m - \alpha \le 0\) is a real number.
-\end{definition}
-
-A simplification to the LR flat fuzzy number is the triangular fuzzy number, which is what will be utilized in this work
-(\ref{fig:triang-characteristic}). The triangular fuzzy numbers shall also be defined over the set of real numbers \(\mathbb{R}\). Consider
-\ref{def:triangular-fuzzy-number} - \ref{def:triangular-nonnegative}
-
-\begin{definition}
-\label{def:triangular-fuzzy-number} A fuzzy number that is represented by \(\tilde{A} = (a,b,c)\) is said to be triangular
-if its membership function is defined as \ref{eq:triangular-fuzzy-number}. \ref{fig:triang-characteristic} depicts a visual
-representation of a triangular fuzzy number.
-
-\begin{equation}
-\label{eq:triangular-fuzzy-number}
-  \mu_{\tilde{A}}(x) =
-  \begin{cases}
-    \frac{(x-a)}{(b-a)} & a \le x \le b \\
-    \frac{(c-x)}{(c-b)} & c \le x \le d \\
-    0                   & \text{otherwise}
-  \end{cases}
-\end{equation}
-\end{definition}
-
-\begin{definition}
-A fuzzy set \(\tilde{A}\) in \(\mathbb{R}\) is convex if and only if the membership function of \(\tilde{A}\) satisfies the inequality
-
-\begin{equation*}
-\mu_{\tilde{A}}[\beta x_1 + (1-\beta)x_2] \ge \text{min}[\mu_{\tilde{A}}(x_1), \mu_{\tilde{A}}(x_2)]\; \forall x_1, x_2 \in \mathbb{R}\; \beta \in [0,1]
-\end{equation*}
-\end{definition}
-
-\begin{definition}
-A fuzzy number is a normal and convex fuzzy set in \(\mathbb{R}\).
-\end{definition}
-
-\begin{definition}
-\label{def:triangular-nonnegative}
-The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
-\end{definition}
-
-\subsubsection{Fuzzy Arithmetic}
-\label{sec:orgbdd2f28}
-If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
-then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
-
-\begin{equation}
-\label{eq:fuzzy-arithmetic}
-\begin{array}{lcl}
-\tilde{a} \oplus \tilde{b} & = & (a_1 + b_1, a_2 + b_2, a_3 + b_3) \\
-\tilde{a} \ominus \tilde{b} & = & (a_1 + b_3, a_2 + b_2, a_3 + b_1) \\
-\tilde{a} \otimes \tilde{b} & = & (a_1 b_1, a_2 b_2, a_3 b_3)       \\
-\end{array}
-\end{equation}
-
-\subsubsection{Comparing Fuzzy Numbers}
-\label{sec:orgf463dcc}
-Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
-\cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
-disadvantages \cite{mccahon-1990-compar}. Different properties have been applied to justify comparison of fuzzy
-numbers, such as: preference, rationality, and robustness
-\cite{jimenez-2007-linear-progr,bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. These methods are commonly known as
-ranking functions or ordering functions \cite{bello-2019-fuzzy-activ,das-2016-mathem-model,kaur-2016-introd-fuzzy}.
-Commonly, including in this work, the First index of Yager \cite{yager-1981-proced-order} is used. Let a fuzzy number
-be represented as \(\tilde{A} = (a_1,a_2,...)\), then the First index of Yager is defined as \ref{eq:first-index-yager}
-
-\begin{equation}
-\label{eq:first-index-yager}
-\mathfrak{R}(\tilde{A}) = \frac{\sum_i a_i}{|\tilde{A}|}
-\end{equation}
-
-\noindent where \(|\cdot|\) represents the cardinality of the fuzzy number. In words, \ref{eq:first-index-yager} is merely the
-average of the values in the fuzzy number. As a result, \(A \le B\) when \(\mathfrak{R}(\tilde{A}) \le \mathfrak{R}(\tilde{B})\)
-\cite{bello-2019-fuzzy-activ}.
-
-\subsection{Fully Fuzzy Linear Programming}
-\label{sec:fully-fuzzy-linear-programming}
-Much like the Linear Programs (LP), Fully Fuzzy Linear Programs (FFLP), it is a class of constrained optimization in
-which one seeks to find a set of continuous variables that either maximizes or minimizes an objective function, \(J\),
-while satisfying a set of constraints. The key difference in FFLP is that it is designed to accommodate imprecise
-information \cite{bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. In FFLP, the parameters and decision variables are
-fuzzy and linear. A general FFLP is represented as shown in \ref{eq:general-fflp}. The subscripts \(\cdot_e\), \(\cdot_l\), and \(\cdot_g\)
-indicate to equality, less than, and greater than constraints, respectively. As an example, the notation
-\(\tilde{a}_{ej}\) is read as the \(e^{\text{th}}\) equality constraint for the \(j^{\text{th}}\) value in the fuzzy number
-tuple for the fuzzy number \(\tilde{a}\). All variables besides \(\tilde{X} = (x_1, x_2, ...)\) are input variables.
-
-\begin{equation}
-\label{eq:general-fflp}
-\begin{array}{lll}
-\underset{{\tilde{x}}}{\text{max}} & J = \sum_j \tilde{C}_j \otimes \tilde{X}_j              &                 \\
-\text{subject to}                  & \sum_j \tilde{a}_{ej} \otimes \tilde{x}_j = \tilde{b}_e &  \forall e = 1,2,3,... \\
-                                   & \sum_j \tilde{a}_{lj} \otimes \tilde{x}_j \le \tilde{b}_l &  \forall l = 1,2,3,... \\
-                                   & \sum_j \tilde{a}_{gj} \otimes \tilde{x}_j \ge \tilde{b}_l &  \forall g = 1,2,3,...
-\end{array}
-\end{equation}
-
-There are many methods of solving FFLP
-\cite{bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy,ebrahimnejad-2016-new-method,nasseri-2013-fully}; however, a
-common strategy is to convert the fuzzy model into a crisp model that can be solved using traditional methods
-\cite{bello-2019-fuzzy-activ}. In \cite{nasseri-2013-fully,bello-2019-fuzzy-activ}, the method of converting the FFLP
-into a crisp MILP is simply done by applying the ranking function to the objective function and breaking the constraints
-down into a set of crisp constraints as shown in \ref{eq:nasseri-solution}. The constraints are separated according to the
-definition of fuzzy set multiplication defined in \ref{eq:fuzzy-arithmetic}. The fuzzy number index is represented in the
-exponent rather than the subscript to clearly distinguish between the indexed value in the fuzzy number and the
-constraint index (i.e. \(\tilde{A} = (a^1,a^2,a^3)\)). Furthermore, it is assumed that the fuzzy numbers are nonnegative.
-Although the following equation can be written in terms of general nonnegative LR fuzzy numbers, the parameters and
-decision variables are written in terms of nonnegative triangular fuzzy numbers. Consider the equality constraint in
-\ref{eq:general-fflp}. For each equality constraint there will be a lower, middle, and upper bound to the constraint. That
-constitutes three equality constraints. \ref{eq:nasseri-solution} expands each constraint.
-
-\begin{equation}
-\label{eq:nasseri-solution}
-\begin{array}{lclc}
-\underset{{\tilde{x}}}{\text{max}}   & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3)(x_j^1,x_j^2,x_j^3)\Big) &\\
-\text{subject to} & \sum_j a_{ej}^1 x_j^1 = b_e^1 & & \forall e = 1,2,3,... \\
-                  & \sum_j a_{lj}^1 x_j^1 \le b_l^1 & & \forall l = 1,2,3,... \\
-                  & \sum_j a_{gj}^1 x_j^1 \ge b_g^1  & & \forall g = 1,2,3,... \\
-                  & \sum_j a_{ej}^2 x_j^2 = b_e^2 & & \forall e = 1,2,3,... \\
-                  & \sum_j a_{lj}^2 x_j^2 \le b_l^2 & & \forall l = 1,2,3,... \\
-                  & \sum_j a_{gj}^2 x_j^2 \ge b_g^2  & & \forall g = 1,2,3,... \\
-                  & \sum_j a_{ej}^3 x_j^3 = b_e^3 & & \forall e = 1,2,3,... \\
-                  & \sum_j a_{lj}^3 x_j^3 \le b_l^3 & & \forall l = 1,2,3,... \\
-                  & \sum_j a_{gj}^3 x_j^3 \ge b_g^3  & & \forall g = 1,2,3,... \\
-                  & x_j^2 - x_j^1 \ge 0         & x_j^3 - x_j^2 \ge 0 & \\
-\end{array}
-\end{equation}
-
-\noindent Note the last constraint is defined to ensure the ordering of the triangular fuzzy number, \(x_j^1 \le x_j^2 \le x_j^3\).
-To be more succinct, the FFLP can also equivalently be written as \ref{eq:nasseri-solution-condensed}.
-
-\begin{equation}
-\label{eq:nasseri-solution-condensed}
-\begin{array}{llc}
-\underset{{\tilde{x}}}{\text{max}} & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3) \otimes (x_j^1,x_j^2,x_j^3)\Big) &\\
-\text{subject to} & \sum_j a_{ej}^k x_j^k = b_e^k &  \forall e = 1,2,3,... \\
-                  & \sum_j a_{lj}^k x_j^k \le b_l^k &  \forall l = 1,2,3,... \\
-                  & \sum_j a_{gj}^k x_j^k \ge b_g^k  &  \forall g = 1,2,3,... \\
-                  & x_j^2 - x_j^1 \ge 0         & x_j^3 - x_j^2 \ge 0 \\
-                  & \forall k \in \{1,2,...\}        &                  \\
-\end{array}
-\end{equation}
-
-Where \(k\) has a max value equal to the cardinality to the type of fuzzy number being utilized. This can be further
-elaborated on by rewriting the inequality constraints as equality constraints by introducing slack variables. This is
-useful as it represents the formulation in a standard form \cite{chen-2010-applied,vanderbei-2020-linear-progr}.
-
-The given method is called the Kumar and Kaurs method \cite{kaur-2016-introd-fuzzy} which is similar in presentation of
-the Nassiri method presented in \cite{bello-2019-fuzzy-activ}. Generally speaking, it is designed to solve FFLP
-problems with inequality constraints having LR flat fuzzy numbers. Given the FFLP \ref{eq:general-fflp} and assuming that
-\(\tilde{x}_j\) is an LR flat fuzzy number, the problem can be reformulated as \ref{eq:kumar-kaurs-fuzzy}
-\cite{kaur-2016-introd-fuzzy}.
-
-\begin{equation}
-\label{eq:kumar-kaurs-fuzzy}
-\begin{array}{lll}
-\underset{{\tilde{x}}}{\text{max}} & J = \sum_j \tilde{C}_j \otimes \tilde{X}_j              &                                              \\
-\text{subject to} & \sum_j \tilde{a}_{ej} \otimes \tilde{x}_j               = \tilde{b}_e & \forall e = 1,2,3,...                \\
-                  & \sum_j \tilde{a}_{lj} \otimes \tilde{x}_j \oplus \tilde{S}_l = \tilde{b}_l \oplus \tilde{S'}_l & \forall l = 1,2,3,... \\
-                  & \sum_j \tilde{a}_{gj} \otimes \tilde{x}_j \oplus \tilde{S}_g = \tilde{b}_g \oplus \tilde{S'}_g & \forall g = 1,2,3,... \\
-                  & \mathfrak{R}(\tilde{S_l}) - \mathfrak{R}(\tilde{S_l'}) \ge 0                                     & \forall l = 1,2,3,...      \\
-                  & \mathfrak{R}(\tilde{S_g}) - \mathfrak{R}(\tilde{S_g'}) \le 0                                     & \forall g = 1,2,3,...
-\end{array}
-\end{equation}
-
-Expanding the set of equations and using the condensed notation in \ref{eq:nasseri-solution-condensed} we find
-\ref{eq:kumar-kaurs-crisp} \cite{kaur-2016-introd-fuzzy}.
-
-\begin{equation}
-\label{eq:kumar-kaurs-crisp}
-\begin{array}{lllc}
-\underset{{\tilde{x}}}{\text{max}} & J = \mathfrak{R}\Big(\sum_j (c_j^1,c_j^2,c_j^3) \otimes (x_j^1,x_j^2,x_j^3)\Big) &                             &                                          \\
-\text{subject to}  & \sum_j a_{ej}^k x_j^k = b_e^k                                &                                &   \forall e = 1,2,3,...        \\
-                   & \sum_j a_{lj}^k x_j^k + s_l^k = s_l^{'k} + b_l^k                 &                                &   \forall l = 1,2,3,...       \\
-                   & \sum_j a_{gj}^k x_j^k + s_g^k = s_l^{'k} + b_l^k                 &                                &   \forall g = 1,2,3,...      \\
-                   & \mathfrak{R}(\tilde{S_l}) - \mathfrak{R}(\tilde{S_l'}) \ge 0                      &                                &  \forall l = 1,2,3,...          \\
-                   & \mathfrak{R}(\tilde{S_g}) - \mathfrak{R}(\tilde{S_g'}) \le 0                      &                                &  \forall g = 1,2,3,...          \\
-                   & x_j^2 - x_j^1 \ge 0                                         & x_j^3 - x_j^2 \ge 0              &         \\
-                   & \forall k \in \{1,2,...\}                                            &                            &                       \\
-\end{array}
-\end{equation}
-
-\subsubsection{Example}
-\label{sec:fully-fuzzy-linear-programming-example}
-To demonstrate the process of decomposing an FFLP into its crisp counterpart, a simple example is to be provided.
-Consider the following convex non-negative triangular fuzzy FFLP show in \ref{eq:fflp-example}. The example is pulled from
-\cite{nasseri-2013-fully}.
-
-\begin{equation}
-\label{eq:fflp-example}
-\begin{array}{ll}
-\underset{{\tilde{x}}}{\text{max}} & (1,2,3) \otimes \tilde{x}_1 \oplus (2,3,4) \otimes \tilde{x}_2 \\
-\text{subject to}                  & (0,1,2) \otimes \tilde{x}_1 \oplus (1,2,3) \otimes \tilde{x}_2 \le (1,10,27) \\
-                                   & (1,2,3) \otimes \tilde{x}_1 \oplus (0,1,2) \otimes \tilde{x}_2 \le (2,11,28)
-\end{array}
-\end{equation}
-
-Using the method described in \ref{sec:fully-fuzzy-linear-programming}, the FFLP can be expanded into the following form
-described in \ref{eq:fflp-example-crisp}. The objective function is expanded using the First Index of Yager. Each constraint
-is then decomposed into three constraints with slack variables appended to the left-hand side and right-hand side of
-their respective equation. The constraints for the slack variables are then included to ensure values of the triangular
-fuzzy numbers for the slack variables are valid. \ref{eq:fflp-example-crisp} is now said to be a crisp representation of
-\ref{eq:fflp-example} in standard form. Solving the FFLP utilizing the Octave LP module (using both the Nasseri and Kumar
-methods to verify the results), the example problem has a solution as displayed in \ref{tab:fflp-example-solution}.
-
-\begin{equation}
-\label{eq:fflp-example-crisp}
-\begin{array}{ll}
-\underset{x}{\text{max}} & J = (\frac{1+2+3}{3})  (\frac{x_1^1 + x_1^2 + x_1^3}{3}) + (\frac{2,3,4}{3})  (\frac{x_2^1 + x_2^2 + x_2^3}{3}) \\
-\text{subject to}        &  0x_1^1 + 1x_2^1 + s_1^1 = 1 + s_1^{1'}                                                                  \\
-                         &  1x_1^2 + 2x_2^2 + s_1^2 = 10 + s_1^{2'}                                                                  \\
-                         &  2x_1^3 + 3x_2^3 + s_1^3 = 27 + s_1^{3'}                                                                  \\
-                         &  1x_1^1 + 0x_2^1 + s_1^1 = 2 + s_1^{1'}                                                                  \\
-                         &  2x_1^2 + 1x_2^2 + s_1^2 = 11 + s_1^{2'}                                                                  \\
-                         &  3x_1^3 + 2x_2^3 + s_1^3 = 28 + s_1^{3'}                                                                  \\
-                         & \mathfrak{R}(\tilde{S_1}) - \mathfrak{R}(\tilde{S_1'}) \ge 0                                                                    \\
-                         & \mathfrak{R}(\tilde{S_2}) - \mathfrak{R}(\tilde{S_2'}) \ge 0                                                                    \\
-                         & x_j^2 - x_j^1 \ge 0                                                                                        \\
-                         & x_j^3 - x_j^2 \ge 0                                                                                        \\
-\end{array}
-\end{equation}
-
-\begin{table}[htbp]
-\caption{\label{tab:fflp-example-solution}Solution to the crisp representation of the FFLP.}
-\centering
-\begin{tabular}{rrrrrrrrrrrr}
-\(x_1^1\) & \(x_1^2\) & \(x_1^3\) & \(x_2^1\) & \(x_2^2\) & \(x_2^3\) & \(s_1^1\) & \(s_1^2\) & \(s_1^3\) & \(s_1^{1'}\) & \(s_1^{2'}\) & \(s_1^{3'}\)\\[0pt]
-2 & 4 & 6 & 1 & 3 & 5 & 0 & 0 & 0 & 0 & 0 & 0\\[0pt]
-\end{tabular}
-\end{table}
-
-\subsection{The Fuzzy BAP}
-\label{sec:the-fuzzy-bap}
-The following is a FFLP model to the continuous dynamical BAP that is able to allocate a quay to an incoming vessel
-\cite{bello-2019-fuzzy-activ}. The model assumes that the arrival time, \(\tilde{a}\), berthing time, \(\tilde{u}\), and
-handling time, \(\tilde{s}\), are assumed to be known, but imprecise. The objective of the model is to allocate all the
-vessels to different quays, according to several constraints minimizing the total waiting time for all the vessels. The
-model in its entirety is presented in \ref{eq:fuzzy-bap}. Note that a few modifications are made to the notation to
-accommodate the notation of \cite{bello-2019-fuzzy-activ} while attempting to remain as consistent as possible with the
-notation presented in this paper. In this section, \(Q\) refers to the set of quays. Furthermore, the model is defined
-over multiple quays, thus indexing for position shall be written as \(v_{iq}\). Similarly, because of the added degree of
-freedom, the spatiotemporal binary decision variables are represented as \(\sigma^q_{ij}\) and \(\psi^q_{ij}\). The \(\cdot^q\) term
-represents the quay of interest.
-
-\begin{equation}
-\label{eq:fuzzy-bap}
-\begin{array}{lll}
-                   & \text{min} \sum_{q \in Q}\sum_{i \in I} (\tilde{u}_{iq} - \tilde{a}_i)           &                                \\
-\text{Subject to:} &                                                             &                                    \\
-                   & \sum_{q \in Q} v_{iq} = 1                                          & \forall i \in I;\; \forall q \in Q               \\
-                   & \tilde{u}_{iq} \ge \tilde{a}_i                                 & \forall i \in I;\; \forall q \in Q                \\
-                   & v_{iq} + l_i \le L_q                                           & \forall i \in I;\; \forall q \in Q                \\
-                   & v_{iq} + l_i \le v_{jq} + M(1-\sigma^q_{ij})                           & \forall i,j \in I;\; i \ne j;\; \forall q \in Q   \\
-                   & \tilde{u}_{iq} + \tilde{s}_i \le T                             & \forall i \in I;\; \forall q \in Q                \\
-                   & \tilde{u}_{iq} + \tilde{s}_i \le \tilde{u}_{iq} + M(1-\psi^q_{ij})   & \forall i,j \in I;\; i \ne j;\; \forall q \in Q \\
-\end{array}
-\end{equation}
-
-One may note the similarities to the previously presented BAB and PAP models in \ref{eq:fuzzy-bap}. It has yet been defined
-in a way useful for the purposes for this work. The adaptation of the Fuzzy BAP (FBAP) to the Fuzzy PAP (FPAP) is
-discussed next in \ref{sec:the-fuzzy-pap}. An example solution of \ref{eq:fuzzy-bap} for 2 quays, provided by
-\cite{bello-2019-fuzzy-activ}, is shown in \ref{fig:bap-example-solution}. The figure represents the robustness of the fuzzy
-berthing plan.
-
-The lines below the small triangle represent the possible early berthing time. Similarly, the lines above the triangle
-represent the possible late berthing of the vessel. The point where the small point resides is the optimum berthing
-time. In \ref{fig:bap-example-solution} it appears that there are conflicts between some of the departures and arrivals of the
-vessels due to the overlapping lines (e.g. V8 and V2). These overlapping arrivals and departures merely represent the
-relationship of the fuzzy departure/arrival times of the vessels. For example, if V8 were to depart late, V2 has slack
-to allow a late berthing and servicing. On the graph, that would represent a berthing time located somewhere above the
-small triangle.
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.7\textwidth]{./img/bap-example-fuzzy-solution.png}
-\caption{\label{fig:bap-example-solution}Example solution of a fuzzy BAP model over multiple quays. The parallelograms represent the fuzzy solution visually by depicting the lower and upper bounds for the arrival and departure times with the vertial sloped lines. The yellow filled squares represent the average crisp solution.}
-\end{figure}
-
 \section{Summary}
-\label{sec:org9d3ac7a}
+\label{sec:org41fed34}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1115,11 +872,10 @@ the charge rate, \(\epsilon_q = r_q\), then the second term in \ref{eq:objective
 measure of the consumption cost as well as a mechanism to encourage the model to minimize active charger times,
 particuarly for the fast chargers.
 
-\section{Objective 2: Develop robust charger allocation capabilities to account for BEB arrival time uncertainties and non-linear battery dynamics}
+\section{Objective 2: Develop robust charger allocation capabilities to account for non-linear battery dynamics}
 \label{sec:act-math-model-robust}
-In this section, non-linear dynamics will be introduced with a brief description of the mathematical approach that
-will be taken. Proceeding this, the Fuzzy PAP (FPAP) shall be introduced in its entirety. The work presented in this
-section has yet to be completed.
+In this section, non-linear dynamics will be introduced with a brief description of the mathematical approach that will
+be taken. The work presented in this section has yet to be completed.
 
 \subsection{Task 2.1: Incorporate non-linear battery dynamics into the FFLP PAP model}
 \label{sec:non-linear-battery-dynamics}
@@ -1170,117 +926,8 @@ The equation is developed by using exact discretization \cite{hespanha-2018-line
 indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and the subsequent visit is indicated by \(\eta_{\xi_i}\). Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
-\subsection{Task 2.2: Model the PAP as an FFLP to allow for uncertain BEB arrival/charge/departure times. An optimal solution shall be produced, but with added flexibility to its application.}
-\label{sec:the-fuzzy-pap}
-This section derives the Fuzzy PAP (FPAP). It is separated into three parts to construct each component individually:
-objective function, queuing constraints, and charging constraints. Before deriving the FPAP, it is prudent to define the
-set of fuzzy variables. Similarly to the Fuzzy BAP, the arrival times, \(\tilde{a}_i\), berthing time \(\tilde{u}_i\), and
-detach time from the charger \(\tilde{d}_i\) are assumed to be imprecise. Thus, indirectly, the service time,
-\(\tilde{s}_i\), the linearization constraint in \ref{eq:slack_gain}, \(\tilde{g}_{iq}\), and the initial charge for visit
-\(i\), \(\tilde{\eta}_i\) will also become fuzzy values. Note for the sake of brevity, constraints and objective functions
-shall be written in their fuzzy form; however, in practice, the equations will be expanded as described in
-\ref{sec:fuzzy-preliminaries}.
-
-\subsubsection{Objective Function}
-\label{sec:org9e34a05}
-Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
-
-\begin{equation}
-\label{eq:fuzzy-objective}
-\text{min } \sum_{i=1}^{n_I} \sum_{q=1}^{n_Q} \Big( w_{iq} m_q + \tilde{g}_{iq} \epsilon_{q} \Big)
-\end{equation}
-
-As shown in \ref{sec:fully-fuzzy-linear-programming}, the method of handling the fuzzy values in the objective function is to
-simply apply a ranking function. Let \(\mathfrak{R}\) be defined as the First Index of Yager as shown in \ref{eq:first-index-yager}.
-The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
-
-\begin{equation}
-\label{eq:fuzzy-objective-yager}
-\text{min } \sum_{i=1}^{n_I} \sum_{q=1}^{n_Q} \Big( w_{iq} m_q + \mathfrak{R}(g_{iq}) \epsilon_{q} \Big)
-\end{equation}
-
-\subsubsection{Queuing Constraints}
-\label{sec:org754b646}
-To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
-variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
-temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
-Using triangular fuzzy numbers, that would imply constraints for the lower, middle, and upper bounds of the temporal
-impreciseness. Similarly, \ref{subeq:fp_m_detach}-\ref{subeq:fp_m_valid_depart} are equivalent to their crisp
-counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply updates the binary decision term.
-
-\begin{multicols}{2}
-\begin{subequations} \label{eq:fuzzy-packing-constrs}
-\begin{equation}
-    \tilde{u}_i - \tilde{u}_j - \tilde{s}_j - (\sigma_{ij} - 1)T \geq 0 \label{subeq:fp_m_time}         \\
-\end{equation}
-\begin{equation}
-    \sigma_{ij} + \sigma_{ji} + \psi_{ij} + \psi_{ji} \geq 1                     \label{subeq:fp_m_valid_pos}    \\
-\end{equation}
-\begin{equation}
-    \sigma_{ij} + \sigma_{ji} \leq 1                                       \label{subeq:fp_m_sigma}        \\
-\end{equation}
-\begin{equation}
-    \tilde{s}_i + \tilde{u}_i = \tilde{d}_i                       \label{subeq:fp_m_detach}       \\
-\end{equation}
-\begin{equation}
-    \tilde{a}_i \leq \tilde{u}_i \leq (T - \tilde{s}_i)                 \label{subeq:fp_m_valid_starts} \\
-\end{equation}
-\begin{equation}
-    \tilde{d}_i \leq \tau_i                                             \label{subeq:fp_m_valid_depart} \\
-\end{equation}
-\begin{equation}
-   \sigma_{ij}, \psi_{ij} \in \{0,1\}\;                                   \label{subeq:fp_binaryspace}        \\
-\end{equation}
-\end{subequations}
-\end{multicols}
-
-\subsubsection{Charging Constraints}
-\label{sec:org19c64ca}
-Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
-\ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
-and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
-assumed that the bus traveled the same distance during the route, thus the same amount of discharge. This is done as a
-simplification to the estimation of the discharge of a BEB over its given route.
-\ref{subeq:fp_gpgret}-\ref{subeq:fp_gwles} fuzzify the linearization terms in a similar manner, but the crisp spatial
-term, \(w_{iq}\) is included. The inclusion of the crisp terms with the fuzzy values are allowed because although the time
-may be allowed to fluctuate, the specified queue, discharge amounts, or initial/final charge times are the same for each
-element of the fuzzy temporal values. Thus, when the fuzzy constraints are converted into crisp constraints, the
-constraint validity is maintained \cite{ghanbari-2019-fuzzy}.
-
-\begin{multicols}{2}
-\begin{subequations}                                                       \label{eq:fuzzy-dyn-constrs}
-\begin{equation}
-    \tilde{\eta}_{\Gamma^0_i} = \alpha \kappa_{\Gamma^0_i}                                        \label{subeq:fp_init_charge}    \\
-\end{equation}
-\begin{equation}
-    \tilde{\eta}_i + \sum_{q=1}^{n_Q} \tilde{g}_{iq} r_q - \Delta_i = \tilde{\eta}_{\gamma_i} \label{subeq:fp_next_charge}    \\
-\end{equation}
-\begin{equation}
-    \tilde{\eta}_i + \sum_{q=1}^{n_Q} \tilde{g}_{iq} r_q - \Delta_i \geq \nu \kappa_{\Gamma_i}       \label{subeq:fp_min_charge}     \\
-\end{equation}
-\begin{equation}
-    \tilde{\eta}_i + \sum_{q=1}^{n_Q} \tilde{g}_{iq} r_q \leq \kappa_{\Gamma_i}               \label{subeq:fp_max_charge}     \\
-\end{equation}
-\begin{equation}
-    \tilde{\eta}_{\Gamma^f_i} \geq \beta \kappa_{\Gamma^f_i}                                        \label{subeq:fp_final_charge}   \\
-\end{equation}
-\begin{equation}
-    \tilde{s}_i - (1 - w_{iq})M \leq \tilde{g}_{iq}                           \label{subeq:fp_gpgret}         \\
-\end{equation}
-\begin{equation}
-    \tilde{s}_i \geq \tilde{g}_{iq}                                           \label{subeq:fp_gples}          \\
-\end{equation}
-\begin{equation}
-    Mw_{iq} \geq \tilde{g}_{iq}                                               \label{subeq:fp_gwgret}         \\
-\end{equation}
-\begin{equation}
-    0 \leq \tilde{g}_{iq}                                                     \label{subeq:fp_gwles}          \\
-\end{equation}
-\end{subequations}
-\end{multicols}
-
 \section{Project Schedule}
-\label{sec:org792d3e5}
+\label{sec:orgd6c5b87}
 The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be
 completed. The estimated completion date is mid to late-November. Note that the blocks before the \texttt{TODAY} mark in
 \autoref{fig:gantt} is work that has been previously completed or is work in progress.

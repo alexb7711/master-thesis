@@ -44,12 +44,10 @@ notion to develop a model of assigning EVs to queue in ordered to be charged [ci
 
 Because of the PAP's extremely close modeling methods to the BAP, literature from the BAP can (and will) provide support
 for the development of the PAP in this work. The BAP has been studied in literature since the 1990s and provides a depth
-of work to derive from [cite:@rodrigues-2022-berth]. The proposed work also intends to introduce a sense of robustness
-by allowing uncertainty in the arrival times of the BEBs. By "fuzzifying" the model, the "fuzzy" variables are allowed
-to have upper and lower bounds for which the model can provide solutions for. The work to be introduced promises much
-potential for further research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated
-Annealing (SA) implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP)
-constraints with non-linear battery dynamics.
+of work to derive from [cite:@rodrigues-2022-berth]. The work to be introduced promises much potential for further
+research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated Annealing (SA)
+implementation and extension of the PAP utilizing Mixed Integer Linear Programming (MILP) constraints with non-linear
+battery dynamics.
 
 In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
 statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
