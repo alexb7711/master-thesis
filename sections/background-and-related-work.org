@@ -63,16 +63,6 @@ quicker solve times have also been introduced [cite:@imai-2001-dynam-berth]. Met
 horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
 and even fuzzy set theory has been applied to allow for more flexible schedules [cite:@bello-2019-fuzzy-activ].
 
-An issue with the models introduced in the previous paragraph is the strict nature of the solutions produced. Fuzzy
-mathematical programming is useful in situations where imprecise parameters exist [cite:@bello-2019-fuzzy-activ].
-Previous work has utilized a stochastic approach to model uncertainties [cite:@bie-2021-optim-elect;
-@duan-2021-refor-mixed; @tang-2019-robus-sched]. Work related to the BAP shows a Fully Fuzzy Linear Program (FFLP)
-converts the FFLP to its "crisp" counterpart using one of various methods, a popular one being the Nasseri Method
-[cite:@bello-2019-fuzzy-activ]; however, to the extent of the research done for this work, FFLP has not been applied to
-EV or BEB scheduling. FFLP provides a simple modeling solution that naturally describes the inaccuracies associated with
-arrival times of BEBs. Furthermore, the result produced from an FFLP model describes a range of optimal solutions based
-from the uncertainties defined by the input parameters.
-
 ** Problem Description
 :PROPERTIES:
 :CUSTOM_ID: sec:problem-description
@@ -118,7 +108,7 @@ times, and their heights represent the physical space taken by each EV.
 #+end_src
 
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
-#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t :lines 5-
 
 ** Mixed Integer Linear Programming
 

@@ -135,7 +135,7 @@ for peak hours is also introduced with the power cost component.
 
 #+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:constraints" :only-contents t
 
-** Method And Validation :noexport:
+** Method And Validation
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -145,6 +145,13 @@ implementation of the skeletal framework, code for importing route data, and som
 functions. As previously stated, the MILP-PAP has been implemented and tested. Thus, the MILP-PAP shall be used as a
 baseline measure to compare the results of the proposed work. An introduction to Simulated Annealing as well as the
 proposed method of implementation will subsequently be outlined and discussed.
+
+*** Optimization Problem
+:PROPERTIES:
+:CUSTOM_ID: sec:optimization-problem
+:END:
+
+#+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:optimization-problem" :only-contents t
 
 *** Simulated Annealing
 :PROPERTIES:
@@ -159,33 +166,6 @@ proposed method of implementation will subsequently be outlined and discussed.
 :END:
 
 #+include: "../sup-doc/sa-pap-paper/sections/optimization-algorithm.org::#sec:optimization-algorithm" :only-contents t
-
-** Project Schedule
-The following Gantt chart, shown in \autoref{fig:gantt}, plots out the work that has been completed and the work to be
-completed. The estimated completion date is mid to late-November. Note that the blocks before the =TODAY= mark in
-\autoref{fig:gantt} is work that has been previously completed or is work in progress.
-
-#+begin_src latex
-  \begin{figure}[ht]
-    \begin{ganttchart}[
-      vgrid={*{11}{gray, dotted}, *1{black, dashed}},
-      bar label node/.append style={
-        align=left,
-        text width=width("Aim 2. Software verificationx")},
-      today=21
-      ]{1}{24}
-      \gantttitle{2022}{12} \gantttitle{2023}{12} \\
-      \gantttitlelist{1,...,24}{1} \\
-      \ganttbar{MILP-PAP}{1}{12} \\
-      \ganttbar{SA-PAP}{9}{21} \\
-      \ganttbar{Non-Linear Battery Dynamics}{20}{21} \\
-      \ganttbar{Fuzzy PAP}{18}{23} \\
-      \ganttbar{Defense}{23}{24} \\
-    \end{ganttchart}
-    \caption{Gantt chart for the proposed work.}
-    \label{fig:gantt}
-  \end{figure}
-#+end_src
 
 ** Summary
 :PROPERTIES:

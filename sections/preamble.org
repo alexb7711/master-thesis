@@ -90,7 +90,7 @@
 #+latex_header: % Degree Information
 #+latex_header: \degree{Master of Science}
 #+latex_header: \month{Dec}
-#+latex_header: \gradyear{2023}
+#+latex_header: \gradyear{2024}
 
 # =========================================================================================================================
 # More document configuration
