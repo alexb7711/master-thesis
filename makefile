@@ -44,13 +44,14 @@ pipeline: precheck images set-version ## Recipe to be ran when executed from a p
 
 ##------------------------------------------------------------------------------
 #
-emacs: $(ALL)
+emacs: images $(ALL)
 	@emacs $(basename $(DOC_SRC)).org --script $(SCRIPTS)/emacs-build-doc.el
 
 ##------------------------------------------------------------------------------
 #
 images: $(FIGURES_PDF) ## Generate all the images for the project
 	make -C sup-doc/milp-pap-paper-frontiers images
+	make -C sup-doc/sa-pap-paper images
 
 ##------------------------------------------------------------------------------
 # Resources:

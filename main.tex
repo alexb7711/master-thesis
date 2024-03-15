@@ -1,4 +1,4 @@
-% Created 2024-03-14 Thu 13:59
+% Created 2024-03-15 Fri 12:47
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,proposal]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -52,18 +52,19 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \newcommand{\I}{\mathbb{I}}                 % Set of visit tuples
 \newcommand{\C}{\mathbb{C}}                 % Charger availability information
 \newcommand{\U}{\mathcal{U}}                % Uniform distribution
+\newcommand{\W}{\mathcal{W}}                % Weighted distribution
 \newcommand{\Sol}{\mathbb{S}}               % A shorthand for visit tuple
 \newcommand{\M}{\mathbb{M}}                 % A shorthand for the metadata
 \newcommand{\Hd}{\mathbb{H}}                % Set of discrete times
 \newcommand{\Nu}{\mathcal{V}}               % Draw a nice Nu
-\newcommand{\Iset}{\mathcal{I}}             % Set of visits 1-I
-\newcommand{\Isetinit}{\mathcal{I}_0}       % Set of visits inital visits
-\newcommand{\Isetfinal}{\mathcal{I}_f}      % Set of visits final visits
-\newcommand{\Bset}{\mathcal{B}}             % Set of visits 1-B
-\newcommand{\Qset}{\mathcal{Q}}             % Set of visits 1-Q
-\newcommand{\Jset}{\mathcal{J}}             % Set of visits 1-J
+\newcommand{\Iset}{I}                       % Set of visits 1-I
+\newcommand{\Isetinit}{I_0}                 % Set of visits inital visits
+\newcommand{\Isetfinal}{I_f}                % Set of visits final visits
+\newcommand{\Bset}{B}                       % Set of visits 1-B
+\newcommand{\Qset}{Q}                       % Set of visits 1-Q
+\newcommand{\Jset}{J}                       % Set of visits 1-J
 \newcommand{\Jsetq}{\mathbb{J}}             % Set of visits 1-J for queue active times
-\newcommand{\Hset}{\mathcal{H}}             % Set of visits 1-H
+\newcommand{\Hset}{H}                       % Set of visits 1-H
 % The Committee
 \majorprof{Dr. Greg Droge, Ph.D.}
 \firstreader{Dr. Jacob Gunther, Ph.D.}
@@ -83,7 +84,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
  pdftitle={The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 29.1 (Org mode 9.6.6)}, 
+ pdfcreator={Emacs 29.2 (Org mode 9.6.15)}, 
  pdflang={English}}
 \begin{document}
 
@@ -333,7 +334,7 @@ further detail in the proceeding section. An example output schedule is shown in
 \#+END\textsubscript{lines}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org55e1ba8}
+\label{sec:org3410845}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -556,7 +557,7 @@ begin to be serviced to stay within the time horizon. \autoref{subeq:bapsdspace}
 \end{table}
 
 \section{Summary}
-\label{sec:org638d3e9}
+\label{sec:orgc0dc843}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -880,7 +881,7 @@ indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and th
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
 \section{Method And Validation}
-\label{sec:org4756ef4}
+\label{sec:org9fb5e45}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -1003,7 +1004,7 @@ Furthermore, letting \(x = \eta_i - \nu_{\Xi_i} \kappa_{\Xi_i}\), where \(\nu_{\
 proportional to the difference of the SOC and the threshold squared.
 
 \begin{figure}[htpb]
-  \centering \includegraphics{sections/img/overlap}
+  \centering \includegraphics{img/overlap}
   \caption{Examples of different methods of overlapping. Space overlap: $q_{k_1} > q_{i} + 1 \therefore \psi_{ik_{1}} = 1$.
     Time overlap $u_{k_2} < u_{j} + s_j \therefore \sigma_{k_{2}j} = 0$. Similarly, $\sigma_{k_3 i} = 0$.}
   \label{fig:overlap}
@@ -1327,13 +1328,13 @@ this principle by plotting the geometric schedule using varying values of \(\bet
 
 \begin{figure}[t!]
   \begin{subfigure}[t]{0.5\textwidth}
-    \centering \includegraphics[width=\textwidth]{sections/img/cool_func.png}
+    \centering \includegraphics[width=\textwidth]{img/cool_func.png}
     \caption{Geometric, linear, and exponential cooling schedules.}
     \label{fig:cool}
   \end{subfigure}
   ~
   \begin{subfigure}[t]{0.5\textwidth}
-    \centering \includegraphics[width=\textwidth]{sections/img/geometric.png}
+    \centering \includegraphics[width=\textwidth]{img/geometric.png}
     \caption{Geometric cooling schedule utilizing various value of $\beta_1$.}
     \label{fig:geometric}
   \end{subfigure}
@@ -1393,13 +1394,13 @@ the initial charge time, \(u_i\), for visit \(i\) is written as \(u_i \equiv \I_
 
 \begin{enumerate}
 \item Generator Input
-\label{sec:orge207699}
+\label{sec:orgdf3289d}
 Each generator accepts an input of the tuple of the form \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being
 manipulated, \(\I\) is the set of visits, and \(\C\) is the set that describes the availability for all chargers \(q \in
 \Qset\).
 
 \item Generator Output
-\label{sec:org20a7a49}
+\label{sec:orgbbce7a1}
 The output of the generating functions is the same as the input, \(\Sol\), but with changes applied to it by a generator.
 Let a modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\).
 Although not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and
