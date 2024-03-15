@@ -108,7 +108,7 @@ times, and their heights represent the physical space taken by each EV.
 #+end_src
 
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
-#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t :lines 5-
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
 
 ** Mixed Integer Linear Programming
 
@@ -150,7 +150,7 @@ Now that the problem has been defined conceptually, the problem shall be defined
 \end{figure}
 #+end_export
 
-** Overwiew of the PAP
+** Overview of the PAP
 :PROPERTIES:
 :CUSTOM_ID: sec:overview-of-the-pap
 :END:
@@ -170,7 +170,7 @@ other scheduled charge times.
 :END:
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+# +include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
 
 ** Summary
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
