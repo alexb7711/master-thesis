@@ -29,10 +29,10 @@ FIGURES_PDF     = $(patsubst %.tex, %.pdf, $(FIGURES_TEX))
 ##------------------------------------------------------------------------------
 #
 all: precheck images ## Build full thesis (LaTeX + figures)
+	@command -v emacs && make emacs || echo "Emacs not installed... skipping"
 	@printf "Generating $(TARGET)...\n"
 	@bash -e $(SCRIPTS)/relative-path-bibtex $(DOC_SRC)
-	@bash -e $(SCRIPTS)/build-pdf $(basename $(DOC_SRC)) $(TARGET) | \
-	grep "^!" -A20 --color=always || true
+	@bash -e $(SCRIPTS)/build-pdf $(basename $(DOC_SRC)) $(TARGET)
 
 ##------------------------------------------------------------------------------
 #
@@ -44,13 +44,14 @@ pipeline: precheck images set-version ## Recipe to be ran when executed from a p
 
 ##------------------------------------------------------------------------------
 #
-emacs: $(ALL)
+emacs: images $(ALL)
 	@emacs $(basename $(DOC_SRC)).org --script $(SCRIPTS)/emacs-build-doc.el
 
 ##------------------------------------------------------------------------------
 #
 images: $(FIGURES_PDF) ## Generate all the images for the project
 	make -C sup-doc/milp-pap-paper-frontiers images
+	make -C sup-doc/sa-pap-paper images
 
 ##------------------------------------------------------------------------------
 # Resources:

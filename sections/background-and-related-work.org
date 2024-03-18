@@ -108,7 +108,7 @@ times, and their heights represent the physical space taken by each EV.
 #+end_src
 
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
-#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t :lines 5-
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
 
 ** Mixed Integer Linear Programming
 
@@ -139,18 +139,7 @@ Now that the problem has been defined conceptually, the problem shall be defined
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:overview-of-bap" :only-contents t
 
-#+begin_export latex
-\begin{figure}[htpb]
-\centering
-    \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
-    \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
-      time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
-      arrow represents the direction of departure.}
-    \label{subfig:bapexample}
-\end{figure}
-#+end_export
-
-** Overwiew of the PAP
+** Overview of the PAP
 :PROPERTIES:
 :CUSTOM_ID: sec:overview-of-the-pap
 :END:
@@ -166,11 +155,10 @@ other scheduled charge times.
 **** The PAP Formulation
 :PROPERTIES:
 :CUSTOM_ID: sec:the-pap-formulation
-:CUSTOM_ID: sec:input-variables
 :END:
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
-#+include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
+# +include: "../sup-doc/milp-pap-paper-frontiers/sections/vartab.org" :only-contents t
 
 ** Summary
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
