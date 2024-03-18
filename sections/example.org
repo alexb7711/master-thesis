@@ -1,0 +1,4 @@
+* Example
+:PROPERTIES:
+:CUSTOM_ID: sec:example
+:END:
