@@ -1,6 +1,6 @@
-% Created 2024-03-18 Mon 13:21
+% Created 2024-03-19 Tue 10:53
 % Intended LaTeX compiler: pdflatex
-\documentclass[ee,proposal]{usuthesis}
+\documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -72,6 +72,9 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \firstreader{Dr. Jacob Gunther, Ph.D.}
 \secondreader{Dr. Burak Sarsilmaz, Ph.D.}
 
+% Graduate Dean
+\graddean{ D. Richard Cutler, Ph.D.}
+\deantitle{ Vice Provost of Graduate Studies}
 
 % Degree Information
 \degree{Master of Science}
@@ -86,7 +89,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
  pdftitle={The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 29.2 (Org mode 9.6.15)}, 
+ pdfcreator={Emacs 29.1 (Org mode 9.6.6)}, 
  pdflang={English}}
 \begin{document}
 
@@ -175,18 +178,18 @@ the proposed BEB charging plan below.
 and total charger count. Slow charging will be incentivized for battery health and consumption cost.
 \end{itemize}
 
-\item \textbf{Objective 2}: Develop robust charger allocation capabilities to account for non-linear battery dynamics
+\item \textbf{Objective 2}: Mathematically model non-linear battery dynamics to increase the accuracy of the SOC estimate
 
 \begin{itemize}
-\item \textbf{Task 2.1}: Incorporate non-linear battery dynamics into the FFLP PAP model
+\item \textbf{Task 2.1}: Incorporate non-linear battery dynamics into the model
 \end{itemize}
 \end{itemize}
 \chapter{BACKGROUND AND RELATED WORK}
 \label{sec:background-and-related-work}
 The BEB queue scheduling problem is one that has been of increasing interest and relevancy in the EV/BEB industry. It is
 thus important to address the state of the art by introducing relevant problems in BEB queue scheduling, which will be
-addressed first. A detailed problem description shall then be presented to give a better understanding of the
-proposition moving forward, and then miscellaneous introductory theory will be presented that.
+addressed first. A detailed problem description shall then be presented to provide a basis of understanding of the
+proposition. Relevant introductory theory will be presented throughout.
 
 \section{State Of The Art of Battery Electric Bus Charging}
 \label{sec:state-of-the-art}
@@ -273,10 +276,6 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
-This section introduces and defines the problem to be addressed by this work. A general description is given and
-followed by a mathematical interpretation. The scope of this work will also be provided as well as a high level
-introduction to the individual problems that will be addressed in order to achieve the proposed goal.
-
 Consider a fleet of BEBs scheduled to perform a set of prescribed routes on a given day. An individual BEB from said
 fleet begins and completes an individual route at the same station from which it also receives its charge. During each
 route, the BEB's State of Charge (SOC) depletes by a certain amount. The charge supplied during its visit must be enough
@@ -379,13 +378,7 @@ employed to ensure the validity of the prescribed schedule. Both the objective f
 further detail in the proceeding section. An example output schedule is shown in \ref{fig:spacial-and-temporal-constr}.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org3955d8a}
-
-A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
-set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
-constraints \cite{chen-2010-applied}. Given an objective function \(J\), decision variables (i.e. variables of
-optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\), and input parameters \(c_j, d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a
-mathematical structure represented as shown in \ref{eq:milp-structure} \cite{chen-2010-applied}
+\label{sec:org5ccd61f}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -409,10 +402,6 @@ function to have any meaning. Thus, the constraint equations limit the solution 
 decision variables and input parameters must be less than or equal to some value \(b_i\). \ref{eq:fuzzy-milp-continuous}
 and \ref{eq:fuzzy-milp-integer} state that the decision variables \(x_j\) and \(y_k\), must be greater than or equal to 0,
 respectively.
-
-This formulation of the MILP in \ref{eq:milp-structure} is also referred to as ``crisp''. By this it is meant that each
-variable in the formulation acts as an injective mapping to its number representation. In other words, every variable
-has a one-to-one mapping from variable to value \cite{kaur-2016-introd-fuzzy}.
 
 \section{Overview of the BAP}
 \label{sec:overview-of-the-bap}
@@ -525,13 +514,11 @@ the \textcolor{blue}{total charge time for}, \(s_i\), must equal the departure t
 \textcolor{blue}{is within the range, $[0,L]$}.
 
 \section{Summary}
-\label{sec:org7a032b9}
+\label{sec:org200521f}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
-along with a short introduction to MILP, the BAP, and the PAP along with its formulation. An introduction to fuzzy set
-theory was provided followed by a description of the FFLP. A model for the Fuzzy BAP was then discussed along with an
-example solution.
+along with a short introduction to MILP, the BAP, and the PAP along with its formulation.
 \chapter{APPROACH}
 \label{sec:approach}
 This section introduces the actions and formulations associated with the objectives described in \ref{sec:objectives}. The
@@ -802,10 +789,10 @@ the charge rate, \(\epsilon_q = r_q\), then the second term in \ref{eq:objective
 measure of the consumption cost as well as a mechanism to encourage the model to minimize active charger times,
 particuarly for the fast chargers.
 
-\section{Objective 2: Develop robust charger allocation capabilities to account for non-linear battery dynamics}
+\section{\textbf{Objective 2}: Mathematically model non-linear battery dynamics to increase the accuracy of the SOC estimate}
 \label{sec:act-math-model-robust}
-In this section, non-linear dynamics will be introduced with a brief description of the mathematical approach that will
-be taken. The work presented in this section has yet to be completed.
+In this section, non-linear dynamics will be introduced with a description of the mathematical approach that will be
+taken.
 
 \subsection{Task 2.1: Incorporate non-linear battery dynamics into the FFLP PAP model}
 \label{sec:non-linear-battery-dynamics}
@@ -856,8 +843,17 @@ The equation is developed by using exact discretization \cite{hespanha-2018-line
 indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and the subsequent visit is indicated by \(\eta_{\xi_i}\). Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
-\section{Method And Validation}
-\label{sec:org84ba1f4}
+\section{Summary}
+\label{sec:approach-summary}
+The previous sections discussed the approaches to be taken (or have taken) for each respective objective along with a
+derivation when available for the proposed approach. A projected project schedule was also provided. This research
+intends to increase utility of the PAP by first modifying the model to allow BEBs' charges to be propagated, include an
+identifier for BEBs to be tracked, utilize non-linear charging dynamics, as well as utilizing FFLP to develop a robust
+solution. Upon completion, the proposed research will demonstrate its full utility and extensibility due to the MILP's
+nature of adding additional constraints. This research project shall illustrate a robust BEB charging schedule with
+realistic applicability.
+\chapter{Method And Validation}
+\label{sec:org03855fc}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -868,7 +864,7 @@ functions. As previously stated, the MILP-PAP has been implemented and tested. T
 baseline measure to compare the results of the proposed work. An introduction to Simulated Annealing as well as the
 proposed method of implementation will subsequently be outlined and discussed.
 
-\subsection{Optimization Problem}
+\section{Optimization Problem}
 \label{sec:optimization-problem}
 The problem outlined in this work is presented in the form of an objective function with MILP constraints. The objective
 function is required to allow relative comparisons between candidate solutions. In the context of this formulation, the
@@ -880,13 +876,13 @@ for meeting minimum charge requirements). The input and decision variables are i
 \ref{sec:decision-variables}. The objective function is introduced in \ref{sec:objective-function}. The constraints will then be
 introduced in \ref{sec:constraints}.
 
-\subsubsection{Variable Definitions}
+\subsection{Variable Definitions}
 \label{sec:parameter-definitions}
 This section defines the input and decision variables used by the system. The input parameters are assumed to be fixed
 prior to optimizing the system. The decision variables are the values that the SA algorithm has the freedom to
 manipulate. The variables to be introduced are summarized in \ref{tab:variables}.
 
-\paragraph{Parameters}
+\subsubsection{Parameters}
 \label{sec:input-variables}
 The parameters utilized in this work are those that are known prior to optimization. The amount energy required to
 complete the bus route after visit \(i\) is denoted as \(\Delta_i\). There are no routes after the last visit for each BEB; thus;
@@ -939,20 +935,19 @@ Indirect Decision Variables &  & Indirect Decision Variables & \\[0pt]
 \end{tabularx}
 \end{table}
 
-\paragraph{Decision Variables}
+\subsubsection{Decision Variables}
 \label{sec:decision-variables}
 Decision variables are those chosen by the optimizer. The variables will be broken into two sections: direct and slack
 variables. Direct decision variables are those that the system manipulates directly, and slack variables are those that
 are functions of the direct.
 
-\begin{enumerate}
-\item Direct Decision Variables
+\paragraph{Direct Decision Variables}
 \label{sec:direct-decision-variables}
 The first two variables are \(u_i\) and \(d_i \; \forall i \in \Iset\). They represent the initial and final charging times. These
 values must remain within range of the arrival and departure times, \([a_i, e_i]\), for visit \(i\). The last direct
 decision variable is the queue that bus visit \(i\) can be placed in to charge, \(q_i \in \Qset\).
 
-\item Slack Variables
+\paragraph{Slack Variables}
 \label{sec:slack-decision-variables}
 Let the initial SOC for a visit be written as \(\eta_i\), where \(i \in \Iset \setminus \Iset_0\). The initial charge for visit \(i\) forms
 the foundation from which the SOC of the next visit, \(\eta_{\xi_i}\), is calculated. This propagation of the SOC is evaluated.
@@ -1029,16 +1024,15 @@ the beginning of the working day. The charger has no assignments, thus \(\C_q = 
 was to assigned to charger \(q\) for the duration \([u_i, d_i]\) such that \(0 < u_i < d_i, < \T\), \(\C_q\) would then be
 written as \(\C_q = \{[0, u_i], [d_i, \T]\}\). Further assignments can then be made within either time frame \([0, u_i]\) or
 \([d_i, \T]\).
-\end{enumerate}
 
-\subsubsection{Objective Function}
+\subsection{Objective Function}
 \label{sec:objective-function}
 The objective function of this work aims to minimize the total ``cost'' of utilizing a given charge schedule. Let \(J\)
 represent the objective function. The objective function for this problem has four main considerations: charger
 assignment, consumption cost, demand cost, and penalty for an insufficient initial SOC. Each of which will be discussed
 in turn in the subsequent sections.
 
-\paragraph{Assignment Cost}
+\subsubsection{Assignment Cost}
 \label{sec:assignment-cost}
 The assignment cost represents the costs of assigning a bus to a particular queue as well as the chosen charging period,
 \([u_i, d_i]\). That is, the cost increases as the selected index increases. This is done as a method of minimizing the
@@ -1057,7 +1051,7 @@ accrues no cost when assigning a BEB to an idle queue while still minimizing cha
 slow chargers over fast. While the \(\epsilon\) vector can be constructed in many other ways, the form shown above is the method
 applied to this work.
 
-\paragraph{Penalty Method}
+\subsubsection{Penalty Method}
 \label{sec:penalty-method}
 The cost of the chosen charge times is implemented by utilizing a penalty method. Using the form of \ref{eq:penalty} with and
 added scalar, \(D\), to act as a scaling factor, the cost of a schedule allowing the SOC of a BEB to go below
@@ -1068,7 +1062,7 @@ added scalar, \(D\), to act as a scaling factor, the cost of a schedule allowing
 \sum_{i=1}^{n_V} D \phi_i(\eta_i - \nu_{\Xi_i} \kappa_{\Xi_i})\text{.}
 \end{equation}
 
-\paragraph{Consumption Cost}
+\subsubsection{Consumption Cost}
 \label{sec:consumpction-cost}
 A method of reducing the total energy consumed by the system is desired. The energy total energy consumed by a charge
 schedule is defied by what is known as the consumption cost. The consumption cost is the summation of all the energy
@@ -1082,7 +1076,7 @@ being used over all the active periods for each charger in the time horizon. Thi
 That is, the charge rate, \(r_{q_i}\), for the active charger, \(q_i\), is multiplied by the time that the charger will be
 utilized, \(s_i\).
 
-\paragraph{Demand Cost}
+\subsubsection{Demand Cost}
 \label{sec:demand-cost}
 Another means of reducing the cost of a charge schedule is reducing the peak power use of a charge schedule. Peak power
 consumption is denoted by the term ``demand cost''. The demand cost quantifies the amount of power being used over a given
@@ -1169,7 +1163,7 @@ where \(T_p \le h \le n_H\). Similarly to before, the maximum \(p_{T_p}[h]\) val
   p_d = \max(p_{fix}, p_{max})z\text{.}
 \end{equation}
 
-\subsubsection{Constraints}
+\subsection{Constraints}
 \label{sec:constraints}
 Now that a method of calculating the fitness of a schedule has been established, a method for determining the
 feasibility of a schedule must be defined. The feasible space for schedules defines the space in which the input and
@@ -1246,7 +1240,7 @@ bus \(b_i\). \ref{seq:c7} ensures that the bus is not being over-charged. \ref{s
 (i.e. the arrival time is less than the initial charge which is less than the detach time which is less than the time
 the bus exits the station and all must be less than the time horizon).
 
-\subsection{Simulated Annealing}
+\section{Simulated Annealing}
 \label{sec:simulated-annealing}
 SA is a well-studied local search metaheuristic used to solve discrete and (to a lesser degree) continuous problem
 \cite{gendreau-2018-handb-metah,press-1992-numer-recip}. A metaheuristic is a high-level problem-independent algorithm
@@ -1275,7 +1269,7 @@ inferior solution in favor of exploring the solution space. Finally, the constan
 number of steps taken to try to exploit a solution at a constant temperature. Each of these mechanisms are elaborated in
 the subsequent sections.
 
-\subsubsection{Cooling Equation}
+\subsection{Cooling Equation}
 \label{cooling-equation-experimental}
 The temperature function models a ``rate of cooling'' for the SA process. Initially, when the temperature is high, SA
 encourages exploration. As the process begins to ``cools down'' (in accordance to the cooling schedule), it begins to
@@ -1316,7 +1310,7 @@ this principle by plotting the geometric schedule using varying values of \(\bet
   \end{subfigure}
 \end{figure}
 
-\subsubsection{Acceptance Criteria}
+\subsection{Acceptance Criteria}
 \label{sec:acceptance}
 In SA, the algorithm stores a candidate solution that is continuously compared to newly generated solutions. Let the
 stored solution be referred to as the ``active solution''. During each iteration, a new candidate solution is generated
@@ -1341,7 +1335,7 @@ f(x,\bar{x},t_m) =
 \end{cases}\text{.}
 \end{equation}
 
-\subsubsection{Generation Mechanisms}
+\subsection{Generation Mechanisms}
 \label{sec:generation-mechanisms}
 Generation mechanisms are used to create a neighboring candidate solution \cite{gendreau-2018-handb-metah}. That is,
 the generating function creates a solution that can be reached in a single iteration from the active solution. In the
@@ -1358,7 +1352,7 @@ it slightly in an attempt to step toward a global or local minimum. The wrapper 
 \ref{sec:generator-wrappers}. However, prior to discussing the primitives and wrapper generating functions, their respective
 inputs and outputs must be defined.
 
-\paragraph{Generator Input/Output}
+\subsubsection{Generator Input/Output}
 \label{sec:generator-input-output}
 This section discusses in detail the expected inputs and outputs of each generator. The input consists of the bus visit
 index of interest, the current state of visits, \(\I\), and the current state of the charger availability, \(\C\). The
@@ -1368,22 +1362,20 @@ In the development of the algorithms, dot notation is to be introduced to extrac
 suppose the arrival time is desired to be extracted from visit \(i\). Given \(\I\), the notation that describes extracting
 the initial charge time, \(u_i\), for visit \(i\) is written as \(u_i \equiv \I_{i.u}\).
 
-\begin{enumerate}
-\item Generator Input
-\label{sec:org63333cd}
+\paragraph{Generator Input}
+\label{sec:org4390494}
 Each generator accepts an input of the tuple of the form \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being
 manipulated, \(\I\) is the set of visits, and \(\C\) is the set that describes the availability for all chargers \(q \in
 \Qset\).
 
-\item Generator Output
-\label{sec:org029c3c0}
+\paragraph{Generator Output}
+\label{sec:orga85f533}
 The output of the generating functions is the same as the input, \(\Sol\), but with changes applied to it by a generator.
 Let a modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\).
 Although not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and
 simplicity in bookkeeping.
-\end{enumerate}
 
-\paragraph{Generators}
+\subsubsection{Generators}
 \label{sec:generators}
 This section describes and outlines the algorithm pool for the different generator types that are utilized in the
 wrapper functions. Recall that to satisfy constraints, \(n_B\) extra idle queues are added that provide no power to the
@@ -1392,8 +1384,7 @@ total amount of chargers and \(n_B\) number of BEBs. The use case for the idle q
 placed on a charger. Rather, it will be placed in the queue, \(q \in B\), which satisfies the previously defined spatial
 constraints while allowing the bus to be ``set aside''.
 
-\begin{enumerate}
-\item New visit
+\paragraph{New visit}
 \label{sec:new-visit}
 The new visit generator defined in \ref{alg:new-visit} describes the process of moving a BEB, \(b \in B\), from a waiting
 queue, \(q \in B\), to a charging queue, \(q_i \in \{n_B+1,..., n_B + n_Q\}\), within its arrival/departure time \([a, e]\). Let
@@ -1661,7 +1652,7 @@ original charger availability and null values for the charge times upon failure.
     }
 \end{algorithm}
 
-\item Purge
+\paragraph{Purge}
 \label{sec:purge}
 The purge procedure simply removes a assigned charge time from the set \(\C\). This function, while not a generator,
 exists so that other primitives may place the visit back into the schedule without creating duplicate entries in \(\C\).
@@ -1682,7 +1673,7 @@ returns the updated set of charger availability.
     }
   \end{algorithm}
 
-\item Slide visit
+\paragraph{Slide visit}
 \label{slide-visit}
 This primitive generator is used for buses that have already been scheduled. Because of the constraint \ref{seq:c8}
 there may be some slack to manipulate \([u_i, d_i]\) within the window \([a_i, e_i]\). That is, two new values, \(u_i\) and
@@ -1715,7 +1706,7 @@ information. If \texttt{findFreeTime} was unsuccessful, then the generator retur
     }
   \end{algorithm}
 
-\item New charger
+\paragraph{New charger}
 \label{new-charger}
 The new charger generator moves a visit \(\I_i\) to a new charging queue while maintaining the same charge time, \([u_i,
 d_i]\). Line 2 from \ref{alg:new-charger} purges the visit from the charger availability set. Line 3 randomly selects a
@@ -1743,7 +1734,7 @@ the updated visit data. If \texttt{findFreetime} was unsuccessful, then the gene
     }
   \end{algorithm}
 
-\item Wait
+\paragraph{Wait}
 \label{sec:wait}
 The wait generator simply removes a bus from a charger queue and places it in its idle queue, \(q_i \in \{1,...,B\}\).
 Line 2 from \ref{alg:wait} purges the visit from the charger availability set. Line 4 updates the complement charger
@@ -1766,7 +1757,7 @@ availability schedule of the wait queue for bus \(b\). Line 5 returns the update
     }
   \end{algorithm}
 
-\item New Window
+\paragraph{New Window}
 \label{sec:new-window}
 New window, as shown in \ref{alg:new-window}, is a combination of \ref{alg:new-visit} (new visit) and \ref{alg:wait}
 (wait). By this it is meant that visit \(i\) is placed in its wait queue then added back in as if it were a new visit.
@@ -1799,16 +1790,14 @@ of \ref{alg:new-visit}.
        \Return{($\varnothing$)}\tcc*{Return nothing}
   }
 \end{algorithm}
-\end{enumerate}
 
-\paragraph{Generator Wrappers}
+\subsubsection{Generator Wrappers}
 \label{sec:generator-wrappers}
 This section covers the algorithms utilized to select and execute different generation processes. The generator wrappers
 are the methods immediately called by the SA algorithm. Each wrapper utilizes the primitive generators previously
 described and returns either a new charge schedule or a modified charge schedule.
 
-\begin{enumerate}
-\item Charge Schedule Generation
+\paragraph{Charge Schedule Generation}
 \label{sec:charge-schedule-generation}
 The objective of \ref{alg:charge-schedule-generation} is to assign each BEB to a random charge queue and charge time.
 Specifically, this generator exists to initialize the system with a solution in a greedy manner. Line 2 of
@@ -1835,7 +1824,7 @@ at random queue with a random charge time.
     }
   \end{algorithm}
 
-\item Perturb Schedule
+\paragraph{Perturb Schedule}
 \label{sec:tweak-schedule}
 Once the active solution has been created by \ref{alg:charge-schedule-generation}, the SA process begins modifying it to
 create candidate solutions. After each step of the cooling function, the active solution will be altered \(n_K\) times by
@@ -1870,9 +1859,8 @@ a primitive generator with a weighted distribution. Line 6 executes the primitiv
         \Return{($0, \bar{\I}$, $\bar{\C}$)}
     }
 \end{algorithm}
-\end{enumerate}
 
-\subsubsection{Alternative Heuristic Implementation}
+\subsection{Alternative Heuristic Implementation}
 \label{sec:heuristic-implementation}
 As suggested by the works in \cite{Zhang_2010,Xinchao_2011}, applying heuristics to the generating functions can
 manipulate the searched neighborhoods in a way that may assist the SA algorithm with convergence. As a test to assist in
@@ -1885,13 +1873,13 @@ selected to be placed in a queue with a slow charger, the algorithm begins by at
 queue \(q = n_B + 1\). If it is unable to be placed in that queue, it then attempts to be placed in the next queue \(q =
 n_B + 2\). This is done incrementally until all the queues have been exhausted.
 
-\subsection{Optimization Algorithm}
+\section{Optimization Algorithm}
 \label{sec:optimization-algorithm}
 This section combines the generation algorithms and the optimization problem into a single algorithm. It begins with an
 introduction and discussion of a general SA algorithm which will be used to springboard into the construction of the SA
 PAP algorithm.
 
-\subsubsection{Simulated Annealing Pseudo Code}
+\subsection{Simulated Annealing Pseudo Code}
 \label{sec:simulated-annealing-pseudo-code}
 Let \(\omega\) and \(\bar{\omega}\) denote the active solution and the candidate solution, respectively. Let \(\Tau\) be the temperature
 function and \(\Tau_0\) the initial temperature. Furthermore, let \(t\) be defined as the vector of temperatures defined by
@@ -1947,7 +1935,7 @@ times at a constant temperature, \(t_k\). Line 6, perturbs the active solution \
     }
 \end{algorithm}
 
-\subsubsection{SA PAP Pseudo Code}
+\subsection{SA PAP Pseudo Code}
 \label{sec:sa-pap-pseudo-code}
 Now that the general SA algorithm has been outlined, the objective is now to outline SA-PAP (\ref{alg:sa-pap}). While
 the SA PAP generally is written almost identically to that of the general SA algorithm, the general SA assumes that the
@@ -2022,15 +2010,6 @@ the constraints defined in \ref{eq:constraints}.
     } % Begin
 \end{algorithm}
 
-\section{Summary}
-\label{sec:approach-summary}
-The previous sections discussed the approaches to be taken (or have taken) for each respective objective along with a
-derivation when available for the proposed approach. A projected project schedule was also provided. This research
-intends to increase utility of the PAP by first modifying the model to allow BEBs' charges to be propagated, include an
-identifier for BEBs to be tracked, utilize non-linear charging dynamics, as well as utilizing FFLP to develop a robust
-solution. Upon completion, the proposed research will demonstrate its full utility and extensibility due to the MILP's
-nature of adding additional constraints. This research project shall illustrate a robust BEB charging schedule with
-realistic applicability.
 \chapter{Example}
 \label{sec:example}
 \references{citation-database/lib-ref,citation-database/lit-ref}{IEEEtran}

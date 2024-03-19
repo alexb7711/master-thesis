@@ -5,8 +5,8 @@
 
 The BEB queue scheduling problem is one that has been of increasing interest and relevancy in the EV/BEB industry. It is
 thus important to address the state of the art by introducing relevant problems in BEB queue scheduling, which will be
-addressed first. A detailed problem description shall then be presented to give a better understanding of the
-proposition moving forward, and then miscellaneous introductory theory will be presented that.
+addressed first. A detailed problem description shall then be presented to provide a basis of understanding of the
+proposition. Relevant introductory theory will be presented throughout.
 
 ** State Of The Art of Battery Electric Bus Charging
 :PROPERTIES:
@@ -108,11 +108,11 @@ times, and their heights represent the physical space taken by each EV.
 #+end_src
 
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
-#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :only-contents t
+#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :lines "9-"
 
 ** Mixed Integer Linear Programming
 
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :only-contents t
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :lines "7-24"
 
 ** Overview of the BAP
 :PROPERTIES:
@@ -164,6 +164,4 @@ other scheduled charge times.
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
-along with a short introduction to MILP, the BAP, and the PAP along with its formulation. An introduction to fuzzy set
-theory was provided followed by a description of the FFLP. A model for the Fuzzy BAP was then discussed along with an
-example solution.
+along with a short introduction to MILP, the BAP, and the PAP along with its formulation.

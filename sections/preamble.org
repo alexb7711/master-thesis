@@ -7,7 +7,7 @@
 
 # =========================================================================================================================
 # LaTeX packages
-#+LATEX_CLASS: usuproposal
+#+LATEX_CLASS: usuthesis
 
 #+latex_header: \usepackage{amsmath}                        % Cool math
 #+latex_header: \usepackage{amsfonts}                       % Cool math fonts
@@ -89,9 +89,9 @@
 #+latex_header: \firstreader{Dr. Jacob Gunther, Ph.D.}
 #+latex_header: \secondreader{Dr. Burak Sarsilmaz, Ph.D.}
 #+latex_header:
-# +latex_header: % Graduate Dean
-# +latex_header: \graddean{ D. Richard Cutler, Ph.D.}
-# +latex_header: \deantitle{ Vice Provost of Graduate Studies}
+#+latex_header: % Graduate Dean
+#+latex_header: \graddean{ D. Richard Cutler, Ph.D.}
+#+latex_header: \deantitle{ Vice Provost of Graduate Studies}
 #+latex_header:
 #+latex_header: % Degree Information
 #+latex_header: \degree{Master of Science}

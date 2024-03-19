@@ -37,6 +37,7 @@
 #+include: sections/objectives.org
 #+include: sections/background-and-related-work.org
 #+include: sections/approach.org
+#+include: sections/method-and-validation.org
 #+include: sections/example.org
 
 # ======================================================================================================================
