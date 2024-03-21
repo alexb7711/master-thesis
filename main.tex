@@ -1,4 +1,4 @@
-% Created 2024-03-20 Wed 19:14
+% Created 2024-03-21 Thu 14:10
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -89,7 +89,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
  pdftitle={The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 29.2 (Org mode 9.6.15)}, 
+ pdfcreator={Emacs 29.1 (Org mode 9.6.6)}, 
  pdflang={English}}
 \begin{document}
 
@@ -157,7 +157,8 @@ throughout this section is of particular interest at this time in the BEB indust
 research proposed directly approaches this problem by improving upon existing implementations to provide a robust and
 accurate solution. In the subsequent sections the objectives will be introduced in \ref{sec:objectives} and the approach for
 each objective will be discussed in \ref{sec:approach}.
-\chapter{OBJECTIVES}
+
+\section{OBJECTIVES}
 \label{sec:objectives}
 The field of BEB research provides exciting many avenues and is continuing to gain traction in industry as BEBs replace
 their gasoline counterparts. This work will introduce a novel approach to BEB scheduling that minimizes monetary costs
@@ -378,7 +379,7 @@ employed to ensure the validity of the prescribed schedule. Both the objective f
 further detail in the proceeding section. An example output schedule is shown in \ref{fig:spacial-and-temporal-constr}.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org6cb763d}
+\label{sec:org4b1befe}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -525,7 +526,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:orgbe986a8}
+\label{sec:org1323d0e}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -874,7 +875,7 @@ solution. Upon completion, the proposed research will demonstrate its full utili
 nature of adding additional constraints. This research project shall illustrate a robust BEB charging schedule with
 realistic applicability.
 \chapter{Method And Validation}
-\label{sec:orgb421c05}
+\label{sec:org2bd78cc}
 The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
 been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
 packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
@@ -1385,13 +1386,13 @@ suppose the arrival time is desired to be extracted from visit \(i\). Given \(\I
 the initial charge time, \(u_i\), for visit \(i\) is written as \(u_i \equiv \I_{i.u}\).
 
 \paragraph{Generator Input}
-\label{sec:orge20cde1}
+\label{sec:org598756d}
 Each generator accepts an input of the tuple of the form \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being
 manipulated, \(\I\) is the set of visits, and \(\C\) is the set that describes the availability for all chargers \(q \in
 \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org61e5804}
+\label{sec:org5915535}
 The output of the generating functions is the same as the input, \(\Sol\), but with changes applied to it by a generator.
 Let a modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\).
 Although not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and
