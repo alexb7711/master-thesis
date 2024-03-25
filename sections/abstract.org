@@ -1,0 +1,10 @@
+\begin{abstract}
+% A space is needed before the text starts so that the first paragraph
+% is indented properly.
+
+This is the abstract of the demonstration thesis.  Hopefully the
+examples will be sufficiently clear that you will have few formatting
+problems. The Graduate School requires that the abstract be 350 words
+or less, so be careful of the length of the abstract.
+
+\end{abstract}

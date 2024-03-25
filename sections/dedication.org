@@ -1,0 +1,8 @@
+\begin{dedication}
+\begin{center}
+To all the little people....
+\end{center}
+%
+% If you intend to have a dedication longer than one line, do not put
+% it in a centering environment.  It will look better.
+\end{dedication}
