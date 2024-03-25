@@ -1,0 +1,7 @@
+\makeappendices
+\appendix{List of Edge Vectors}
+\label{chap:appendix}
+
+
+\appendixsection{Definition of an Edge Vector}
+\label{sec:edge-def}

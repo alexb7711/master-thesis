@@ -1,0 +1,4 @@
+* Non-Linear Battery Dynamics
+:PROPERTIES:
+:CUSTOM_ID: sec:nonlinear-battery-dynamics
+:END:
