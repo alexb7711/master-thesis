@@ -4,6 +4,7 @@
 #+OPTIONS: ':t
 #+OPTIONS: date:nil
 #+OPTIONS: toc:nil
+#+OPTIONS: broken-links:nil
 
 # =========================================================================================================================
 # LaTeX packages
