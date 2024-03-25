@@ -25,6 +25,13 @@
 
 # ======================================================================================================================
 # Abstract
+#+include: sections/abstract.org
+
+# ======================================================================================================================
+# Preliminaries
+#+include: sections/publicabstract.org
+#+include: sections/dedication.org
+#+include: sections/acknowl.org
 
 # ======================================================================================================================
 # Document
@@ -39,7 +46,9 @@
 #+include: sections/milp-pap-figures.org::#sec:milp-pap-figures :only-contents t
 #+include: sections/sa-pap.org
 #+include: sections/sa-pap-figures.org::#sec:sa-pap-figures :only-contents t
+#+include: sections/nonlinear-bat.org
 #+include: sections/conclusion.org
+#+include: sections/appendix.org
 
 # ======================================================================================================================
 # Bibliography

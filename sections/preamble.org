@@ -21,6 +21,7 @@
 #+latex_header: \usepackage{standalone}                     % Allow standalone documents
 #+latex_header: \usepackage{subfloat}                       % Subfigures
 #+latex_header:\usepackage{tabularx}                        % Add more contol to tables
+#+latex_header: \usepackage{lscape}                         % Landscape pages
 #+latex_header: \usepackage{listings}                       % Display code
 #+latex_header: \usepackage{doi}                            % Hyperlink DOI
 #+latex_header: \usepackage[ruled]{algorithm2e}                    % Algorithms

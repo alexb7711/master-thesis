@@ -1,4 +1,4 @@
-% Created 2024-03-25 Mon 12:31
+% Created 2024-03-25 Mon 15:19
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -24,6 +24,7 @@
 \usepackage{standalone}                     % Allow standalone documents
 \usepackage{subfloat}                       % Subfigures
 \usepackage{tabularx}                        % Add more contol to tables
+\usepackage{lscape}                         % Landscape pages
 \usepackage{listings}                       % Display code
 \usepackage{doi}                            % Hyperlink DOI
 \usepackage[ruled]{algorithm2e}                    % Algorithms
@@ -129,6 +130,42 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \tableofcontents
 \listoftables
 \listoffigures
+
+\begin{abstract}
+% A space is needed before the text starts so that the first paragraph
+% is indented properly.
+
+This is the abstract of the demonstration thesis.  Hopefully the
+examples will be sufficiently clear that you will have few formatting
+problems. The Graduate School requires that the abstract be 350 words
+or less, so be careful of the length of the abstract.
+
+\end{abstract}
+
+\begin{publicabstract}
+% A space is needed before the text starts so that the first paragraph
+% is indented properly.
+
+The public abstract is to convey the purpose of the research to the
+PUBLIC, so layman's terms should be used.
+
+
+\end{publicabstract}
+\begin{dedication}
+\begin{center}
+To all the little people....
+\end{center}
+%
+% If you intend to have a dedication longer than one line, do not put
+% it in a centering environment.  It will look better.
+\end{dedication}
+\begin{acknowledgments}
+I am so happy that my advisor helped me.....
+\\
+\begin{flushright}
+Alexander Brown
+\end{flushright}
+\end{acknowledgments}
 
 \body  % set main body style
 
@@ -389,7 +426,7 @@ battery percentage, \(\nu_b \in [0, 1]\).
 \end{figure}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org529d812}
+\label{sec:org659e72d}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -536,7 +573,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org9b53a1a}
+\label{sec:org9832efa}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -977,54 +1014,41 @@ constraints \autoref{subeq:binaryspace}-\autoref{subeq:Ispace} define the sets o
 \end{subfigures}
 
 
-\begin{table}[!htpb]
-  \caption{Notation used throughout the paper. Units are provided when available.}
-  \label{tab:variables}
-  \centering
-  \begin{tabularx}{\textwidth}{l l l}
-    \toprule \textbf{Variable} & \textbf{Units} & \textbf{Description}                                                                      \\
-    \toprule \multicolumn{3}{l}{Input values}                                                                                               \\
-    \hline $n_B$ & & Number of buses                                                                                                        \\
-    $M$           &       & An arbitrarily large number                                                                                     \\
-    $n_V$         &       & Number of total visits                                                                                          \\
-    $n_Q$         &       & Number of queues                                                                                                \\
-    $n_C$         &       & Number of chargers                                                                                              \\
-    $\mathbb{V}$  &       & Set of visit indices, $\mathbb{V} = \{1, ..., n_V\}$                                                            \\
-    $\mathbb{B}$  &       & Set of bus indices, $\mathbb{B} = \{1, ..., n_B\}$                                                              \\
-    $\mathbb{Q}$           &       & Set of queue indices, $\mathbb{Q} = \{1, ..., n_Q\}$                                                                     \\
-    $i,j$         &       & Indices used to refer to visits                                                                                 \\
-    $b$           &       & Index used to refer to a bus                                                                                    \\
-    $q$           &       & Index used to refer to a queue                                                                                  \\
-    \hline \multicolumn{3}{l}{Problem definition parameters}                                                                                \\
-    \hline $\Gamma$    &       & $\Gamma: \mathbb{V} \rightarrow \mathbb{B}$ with $\Gamma_i$ used as a shorthand to denote the bus $b$ for visit $i$                 \\
-    $\alpha_b$         & $\%$  & Initial charge percentage time for bus $b$                                                                      \\
-    $\beta_b$         & $\%$  & Final charge percentage for bus $b$ at the end of the time horizon                                              \\
-    $\epsilon_q$         &       & Cost of using charger $q$ per unit time                                                                         \\
-    $\Upsilon$           &       & $\Upsilon: \mathbb{V} \rightarrow \mathbb{V}$ mapping a visit to the next visit by the same bus with $\Upsilon_i$ being the shorthand.  \\
-    $\kappa_b$         & kWh   & Battery capacity for bus $b$                                                                                    \\
-    $\Delta_i$         & kWh   & Discharge of visit over route $i$                                                                               \\
-    $\nu_b$         & $\%$  & Minimum charge allowed for bus $b$                                                                              \\
-    $\tau_i$         & s     & Time visit $i$ must depart the station                                                                          \\
-    $\zeta_b$         & kW    & Discharge rate for bus $b$                                                                                      \\
-    $a_i$         & s     & Arrival time of visit $i$                                                                                       \\
-    $i_0$         &       & Indices associated with the initial arrival
-    for every bus in $\mathbb{B}$                                                                                                           \\
-    $i_f$         &       & Indices associated with the final arrival for every bus in $\mathbb{B}$                                         \\
-    $m_q$         &       & Cost of a visit being assigned to charger $q$                                                                   \\
-    $r_q$         & kW    & Charge rate of charger $q$ per unit time                                                                        \\
-    \hline \multicolumn{3}{l}{Decision Variables}                                                                                           \\
-    \hline $\psi_{ij}$          &                         & Binary variable determining spatial ordering of vehicles $i$ and $j$               \\
-    $\eta_i$     & kWh  & Initial charge for visit $i$                                                                                         \\
-    $\sigma_{ij}$  &      & Binary variable determining temporal ordering of vehicles $i$ and $j$                                                \\
-    $d_i$     & s    & Ending charge time for visit $i$                                                                                     \\
-    $g_{iq}$  & s    & Linearization term, represents the multiplication of $s_i w_{iq}$                                                     \\
-    $s_i$     & s    & Amount of time spent on charger for visit $i$                                                                        \\
-    $u_i$     & s    & Starting charge time of visit $i$                                                                                    \\
-    $v_i$     &      & Assigned queue for visit $i$                                                                                         \\
-    $w_{iq}$  &      & Binary assignment variable for visit $i$ to queue $q$                                                                \\
-    \bottomrule
-  \end{tabularx}
+\begin{landscape}
+\begin{table}[htbp]
+\caption{\label{tab:variables}Notation used throughout \ref{sec:milp-pap}. Units are provided when available.}
+\centering
+\begin{tabularx}{\paperwidth}{L{0.2} L{0.12} L{0.8} L{0.2} L{0.12} L{0.8}}
+\textbf{Variable} & \textbf{Units} & \textbf{Description} & \textbf{Variable} & \textbf{Units} & \textbf{Description}\\[0pt]
+\hline
+Constants &  &  & Constants &  & \\[0pt]
+\(n_B\) &  & Number of buses & \(M\) &  & An arbitrarily large number\\[0pt]
+\(n_V\) &  & Number of total visits & \(n_Q\) &  & Number of queues\\[0pt]
+\(n_C\) &  & Number of chargers & \(\mathbb{V}\) &  & Set of visit indices, \(\mathbb{V} = \{1, ..., n_V\}\)\\[0pt]
+\(\mathbb{B}\) &  & Set of bus indices, \(\mathbb{B} = \{1, ..., n_B\}\) & \(\mathbb{Q}\) &  & Set of queue indices, \(\mathbb{Q} = \{1, ..., n_Q\}\)\\[0pt]
+\(i,j\) &  & Indices used to refer to visits & \(b\) &  & Index used to refer to a bus\\[0pt]
+\(q\) &  & Index used to refer to a queue &  &  & \\[0pt]
+\hline
+Input Parameters &  &  & Input Parameters &  & \\[0pt]
+\(\Gamma\) &  & \(\Gamma: \mathbb{V} \rightarrow \mathbb{B}\) with \(\Gamma_i\) used as a shorthand to denote the bus \(b\) for visit \(i\) &  &  & \\[0pt]
+\(\alpha_b\) & \(\%\) & Initial charge percentage time for bus \(b\) & \(\beta_b\) & \(\%\) & Final charge percentage for bus \(b\) at the end of the time horizon\\[0pt]
+\(\epsilon_q\) &  & Cost of using charger \(q\) per unit time & \(\Upsilon\) &  & \(\Upsilon: \mathbb{V} \rightarrow \mathbb{V}\) mapping a visit to the next visit by the same bus with \(\Upsilon_i\) being the shorthand.\\[0pt]
+\(\kappa_b\) & kWh & Battery capacity for bus \(b\) & \(\Delta_i\) & kWh & Discharge of visit over route \(i\)\\[0pt]
+\(\nu_b\) & \(\%\) & Minimum charge allowed for bus \(b\) & \(\tau_i\) & s & Time visit \(i\) must depart the station\\[0pt]
+\(\zeta_b\) & kW & Discharge rate for bus \(b\) & \(a_i\) & s & Arrival time of visit \(i\)\\[0pt]
+\(i_0\) &  & Indices associated with the initial arrival for every bus in \(\mathbb{B}\) & \(i_f\) &  & Indices associated with the final arrival for every bus in \(\mathbb{B}\)\\[0pt]
+\(m_q\) &  & Cost of a visit being assigned to charger \(q\) & \(r_q\) & kW & Charge rate of charger \(q\) per unit time\\[0pt]
+\hline
+Decision Variables &  &  & Decision Variables &  & \\[0pt]
+\(\psi_{ij}\) &  & Binary variable determining spatial ordering of vehicles \(i\) and \(j\) & \(\eta_i\) & kWh & Initial charge for visit \(i\)\\[0pt]
+\(\sigma_{ij}\) &  & Binary variable determining temporal ordering of vehicles \(i\) and \(j\) & \(d_i\) & s & Ending charge time for visit \(i\)\\[0pt]
+\(g_{iq}\) & s & Linearization term, represents the multiplication of \(s_i w_{iq}\) & \(s_i\) & s & Amount of time spent on charger for visit \(i\)\\[0pt]
+\(u_i\) & s & Starting charge time of visit \(i\) & \(v_i\) &  & Assigned queue for visit \(i\)\\[0pt]
+\(w_{iq}\) &  & Binary assignment variable for visit \(i\) to queue \(q\) &  &  & \\[0pt]
+\hline
+\end{tabularx}
 \end{table}
+\end{landscape}
 
 \begin{figure}[htpb]
 \centering
@@ -1314,6 +1338,39 @@ battery percentage, \(\nu_b \in [0, 1]\).
 
 \section{Optimization Problem}
 \label{sec:optimization-problem}
+\begin{table}[htbp]
+\caption{\label{tab:variables}Table of variables used \ref{sec:sa-pap}.}
+\centering
+\begin{tabularx}{\textwidth}{L{0.3} L{1.2} L{0.3} L{1.2}}
+\textbf{Variable} & \textbf{Description} & \textbf{Variable} & \textbf{Description}\\[0pt]
+\hline
+Constants &  & Constants & \\[0pt]
+\(D\) & Penalty method gain factor & \(n_B\) & Number of buses in use\\[0pt]
+\(\T\) & Time horizon & \(n_K\) & Number of iterations in the repetition schedule\\[0pt]
+\(n_M\) & Total number of steps created by initial temperature, \(\Tau_0\), and cooling schedule & \(n_Q\) & Number of chargers\\[0pt]
+\(n_V\) & Total number of visits & \(n_h\) & Number of discrete steps in time horizon\\[0pt]
+\hline
+Input variables &  & Input Variables & \\[0pt]
+\(\Delta_i\) & Discharge of visit over after visit \(i\) & \(\alpha_b\) & Initial charge percentage time for bus \(b\)\\[0pt]
+\(\epsilon_q\) & Cost of using charger \(q\) & \(\kappa_b\) & Battery capacity for each BEB\\[0pt]
+\(\rho_i\) & Duration for route after visit \(i\) & \(\xi_i\) & The next index bus \(b\) will arrive\\[0pt]
+\(a_i\) & Arrival time of visit \(i\) & \(\Xi_i\) & ID for bus visit \(i\)\\[0pt]
+\(t_h\) & Discrete step in time horizon & \(dt_h\) & Discrete time slice in time horizon \(dt_h = t_h - t_{h-1}\)\\[0pt]
+\(k\) & Local search iteration \(k\) & \(e_i\) & Time bus visit \(i\) must exit the station\\[0pt]
+\(r_q\) & Charge rate of charger \(q\) & \(t_m\) & Element of the temperature vector created by temperature function, \(t_m \in t\)\\[0pt]
+\(\nu_b\) & Minimum charge percentage allowed for each BEB &  & \\[0pt]
+\hline
+Direct Decision Variables &  & Direct Decision Variables & \\[0pt]
+\(u_i\) & Initial charge time for visit \(i\) & \(d_i\) & Final charge time for charger for visit \(i\)\\[0pt]
+\(q_i\) & Assigned queue for visit \(i\) &  & \\[0pt]
+Indirect Decision Variables &  & Indirect Decision Variables & \\[0pt]
+\(\eta_i\) & Charge for the bus upon arrival visit \(i\) & \(s_i\) & Amount of time spent on charger for visit \(i\)\\[0pt]
+\(\sigma_{ij}\) & Binary variable determining temporal ordering of vehicles \(i\) and \(j\) & \(\psi_{ij}\) & Binary variable determining spatial ordering of vehicles \(i\) and \(j\)\\[0pt]
+\(p_{d}\) & Demand cost of the schedule & \(\phi_i\) & Penalty method for visit \(i\)\\[0pt]
+\(\C\) & Set of available charging times &  & \\[0pt]
+\hline
+\end{tabularx}
+\end{table}
 The problem outlined in this work is presented in the form of an objective function with MILP constraints. The MILP
 constraints ensure that candidate solutions are operationally feasible. The optimization variables are introduced in
 \ref{sec:parameter-definitions}. The objective function is broken down into four major components: consumption cost, demand
@@ -1354,40 +1411,6 @@ The cost for assigning a charger to queue \(q \in Q\) is defined by \(\epsilon_q
 departure times of bus visit \(i\) to the station are denoted as \(a_i\) and \(e_i\), respectively. The notation \(t_h\) is used
 to denote a discrete time that is employed to calculate the demand cost. \(dt_h\) is the discrete time step \(dt_h = t_h -
 t_{h-1}\).
-
-\begin{table}[htbp]
-\caption{\label{tab:variables}Table of variables used in the paper.}
-\centering
-\begin{tabularx}{\textwidth}{L{0.3} L{1.2} L{0.3} L{1.2}}
-\textbf{Variable} & \textbf{Description} & \textbf{Variable} & \textbf{Description}\\[0pt]
-\hline
-Constants &  & Constants & \\[0pt]
-\(D\) & Penalty method gain factor & \(n_B\) & Number of buses in use\\[0pt]
-\(\T\) & Time horizon & \(n_K\) & Number of iterations in the repetition schedule\\[0pt]
-\(n_M\) & Total number of steps created by initial temperature, \(\Tau_0\), and cooling schedule & \(n_Q\) & Number of chargers\\[0pt]
-\(n_V\) & Total number of visits & \(n_h\) & Number of discrete steps in time horizon\\[0pt]
-\hline
-Input variables &  & Input Variables & \\[0pt]
-\(\Delta_i\) & Discharge of visit over after visit \(i\) & \(\alpha_b\) & Initial charge percentage time for bus \(b\)\\[0pt]
-\(\epsilon_q\) & Cost of using charger \(q\) & \(\kappa_b\) & Battery capacity for each BEB\\[0pt]
-\(\rho_i\) & Duration for route after visit \(i\) & \(\xi_i\) & The next index bus \(b\) will arrive\\[0pt]
-\(a_i\) & Arrival time of visit \(i\) & \(\Xi_i\) & ID for bus visit \(i\)\\[0pt]
-\(t_h\) & Discrete step in time horizon & \(dt_h\) & Discrete time slice in time horizon \(dt_h = t_h - t_{h-1}\)\\[0pt]
-\(k\) & Local search iteration \(k\) & \(e_i\) & Time bus visit \(i\) must exit the station\\[0pt]
-\(r_q\) & Charge rate of charger \(q\) & \(t_m\) & Element of the temperature vector created by temperature function, \(t_m \in t\)\\[0pt]
-\(\nu_b\) & Minimum charge percentage allowed for each BEB &  & \\[0pt]
-\hline
-Direct Decision Variables &  & Direct Decision Variables & \\[0pt]
-\(u_i\) & Initial charge time for visit \(i\) & \(d_i\) & Final charge time for charger for visit \(i\)\\[0pt]
-\(q_i\) & Assigned queue for visit \(i\) &  & \\[0pt]
-Indirect Decision Variables &  & Indirect Decision Variables & \\[0pt]
-\(\eta_i\) & Charge for the bus upon arrival visit \(i\) & \(s_i\) & Amount of time spent on charger for visit \(i\)\\[0pt]
-\(\sigma_{ij}\) & Binary variable determining temporal ordering of vehicles \(i\) and \(j\) & \(\psi_{ij}\) & Binary variable determining spatial ordering of vehicles \(i\) and \(j\)\\[0pt]
-\(p_{d}\) & Demand cost of the schedule & \(\phi_i\) & Penalty method for visit \(i\)\\[0pt]
-\(\C\) & Set of available charging times &  & \\[0pt]
-\hline
-\end{tabularx}
-\end{table}
 
 \subsubsection{Decision Variables}
 \label{sec:decision-variables}
@@ -1787,12 +1810,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org1aedbe7}
+\label{sec:org2381b12}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org4d27b58}
+\label{sec:org5675240}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2452,7 +2475,17 @@ than the MILP PAP.
     \label{fig:energy-usage}
 \end{figure}
 
+\chapter{Non-Linear Battery Dynamics}
+\label{sec:nonlinear-battery-dynamics}
 \chapter{Conclusion}
 \label{sec:conclusion}
+\makeappendices
+\appendix{List of Edge Vectors}
+\label{chap:appendix}
+
+
+\appendixsection{Definition of an Edge Vector}
+\label{sec:edge-def}
+
 \references{citation-database/lib-ref,citation-database/lit-ref}{IEEEtran}
 \end{document}

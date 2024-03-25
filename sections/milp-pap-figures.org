@@ -34,7 +34,9 @@
 
 # --------------------------------------------------------------------------------
 # Variable table
-#+include: ../sup-doc/milp-pap-paper-frontiers/sections/vartab.org
+#+latex: \begin{landscape}
+#+include: ../tab/milp-vars.org
+#+latex: \end{landscape}
 
 # --------------------------------------------------------------------------------
 # Berth spatio-temporal graph

@@ -22,6 +22,7 @@
 :CUSTOM_ID: sec:optimization-problem
 :END:
 
+#+include: ../tab/sa-vars.org
 #+include: ../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:optimization-problem :only-contents t
 
 ** Simulated Annealing
