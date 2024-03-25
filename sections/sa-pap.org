@@ -1,0 +1,46 @@
+* SA PAP
+:PROPERTIES:
+:CUSTOM_ID: sec:sa-pap
+:END:
+
+** Introduction
+:PROPERTIES:
+:CUSTOM_ID: sec:sa-introduction
+:END:
+
+#+include: ../sup-doc/sa-pap-paper/sections/introduction.org::#sec:introduction :only-contents t
+
+** Problem Description
+:PROPERTIES:
+:CUSTOM_ID: sec:problem-description
+:END:
+
+#+include: ../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description :only-contents t
+
+** Optimization Problem
+:PROPERTIES:
+:CUSTOM_ID: sec:optimization-problem
+:END:
+
+#+include: ../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:optimization-problem :only-contents t
+
+** Simulated Annealing
+:PROPERTIES:
+:CUSTOM_ID: sec:simulated-annealing
+:END:
+
+#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:simulated-annealing :only-contents t
+
+** Optimization Algorithm
+:PROPERTIES:
+:CUSTOM_ID: sec:optimization-algorithm
+:END:
+
+#+include: ../sup-doc/sa-pap-paper/sections/optimization-algorithm.org::#sec:optimization-algorithm :only-contents t
+
+** Example
+:PROPERTIES:
+:CUSTOM_ID: sec:example
+:END:
+
+#+include: ../sup-doc/sa-pap-paper/sections/example.org::#sec:example :only-contents t

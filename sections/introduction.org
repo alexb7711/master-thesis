@@ -51,11 +51,11 @@ battery dynamics.
 
 In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
 statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
-objectives and approaches in [[#sec:objectives]] and [[#sec:approach]], respectively. The BEB queue scheduling problem discussed
+objectives and approaches in [[#sec:objectives]] and #sec:approach]], respectively. The BEB queue scheduling problem discussed
 throughout this section is of particular interest at this time in the BEB industry and requires more attention. The
 research proposed directly approaches this problem by improving upon existing implementations to provide a robust and
 accurate solution. In the subsequent sections the objectives will be introduced in [[#sec:objectives]] and the approach for
-each objective will be discussed in [[#sec:approach]].
+each objective will be discussed in #sec:approach]].
 
 ** OBJECTIVES
 :PROPERTIES:

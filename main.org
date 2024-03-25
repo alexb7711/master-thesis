@@ -35,9 +35,11 @@
 
 #+include: sections/introduction.org
 #+include: sections/background-and-related-work.org
-#+include: sections/approach.org
-#+include: sections/method-and-validation.org
-#+include: sections/example.org
+#+include: sections/milp-pap.org
+#+include: sections/milp-pap-figures.org::#sec:milp-pap-figures :only-contents t
+#+include: sections/sa-pap.org
+#+include: sections/sa-pap-figures.org::#sec:sa-pap-figures :only-contents t
+#+include: sections/conclusion.org
 
 # ======================================================================================================================
 # Bibliography
