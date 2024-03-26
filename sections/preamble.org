@@ -28,6 +28,8 @@
 #+latex_header: \usepackage[ruled]{algorithm2e}                    % Algorithms
 #+latex_header: \usepackage{hyperref}                       %
 #+latex_header: \usepackage{subcaption}                     % Allow subfigures
+#+latex_header:\usepackage{xfp}                             % No trailing zeros
+
 #+latex_header: \hypersetup{colorlinks=true, linkcolor=blue,
 #+latex_header:   citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 
