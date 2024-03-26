@@ -1,4 +1,4 @@
-% Created 2024-03-26 Tue 08:48
+% Created 2024-03-26 Tue 14:25
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -348,7 +348,7 @@ visit to a charger given a schedule for a fleet of BEBs that follow the behavior
 this work optimizes over peak power usage and energy consumption, as well as attempts to optimize the amount of chargers
 utilized.
 
-Consider a fleet of \(n_B\) BEBs that collectively visit a station \(n_V\) times. At said station, let there exist a pool of
+Given a fleet of \(n_B\) BEBs that collectively visit a station \(n_V\) times. At said station, let there exist a pool of
 \(n_Q\) charging queues from which a visiting BEB may be assigned. Let \(\mathbb{Z}\) define the set of integers. The pool of queues
 from which a BEB may be placed is \(\Qset \subset \mathbb{Z}\) is defined by letting the first \(n_B\) queues be denoted as idle queues
 followed by slow and then fast chargers. The term idle queues is meant to signify queues that provide no charge to the
@@ -369,8 +369,8 @@ visit; however, there may be multiple BEBs charging simultaneously across differ
 is allowed to charge during visit \(i\) is dictated by the scheduled arrival time and required departure time, \([a_i,
 e_i]\). Partial charging is allowed; however, the SOC may not exceed the BEB battery capacity and the SOC must stay above
 0\%. The battery dynamics in this work is modeled as linear, which remains accurate up to about an SOC of 80\% charge
-\cite{liu-2020-batter-elect}. Note that charging beyond the 80\% SOC threshold is undesirable due to batter health
-concerns.
+\cite{liu-2020-batter-elect}. Note that charging beyond the 80\% SOC threshold is undesirable due to battery health
+concerns as higher SOC with deep cycles accelerates degradation \cite{edge-2021-lithium,millner-2010-model-lithium}.
 
 Each BEB arrival, except for the last arrival for each BEB, has a paired ``route'' that the BEB must perform after the
 visit. This route, as one would expect, causes the BEB to discharge by some certain amount. Each bus is assumed to have
@@ -426,7 +426,7 @@ battery percentage, \(\nu_b \in [0, 1]\).
 \end{figure}
 
 \appendixsection{Mixed Integer Linear Programming}
-\label{sec:org36702ca}
+\label{sec:org42f7004}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -575,7 +575,7 @@ binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i
 \end{enumerate}
 
 \appendixsection{Summary}
-\label{sec:org8ed6af9}
+\label{sec:orga04a023}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1176,68 +1176,52 @@ introduce new challenges such as larger upfront costs, and potentially several h
 \cite{xylia-2018-role-charg,li-2016-batter-elect}. Furthermore, the problem is exacerbated by the constraints of the
 transit schedule to which the fleet must adhere, the limited amount of chargers available, and the adverse affects in
 the health of the battery due to fast charging \cite{lutsey-2019-updat-elect}. This work presents a scheduling
-framework for a BEB fleet that allows for multiple charger types and partial charging. It considers linear battery
-dynamics, fixed bus schedules, enforces a state-of-charge (SOC) threshold, and takes into consideration the total energy
-consumed by the schedule as well as peak power use.
+framework for a fixed-schedule fleet of BEBs that utilizes a proportional battery dynamics model, accounts for multiple
+charger types, allows partial charging, and further considers the total energy consumed by the schedule as well as peak
+power use.
 
 Literature shows an interest in solving the problem of assigning BEBs to charging queues or optimizing their
-infrastructure \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. Two of the main problems that have been of recent interest are
-solving the problems of route scheduling, charging fleets, and determining the infrastructure upon which they rely.
-Additionally, the prospect of solving both problems simultaneously has received much attention
-\cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. These
-problems vary by including assignment of buses to routes \cite{rinaldi-2020-mixed-fleet,zhou-2020-collab-optim,tang-2019-robus-sched,li-2014-trans-bus}, determining whether a set of existing combustion based buses should be
-replaced with BEBs \cite{zhou-2020-bi-objec,duan-2021-refor-mixed,rinaldi-2020-mixed-fleet,zhou-2020-collab-optim}, and accounting for uncertainties \cite{bie-2021-optim-elect,duan-2021-refor-mixed,tang-2019-robus-sched,ursavas-2016-optim-polic}. These problems add additional complexities that warrant
-simplifications due to computational complexities. One other source, as far as the reseach for this work has shown,
-describes a method of producing a BEB charge schedule wih a high fidelity while accounting for multiple charger times as
-well as being able to minimize over the total charger count \cite{whitaker-2023-a-network}. This work aims to focus on
-day-to-day requirements which require a higher fidelity charging and scheduling models to more accurately estimate the
-monetary cost of charging. Specifically, the framework to be presented creates a charging schedule for a fixed set of
-bus routes while minimizing the total number of chargers required and minimizing the monetary cost of charging the BEBs
-by minimizing the demand and consumption costs.
+infrastructure \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. Additionally, the prospect of solving both problems simultaneously
+has received much attention \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. These problems vary by including assignment of buses to routes
+\cite{rinaldi-2020-mixed-fleet,zhou-2020-collab-optim,tang-2019-robus-sched,li-2014-trans-bus}, determining
+whether a set of existing combustion based buses should be replaced with BEBs \cite{zhou-2020-bi-objec,duan-2021-refor-mixed,rinaldi-2020-mixed-fleet,zhou-2020-collab-optim}, and accounting for uncertainties
+\cite{bie-2021-optim-elect,duan-2021-refor-mixed,tang-2019-robus-sched,ursavas-2016-optim-polic}. These problems
+add additional complexities that warrant simplifications for the sake of computation. Two modes of simplification are
+often found: only utilizing fast chargers during planning \cite{li-2014-trans-bus,li-2014-trans-bus,wang-2017-optim-rechar} or simplification of the charging models are made by assuming full charge
+\cite{zhou-2020-bi-objec,qarebagh-2019-optim-sched,wei-2018-optim-spatio}.
 
-Some works assume that the charge received is proportional to the time spent on the charger
-\cite{liu-2020-batter-elect,yang-2018-charg-sched}. While the linear battery dynamics is a valid assumption when the
-battery SOC is below 80\% \cite{liu-2020-batter-elect}, non-linear battery dynamics can be implemented to more
-accurately model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant Voltage
-(CV), Constant Current (CC), and Constant Current Constant Voltage (CCCV) \cite{abdollahi-2016-optim-batter,chen-2008-desig-grey}. It has also been suggested that the dynamics can be modeled as a piecewise function containing a
-linear and non-linear component from which the CV and CC models construct the linear and non-linear parts, respectively
-\cite{zhang-2021-optim-elect,abdollahi-2016-optim-batter}. Others have modeled the battery dynamics as a discrete
-first order dynamics model \cite{whitaker-2023-a-network}. The first-order differential system, when provided a step
-input, approximates the non-linear relationship between time and SOC \cite{whitaker-2023-a-network}. While the
-framework presented in this work may implement the non-linear battery dynamics model, linear battery dynamics are chosen
-to allow comparisons between other solution methods.
+Modeling the battery charge dynamics well is pertinent to this work as it directly affects the quality of the produced
+schedule. Furthermore, an inaccurate model and may have detrimental affects to the health of the battery if it is
+over-charged, under-charged, or forced to perform ``deep'' deep cycles \cite{zhou-2020-bi-objec,millner-2010-model-lithium,edge-2021-lithium}. While the charge profile for batteries are inherently non-linear, some
+works have assumed a proportional charge increase as linear battery dynamics remain a valid assumption when the battery
+SOC is below 80\% \cite{liu-2020-batter-elect}. Furthermore, other works have suggested that charging a battery nearly
+to capacity is detrimental to the health and can significantly reduce the total charge cycles a battery may undergo
+\cite{edge-2021-lithium,millner-2010-model-lithium}. Thus, this work assumes that a linear model is sufficiently
+accurate to produce an operationally valid schedule while maintaining battery health.
 
 Works concerning charge planning often use a version of the vehicle scheduling problem \cite{tang-2019-robus-sched,li-2014-trans-bus,he-2020-optim-charg}. Variants of this problem address infrastructure as well as determining
-existing buses that should be replaced by a BEB \cite{zhou-2020-bi-objec,duan-2021-refor-mixed,rinaldi-2020-mixed-fleet,zhou-2020-collab-optim}. Other works introduce a directed graph approach to model the flow
-of BEBs \cite{whitaker-2023-a-network,liu-2020-batter-elect}, where this concept was expanded to simultaneously
-accounting for multiple charger types, partial charging, non-linear battery charge profiles
-\cite{whitaker-2023-a-network}. The directed graph approach provides a simple method of modeling the scheduling by
-discretizing the time horizon into a sequence of nodes for each charger. The nodes represent discrete steps in time in
-which BEBs may be assigned to be charged. BEBs may be assigned to sequential time steps of a singular charger. Once it
-has completed its charge, the BEB is then transitioned out of the charge queue creating an opening for another BEB to
-receive charge. This work bases its implementation on what is known as the Position allocation problem
-\cite{qarebagh-2019-optim-sched}.
-
-The PAP is derived from the Berth Allocation Problem (BAP) which solves the problem of scheduling a set of vessels to be
-berthed and serviced. The model inputs a set of vessels arrival and service times and outputs a schedule that defines
-the selected berth and the time over which it is serviced. The PAP utilizes this model and redefines its inputs to EV
-arrival times and outputs queues for the EVs to be charged. While the visits remain as discrete events, the time that
-the BEB is on the charger is modeled as continuous, similar to \cite{frojan-2015-contin-berth,qarebagh-2019-optim-sched,zhou-2020-collab-optim}. Due to the close relationship between the BAP and PAP, BAP
-literature may be used for the PAP. The literature shows methods of handling multiple quays (sets of chargers) to handle
-general berthing scenarios \cite{frojan-2015-contin-berth,dai-2008-suppl-chain-analy}. Heuristic procedures for
-quicker solve times have also been introduced \cite{imai-2001-dynam-berth}. Methods of defining static (full time
-horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time solutions, respectively,
-and even fuzzy set theory has been applied to allow for more flexible schedules
+existing buses that should be replaced by a BEB \cite{zhou-2020-bi-objec,duan-2021-refor-mixed,rinaldi-2020-mixed-fleet,zhou-2020-collab-optim}. This work bases its implementation on what is known as the Position
+allocation problem \cite{qarebagh-2019-optim-sched}. The PAP is derived from the Berth Allocation Problem (BAP) which
+solves the problem of scheduling a set of vessels to be berthed and serviced. The model inputs a set of vessels arrival
+and service times and outputs a schedule that defines the selected berth and the time over which it is serviced. The PAP
+utilizes this model and redefines its inputs to EV arrival times and outputs queues for the EVs to be charged. While the
+visits remain as discrete events, the time that the BEB is on the charger is modeled as continuous, similar to
+\cite{frojan-2015-contin-berth,qarebagh-2019-optim-sched,zhou-2020-collab-optim}. Due to the close relationship
+between the BAP and PAP, BAP literature may be used for the PAP. The literature shows methods of handling multiple quays
+(sets of chargers) to handle general berthing scenarios \cite{frojan-2015-contin-berth,dai-2008-suppl-chain-analy}.
+Heuristic procedures for quicker solve times have also been introduced \cite{imai-2001-dynam-berth}. Methods of
+defining static (full time horizon) and dynamic (rolling-time horizon) models have been created for daily and real-time
+solutions, respectively, and even fuzzy set theory has been applied to allow for more flexible schedules
 \cite{bello-2019-fuzzy-activ,dai-2008-suppl-chain-analy,buhrkal-2011-model-discr,frojan-2015-contin-berth}. This
 work utilizes an extension of the PAP as the basis of determining the feasible space of candidate solutions.
 
 To the best of our knowledge, there is one other work that schedule BEB fleets while allowing multiple charger types,
-charger, partial charging, and accounting for consumption costs \cite{whitaker-2023-a-network}. This particular work
-presented an optimization framework that assumed a fixed schedule, utilized non-linear battery dynamics, partial
-charging, considers limited charger availability, consumption cost, and allows for multiple charger types
-\cite{whitaker-2023-a-network}. This paper expands on these previous works by introducing a simulated annealing (SA)
-framework that accounts for partial charging, minimizes total charger count, multiple charger types, consumption cost,
-and demand cost.
+charger, partial charging, and accounting for consumption costs \cite{whitaker-2023-a-network}. The work in
+\cite{whitaker-2023-a-network} presents an optimization framework that assumed a fixed schedule, utilized non-linear
+battery dynamics, partial charging, considers limited charger availability, consumption cost, and allows for multiple
+charger types \cite{whitaker-2023-a-network}. This paper expands on these previous works by introducing a simulated
+annealing (SA) framework that accounts for partial charging, minimizes total charger count, allows for multiple charger
+types, minimizes consumption cost, and minimizes demand cost.
 
 In what follows, the problem statement shall be provided in \ref{sec:problem-description}. \ref{sec:optimization-problem}
 introduces the structure of the MILP formulation as well as a description of the parameters, decision variables,
@@ -1261,7 +1245,7 @@ visit to a charger given a schedule for a fleet of BEBs that follow the behavior
 this work optimizes over peak power usage and energy consumption, as well as attempts to optimize the amount of chargers
 utilized.
 
-Consider a fleet of \(n_B\) BEBs that collectively visit a station \(n_V\) times. At said station, let there exist a pool of
+Given a fleet of \(n_B\) BEBs that collectively visit a station \(n_V\) times. At said station, let there exist a pool of
 \(n_Q\) charging queues from which a visiting BEB may be assigned. Let \(\mathbb{Z}\) define the set of integers. The pool of queues
 from which a BEB may be placed is \(\Qset \subset \mathbb{Z}\) is defined by letting the first \(n_B\) queues be denoted as idle queues
 followed by slow and then fast chargers. The term idle queues is meant to signify queues that provide no charge to the
@@ -1282,8 +1266,8 @@ visit; however, there may be multiple BEBs charging simultaneously across differ
 is allowed to charge during visit \(i\) is dictated by the scheduled arrival time and required departure time, \([a_i,
 e_i]\). Partial charging is allowed; however, the SOC may not exceed the BEB battery capacity and the SOC must stay above
 0\%. The battery dynamics in this work is modeled as linear, which remains accurate up to about an SOC of 80\% charge
-\cite{liu-2020-batter-elect}. Note that charging beyond the 80\% SOC threshold is undesirable due to batter health
-concerns.
+\cite{liu-2020-batter-elect}. Note that charging beyond the 80\% SOC threshold is undesirable due to battery health
+concerns as higher SOC with deep cycles accelerates degradation \cite{edge-2021-lithium,millner-2010-model-lithium}.
 
 Each BEB arrival, except for the last arrival for each BEB, has a paired ``route'' that the BEB must perform after the
 visit. This route, as one would expect, causes the BEB to discharge by some certain amount. Each bus is assumed to have
@@ -1413,7 +1397,7 @@ The cost for assigning a charger to queue \(q \in Q\) is defined by \(\epsilon_q
 \(b_i\). In other words, suppose the ID of each BEB is recorded in order of arrival. Further suppose that recorded list is
 \(\xi = \{ 2,1,3,2 \}\), using a starting index of 1, \(\xi_1 = 4\) as that is the next visit by bus 2. The arrival and
 departure times of bus visit \(i\) to the station are denoted as \(a_i\) and \(e_i\), respectively. The notation \(t_h\) is used
-to denote a discrete time that is employed to calculate the demand cost. \(dt_h\) is the discrete time step \(dt_h = t_h -
+to denote a discrete time that is employed to calculate the demand cost. \(dt\) is the discrete time step \(dt = t_h -
 t_{h-1}\).
 \end{enumerate}
 
@@ -1583,54 +1567,14 @@ p_d(t) = \max(p_{fix},p_{max}(t))\text{.}
 Hence, \ref{eq:pdem} defines a cost beginning with a value of \(p_{fix}\) from which it may only increase if \(p_{15}(t) >
 p_{fix}\).
 
-Although the charge times for each BEB is continuous, due to the discrete nature of visits it is simpler to determine a
+Although the charge times for each BEB are continuous, due to the discrete nature of visits it is simpler to determine a
 vector of discrete power consumption over the time horizon from which the average power demand cost may be derived. To
 discritize \(p_d\), let \(h \in \{ 1, 2, ..., n_H \} \subset \mathcal{Z}\) where \(n_H\) is the total number of steps. Furthermore, let \(p\)
-define the vector of discrete power consumption over some time interval and let \(p_h \in p\) be the discrete power demand
-at time step \(h\). For conciseness of notation \(t_h\) will be abused to denote the time in discrete form (as opposed to
-\(t\) being continuous), let \(dt_h = t_h - t_{h-1}\), and \(\Hset = \{ 1, 2, ..., n_H \}\). Thus, for a given visit \(i\), the
-corresponding discrete indices of \(h \in \Hset\) for the range \([u_i, d_i]\) can be determined by first calculating the
-total number of steps, \(n_h = \frac{d_i - u_i}{dt}\). Once the number of steps is known, the consumed power, \(r_{vi}\) can
-be added to the correct indices in \(p\).
-
-To derive \(p\), a vector of discrete power consumption over the time horizon, utilizing scheduled visits is outlined in
-\ref{alg:calc-p}. In other words, the objective of \ref{alg:calc-p} to calculate a vector, \(p\), that defines the power
-consumed over discrete steps throughout time horizon. Line 2 defines the time over which the average power will be
-calculated. Line 3 initializes a vector, \(p\), with \(n_H\) elements populated with zeros. The vector \(p\) is used to store
-the power consumption for each discrete step over the time horizon \(\T\). Line 5 calculates the number of elements in the
-charge time \(s_i\). Line 6 calculates the index of \(p\) for all \(n_h\) steps and iterates through each index. Line 7 adds
-the power consumed by charging \(q_i\) for the \(h^{\text{th}}\) step.
-
-\begin{algorithm}[H]
-  \scriptsize
-  \caption{Calculate vector of power cosumption, $p$, by discretizing a charge time frame, $[u_i, d_i]$, into $n_h$ steps and calculating the appropriate index $h \in \{1,2,...,n_H\}$.} \label{alg:calc-p}
-  \LinesNumbered
-  \TitleOfAlgo{Calculate $p$}
-  \KwIn{$(\I, r)$}
-  \KwOut{$p$}
-
-  \Begin
-    {
-      $dt \leftarrow \frac{\T}{n_H}$\tcc*{Calculate the step size}
-      $p \leftarrow [0.0; n_H]$\tcc*{Allocate an $n_H \times 1$ vector filled with zeros}
-
-      \tcc{For each visit}
-      \ForEach {$\I_i \in \I$}
-      {
-        $n_h \leftarrow \frac{\I_{i.d} - \I_{i.u}}{dt}$\tcc*{Calculate the total number of steps in the time slice}
-
-        \tcc{For each index in the time slice $[u_i, d_i]$}
-        \ForEach {$h \in \{\frac{u_i}{dt}, \frac{u_i + dt}{dt}, ..., \frac{u_i + n_h dt}{dt}\}$}
-        {
-          $p[h] \leftarrow p[h] + r_{\I_{i.q}}$\tcc*{Add the consumed power during discrete step}
-        }
-      }
-      \Return{$p$}
-    }
-\end{algorithm}
-
-With the consumed power calculated for each time step, the average power consumption for each interval in the time
-horizon can be written as follows:
+define the vector of discrete power demand over the time horizon and let \(p_h \in p\) be the demand over time step \(h\). For
+conciseness of notation \(t_h\) will be abused to denote the time in discrete form (as opposed to \(t\) being continuous)
+and let \(dt = t_h - t_{h-1}\). Each entry \(p_h \in p\) is found by taking the summation of \(r_{v_i}\) for all the chargers
+active during the time interval \([t_h, t_h + dt]\). Thus, having an estimate of the demand over each step, the average
+demand can be calculated by taking an average of the Riemann sum over each \(T_p\) interval as follows:
 
 \begin{equation}
 p_{T_p}[h] = \frac{1}{T_p} \sum_{h-\frac{T_p}{dt}+1}^h p_h,
@@ -1641,7 +1585,7 @@ where \(T_p \le h \le n_H\). Similarly to before, the maximum \(p_{T_p}[h]\) val
 
 \begin{equation}
 \label{eq:pd-dis}
-  p_d = \max(p_{fix}, p_{max})z\text{.}
+  p_d = \max(p_{fix}, p_{max})\text{.}
 \end{equation}
 
 To conclude this section, the objective function is to written in its entirety:
@@ -1822,12 +1766,12 @@ affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \begin{enumerate}
 \item Generator Input
-\label{sec:org4623adf}
+\label{sec:org5ccb25d}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \item Generator Output
-\label{sec:orgf4ba625}
+\label{sec:orga8e62bc}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -1840,7 +1784,8 @@ This section describes and outlines the different generator types. Recall that t
 queues are added that provide no power to the BEB. Because of this, the set of queues is fully defined where \(Q\) is the
 ordered set of idle queues, slow queues, then fast queue. The use case for the idle queues are for when a bus is not to
 be placed on a charger. Rather, it will be placed in the queue, \(q \in B\), which satisfies the previously defined spatial
-constraints while allowing the bus to be ``set aside''. The charge queues are denoted by \(q \in Q \setminus B\).
+constraints while allowing the bus to be ``set aside''. The charge queues are denoted by \(q \in \{1, ..., n_B , n_B + 1,
+..., n_Q\}\).
 
 In the development of the algorithms, the dot notation is to be introduced to extract variables from tuples. For
 example, suppose the arrival time is desired to be extracted from visit \(i\). Given \(\I\), the notation that describes
@@ -1850,12 +1795,12 @@ extracting the initial charge time for visit \(i\) is written as \(u_i \equiv \I
 \item New visit
 \label{sec:new-visit}
 The new visit generator defined in \ref{alg:new-visit} describes the process of moving a BEB, \(b \in B\), from a waiting
-queue, \(q \in B\), to a charging queue, \(q_i \in Q \setminus B\), within its arrival/departure time \([a, e]\). Let \(\U_{\{\cdot\}}\)
-indicate that an element is selected randomly with a uniform distribution from the set \(\{\cdot\}\). For example, \(\U_{[a,
-e]}\) indicates that a value will be selected between \(a\) and \(e\) with a uniform distribution. \ref{alg:new-visit} begins
-by extracting variables. Lines 6 and 7 randomly select a charging queue and available time frame with a uniform
-distribution, respectively. Line 8 attempts to assign the visit the time frame found in Line 7, if it succeeds, the
-updated visit is returned. Otherwise, the null value is returned.
+queue, \(q \in B\), to a charging queue, \(q_i \in \{n_B + 1, ..., n_Q\}\), within its arrival/departure time \([a, e]\). Let
+\(\U_{\{\cdot\}}\) indicate that an element is selected randomly with a uniform distribution from the set \(\{\cdot\}\). For
+example, \(\U_{[a, e]}\) indicates that a value will be selected between \(a\) and \(e\) with a uniform distribution.
+\ref{alg:new-visit} begins by extracting variables. Lines 6 and 7 randomly select a charging queue and available time
+frame with a uniform distribution, respectively. Line 8 attempts to assign the visit the time frame found in Line 7, if
+it succeeds, the updated visit is returned. Otherwise, the null value is returned.
 
 The function \texttt{findFreeTime} is the algorithm that determines whether a visit's time at the station \([a, e]\) can be placed
 in the time availability of charger \(q\). Let the available time for charger \(q\) for visit \(i\) be denoted as \(C \equiv
@@ -2187,14 +2132,14 @@ an SOC of \(\nu_b =\) \mincharge (\fpeval{\batsize * \minchargeD} kWh). Each bus
 of \(\Delta =\) 30 kW. The penalty method employs a gain of \(D = \Cgain\). A total of \(n_C =\) \fpeval{\fast + \slow} chargers
 are utilized where \slow of the chargers are slow charging (\slows kW) and \fast are fast charging (\fasts kW). As
 previously introduced, to encourage the SA PAP to utilize the fewest number of chargers, the value of \(\epsilon_q\) in the
-objective function is \(\forall q \in \{1,2,..., n_B \}; \epsilon_q = 0\) and \(\forall q \in Q \setminus B; \epsilon_q = 100q\). The SA algorithm utilizes the
-geometric cooling schedule with an initial temperature of \(T_0 = \tempinit\) with \(\beta_2 = 0.999\), resulting in a total of
-\(n_M = \tempcnt\) steps. The demand cost is taken over fifteen minute intervals. Thus let the demand cost be denoted as
-the peak-15 with the associated symbol \(p_{15}\). A weight vector of \([3, 3, 2, 1]\) was used to influence the
-distribution of selecting the new charger, new window, wait, and slide visit primitives, respectively. The algorithm
-also assumes a total of \(n_K = \localcnt\) iterations for the local search at a constant temperature. In total, that
-results in \fpeval{\localcnt * \tempcnt} configurations being searched. On average each constant temperature
-search took an average of \(\quicklocal\) seconds to complete, resulting in a total runtime of
+objective function is \(\forall q \in \{1,2,..., n_B \}; \epsilon_q = 0\) and \(\forall q \in \{n_B + 1, n_B + 2, ..., n_Q\}; \epsilon_q = 100q\). The SA
+algorithm utilizes the geometric cooling schedule with an initial temperature of \(T_0 = \tempinit\) with \(\beta_2 = 0.999\),
+resulting in a total of \(n_M = \tempcnt\) steps. The demand cost is taken over fifteen minute intervals. Thus let the
+demand cost be denoted as the peak-15 with the associated symbol \(p_{15}\). A weight vector of \([3, 3, 2, 1]\) was used to
+influence the distribution of selecting the new charger, new window, wait, and slide visit primitives, respectively. The
+algorithm also assumes a total of \(n_K = \localcnt\) iterations for the local search at a constant temperature. In total,
+that results in \fpeval{\localcnt * \tempcnt} configurations being searched. On average each constant
+temperature search took an average of \(\quicklocal\) seconds to complete, resulting in a total runtime of
 \fpeval{\quicklocal * \tempcnt} seconds.
 
 \ref{sec:heuristic-implementation} introduced the idea of an alternative heuristic implementation for the SA algorithm. To
@@ -2291,9 +2236,13 @@ an SOC of 25\% while the quick and heuristic SA approaches heavily penalize a sc
 25\% SOC threshold. The MILP PAP was able to successfully keep the SOC above the threshold (\ref{subfig:milp-charge})
 while both SA approaches were not. The SOC of the quick SA approach dropped to a minimum of 29.9 kWh and the heuristic
 had a minimum SOC of 6.3 kWh as shown in \ref{tab:charge}. The Qin model allowed the SOC of three BEBs to reach an SOC
-of 0\% as shown in \ref{subfig:qin-charge}. The Qin-Modified strategy was able to keep the mean SOC the highest followed
-by the quick SA, heuristic SA, and then the MILP. This measure is useful when viewing with \ref{fig:power} and
-\ref{fig:energy-usage}.
+of 0\% as shown in \ref{subfig:qin-charge}. The Qin-Modified strategy, being a purely reactive model, is unable to
+``sense'' whether a set of routes has a particularly taxing route within time horizon. As such, and in the case of the
+example scenario, the BEBs that reached charges of 0\% began with a sequence of short routes, much like the other BEBs.
+However, rather than continuing this trend, these sets of routes had one or two longer routes which the Qin-Modified
+algorithm was unable to account for. Interestingly, Qin-Modified strategy was able to keep the mean SOC the highest
+followed by the quick SA, heuristic SA, and then the MILP, most likely due to the high low, medium, and high thresholds
+applied to the algorithm. This measure is useful when viewing with \ref{fig:power} and \ref{fig:energy-usage}.
 
 \begin{table}[htbp]
 \caption{\label{tab:charge}Table of mean, min, and max SOC for each charging schedule.}
@@ -2547,7 +2496,7 @@ indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and th
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
 \appendixsection{Results}
-\label{sec:orgd6d7732}
+\label{sec:orgdccbb71}
 \appendix{Concluding Remarks}
 \label{sec:conclusion}
 \makeappendices
@@ -2586,7 +2535,7 @@ referenced from
 
 \begin{enumerate}
 \item Fuzzy Sets
-\label{sec:org4a243d5}
+\label{sec:org7c7679d}
 A sensible method of introducing fuzzy sets is to begin by describing the familiar classic set. A classical (crisp) set
 is defined as a collection of elements \(x \in X\). Crisp sets are binary, either an element belongs in the set, or it does
 not \cite{zimmermann-2001-fuzzy-set}. For a fuzzy set, what is known as the characteristic function applies various
@@ -2714,7 +2663,7 @@ The triangular fuzzy number \(\tilde{A}\) is nonnegative \(\iff\; a \ge 0\).
 \end{definition}
 
 \item Fuzzy Arithmetic
-\label{sec:orgf9e6788}
+\label{sec:org8042d88}
 If two triangular fuzzy numbers \(\tilde{a}_1 = (a_1, a_2, a_3)\) and \(\tilde{b}_1 = (b_1, b_2, b_3)\) are nonnegative
 then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 
@@ -2728,7 +2677,7 @@ then the following operations are defined in \ref{eq:fuzzy-arithmetic}.
 \end{equation}
 
 \item Comparing Fuzzy Numbers
-\label{sec:orgb637bb5}
+\label{sec:org66c7bc1}
 Fuzzy numbers do not directly provide a method of ordering nor do they always provide an ordered set like real numbers
 \cite{bello-2019-fuzzy-activ}. There are multiple methods for ordering fuzzy numbers, each coming with advantages and
 disadvantages \cite{mccahon-1990-compar}. Different properties have been applied to justify comparison of fuzzy
@@ -2964,7 +2913,7 @@ shall be written in their fuzzy form; however, in practice, the equations will b
 \ref{sec:fuzzy-preliminaries}.
 
 \appendixsubsection{Objective Function}
-\label{sec:org2309868}
+\label{sec:org3a9abd2}
 Begin by rewriting the crisp objective function with the fuzzy linearization term as shown in \ref{eq:fuzzy-objective}.
 
 \begin{equation}
@@ -2982,7 +2931,7 @@ The resulting objective function is shown in \ref{eq:fuzzy-objective-yager}.
 \end{equation}
 
 \appendixsubsection{Queuing Constraints}
-\label{sec:org858b19a}
+\label{sec:orgefef4c4}
 To derive the queuing constraints, the set of crisp constraints that are of interest are rewritten in terms of the fuzzy
 variables that have been identified prior as shown in \ref{eq:fuzzy-packing-constrs}. \ref{subeq:fp_m_time} fuzzifies all the
 temporal terms. \ref{subeq:fp_m_valid_pos} and \ref{subeq:fp_m_sigma} duplicate the constraints \(|\tilde{u}_i|\) times.
@@ -3017,7 +2966,7 @@ counterparts, but with fuzzified terms. \ref{subeq:fp_binaryspace} simply update
 \end{multicols}
 
 \appendixsubsection{Charging Constraints}
-\label{sec:org461ab27}
+\label{sec:orgfe83f42}
 Similarly to the other derivations, the crisp constraints are rewritten with their equivalent fuzzy terms.
 \ref{subeq:fp_init_charge}-\ref{subeq:fp_final_charge} are equivalent to their crisp counterpart with the added lower
 and upper bounds for the battery charge for visit \(i\). Note that the discharge amount, \(\Delta_i\), is not fuzzy. It is
