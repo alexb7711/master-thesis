@@ -1,4 +1,4 @@
-% Created 2024-03-26 Tue 14:46
+% Created 2024-03-26 Tue 14:56
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -73,7 +73,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \newcommand{\A}{35 }                                                            % Number of buses
 \newcommand{\N}{338 }                                                           % Number of visits
 \newcommand{\Cgain}{5000}                                                       % Gain applied to penalty method
-\newcommand{\acharge}{0.9}                                                      % BOD charge percentage
+\newcommand{\acharge}{0.9 }                                                     % BOD charge percentage
 \newcommand{\bcharge}{0.7 }                                                     % EOD charge percentage
 \newcommand{\mincharge}{25\% }                                                  % Min visit charge percent
 \newcommand{\minchargeD}{0.25 }                                                 % Min visit charge decimal
@@ -426,7 +426,7 @@ battery percentage, \(\nu_b \in [0, 1]\).
 \end{figure}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orged054b1}
+\label{sec:org06e2969}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -573,7 +573,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:orge14a1ce}
+\label{sec:org2233846}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1754,12 +1754,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org6fdb422}
+\label{sec:org2e6bde2}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org9924033}
+\label{sec:org6962b01}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2478,7 +2478,7 @@ indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and th
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
 
 \section{Results}
-\label{sec:org44ae49e}
+\label{sec:org526db89}
 \chapter{Concluding Remarks}
 \label{sec:conclusion}
 \references{citation-database/lib-ref,citation-database/lit-ref}{IEEEtran}
