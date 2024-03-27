@@ -4,10 +4,11 @@
 #+OPTIONS: ':t
 #+OPTIONS: date:nil
 #+OPTIONS: toc:nil
+#+OPTIONS: broken-links:t
 
 # =========================================================================================================================
 # LaTeX packages
-#+LATEX_CLASS: usuproposal
+#+LATEX_CLASS: usuthesis
 
 #+latex_header: \usepackage{amsmath}                        % Cool math
 #+latex_header: \usepackage{amsfonts}                       % Cool math fonts
@@ -21,13 +22,21 @@
 #+latex_header: \usepackage{standalone}                     % Allow standalone documents
 #+latex_header: \usepackage{subfloat}                       % Subfigures
 #+latex_header:\usepackage{tabularx}                        % Add more contol to tables
+#+latex_header: \usepackage{lscape}                         % Landscape pages
 #+latex_header: \usepackage{listings}                       % Display code
+#+latex_header: \usepackage{url}                            % Hyperlink DOI
 #+latex_header: \usepackage{doi}                            % Hyperlink DOI
 #+latex_header: \usepackage[ruled]{algorithm2e}                    % Algorithms
 #+latex_header: \usepackage{hyperref}                       %
 #+latex_header: \usepackage{subcaption}                     % Allow subfigures
+#+latex_header:\usepackage{xfp}                             % No trailing zeros
+
 #+latex_header: \hypersetup{colorlinks=true, linkcolor=blue,
 #+latex_header:   citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
+
+#+latex_header: % Set spacing around figures and tables to triple space
+#+latex_header: \setlength{\intextsep}{2em} % Vertical space above & below [h] floats
+#+latex_header: \setlength{\textfloatsep}{2em} % Vertical space below (above) [t] ([b]) floats
 
 #+latex_header: \usetikzlibrary{arrows.meta}                % Arrows for tikz
 
@@ -58,10 +67,10 @@
 #+latex_header: \newcommand{\Tau}{T}                        % between Tau and T
 #+latex_header: \newcommand{\AC}{AC(u, d, v, \eta)}            % Set the parameters for AC once
 #+latex_header: \newcommand{\PC}{PC(u, d, v)}               % Set the parameters for PC once
-#+latex_header: \newcommand{\ACi}{AC(u_i, d_i, v_i, \eta_i)}% Set the parameters for AC once
-#+latex_header: \newcommand{\PCi}{PC(u_i, d_i, v_i)}        % Set the parameters for PC once
+#+latex_header: \newcommand{\ACi}{AC(u_i, d_i, q_i, \eta_i)}% Set the parameters for AC once
+#+latex_header: \newcommand{\PCi}{PC(u_i, d_i, q_i)}        % Set the parameters for PC once
 #+latex_header: \newcommand{\Not}{\textbf{not }}            % Custom `not' operator
-#+latex_header: \newcommand{\visit}{(b_i, a_i, e_i, u_i, d_i, v_i, \eta_i, \xi_i)}
+#+latex_header: \newcommand{\visit}{(b_i, a_i, e_i, u_i, d_i, q_i, \eta_i, \xi_i)}
 #+latex_haeder:                                             % Single visit tuple
 #+latex_header: \newcommand{\I}{\mathbb{I}}                 % Set of visit tuples
 #+latex_header: \newcommand{\C}{\mathbb{C}}                 % Charger availability information
@@ -82,6 +91,36 @@
 #+latex_header: \newcommand{\Hset}{H}                       % Set of visits 1-H
 
 # =========================================================================================================================
+# Experiment parameters
+#+latex_header:%%-------------------------------------------------------------------------------
+#+latex_header:% Experiment parameters
+#+latex_header:\newcommand{\A}{35 }                                                            % Number of buses
+#+latex_header:\newcommand{\N}{338 }                                                           % Number of visits
+#+latex_header:\newcommand{\Cgain}{5000}                                                       % Gain applied to penalty method
+#+latex_header:\newcommand{\acharge}{0.9 }                                                     % BOD charge percentage
+#+latex_header:\newcommand{\bcharge}{0.7 }                                                     % EOD charge percentage
+#+latex_header:\newcommand{\mincharge}{25\% }                                                  % Min visit charge percent
+#+latex_header:\newcommand{\minchargeD}{0.25 }                                                 % Min visit charge decimal
+#+latex_header:\newcommand{\maxcharge}{100\% }                                                 % Max visit charge percent
+#+latex_header:\newcommand{\batsize}{388 }                                                     % Battery capacity
+#+latex_header:\newcommand{\fast}{15 }                                                         % Number of fast chargers
+#+latex_header:\newcommand{\slow}{15 }                                                         % Number of slow chargers
+#+latex_header:\newcommand{\fasts}{911 }                                                       % Speed of fast charger
+#+latex_header:\newcommand{\slows}{30 }                                                        % Speed of slow charger
+#+latex_header:\newcommand{\contvars}{7,511 }
+#+latex_header:\newcommand{\intvars}{328,282 }
+#+latex_header:\newcommand{\localcnt}{500 }                                                    % Number of local search iterations
+#+latex_header:\newcommand{\tempinit}{9000 }                                                   % Initial temperature
+#+latex_header:\newcommand{\tempcnt}{9101 }                                                    % Number of steps in temperature
+#+latex_header:\newcommand{\quicklocal}{0.25 }                                                % Time to finish local quick
+#+latex_header:\newcommand{\heuristiclocal}{0.4 }                                             % Time to finish local heuristic
+
+#+latex_header:%%-------------------------------------------------------------------------------
+#+latex_header:%% Solve output
+#+latex_header:%% Solve output
+#+latex_header:\newcommand{\timeran}{4.2 }                                                    % Time ran for MILP [s]
+
+# =========================================================================================================================
 # Thesis Document Formatting
 
 #+latex_header: % The Committee
@@ -89,9 +128,9 @@
 #+latex_header: \firstreader{Dr. Jacob Gunther, Ph.D.}
 #+latex_header: \secondreader{Dr. Burak Sarsilmaz, Ph.D.}
 #+latex_header:
-# +latex_header: % Graduate Dean
-# +latex_header: \graddean{ D. Richard Cutler, Ph.D.}
-# +latex_header: \deantitle{ Vice Provost of Graduate Studies}
+#+latex_header: % Graduate Dean
+#+latex_header: \graddean{ D. Richard Cutler, Ph.D.}
+#+latex_header: \deantitle{ Vice Provost of Graduate Studies}
 #+latex_header:
 #+latex_header: % Degree Information
 #+latex_header: \degree{Master of Science}

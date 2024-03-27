@@ -1,7 +1,7 @@
 # ======================================================================================================================
 # Preamble
 
-#+TITLE: The Simulated Annealing Fully Fuzzy Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics
+#+TITLE: The Simulated Annealing Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics
 #+AUTHOR: Alexander Brown
 #+EMAIL: A01704744@usu.edu
 
@@ -25,6 +25,13 @@
 
 # ======================================================================================================================
 # Abstract
+#+include: sections/abstract.org
+
+# ======================================================================================================================
+# Preliminaries
+#+include: sections/publicabstract.org
+#+include: sections/dedication.org
+#+include: sections/acknowl.org
 
 # ======================================================================================================================
 # Document
@@ -34,10 +41,14 @@
 #+end_export
 
 #+include: sections/introduction.org
-#+include: sections/objectives.org
 #+include: sections/background-and-related-work.org
-#+include: sections/approach.org
-#+include: sections/example.org
+#+include: sections/milp-pap.org
+#+include: sections/milp-pap-figures.org::#sec:milp-pap-figures :only-contents t
+#+include: sections/sa-pap.org
+#+include: sections/sa-pap-figures.org::#sec:sa-pap-figures :only-contents t
+#+include: sections/nonlinear-bat.org
+#+include: sections/conclusion.org
+#+include: sections/appendix.org
 
 # ======================================================================================================================
 # Bibliography

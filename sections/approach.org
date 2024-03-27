@@ -44,13 +44,13 @@ $g_{iq}\epsilon_q$. By summing over all visits, the total consumption cost is de
 measure of the consumption cost as well as a mechanism to encourage the model to minimize active charger times,
 particuarly for the fast chargers.
 
-** Objective 2: Develop robust charger allocation capabilities to account for non-linear battery dynamics
+** *Objective 2*: Mathematically model non-linear battery dynamics to increase the accuracy of the SOC estimate
 :PROPERTIES:
 :CUSTOM_ID: sec:act-math-model-robust
 :END:
 
-In this section, non-linear dynamics will be introduced with a brief description of the mathematical approach that will
-be taken. The work presented in this section has yet to be completed.
+In this section, non-linear dynamics will be introduced with a description of the mathematical approach that will be
+taken.
 
 *** Task 2.1: Incorporate non-linear battery dynamics into the FFLP PAP model
 :PROPERTIES:
@@ -134,38 +134,6 @@ for peak hours is also introduced with the power cost component.
 :END:
 
 #+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:constraints" :only-contents t
-
-** Method And Validation
-The proposed work is to be modeled and simulated using a SA approach written in the Rust programming language. Rust has
-been chosen for its reliability with its ownership model, performance that is comparable to C/C++, and its Python-like
-packaging system. SA was chosen as for its simplicity in implementation, and is one of the best known metaheuristic
-methods for "addressing difficult black global optimization problems" [cite:@delahaye-2019-simul]. Note that the SA-PAP
-implementation has begun. At the moment the main development that has been completed is: project structure/design,
-implementation of the skeletal framework, code for importing route data, and some work has been done on the generating
-functions. As previously stated, the MILP-PAP has been implemented and tested. Thus, the MILP-PAP shall be used as a
-baseline measure to compare the results of the proposed work. An introduction to Simulated Annealing as well as the
-proposed method of implementation will subsequently be outlined and discussed.
-
-*** Optimization Problem
-:PROPERTIES:
-:CUSTOM_ID: sec:optimization-problem
-:END:
-
-#+include: "../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:optimization-problem" :only-contents t
-
-*** Simulated Annealing
-:PROPERTIES:
-:CUSTOM_ID: sec:simulated-annealing
-:END:
-
-#+include: "../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:simulated-annealing" :only-contents t
-
-*** Optimization Algorithm
-:PROPERTIES:
-:CUSTOM_ID: sec:optimization-algorithm
-:END:
-
-#+include: "../sup-doc/sa-pap-paper/sections/optimization-algorithm.org::#sec:optimization-algorithm" :only-contents t
 
 ** Summary
 :PROPERTIES:

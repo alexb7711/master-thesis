@@ -1,0 +1,9 @@
+\begin{publicabstract}
+% A space is needed before the text starts so that the first paragraph
+% is indented properly.
+
+The public abstract is to convey the purpose of the research to the
+PUBLIC, so layman's terms should be used.
+
+
+\end{publicabstract}

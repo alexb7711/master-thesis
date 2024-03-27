@@ -1,0 +1,31 @@
+* MILP PAP
+:PROPERTIES:
+:CUSTOM_ID: sec:milp-pap
+:END:
+
+** Introduction
+:PROPERTIES:
+:custom_id: sec:milp-introduction
+:END:
+
+#+include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :only-contents t
+
+** Position Allocation Problem
+:PROPERTIES:
+:custom_id: sec:the-position-allocation-problem
+:END:
+#+include: ../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-position-allocation-problem :only-contents t
+
+** A Rectangle Packing Formulation for BEB Charging
+:PROPERTIES:
+:custom_id: sec:problemformulation
+:END:
+
+#+include: ../sup-doc/milp-pap-paper-frontiers/sections/rectangle-packing.org::#sec:problemformulation :only-contents t
+
+** Example
+:PROPERTIES:
+:custom_id: sec:milp-example
+:END:
+
+# +include: ../sup-doc/milp-pap-paper-frontiers/sections/example.org::#sec:example :only-contents t
