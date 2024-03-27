@@ -4,7 +4,7 @@
 #+OPTIONS: ':t
 #+OPTIONS: date:nil
 #+OPTIONS: toc:nil
-#+OPTIONS: broken-links:nil
+#+OPTIONS: broken-links:t
 
 # =========================================================================================================================
 # LaTeX packages
@@ -24,6 +24,7 @@
 #+latex_header:\usepackage{tabularx}                        % Add more contol to tables
 #+latex_header: \usepackage{lscape}                         % Landscape pages
 #+latex_header: \usepackage{listings}                       % Display code
+#+latex_header: \usepackage{url}                            % Hyperlink DOI
 #+latex_header: \usepackage{doi}                            % Hyperlink DOI
 #+latex_header: \usepackage[ruled]{algorithm2e}                    % Algorithms
 #+latex_header: \usepackage{hyperref}                       %
@@ -32,6 +33,10 @@
 
 #+latex_header: \hypersetup{colorlinks=true, linkcolor=blue,
 #+latex_header:   citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
+
+#+latex_header: % Set spacing around figures and tables to triple space
+#+latex_header: \setlength{\intextsep}{2em} % Vertical space above & below [h] floats
+#+latex_header: \setlength{\textfloatsep}{2em} % Vertical space below (above) [t] ([b]) floats
 
 #+latex_header: \usetikzlibrary{arrows.meta}                % Arrows for tikz
 

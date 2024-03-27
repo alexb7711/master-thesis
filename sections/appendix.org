@@ -1,11 +1,7 @@
 # https://orgmode.org/worg/org-tutorials/org-latex-export.html
-#+LaTeX_CLASS: thesis-appendix
-
 #+latex: \makeappendices
-* The Fully Fuzzy Linear Program Model
-:PROPERTIES:
-:CUSTOM_ID: sec:fuzzy-sa-pap
-:END:
+#+latex: \appendix{The Fully Fuzzy Linear Program Model}
+#+latex: \label{sec:fuzzy-sa-pap}
 
 #+begin_comment
 TODO: Better introduction
@@ -27,42 +23,59 @@ crisp models, there is no sense of lateness or earliness, thus the model's solut
 any buses do not adhere to the route time perfectly. Fuzzifying the models in turn produces a fuzzy solution that
 encodes ranges of times that buses may arrive while still remaining a valid solution.
 
-The appendix proceeds as follows. [[#sec:fuzzy-preliminaries]] introduces some of the basic concepts of Mixed Integer Linear
-Programming (MILP), fuzzy set theory, and Fully Fuzzy Linear Programming (FFLP). [[#sec:the-fuzzy-bap]] introduces and
-derives a Fuzzy BAP (FBAP) model. [[#sec:the-fuzzy-pap]] then adapts the PAP into the FPAP by utilizing the results from the
-previous sections.
+The appendix proceeds as follows. \ref{sec:fuzzy-preliminaries} introduces some of the basic concepts of Mixed Integer
+Linear Programming (MILP), fuzzy set theory, and Fully Fuzzy Linear Programming (FFLP). \ref{sec:the-fuzzy-bap}
+introduces and derives a Fuzzy BAP (FBAP) model. \ref{sec:the-fuzzy-pap} then adapts the PAP into the FPAP by utilizing
+the results from the previous sections.
 
-** Preliminaries
-:PROPERTIES:
-:CUSTOM_ID: sec:fuzzy-preliminaries
-:END:
+#+latex: \appendixsection{Preliminaries}
+#+latex: \label{sec:fuzzy-preliminaries}
 
 This section introduces the concept of fuzzy set theory by providing some basic definitions. The theory is then built on to discuss Fully Fuzzy Linear Programming (FFLP). FFLP is a branch of Linear Programming where some of the parameters are allowed to have uncertainty which will be further elaborated on. In this section a method of constructing FFLP is introduced. Once the FFLP model has been introduced, a derivation of the Fuzzy BAP (FBAP) is introduced and discussed.
 
-*** Fuzzy Sets Theory
-:properties:
-:custom_id: sec:fuzzy-set-theory
-:end:
+#+latex: \appendixsection{Fuzzy Sets Theory}
+#+latex: \label{sec:fuzzy-set-theory}
+#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:fuzzy-set-theory :lines "5-6"
 
-#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:fuzzy-set-theory :only-contents t
+#+latex: \appendixsubsection{Fuzzy Sets}
+#+latex: \label{sec:fuzzy-sets}
+#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:fuzzy-sets :only-contents t
 
-*** Fully Fuzzy Linear Programming
-:properties:
-:custom_id: sec:fully-fuzzy-linear-programming
-:end:
+#+latex: \appendixsubsection{Fuzzy Arithmetic}
+#+latex: \label{sec:fuzzy-arithmetic}
 
-#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:fully-fuzzy-linear-programming :only-contents t
+#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:fuzzy-arithmetic :only-contents t
 
-** The Fuzzy BAP
-:PROPERTIES:
-:CUSTOM_ID: sec:the-fuzzy-bap
-:END:
+#+latex: \appendixsubsection{Comparing Fuzzy Numbers}
+#+latex: \label{sec:comparing-fuzzy-numbers}
 
+#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:comparining-fuzzy-numbers :only-contents t
+
+#+latex: \appendixsection{Fully Fuzzy Linear Programming}
+#+latex: \label{sec:fully-fuzzy-linear-programming}
+
+#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:fully-fuzzy-linear-programming :lines "5-106"
+
+\appendixsubsection{Example}
+\label{sec:fully-fuzzy-linear-programming-example}
+#+include: ../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::#sec:fully-fuzzy-linear-programming-example :only-contents t
+
+#+latex: \appendixsection{The Fuzzy BAP}
+#+latex: \label{sec:the-fuzzy-bap}
 #+include: ../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-bap.org::#sec:the-fuzzy-bap :only-contents t
 
-** The Fuzzy PAP
-:PROPERTIES:
-:CUSTOM_ID: sec:the-fuzzy-pap
-:END:
+#+latex: \appendixsection{Objective Function}
+#+latex: \label{sec:the-fuzzy-pap}
+#+include: ../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::#sec:the-fuzzy-pap :lines "5-10"
 
-#+include: ../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::#sec:the-fuzzy-pap :only-contents t
+#+latex: \appendixsubsection{Objective Function}
+#+latex: \label{sec:fuzzy-objective}
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::*Objective Function" :only-contents t
+
+#+latex: \appendixsubsection{Queueing Constraints}
+#+latex: \label{sec:fuzzy-queueing-constraints}
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::*Queuing Constraints" :only-contents t
+
+#+latex: \appendixsubsection{Charging Constraints}
+#+latex: \label{sec:fuzzy-charging-constraints}
+#+include: "../sup-doc/fuzzy-lp-paper/sections/the-fuzzy-pap.org::*Charging Constraints" :only-contents t
