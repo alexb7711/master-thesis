@@ -103,7 +103,7 @@ where
 \end{equation}
 #+end_export
 
-The equation is developed by using exact discretization [cite:@hespanha-2018-linear], and is proved in
+The equation is developed by using exact discretization [cite:@brogan-1990-moder-contr-theor], and is proved in
 [cite:@whitaker-2023-a-network]. In the same way as the linear dynamics, the $i^{\text{th}}$ visit's initial charge is
 indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
 the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
