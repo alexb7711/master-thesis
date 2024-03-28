@@ -64,12 +64,12 @@ each objective will be discussed in [[#sec:approach]].
 
 The field of BEB research provides exciting many avenues and is continuing to gain traction in industry as BEBs replace
 their gasoline counterparts. This work will introduce a novel approach to BEB scheduling that minimizes monetary costs
-for the user, provides a robust solution, and includes an accurate dynamic battery model. The PAP provides a solid
-foundation from which this work derived. However, the PAP does not perfectly encapsulate the problem and thus needs some
-modifications to accommodate the BEB model. The PAP does not account for the revisits of a BEB and therefore the
-State-Of-Charge (SOC) cannot be tracked. The model does not account for multiple charger types, and in fact models the
-charger as a single continuous bar. These accommodations must be accounted for and are included in the objectives for
-the proposed BEB charging plan below.
+for the user, and includes an accurate dynamic battery model. The PAP provides a solid foundation from which this work
+derived. However, the PAP does not perfectly encapsulate the problem and thus needs some modifications to accommodate
+the BEB model. The PAP does not account for the revisits of a BEB and therefore the State-Of-Charge (SOC) cannot be
+tracked. The model does not account for multiple charger types, and in fact models the charger as a single continuous
+bar. These accommodations must be accounted for and are included in the objectives for the proposed BEB charging plan
+below.
 
 - *Objective 1*: Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
 
