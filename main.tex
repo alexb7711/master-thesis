@@ -1,4 +1,4 @@
-% Created 2024-03-28 Thu 09:26
+% Created 2024-03-28 Thu 13:05
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -15,6 +15,7 @@
 \usepackage{amsmath}                        % Cool math
 \usepackage{amsfonts}                       % Cool math fonts
 \usepackage{amssymb}                        % Cool math fonts
+\usepackage{amsthm}                         % Lemmas, theorems, and the like
 \usepackage{booktabs}                       % Used for lines in table
 \usepackage{lipsum}                         % Dummy filler text
 \usepackage{graphicx}                       %
@@ -124,6 +125,8 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
  pdfcreator={Emacs 29.3 (Org mode 9.6.15)}, 
  pdflang={English}}
 \begin{document}
+
+\newtheorem*{lemma}{Lemma}
 
 \let\ref\autoref                            % Redifine `\ref` as `\autoref` because lazy
 \SetCommentSty{mycommfont}                  % Set the comment color
@@ -431,7 +434,7 @@ battery percentage, \(\nu_b \in [0, 1]\).
 \end{figure}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org8a91810}
+\label{sec:orgb7401ac}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -578,7 +581,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org5534153}
+\label{sec:orgcecde18}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1775,12 +1778,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org78c5a1f}
+\label{sec:org93313c0}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org2cf021e}
+\label{sec:orgf96afb3}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2473,7 +2476,7 @@ for a battery is shown in \ref{fig:soc-plot} to demonstrate these components \ci
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\textwidth]{img/soc-plot.png}
-\caption{\label{fig:soc-plot}Illistration of non-linear charging profile.}
+\caption{\label{fig:soc-plot}Illustration of non-linear charging profile.}
 \end{figure}
 
 While some leverage the linear and non-linear components to derive their SOC model \cite{abdollahi-2016-optim-batter},
@@ -2493,13 +2496,72 @@ where
 \end{array}
 \end{equation}
 
-The equation is developed by using exact discretization \cite{hespanha-2018-linear}, and is proved in
-\cite{whitaker-2023-a-network}. In the same way as the linear dynamics, the \(i^{\text{th}}\) visit's initial charge is
-indicated by \(\eta_i\), the identity of visit \(i\) is \(\eta_{\Xi_i}\), and the subsequent visit is indicated by \(\eta_{\xi_i}\). Thus,
-the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
+The equation is developed by using exact discretization \cite{brogan-1990-moder-contr-theor}, and is proved in
+\cite{whitaker-2023-a-network}. The lemma and proof are subsequently shown for completeness.
+
+\begin{lemma}
+Assume that the charge will occur over intervals over $\Delta$ seconds, the charge at time step $k+1$ for visit $i$ can be related to the charge at time step $k$ using charger $q$ as
+
+\begin{equation}
+\eta_{i,k+1} = \bar{a}_{q_i} \eta_{i,k} - \bar{b}_{q_i} M_i\text{,}
+\end{equation}
+
+where $\eta_{i, k+1}$ represents a discrete
+
+\begin{equation}
+\label{eq:nonlin-discrete-model}
+\bar{a}_{q_i} = e^{a_{q_i} \Delta},\; \bar{b}_{q_i} = e^{a_{q_i} \Delta} - 1\text{.}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+A first-order, continuous model converging to $M_j$ at an exponential rate of $a_{q_i}$ can be expressed as
+
+\begin{equation}
+\label{eq:cont-exp}
+\dot{s}_i = a_{q_i} \eta_i(t) - a_{q_i} M_i\text{.}
+\end{equation}
+
+The resulting discrete model in \ref{eq:nonlin-discrete-model} is obtained by using the exact discretation of an LTI system as is \cite{brogan-1990-moder-contr-theor}. Assuming $u(t)$ is held constant over the discrete step $\Delta$, the exact discretation of a general LTI system, represented as in $\dot{x}(t) = Ax(t) + Bu(t)$, is given by
+
+\begin{equation}
+\label{eq:exact-disc}
+\begin{array}{ll}
+x_{k+1} = \bar{A}x_k + \bar{B}u_k & \\
+\bar{A} = e^{A\Delta} \\
+\bar{B} = \int_0^\Delta e^{A-\tau} d\tau B\text{.}
+\end{array}
+\end{equation}
+
+In \ref{eq:cont-exp}, both $a_{q_i}$ and $M_i$ are constants with no actual control input. To utilize this general discretization formula, \ref{eq:cont-exp} is rewritten as $\dot{s}_i = a_{q_i} \eta_i(t) - b_{q_i}u(t)$ where $b_{q_i} = a_{q_i}$ and $u(t) = -M_i$. Viewing this new equation in reference to \ref{eq:exact-disc}, the state $x(t)$ is replaced with $\eta_i(t)$ and the matrices, $A$ and $B$, are replaced with $a_{q_i}$ and $b_{q_i}$, respectively. Performing these substitutions the discretized forms of $a_{q_i}$ and $b_{q_i}$ become
+
+\begin{equation}
+\begin{array}{l}
+\bar{a}_{q_i} = e^{a_{q_i} \Delta} \\
+\bar{b}_{q_i} = a_{q_i} \int_0^\Delta e^{a_{q_i}(\Delta - \tau)} d\tau\text{.}
+\end{array}
+\end{equation}
+
+The integral in $\bar{b}_{q_i}$ can be solved analytically by taking the antiderivative as
+
+\begin{equation}
+\bar{b}_{q_i} = a_{q_i} \Big( \left. -\frac{1}{a_{q_i}} e^{a_{q_i} (\Delta - \tau)} \right|_{\tau = 0}^{\tau = \Delta}\Big) = e^{a_{q_i}\Delta} - 1\text{.}
+\end{equation}
+\end{proof}
+
+\begin{figure}[htpb]
+    \centering \includegraphics[width=0.8\textwidth]{img/nonlinear-bat.png}
+    \caption{Charging profiles for various convergence rates.}
+    \label{fig:convergence-rates}
+\end{figure}
+
+Thus, a visit may leverage this model by taking the initial SOC, \(\eta_i\), substituting \(\Delta\) for the charge duration, \(s_i\),
+and letting \(q_i\) represent the convergence rate, the accumulated charge over visit \(i\) can be directly calculated using
+the exact discretization defined above. \ref{fig:convergence-rates} depicts the charge profile estimation utilizing
+different convergence rates.
 
 \section{Results}
-\label{sec:org8427694}
+\label{sec:orgc988199}
 \chapter{Concluding Remarks}
 \label{sec:conclusion}
 \makeappendices

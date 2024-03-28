@@ -5,9 +5,9 @@
 
 #+begin_comment
 TODO:
-- Update introduction paragraph
-- Add plots an the different charging profiles
-- Include results
+- [ ] Update introduction paragraph
+- [ ] Add plots on the different charging profiles
+- [ ] Include results
 #+end_comment
 
 This is some introductory text to the non-linear battery dynamics section.
@@ -37,7 +37,7 @@ As previously stated, the SOC can be accurately modeled until the battery reache
 for a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
 
 #+name: fig:soc-plot
-#+caption: Illistration of non-linear charging profile.
+#+caption: Illustration of non-linear charging profile.
 #+attr_org: :width 500
 #+attr_latex: :width 0.5\textwidth
 [[file:../img/soc-plot.png]]
@@ -63,9 +63,70 @@ where
 \end{equation}
 #+end_export
 
-The equation is developed by using exact discretization [cite:@hespanha-2018-linear], and is proved in
-[cite:@whitaker-2023-a-network]. In the same way as the linear dynamics, the $i^{\text{th}}$ visit's initial charge is
-indicated by $\eta_i$, the identity of visit $i$ is $\eta_{\Xi_i}$, and the subsequent visit is indicated by $\eta_{\xi_i}$. Thus,
-the propagation mechanics remain untouched while the underlying battery dynamics are more accurate.
+The equation is developed by using exact discretization [cite:@brogan-1990-moder-contr-theor], and is proved in
+[cite:@whitaker-2023-a-network]. The lemma and proof are subsequently shown for completeness.
+
+\begin{lemma}
+Assume that the charge will occur over intervals over $\Delta$ seconds, the charge at time step $k+1$ for visit $i$ can be related to the charge at time step $k$ using charger $q$ as
+
+\begin{equation}
+\eta_{i,k+1} = \bar{a}_{q_i} \eta_{i,k} - \bar{b}_{q_i} M_i\text{,}
+\end{equation}
+
+where $\eta_{i, k+1}$ represents a discrete
+
+\begin{equation}
+\label{eq:nonlin-discrete-model}
+\bar{a}_{q_i} = e^{a_{q_i} \Delta},\; \bar{b}_{q_i} = e^{a_{q_i} \Delta} - 1\text{.}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+A first-order, continuous model converging to $M_j$ at an exponential rate of $a_{q_i}$ can be expressed as
+
+\begin{equation}
+\label{eq:cont-exp}
+\dot{s}_i = a_{q_i} \eta_i(t) - a_{q_i} M_i\text{.}
+\end{equation}
+
+The resulting discrete model in \ref{eq:nonlin-discrete-model} is obtained by using the exact discretation of an LTI system as is \cite{brogan-1990-moder-contr-theor}. Assuming $u(t)$ is held constant over the discrete step $\Delta$, the exact discretation of a general LTI system, represented as in $\dot{x}(t) = Ax(t) + Bu(t)$, is given by
+
+\begin{equation}
+\label{eq:exact-disc}
+\begin{array}{ll}
+x_{k+1} = \bar{A}x_k + \bar{B}u_k & \\
+\bar{A} = e^{A\Delta} \\
+\bar{B} = \int_0^\Delta e^{A-\tau} d\tau B\text{.}
+\end{array}
+\end{equation}
+
+In \ref{eq:cont-exp}, both $a_{q_i}$ and $M_i$ are constants with no actual control input. To utilize this general discretization formula, \ref{eq:cont-exp} is rewritten as $\dot{s}_i = a_{q_i} \eta_i(t) - b_{q_i}u(t)$ where $b_{q_i} = a_{q_i}$ and $u(t) = -M_i$. Viewing this new equation in reference to \ref{eq:exact-disc}, the state $x(t)$ is replaced with $\eta_i(t)$ and the matrices, $A$ and $B$, are replaced with $a_{q_i}$ and $b_{q_i}$, respectively. Performing these substitutions the discretized forms of $a_{q_i}$ and $b_{q_i}$ become
+
+\begin{equation}
+\begin{array}{l}
+\bar{a}_{q_i} = e^{a_{q_i} \Delta} \\
+\bar{b}_{q_i} = a_{q_i} \int_0^\Delta e^{a_{q_i}(\Delta - \tau)} d\tau\text{.}
+\end{array}
+\end{equation}
+
+The integral in $\bar{b}_{q_i}$ can be solved analytically by taking the antiderivative as
+
+\begin{equation}
+\bar{b}_{q_i} = a_{q_i} \Big( \left. -\frac{1}{a_{q_i}} e^{a_{q_i} (\Delta - \tau)} \right|_{\tau = 0}^{\tau = \Delta}\Big) = e^{a_{q_i}\Delta} - 1\text{.}
+\end{equation}
+\end{proof}
+
+#+begin_src latex
+  \begin{figure}[htpb]
+      \centering \includegraphics[width=0.8\textwidth]{img/nonlinear-bat.png}
+      \caption{Charging profiles for various convergence rates.}
+      \label{fig:convergence-rates}
+  \end{figure}
+#+end_src
+
+Thus, a visit may leverage this model by taking the initial SOC, $\eta_i$, substituting $\Delta$ for the charge duration, $s_i$,
+and letting $q_i$ represent the convergence rate, the accumulated charge over visit $i$ can be directly calculated using
+the exact discretization defined above. \ref{fig:convergence-rates} depicts the charge profile estimation utilizing
+different convergence rates.
 
 ** Results

@@ -47,6 +47,7 @@
 #+include: sections/sa-pap.org
 #+include: sections/sa-pap-figures.org::#sec:sa-pap-figures :only-contents t
 #+include: sections/nonlinear-bat.org
+#+include: sections/nonlinear-bat-figures.org
 #+include: sections/conclusion.org
 #+include: sections/appendix.org
 
