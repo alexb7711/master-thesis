@@ -3,18 +3,14 @@
 :CUSTOM_ID: sec:nonlinear-battery-dynamics
 :END:
 
-#+begin_comment
-TODO:
-- [ ] Update introduction paragraph
-- [ ] Add plots on the different charging profiles
-- [ ] Include results
-#+end_comment
-
-This is some introductory text to the non-linear battery dynamics section.
+This chapter introduces a method of replacing the linear battery dynamics utilized throughout this work with a
+non-linear dynamics model. The chapter proceeds as follows: an introduction to the non-linear battery dynamics model is
+shown in [[#sec:nonlinear-model]] along with a proof and description of how the model is incorporated.
+[[#sec:nonlinear-results]] presents and discusses the results.
 
 ** Non-linear Battery Dynamics Model
 :PROPERTIES:
-:CUSTOM_ID: sec:model
+:CUSTOM_ID: sec:nonlinear-model
 :END:
 
 Modeling the charging dynamics is imperative to the model's accuracy as it is one of the main factors in terms of the
@@ -130,3 +126,6 @@ the exact discretization defined above. \ref{fig:convergence-rates} depicts the 
 different convergence rates.
 
 ** Results
+:PROPERTIES:
+:CUSTOM_ID: sec:nonlinear-results
+:END:
