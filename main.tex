@@ -1,4 +1,4 @@
-% Created 2024-03-28 Thu 14:06
+% Created 2024-03-28 Thu 15:16
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -143,21 +143,18 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 % A space is needed before the text starts so that the first paragraph
 % is indented properly.
 
-This is the abstract of the demonstration thesis.  Hopefully the
-examples will be sufficiently clear that you will have few formatting
-problems. The Graduate School requires that the abstract be 350 words
-or less, so be careful of the length of the abstract.
+With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a reliable charging schedule is vital to a successful migration from their fossil fuel counterparts. In this work, a BEB charging scheduling framework that considers spatiotemporal schedule constraints, fixed route schedules, fast and slow charging, and battery dynamics is modeled as a Mixed Integer Linear Program (MILP). The MILP is modeled after the Berth Allocation Problem (BAP) in a modified form known as the Position Allocation Problem (PAP). Linear battery dynamics are included to model the charging of buses while at the station. To model the BEB discharges over their respective routes, it is assumed each BEB has an average kWh charge loss while on route. The optimization coordinates BEB charging to ensure that each vehicle remains above a specified state-of-charge (SOC). The model also minimizes the total number of chargers utilized and prioritizes slow charging for battery health. The model validity is demonstrated with a set of routes and is compared to a heuristic algorithm based on charge thresholds referred to as the Qin-Modified method.
 
+The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the demand cost. Two generation mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. Similarly, the model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results to the MILP PAP and the Qin-Modified. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{abstract}
 
 \begin{publicabstract}
 % A space is needed before the text starts so that the first paragraph
 % is indented properly.
 
-The public abstract is to convey the purpose of the research to the
-PUBLIC, so layman's terms should be used.
+With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a reliable charging schedule is vital to a successful migration from their fossil fuel counterparts. In this work, a BEB charging scheduling framework that considers fixed route schedules, multiple charger types, and battery dynamics is modeled as a Mixed Integer Linear Program (MILP). The MILP is modeled after the Berth Allocation Problem (BAP) in a modified form known as the Position Allocation Problem (PAP). The optimization coordinates BEB charging to ensure that each vehicle remains above a specified charge percentage. The model also minimizes the total number of chargers utilized and prioritizes slow charging for battery health. The model validity is demonstrated with a set of routes and is compared to a heuristic algorithm based on charge thresholds referred to as the Qin-Modified method.
 
-
+The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the peak power use (demand cost). Two mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. The model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results two other models: the MILP PAP and the Qin-Modified. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over a similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{publicabstract}
 \begin{dedication}
 \begin{center}
@@ -434,7 +431,7 @@ battery percentage, \(\nu_b \in [0, 1]\).
 \end{figure}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgbebb376}
+\label{sec:orgb2f270c}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -581,7 +578,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org01f9feb}
+\label{sec:orgc01a5cb}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1778,12 +1775,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:orgab6d24c}
+\label{sec:org458a703}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org38ffc46}
+\label{sec:org100c1d7}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
