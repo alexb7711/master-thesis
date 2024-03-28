@@ -1,4 +1,4 @@
-% Created 2024-03-28 Thu 15:21
+% Created 2024-03-28 Thu 15:27
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -431,7 +431,7 @@ battery percentage, \(\nu_b \in [0, 1]\).
 \end{figure}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org5488698}
+\label{sec:orgb814c61}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -566,9 +566,9 @@ Similarly, \autoref{subeq:bapspace} establishes spatial ordering when active (\(
 \autoref{subeq:bapvalid_pos}-\autoref{subeq:bapdelta} enforce spatial and temporal ordering between each queue/vehicle
 pair. Constraints \autoref{subeq:bapsigma} and \autoref{subeq:bapdelta} enforce validity of the assignments. For
 example, if \autoref{subeq:bapsigma} resulted in a value of two, that would imply both vehicle \(i\) and \(j\) are scheduled
-before and after each other temporally, which is impossible. In the case of \{\autoref{subeq:bapdelta}\} being equal to
+before and after each other temporally, which is impossible. In the case of \autoref{subeq:bapdelta} being equal to
 two, that would mean that vehicles \(i\) and \(j\) are scheduled both before and after one another on the charging strip,
-which is again impossible.\}\}
+which is again impossible.
 
 The last constraints force relationships between arrival time, initial charge time, and departure time.
 \autoref{subeq:bapdetach} states that the initial charge time, \(u_i\), plus the total charge time for, \(s_i\), must equal
@@ -578,7 +578,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org578a818}
+\label{sec:orgec1d50b}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -731,9 +731,9 @@ Similarly, \autoref{subeq:bapspace} establishes spatial ordering when active (\(
 \autoref{subeq:bapvalid_pos}-\autoref{subeq:bapdelta} enforce spatial and temporal ordering between each queue/vehicle
 pair. Constraints \autoref{subeq:bapsigma} and \autoref{subeq:bapdelta} enforce validity of the assignments. For
 example, if \autoref{subeq:bapsigma} resulted in a value of two, that would imply both vehicle \(i\) and \(j\) are scheduled
-before and after each other temporally, which is impossible. In the case of \{\autoref{subeq:bapdelta}\} being equal to
+before and after each other temporally, which is impossible. In the case of \autoref{subeq:bapdelta} being equal to
 two, that would mean that vehicles \(i\) and \(j\) are scheduled both before and after one another on the charging strip,
-which is again impossible.\}\}
+which is again impossible.
 
 The last constraints force relationships between arrival time, initial charge time, and departure time.
 \autoref{subeq:bapdetach} states that the initial charge time, \(u_i\), plus the total charge time for, \(s_i\), must equal
@@ -788,7 +788,7 @@ in a charging queue with a larger index than vehicle \(i\), \(v_j > v_i\). The c
 rationale for adding additional idle queues is to allow BEBs to be ``set aside'' if no additional charge is required.
 Adding one idle queue for each BEB ensures that the constraints will be satisfied if multiple buses sharing overlapping
 times at the station are placed in idle queues. This method will be applied when defining the parameters in
-\{\autoref{sec:example}\}. The modified queuing constraints can be written as shown in \autoref{eq:packconstrs}.
+\autoref{sec:example}. The modified queuing constraints can be written as shown in \autoref{eq:packconstrs}.
 
 \begin{subequations}
 \label{eq:packconstrs}
@@ -1775,12 +1775,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org8d90508}
+\label{sec:org1c43da2}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:orgf19a4ec}
+\label{sec:org81638bf}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
