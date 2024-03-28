@@ -1,4 +1,4 @@
-% Created 2024-03-28 Thu 14:06
+% Created 2024-03-28 Thu 14:46
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -233,12 +233,12 @@ each objective will be discussed in .
 \label{sec:objectives}
 The field of BEB research provides exciting many avenues and is continuing to gain traction in industry as BEBs replace
 their gasoline counterparts. This work will introduce a novel approach to BEB scheduling that minimizes monetary costs
-for the user, provides a robust solution, and includes an accurate dynamic battery model. The PAP provides a solid
-foundation from which this work derived. However, the PAP does not perfectly encapsulate the problem and thus needs some
-modifications to accommodate the BEB model. The PAP does not account for the revisits of a BEB and therefore the
-State-Of-Charge (SOC) cannot be tracked. The model does not account for multiple charger types, and in fact models the
-charger as a single continuous bar. These accommodations must be accounted for and are included in the objectives for
-the proposed BEB charging plan below.
+for the user, and includes an accurate dynamic battery model. The PAP provides a solid foundation from which this work
+derived. However, the PAP does not perfectly encapsulate the problem and thus needs some modifications to accommodate
+the BEB model. The PAP does not account for the revisits of a BEB and therefore the State-Of-Charge (SOC) cannot be
+tracked. The model does not account for multiple charger types, and in fact models the charger as a single continuous
+bar. These accommodations must be accounted for and are included in the objectives for the proposed BEB charging plan
+below.
 
 \begin{itemize}
 \item \textbf{Objective 1}: Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
@@ -434,7 +434,7 @@ battery percentage, \(\nu_b \in [0, 1]\).
 \end{figure}
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgbebb376}
+\label{sec:org65176f7}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -581,7 +581,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org01f9feb}
+\label{sec:org5089d92}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1778,12 +1778,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:orgab6d24c}
+\label{sec:orga3f2dca}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org38ffc46}
+\label{sec:org8ac25f3}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2615,8 +2615,53 @@ different convergence rates.
     \label{fig:energy-usage}
 \end{figure}
 
-\chapter{Concluding Remarks}
+\chapter{Conclusion}
 \label{sec:conclusion}
+This work presented a novel approach to the BEB charge scheduling problem. \ref{sec:milp-pap} introduced the concept of the
+Berth Allocation Problem (BAP) which solves the problem of optimally assigning vessels to be serviced. From the BAP, the
+Position Allocation Problem (PAP) was derived and introduced as the basis from which the work revolved. A Mixed Integer
+Linear Program (MILP) was developed and from the PAP model that minimized the total charger count, energy consumption,
+and was able to maintain a minimum State of Charge (SOC) throughout the working day. While MILP models maintain a level
+of in the form of the objective function and constraints, certain limitations to mathematical modeling are made in order
+to maintain linearity of the model. \ref{sec:sa-pap} introduced a Simulated Annealing implementation of the MILP PAP the same
+considerations in the objective function while included an additional cost known as the demand cost.
+\ref{sec:nonlinear-battery-dynamics} further introduces an implementation of non-linear battery dynamics that were
+implemented in the SA PAP model.
+
+\ref{sec:milp-pap} demonstrated an example of the MILP PAP formulation and compared its results to a heuristic-based
+schedule, referred to as Qin-Modified. The MILP PAP optimization was run for \timeran seconds to a non-optimal solution.
+The Qin-Modified and MILP schedule utilized a similar amount of fast chargers; however, the MILP schedule more readily
+used the slow chargers to its advantage when the objective function saw fit. More importantly, the MILP PAP schedule
+utilized approximately \(0.1\cdot10^4\) kWh more than the Qin-Modified; however, the charges for the MILP schedule remained
+above the constrained minimum SOC of \mincharge, and charged all the buses to \fpeval{\bcharge *100}\% at the end of the
+working day. The Qin-Modified schedule, on the other hand, allowed the SOC of certain BEBs to drop to 0\%.
+
+In \ref{sec:sa-pap} an example of the SA PAP algorithm was presented and compared against the MILP PAP and Qin-Modified
+techniques. The SA PAP was run utilizing two different neighborhood searching techniques named the quick and heuristic
+techniques, respectively. The quick SA's objective was to randomly search a wide neighborhood while the heuristic
+technique was designed to incrementally search a neighborhood by randomly selecting a fast or slow charging queue and
+then stepping through the queues one at a time. The quick and heuristic have comparable run times at
+\fpeval{\quicklocal * \tempcnt} seconds and \fpeval{\heuristiclocal * \tempcnt} seconds,
+respectively, but yielded vastly different results. The Qin-Modified utilized the fewest amount of chargers followed by
+the MILP, heuristic SA, then the quick SA. The assignment cost applied to the objective function had no effect on the
+results of the quick SA; however, the heuristic SA was more effective in minimizing the total chargers required.
+Furthermore, the heuristic SA technique generated a solution approximating that of the MILP, but was unable to minimize
+the charger count as efficiently. The quick SA utilized all the chargers available (i.e. was unable to minimize the
+charger count).
+
+Both of the SA techniques were unable to keep the SOC above the 25\% SOC threshold with SOC falling to 6.34 kWh for the
+heuristic SA and 29.8 kWh. The Qin-Modified had the SOC of three BEBs fall to 0\% SOC. The schedule that consumed the
+least amount of energy is the MILP PAP (4797.75 kW) with the heuristic SA coming in second (5785.76 kW). The difference
+between the two being about \fpeval{5785.76 - 4797.75} kWh. The peak demands between the heuristic SA, quick
+SA, and the MILP were very similar. The MILP had a peak demand of 1910 kW and the quick and heuristic SA had demand
+peaks of 1911.9 kW. Overall, the most effective schedule was the MILP; however as SA has no guarantee of optimality, the
+heuristic SA was able to generate a schedule that was ``in the ballpark'' of that of the MILP while further taking the
+demand cost into consideration.
+
+TODO: Paragraph on non-linear
+
+TODO: Paragraph wrapping things up
+
 \makeappendices
 \appendix{The Fully Fuzzy Linear Program Model}
 \label{sec:fuzzy-sa-pap}
