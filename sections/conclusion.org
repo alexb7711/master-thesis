@@ -3,13 +3,24 @@
 :CUSTOM_ID: sec:conclusion
 :END:
 
-An example for the MILP PAP formulation was presented in [[#sec:milp-pap]] and compared to a heuristic-based schedule,
-referred to as Qin-Modified. The MILP PAP optimization was run for \timeran seconds to a non-optimal solution. The
-Qin-Modified and MILP schedule utilized a similar amount of fast chargers; however, the MILP schedule more readily used
-the slow chargers to its advantage when the objective function saw fit. More importantly, the MILP PAP schedule utilized
-approximately $0.1\cdot10^4$ kWh more than the Qin-Modified; however, the charges for the MILP schedule remained above the
-constrained minimum SOC of \mincharge, and charged all the buses to \fpeval{\bcharge *100}% at the end of the working
-day. The qin-modified schedule, on the other hand, allowed the SOC of certain BEBs to drop to 0\%.
+This work presented a novel approach to the BEB charge scheduling problem. [[#sec:milp-pap]] introduced the concept of the
+Berth Allocation Problem (BAP) which solves the problem of optimally assigning vessels to be serviced. From the BAP, the
+Position Allocation Problem (PAP) was derived and introduced as the basis from which the work revolved. A Mixed Integer
+Linear Program (MILP) was developed and from the PAP model that minimized the total charger count, energy consumption,
+and was able to maintain a minimum State of Charge (SOC) throughout the working day. While MILP models maintain a level
+of in the form of the objective function and constraints, certain limitations to mathematical modeling are made in order
+to maintain linearity of the model. [[#sec:sa-pap]] introduced a Simulated Annealing implementation of the MILP PAP the same
+considerations in the objective function while included an additional cost known as the demand cost.
+[[#sec:nonlinear-battery-dynamics]] further introduces an implementation of non-linear battery dynamics that were
+implemented in the SA PAP model.
+
+[[#sec:milp-pap]] demonstrated an example of the MILP PAP formulation and compared its results to a heuristic-based
+schedule, referred to as Qin-Modified. The MILP PAP optimization was run for \timeran seconds to a non-optimal solution.
+The Qin-Modified and MILP schedule utilized a similar amount of fast chargers; however, the MILP schedule more readily
+used the slow chargers to its advantage when the objective function saw fit. More importantly, the MILP PAP schedule
+utilized approximately $0.1\cdot10^4$ kWh more than the Qin-Modified; however, the charges for the MILP schedule remained
+above the constrained minimum SOC of \mincharge, and charged all the buses to \fpeval{\bcharge *100}% at the end of the
+working day. The Qin-Modified schedule, on the other hand, allowed the SOC of certain BEBs to drop to 0%.
 
 In [[#sec:sa-pap]] an example of the SA PAP algorithm was presented and compared against the MILP PAP and Qin-Modified
 techniques. The SA PAP was run utilizing two different neighborhood searching techniques named the quick and heuristic
@@ -32,3 +43,7 @@ SA, and the MILP were very similar. The MILP had a peak demand of 1910 kW and th
 peaks of 1911.9 kW. Overall, the most effective schedule was the MILP; however as SA has no guarantee of optimality, the
 heuristic SA was able to generate a schedule that was "in the ballpark" of that of the MILP while further taking the
 demand cost into consideration.
+
+TODO: Paragraph on non-linear
+
+TODO: Paragraph wrapping things up
