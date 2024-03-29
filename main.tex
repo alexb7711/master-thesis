@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 13:51
+% Created 2024-03-29 Fri 13:54
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -122,7 +122,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
  pdftitle={A Simulated Annealing Approach to the Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 29.3 (Org mode 9.6.15)}, 
+ pdfcreator={Emacs 29.3 (Org mode 9.6.15)},
  pdflang={English}}
 \begin{document}
 
@@ -344,6 +344,10 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
+Consider a fleet of BEBs scheduled to perform a set of prescribed routes on a given day. An individual BEB from said
+fleet begins and completes an individual route at the same station from which it also receives its charge. During each
+route, the BEB's State of Charge (SOC) is depleted by a certain amount. The charge supplied during its visit must be
+enough to sustain the BEB's SOC at an appropriate level so that it may complete its next route. The charge may be
 supplied from any single charger given a set of chargers at the station. Let the term ``arrival'' describe the time at
 which a BEB reaches the station. Furthermore, let the term ``visit'' denote a BEB having arrived, awaited its
 predetermined time (whether it has received a charge or not), and departed from the station. Each BEB may have multiple
@@ -382,7 +386,7 @@ a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as 
 battery percentage, \(\nu_b \in [0, 1]\).
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org7ead93a}
+\label{sec:org8c77ca4}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -529,7 +533,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org644a04b}
+\label{sec:org2d05784}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -945,31 +949,6 @@ constraints \autoref{subeq:binaryspace}-\autoref{subeq:Ispace} define the sets o
 
 \section{Example}
 \label{sec:milp-example}
-\begin{subfigures}
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % BAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
-        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
-          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
-          arrow represents the direction of departure.}
-        \label{subfig:bapexample}
-    \end{figure}
-    \hfill
-
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % PAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
-        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
-          indicated by the arrow.}
-        \label{subfig:papexample}
-    \end{figure}
-\end{subfigures}
-
-
 \begin{landscape}
 \begin{table}[htbp]
 \caption{\label{tab:variables}Notation used throughout \ref{sec:milp-pap}. Units are provided when available.}
@@ -1012,28 +991,6 @@ Decision Variables &  &  & Decision Variables &  & \\[0pt]
     \caption{Example of the rectangle packing problem. The large square represented by $O$ indicates the constrained
       area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
     \label{fig:packexample}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
-    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along
-      the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be
-      continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle
-      represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed
-      lines are associated with vessel D and represent the arrival time, berthing time, service completion time, and
-      departure time. Note that the arrival time may be before the berthing time and the completion time may be before
-      the departure time.}
-    \label{fig:bap}
-\end{figure}
-
-\begin{figure}[htpb]
-\centering
-    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/overlap}
-    \caption{Examples of different methods of overlapping. Space overlap: $v_{k_1} < v_{i} + l_i \therefore \psi_{k_{1}i} = 0$.
-             Time overlap $u_{k_1} < u_{j} + s_j \therefore \sigma_{k_{2}j} = 0$. Both space and time overlap $\sigma_{k_{3}i} = 0$ and
-             $\psi_{k_{3}j} = 0$.}
-    \label{fig:multipleassign}
 \end{figure}
 
 \begin{subfigures}
@@ -1678,12 +1635,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org4500835}
+\label{sec:orgf642d99}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:orgcd29b0f}
+\label{sec:orgb14e6ff}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2240,7 +2197,7 @@ than the MILP PAP.
     \caption{Charging schedule generated by SA PAP algorithm using the quick strategy.}
     \label{subfig:schedule-quick-sa}
   \end{subfigure}
-  \caption{Vairous schedules generated by the different frameworks. Nodes of the same color and shape connected by lines of the same color (whether dashed or solid) represents a charging schedule for a singular BEB. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
+  \caption{Vairous schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
   \label{fig:schedule}
 \end{figure}
 
@@ -2285,7 +2242,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-quinn}
-    \caption{Bus charges for the Qin Modified charging schedule. The charging scheme of the Qin charger is more predictable during the working day.}
+    \caption{Bus charges for the Qin Modified charging schedule.}
     \label{subfig:qin-charge}
   \end{subfigure}
   \hfill
@@ -2294,7 +2251,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-milp}
-    \caption{The bus charges for the MILP PAP charging schedule. The MILP model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
+    \caption{The bus charges for the MILP PAP charging schedule.}
     \label{subfig:milp-charge}
   \end{subfigure}
   \hfill
@@ -2306,7 +2263,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-sa-quick}
-    \caption{The bus charges for the SA PAP charging schedule. The SA model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
+    \caption{The bus charges for the quick SA PAP charging schedule.}
     \label{subfig:sa-quick-charge}
   \end{subfigure}
   \hfill
@@ -2315,10 +2272,10 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-sa-heuristic}
-    \caption{The bus charges for the SA PAP charging schedule. The SA model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
+    \caption{The bus charges for the heuristic SA PAP charging schedule.}
     \label{subfig:sa-heuristic-charge}
   \end{subfigure}
-  \caption{}
+  \caption{Plots of the initil SOC of each visit over the time horizon for each schedule.}
   \label{fig:charge}
 \end{figure}
 
@@ -2326,7 +2283,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/power-milp-qin}
-    \caption{Amount of power consumed by Qin-Modified and MILP schedule over the time horizon.}
+    \caption{Amount of power consumed by Qin-Modified and MILP schedules over the time horizon.}
     \label{fig:power-usage-milp-qin}
   \end{subfigure}
 
@@ -2335,16 +2292,16 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/power-sa}
-    \caption{Amount of power consumed by Qin-Modified and MILP schedule over the time horizon.}
+    \caption{Amount of power consumed by quick and heuristic SA schedules over the time horizon.}
     \label{fig:power-usage-sa}
   \end{subfigure}
-  \caption{}
+  \caption{Amount of power consumed by each of the schedules over the time horizon.}
   \label{fig:power}
 \end{figure}
 
 \begin{figure}[htpb]
 \centering \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/energy}
-    \caption{Total accumulated energy consumed by the Qin-Modified and MILP schedule throughout the time horizon.}
+    \caption{Total accumulated energy consumed by the Qin-Modified, MILP, quick and heuristic SA schedules throughout the time horizon.}
     \label{fig:energy-usage}
 \end{figure}
 
@@ -2470,8 +2427,8 @@ different convergence rates.
   %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % SA quick
   \includegraphics[width=\textwidth]{img/schedule-sa-nonlinear}
-  \label{subfig:schedule-quick-sa}
-  \caption{Vairous schedules generated by the different frameworks. Nodes of the same color and shape connected by lines of the same color (whether dashed or solid) represents a charging schedule for a singular BEB. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
+  \label{subfig:schedule-nonlinear-sa}
+  \caption{Various schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
   \label{fig:schedule}
 \end{figure}
 
@@ -2480,8 +2437,8 @@ different convergence rates.
   % Fast
   \centering
   \includegraphics[width=\textwidth]{img/charger-count-fast-sa-nonlinear}
-  \caption{Number of fast chargers for Qin and MILP PAP.}
-  \label{subfig:fast-charger-usage-milp-qinn}
+  \caption{Number of fast chargers for the heuristic SA schedule with non-linear battery dynamics.}
+  \label{subfig:fast-charger-usage-nonlinear-sa}
 \end{figure}
 
 \begin{figure}[h]
@@ -2489,30 +2446,30 @@ different convergence rates.
   % Slow
   \centering
   \includegraphics[width=\textwidth]{img/charger-count-slow-sa-nonlinear}
-  \caption{Number of slow chargers for the quick and heuristic SA executions.}
-  \label{subfig:slow-charger-usage-sa}
+  \caption{Number of slow chargers for the heuristic SA schedule with non-linear battery dynamics.}
+  \label{subfig:slow-charger-usage-nonlinear-sa}
 \end{figure}
 
 \begin{figure}[h]
   %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % SA Heuristic
   \includegraphics[width=\textwidth]{img/charge-sa-nonlinear}
-  \caption{The bus charges for the SA PAP charging schedule. The SA model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
-  \label{subfig:sa-heuristic-charge}
+  \caption{The bus charges for the heuristic SA with non-linear battery dynimacs charging schedule.}
+  \label{subfig:nonlinear-sa-charge}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{img/power-sa-nonlinear}
-  \caption{Amount of power consumed by Qin-Modified and MILP schedule over the time horizon.}
-  \label{fig:power-usage-sa}
+  \caption{Amount of power consumed by heuristic SA with non-linear battery dynimacs schedule over the time horizon.}
+  \label{fig:power-usage-nonlinear-sa}
   \label{fig:power}
 \end{figure}
 
 \begin{figure}[htpb]
 \centering \includegraphics[width=\textwidth]{img/energy-sa-nonlinear}
-    \caption{Total accumulated energy consumed by the Qin-Modified and MILP schedule throughout the time horizon.}
-    \label{fig:energy-usage}
+    \caption{Total accumulated energy consumed by the heuristic SA with non-linear battery dynamics schedule throughout the time horizon.}
+    \label{fig:energy-usage-nonlinear-sa}
 \end{figure}
 
 \chapter{Conclusion}

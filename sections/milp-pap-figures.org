@@ -4,35 +4,6 @@
 :END:
 
 # --------------------------------------------------------------------------------
-# BAP and PAP comparison
-#+begin_src latex
-\begin{subfigures}
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % BAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
-        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
-          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
-          arrow represents the direction of departure.}
-        \label{subfig:bapexample}
-    \end{figure}
-    \hfill
-
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % PAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
-        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
-          indicated by the arrow.}
-        \label{subfig:papexample}
-    \end{figure}
-\end{subfigures}
-#+end_src
-
-
-# --------------------------------------------------------------------------------
 # Variable table
 #+latex: \begin{landscape}
 #+include: ../tab/milp-vars.org
@@ -48,36 +19,6 @@
         area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
       \label{fig:packexample}
   \end{figure}
-#+end_src
-
-# --------------------------------------------------------------------------------
-# Spatial temporal graph representation
-#+begin_src latex
-  \begin{figure}[ht]
-  \centering
-      \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
-      \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along
-        the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be
-        continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle
-        represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed
-        lines are associated with vessel D and represent the arrival time, berthing time, service completion time, and
-        departure time. Note that the arrival time may be before the berthing time and the completion time may be before
-        the departure time.}
-      \label{fig:bap}
-  \end{figure}
-#+end_src
-
-# --------------------------------------------------------------------------------
-# Spatio-temporal overlap visualization
-#+begin_src latex
-\begin{figure}[htpb]
-\centering
-    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/overlap}
-    \caption{Examples of different methods of overlapping. Space overlap: $v_{k_1} < v_{i} + l_i \therefore \psi_{k_{1}i} = 0$.
-             Time overlap $u_{k_1} < u_{j} + s_j \therefore \sigma_{k_{2}j} = 0$. Both space and time overlap $\sigma_{k_{3}i} = 0$ and
-             $\psi_{k_{3}j} = 0$.}
-    \label{fig:multipleassign}
-\end{figure}
 #+end_src
 
 # --------------------------------------------------------------------------------
