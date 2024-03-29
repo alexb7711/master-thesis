@@ -1,6 +1,5 @@
 \begin{dedication}
-\noindent
-To my dearly beloved fiancée and family for all your love, unwavering support, and encouragement over the years. With all my love, may this work symbolize a token of my deepest gratitude to each and every one of you.
+To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
 
 %
 % If you intend to have a dedication longer than one line, do not put

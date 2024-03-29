@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 12:22
+% Created 2024-03-29 Fri 13:42
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -157,15 +157,14 @@ With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a r
 The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the peak power use (demand cost). Two mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. The model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results two other models: the MILP PAP and the Qin-Modified. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over a similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{publicabstract}
 \begin{dedication}
-\begin{center}
-To all the little people....
-\end{center}
+To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
+
 %
 % If you intend to have a dedication longer than one line, do not put
 % it in a centering environment.  It will look better.
 \end{dedication}
 \begin{acknowledgments}
-I am so happy that my advisor helped me.....
+I wish to express my sincere gratitude to Dr. Greg Droge, my major professor, for the countless hours of reflecting, reading, encouraging, and, most of all, patience throughout the years. I thank you for the freedom that you provided to conduct my research while maintaining a guiding hand. Similarly, I wish to thank those from my committee, Dr. Jacob Gunther and Dr. Burak Sarsilmaz.
 \\
 \begin{flushright}
 Alexander Brown
@@ -387,7 +386,7 @@ a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as 
 battery percentage, \(\nu_b \in [0, 1]\).
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org25cc888}
+\label{sec:org4efd4c9}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -534,7 +533,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org1b17ac4}
+\label{sec:org65673b0}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1636,12 +1635,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:orgfbc9ced}
+\label{sec:org8a9c088}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org82aa61d}
+\label{sec:org366a252}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
