@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 13:54
+% Created 2024-03-29 Fri 13:56
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -122,7 +122,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
  pdftitle={A Simulated Annealing Approach to the Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 29.3 (Org mode 9.6.15)},
+ pdfcreator={Emacs 29.3 (Org mode 9.6.15)}, 
  pdflang={English}}
 \begin{document}
 
@@ -386,7 +386,7 @@ a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as 
 battery percentage, \(\nu_b \in [0, 1]\).
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org8c77ca4}
+\label{sec:org54e77c1}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -533,7 +533,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org2d05784}
+\label{sec:org67b293a}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1635,12 +1635,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:orgf642d99}
+\label{sec:orgd9d915d}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:orgb14e6ff}
+\label{sec:org4708cca}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
