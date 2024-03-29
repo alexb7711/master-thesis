@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 14:27
+% Created 2024-03-29 Fri 15:19
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -386,7 +386,7 @@ a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as 
 battery percentage, \(\nu_b \in [0, 1]\).
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orge89aba3}
+\label{sec:org994674b}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -533,7 +533,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org8ca09d2}
+\label{sec:orga877caa}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1715,12 +1715,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org05ebd23}
+\label{sec:org24d0fa9}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org7d47ed0}
+\label{sec:orgd064349}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2604,20 +2604,18 @@ TODO: Paragraph wrapping things up
 \label{sec:fuzzy-sa-pap}
 
 This section introduces an area of interest for future work. As far as the research for this thesis has shown, no other
-work has provided robustness in their resulting charge schedule. This section introduces a sense of robustness into the
-MILP model by allowing uncertainty in the arrival times of the BEBs. By “fuzzifying” the model, the “fuzzy” variables
-are allowed to have upper and lower bounds for which the model can provide solutions for. The work to be introduced
-promises much potential for further research and development in regard to scheduling BEBs. What follows is a proposal
-for a Simulated Annealing (SA) implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear
-Programming (FFMILP) constraints with non-linear battery dynamics.
+work has provided robustness in their resulting charge schedule. This section outlines a mathematical method to
+introduce robustness into the MILP constraints by allowing uncertainty in the arrival times of the BEBs via
+``fuzzification'' \cite{kaur-2016-introd-fuzzy,bello-2019-fuzzy-activ}. The process fuzzifying the model introduces
+fuzzy variables that contain bounds for which the model can provide solutions for. The mathematics to be introduced
+promises much potential for further research and development in regard to scheduling BEBs. What follows is an outline
+and extension of the MILP PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints.
 
-The Fuzzy PAP (FPAP) expands upon the MILP-PAP by adding a layer of robustness to the model's solutions
-\cite{bello-2019-fuzzy-activ,kaur-2016-introd-fuzzy}. By introducing fuzziness to the model, that allows a sense of
-uncertainty to some of the parameters. In a realistic scenario, multiple factors such as technical problems, weather
-conditions, road detours, among others, buses may arrive earlier or later than anticipated to the station/depot. For
-crisp models, there is no sense of lateness or earliness, thus the model's solutions lose validity at the moment that
-any buses do not adhere to the route time perfectly. Fuzzifying the models in turn produces a fuzzy solution that
-encodes ranges of times that buses may arrive while still remaining a valid solution.
+In a realistic scenario, multiple factors such as technical problems, weather conditions, road detours, and various
+others factor may arise causing buses to arrive earlier or later than anticipated to the station/depot. For crisp models
+(a traditional MILP), there is no sense of lateness or earliness, thus a model's solution loses validity at the moment
+any bus does not adhere to the route timing. Fuzzifying the model in turn produces a fuzzy solution that encodes ranges
+of times that buses may arrive while still remaining a valid solution.
 
 The appendix proceeds as follows. \ref{sec:fuzzy-preliminaries} introduces some of the basic concepts of Mixed Integer
 Linear Programming (MILP), fuzzy set theory, and Fully Fuzzy Linear Programming (FFLP). \ref{sec:the-fuzzy-bap}
