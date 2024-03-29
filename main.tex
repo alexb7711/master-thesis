@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 13:56
+% Created 2024-03-29 Fri 14:27
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -386,7 +386,7 @@ a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as 
 battery percentage, \(\nu_b \in [0, 1]\).
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org54e77c1}
+\label{sec:orge89aba3}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -533,7 +533,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org67b293a}
+\label{sec:org8ca09d2}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -949,115 +949,195 @@ constraints \autoref{subeq:binaryspace}-\autoref{subeq:Ispace} define the sets o
 
 \section{Example}
 \label{sec:milp-example}
-\begin{landscape}
+An example will now be presented to demonstrate the utility of the developed MILP charge scheduling technique. A
+description of the scenario is first presented followed by a description of an alternative heuristic-based planning
+strategy called Qin-Modified which is used as a comparison to the MILP PAP. Results are then presented,
+analyzed and discussed for each of the planning strategies.
+
+\subsection{BEB Scenario}
+\label{beb-scenario}
+To display the capabilities of the model, an example scenario is presented. The scenario was run over a time horizon of
+\(T=24\) hours, utilizing \(n_B = \A\) buses with \(n_V = \N\) visits divided between the \(n_B\) buses. As stated before, the
+route times are sampled from a set of routes from the UTA. Each bus has a battery capacity of \(\kappa_b =\) \batsize kWh that
+is required to stay above an SOC of \(\nu_b =\) \mincharge (\fpeval{\batsize * \minchargeD} kWh) \(\forall b \in
+\mathbb{B}\) to ensure that each BEB can complete its next route in addition to maintaining battery health. Each bus is
+assumed to begin the working day with an SOC of \(\alpha_b =\) \fpeval{\acharge*100}\% \(\forall i \in \mathbb{V}\)
+(\fpeval{\acharge * \batsize} kWh). Additionally, each bus is required to end the day with a minimum SOC of \(\beta_b =\)
+\fpeval{\bcharge * 100}\% (\fpeval{\bcharge * \batsize} kWh) \(\forall i \in \mathbb{V}\). This assumes that overnight
+charging can account for the deficient 20\% SOC. Each bus is assumed to discharge at a rate of \(\zeta_b =\) 30 kW. Note that
+many factors play a role in the rate of discharge; however, for the sake of simplicity since the discharge calculation
+is out of the scope of this work, an average rate is used. A total of \(n_C = \fpeval{\fast + \slow}\) chargers are
+utilized where \slow of the chargers are slow charging (\slows kW) and \fast are fast charging (\fasts kW). The
+technique to minimize the total charger count will now be employed.
+
+To encourage the MILP PAP problem to utilize the fewest number of chargers, the value of \(m_q\) in the objective
+function, \autoref{eq:objective}, is \(\forall q \in \{1,2,..., n_B \}; m_q = 0\) and \(\forall q \in \{n_B + 1, n_B + 2,..., n_B + n_C \};
+m_q = 1000q\). The charge duration scalar, \(\epsilon_q\), is defined as \(\epsilon_q = r_q\) to create a consumption cost term,
+\(g_{iq}\epsilon_q\) kWh. By consumption cost, it is meant that the total energy consumed by the charge schedule will be
+accounted for in the objective function. This method encourages the model to minimize active charger times, particularly
+for the fast chargers.
+
+Another heuristic-based optimization strategy, referred to as Qin-Modified, is also employed as a means of comparison
+with the results of the MILP PAP. The Qin-Modified strategy is based on the threshold strategy of
+\cite{qin-2016-numer-analy}. The strategy has been modified slightly to accommodate the case of multiple charger types
+without an exhaustive search for the best charger type. The heuristic is based on a set of rules that revolve around the
+initial SOC of the bus visit \(i\). There are three different thresholds, low (85\%), medium (90\%), and
+high (95\%). Buses below the low threshold (\(\text{SOC} \le 85\%\)) are prioritized to fast chargers and then are allowed to
+utilize slow chargers if no fast chargers are available. Buses between the low and medium threshold (\(85\% < \text{SOC}
+\le 90\%\)) prioritize slow chargers first and utilizes fast chargers only if no slow chargers are available. Buses above
+the medium threshold and below the high (\(90\% < \text{SOC} \le 95\%\)) will only be assigned to slow chargers. Buses above
+the high threshold (\(\text{SOC} > 95\%\)) will not be placed in a charging queue. Once a bus has been assigned to a
+charger, it remains on the charger for the duration of the time it is at the station, or it reaches an SOC of 95\%
+charge, whichever comes first.
+
+The total number of constraints resulted in \contvars continuous and \intvars integer/binary constraints. The
+optimization was performed using the Gurobi MILP solver \cite{gurobi-2021-gurob-optim} on a machine equipped with an
+AMD Ryzen 9 5900X 12 - Processor (24 core) at 4.95GHz. The solver was allowed to run for \timeran seconds.
+
+\subsection{Results}
+\label{results}
+The schedule generated by the Qin-Modified strategy and the MILP PAP is shown in \autoref{subfig:qin-schedule} and
+\autoref{subfig:milp-schedule}, respectively. The x-axis represents the time in hours. The y-axis represents the
+assigned charging queue. Rows between 0 and \fpeval{\slow - 1} are active times for slow chargers, and rows in the range
+of \fpeval{\slow} and \fpeval{\fast + \slow - 1} are active times for fast chargers. The unique color/symbol-styled
+vertices represent the starting charge time for a bus \(b\) with the line to the vertical tick signifying the region of
+time the charger is active. The lines connecting points represents the charge sequence for each BEB.
+
+The first observation is in the choice of preferred chargers between the Qin-Modified and MILP scheduler. Looking at
+\autoref{subfig:slow-charger-usage} and \autoref{subfig:fast-charger-usage}, the Qin-Modified schedule uses at most four
+fast chargers and three slow at the same time, whereas the MILP schedule uses at most one fast charger and six slow at
+the same time. Both the Qin-Modified and MILP schedule used the fast chargers in short bursts (\textasciitilde{}0.2-0.5 hours). The main
+difference lies in the utilization strategy of the slow chargers. The Qin-Modified, for the most part, opted for shorter
+bursts for the slow chargers (\textasciitilde{}0.3-0.7 hours), most heavily placed on the first slow charger. The MILP
+utilized the slow chargers in short bursts; however, the solver was able to recognize moments where a BEB being placed
+in a slow charging queue for a longer duration was more cost-effective (with respect to the objective function) than
+placing the BEB in a fast charging queue. Although one of the MILP's objectives is to minimize the amount of chargers
+used, the Qin-Modified schedule ended up using fewer chargers than the MILP. Note the MILP schedule
+packed the first queue for the fast and slow chargers more effectively than the Qin schedule. Although both schedules
+generated are valid, no comparison of the quality of the schedule can be made directly from
+\autoref{subfig:milp-schedule} and \autoref{subfig:qin-schedule}.
+
+\autoref{subfig:qin-charge} and \autoref{subfig:milp-charge} depicts the SOC for every bus over the time horizon for the
+Qin and MILP schedules, respectively. Every vehicle begins with an SOC of \(\alpha_b =\) 90\%, finishes with an SOC of \(\beta_b =\)
+\fpeval{\bcharge *100}\% in the MILP PAP schedule, and never goes below \mincharge in the intermediate arrivals as stated
+in constraint \autoref{eq:dynconstrs}. There is no guarantee for this in the Qin-Modified strategy which can be seen by
+some intermediate charges reaching an SOC of 0\% as well as the distribution of final charges, the minimum being 0\% and
+the maximum \fpeval{trunc(\fpeval{368 / \batsize * 100}, 3)}\%. The only sense of guarantee that the
+Qin-Modified supplies is its predictability within the intermediate visits due to its heuristic nature (i.e. if the BEB
+charge is within the low threshold, a fast charger will be prioritized); whereas MILP places a bus in the queue that
+``makes sense'' in respect to the larger picture. The MILP PAP does not have an obvious sense of decision-making due to
+weighted objective function that is affected by the accumulation of decisions made prior.
+
+Another important measure for the chargers is to compare the amount of power and energy consumed.
+\autoref{fig:power-usage} depicts the power consumption throughout the time horizon. It can be seen that the
+Qin-Modified power consumption is steadily less or the same as the MILP schedule. This can be accounted for by the
+MILP's constraints to keep the bus SOC above \mincharge and to reach a final SOC of \fpeval{\bcharge *100}\% at the end
+of the working day. Along a similar vein, the accumulated energy consumed is shown in \autoref{fig:energy-usage}. The
+MILP schedule is more efficient up until about the eleventh hour. Again, this can be accounted for by the fact the MILP
+is accommodating the extra constraints. Due to these constraints the MILP PAP consumes about \(0.1\cdot10^4\) kWh more than
+the Qin-Modified. The overlap of the MILP PAP can be accounted for by referencing \autoref{subfig:fast-charger-usage}
+and \autoref{subfig:slow-charger-usage}. Between the fifth and tenth hour, the MILP schedule heavily uses slow chargers
+increasing the rate at which power is being consumed. Afterwards, the MILP schedule at a minimum continues to use the
+same amount of chargers as the Qin Schedule. Again, due to the added constraints, the MILP schedule must utilize more
+resources to keep within the specified bounds.
+
 \begin{table}[htbp]
-\caption{\label{tab:variables}Notation used throughout \ref{sec:milp-pap}. Units are provided when available.}
+\caption{\label{tab:variables}Notation used throughout \ref{sec:milp-pap}.}
 \centering
-\begin{tabularx}{\paperwidth}{L{0.2} L{0.12} L{0.8} L{0.2} L{0.12} L{0.8}}
-\textbf{Variable} & \textbf{Units} & \textbf{Description} & \textbf{Variable} & \textbf{Units} & \textbf{Description}\\[0pt]
+\begin{tabularx}{\textwidth}{L{0.3} L{1.2} L{0.3} L{1.2}}
+\textbf{Variable} & \textbf{Description} & \textbf{Variable} & \textbf{Description}\\[0pt]
 \hline
-Constants &  &  & Constants &  & \\[0pt]
-\(n_B\) &  & Number of buses & \(M\) &  & An arbitrarily large number\\[0pt]
-\(n_V\) &  & Number of total visits & \(n_Q\) &  & Number of queues\\[0pt]
-\(n_C\) &  & Number of chargers & \(\mathbb{V}\) &  & Set of visit indices, \(\mathbb{V} = \{1, ..., n_V\}\)\\[0pt]
-\(\mathbb{B}\) &  & Set of bus indices, \(\mathbb{B} = \{1, ..., n_B\}\) & \(\mathbb{Q}\) &  & Set of queue indices, \(\mathbb{Q} = \{1, ..., n_Q\}\)\\[0pt]
-\(i,j\) &  & Indices used to refer to visits & \(b\) &  & Index used to refer to a bus\\[0pt]
-\(q\) &  & Index used to refer to a queue &  &  & \\[0pt]
+Constants &  & Constants & \\[0pt]
+\(n_B\) & Number of buses & \(M\) & An arbitrarily large number\\[0pt]
+\(n_V\) & Number of total visits & \(n_Q\) & Number of queues\\[0pt]
+\(n_C\) & Number of chargers & \(\mathbb{V}\) & Set of visit indices, \(\mathbb{V} = \{1, ..., n_V\}\)\\[0pt]
+\(\mathbb{B}\) & Set of bus indices, \(\mathbb{B} = \{1, ..., n_B\}\) & \(\mathbb{Q}\) & Set of queue indices, \(\mathbb{Q} = \{1, ..., n_Q\}\)\\[0pt]
+\(i,j\) & Indices used to refer to visits & \(b\) & Index used to refer to a bus\\[0pt]
+\(q\) & Index used to refer to a queue &  & \\[0pt]
 \hline
-Input Parameters &  &  & Input Parameters &  & \\[0pt]
-\(\Gamma\) &  & \(\Gamma: \mathbb{V} \rightarrow \mathbb{B}\) with \(\Gamma_i\) used as a shorthand to denote the bus \(b\) for visit \(i\) &  &  & \\[0pt]
-\(\alpha_b\) & \(\%\) & Initial charge percentage time for bus \(b\) & \(\beta_b\) & \(\%\) & Final charge percentage for bus \(b\) at the end of the time horizon\\[0pt]
-\(\epsilon_q\) &  & Cost of using charger \(q\) per unit time & \(\Upsilon\) &  & \(\Upsilon: \mathbb{V} \rightarrow \mathbb{V}\) mapping a visit to the next visit by the same bus with \(\Upsilon_i\) being the shorthand.\\[0pt]
-\(\kappa_b\) & kWh & Battery capacity for bus \(b\) & \(\Delta_i\) & kWh & Discharge of visit over route \(i\)\\[0pt]
-\(\nu_b\) & \(\%\) & Minimum charge allowed for bus \(b\) & \(\tau_i\) & s & Time visit \(i\) must depart the station\\[0pt]
-\(\zeta_b\) & kW & Discharge rate for bus \(b\) & \(a_i\) & s & Arrival time of visit \(i\)\\[0pt]
-\(i_0\) &  & Indices associated with the initial arrival for every bus in \(\mathbb{B}\) & \(i_f\) &  & Indices associated with the final arrival for every bus in \(\mathbb{B}\)\\[0pt]
-\(m_q\) &  & Cost of a visit being assigned to charger \(q\) & \(r_q\) & kW & Charge rate of charger \(q\) per unit time\\[0pt]
+Input Parameters &  & Input Parameters & \\[0pt]
+\(\Gamma\) & \(\Gamma: \mathbb{V} \rightarrow \mathbb{B}\) with \(\Gamma_i\) used as a shorthand to denote the bus \(b\) for visit \(i\) &  & \\[0pt]
+\(\alpha_b\) & Initial charge percentage time for bus \(b\) & \(\beta_b\) & Final charge percentage for bus \(b\) at the end of the time horizon\\[0pt]
+\(\epsilon_q\) & Cost of using charger \(q\) per unit time & \(\Upsilon\) & \(\Upsilon: \mathbb{V} \rightarrow \mathbb{V}\) mapping a visit to the next visit by the same bus w\(\Upsilon_i\) being the shorthand.\\[0pt]
+\(\kappa_b\) & Battery capacity for bus \(b\) & \(\Delta_i\) & Discharge of visit over route \(i\)\\[0pt]
+\(\nu_b\) & Minimum charge allowed for bus \(b\) & \(\tau_i\) & Time visit \(i\) must depart the station\\[0pt]
+\(\zeta_b\) & Discharge rate for bus \(b\) & \(a_i\) & Arrival time of visit \(i\)\\[0pt]
+\(i_0\) & Indices associated with the initial arrival for every bus in \(\mathbb{B}\) & \(i_f\) & Indices associated with the final arrival for every bus in \(\mathbb{B}\)\\[0pt]
+\(m_q\) & Cost of a visit being assigned to charger \(q\) & \(r_q\) & Charge rate of charger \(q\) per unit time\\[0pt]
 \hline
-Decision Variables &  &  & Decision Variables &  & \\[0pt]
-\(\psi_{ij}\) &  & Binary variable determining spatial ordering of vehicles \(i\) and \(j\) & \(\eta_i\) & kWh & Initial charge for visit \(i\)\\[0pt]
-\(\sigma_{ij}\) &  & Binary variable determining temporal ordering of vehicles \(i\) and \(j\) & \(d_i\) & s & Ending charge time for visit \(i\)\\[0pt]
-\(g_{iq}\) & s & Linearization term, represents the multiplication of \(s_i w_{iq}\) & \(s_i\) & s & Amount of time spent on charger for visit \(i\)\\[0pt]
-\(u_i\) & s & Starting charge time of visit \(i\) & \(v_i\) &  & Assigned queue for visit \(i\)\\[0pt]
-\(w_{iq}\) &  & Binary assignment variable for visit \(i\) to queue \(q\) &  &  & \\[0pt]
+Decision Variables &  & Decision Variables & \\[0pt]
+\(\psi_{ij}\) & Binary variable determining spatial ordering of vehicles \(i\) and \(j\) & \(\eta_i\) & Initial charge for visit \(i\)\\[0pt]
+\(\sigma_{ij}\) & Binary variable determining temporal ordering of vehicles \(i\) and \(j\) & \(d_i\) & Ending charge time for visit \(i\)\\[0pt]
+\(g_{iq}\) & Linearization term, represents the multiplication of \(s_i w_{iq}\) & \(s_i\) & Amount of time spent on charger for visit \(i\)\\[0pt]
+\(u_i\) & Starting charge time of visit \(i\) & \(v_i\) & Assigned queue for visit \(i\)\\[0pt]
+\(w_{iq}\) & Binary assignment variable for visit \(i\) to queue \(q\) &  & \\[0pt]
 \hline
 \end{tabularx}
 \end{table}
-\end{landscape}
 
-\begin{figure}[htpb]
-\centering
-    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
-    \caption{Example of the rectangle packing problem. The large square represented by $O$ indicates the constrained
-      area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
-    \label{fig:packexample}
-\end{figure}
-
-\begin{subfigures}
+\begin{figure}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % Qin
-    \begin{figure}[htpb]
+    \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/milp-pap-paper-frontiers/img/schedule-qin}
         \caption{Charging schedule generated by Qin Modified algorithm.}
         \label{subfig:qin-schedule}
-    \end{figure}
-
-    \hfill
+    \end{subfigure}
 
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % MILP
-    \begin{figure}[htpb]
+    \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/milp-pap-paper-frontiers/img/schedule-milp}
         \caption{Charging schedule generated by MILP PAP algorithm.}
         \label{subfig:milp-schedule}
-    \end{figure}
-\end{subfigures}
+    \end{subfigure}
+\end{figure}
 
-\begin{subfigures}
+\begin{figure}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % Fast
-    \begin{figure}[htpb]
+    \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/milp-pap-paper-frontiers/img/charger-count-fast}
         \caption{Number of fast chargers for Qin and MILP PAP.}
         \label{subfig:fast-charger-usage}
-    \end{figure}
+    \end{subfigure}
 
     \hfill
 
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % Slow
-    \begin{figure}[!ht]
+    \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/milp-pap-paper-frontiers/img/charger-count-slow}
         \caption{Number of slow chargers for Qin and MILP PAP.}
         \label{subfig:slow-charger-usage}
-    \end{figure}
-\end{subfigures}
+    \end{subfigure}
+\end{figure}
 
-\begin{subfigures}
+\begin{figure}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % Qin
-    \begin{figure}[htpb]
+    \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/milp-pap-paper-frontiers/img/charge-qin}
         \caption{Bus charges for the Qin Modified charging schedule. The charging scheme of the Qin charger is more predictable during the working day.}
         \label{subfig:qin-charge}
-    \end{figure}
+    \end{subfigure}
 
     \hfill
 
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % MILP
-    \begin{figure}[htpb]
+    \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/milp-pap-paper-frontiers/img/charge-milp}
         \caption{The bus charges for the MILP PAP charging schedule. The MILP model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
         \label{subfig:milp-charge}
-    \end{figure}
-\end{subfigures}
+    \end{subfigure}
+\end{figure}
 
 \begin{figure}[htpb]
 \centering
@@ -1635,12 +1715,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:orgd9d915d}
+\label{sec:org05ebd23}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org4708cca}
+\label{sec:org7d47ed0}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
