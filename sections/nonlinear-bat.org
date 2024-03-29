@@ -114,7 +114,7 @@ The integral in $\bar{b}_{q_i}$ can be solved analytically by taking the antider
 
 #+begin_src latex
   \begin{figure}[htpb]
-      \centering \includegraphics[width=0.8\textwidth]{img/nonlinear-bat.png}
+      \centering \includegraphics[width=0.7\textwidth]{img/nonlinear-bat.png}
       \caption{Charging profiles for various convergence rates.}
       \label{fig:convergence-rates}
   \end{figure}
@@ -123,7 +123,7 @@ The integral in $\bar{b}_{q_i}$ can be solved analytically by taking the antider
 Thus, a visit may leverage this model by taking the initial SOC, $\eta_i$, substituting $\Delta$ for the charge duration, $s_i$,
 and letting $q_i$ represent the convergence rate, the accumulated charge over visit $i$ can be directly calculated using
 the exact discretization defined above. \ref{fig:convergence-rates} depicts the charge profile estimation utilizing
-different convergence rates.
+different convergence rates. Note from the figure, the values for the rate of convergence are negative.
 
 ** Results
 :PROPERTIES:

@@ -10,7 +10,7 @@
 
 #+include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :only-contents t
 
-** Position Allocation Problem
+** Position Allocation Problem :noexport:
 :PROPERTIES:
 :custom_id: sec:the-position-allocation-problem
 :END:
