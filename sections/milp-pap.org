@@ -28,4 +28,4 @@
 :custom_id: sec:milp-example
 :END:
 
-# +include: ../sup-doc/milp-pap-paper-frontiers/sections/example.org::#sec:example :only-contents t
+#+include: ../sup-doc/milp-pap-paper-frontiers/sections/example.org::#sec:example :only-contents t
