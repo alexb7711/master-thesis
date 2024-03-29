@@ -1,7 +1,6 @@
 \begin{dedication}
-\begin{center}
-To all the little people....
-\end{center}
+To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
+
 %
 % If you intend to have a dedication longer than one line, do not put
 % it in a centering environment.  It will look better.
