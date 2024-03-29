@@ -1,5 +1,5 @@
 \begin{acknowledgments}
-I am so happy that my advisor helped me.....
+I wish to express my sincere gratitude to Dr. Greg Droge, my major professor, for the countless hours of reflecting, reading, encouraging, and, most of all, patience throughout the years. I thank you for the freedom that you provided to conduct my research while maintaining a guiding hand. Similarly, I wish to thank those from my committee, Dr. Jacob Gunther and Dr. Burak Sarsilmaz.
 \\
 \begin{flushright}
 Alexander Brown

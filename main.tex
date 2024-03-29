@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 11:33
+% Created 2024-03-29 Fri 13:54
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -157,15 +157,14 @@ With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a r
 The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the peak power use (demand cost). Two mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. The model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results two other models: the MILP PAP and the Qin-Modified. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over a similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{publicabstract}
 \begin{dedication}
-\begin{center}
-To all the little people....
-\end{center}
+To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
+
 %
 % If you intend to have a dedication longer than one line, do not put
 % it in a centering environment.  It will look better.
 \end{dedication}
 \begin{acknowledgments}
-I am so happy that my advisor helped me.....
+I wish to express my sincere gratitude to Dr. Greg Droge, my major professor, for the countless hours of reflecting, reading, encouraging, and, most of all, patience throughout the years. I thank you for the freedom that you provided to conduct my research while maintaining a guiding hand. Similarly, I wish to thank those from my committee, Dr. Jacob Gunther and Dr. Burak Sarsilmaz.
 \\
 \begin{flushright}
 Alexander Brown
@@ -345,6 +344,10 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 
 Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
+Consider a fleet of BEBs scheduled to perform a set of prescribed routes on a given day. An individual BEB from said
+fleet begins and completes an individual route at the same station from which it also receives its charge. During each
+route, the BEB's State of Charge (SOC) is depleted by a certain amount. The charge supplied during its visit must be
+enough to sustain the BEB's SOC at an appropriate level so that it may complete its next route. The charge may be
 supplied from any single charger given a set of chargers at the station. Let the term ``arrival'' describe the time at
 which a BEB reaches the station. Furthermore, let the term ``visit'' denote a BEB having arrived, awaited its
 predetermined time (whether it has received a charge or not), and departed from the station. Each BEB may have multiple
@@ -382,56 +385,8 @@ visit. This route, as one would expect, causes the BEB to discharge by some cert
 a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as \(\Delta_i \in \mathbb{R}\). Each bus has a desired minimum
 battery percentage, \(\nu_b \in [0, 1]\).
 
-\begin{figure}[ht!]
-  \centering
-  \scalebox{0.5}{
-  \centerline{
-    \begin{tikzpicture}
-      % Variables
-      \def \arrx   {2.0}
-      \def \initx  {3.5}
-      \def \endx   {8.5}
-      \def \depx   {10.0}
-      \def \yshift {5}
-
-      % Axis
-      \draw [thick,<->] (0,15) node[above]{Queues} -- (0,0) -- (15,0) node[right]{Time};
-
-      % Rectangles
-      \node[rectangle, draw, fill=gray, minimum width=4cm, minimum height = 3cm] at (3,12) {A};
-      \node[rectangle, draw, fill=gray, minimum width=3cm, minimum height = 3cm] at (9,12) {B};
-      \node[rectangle, draw, fill=gray, minimum width=5cm, minimum height = 3cm] at (6,7) {D};
-      \node[rectangle, draw, fill=gray, minimum width=6cm, minimum height = 3cm] at (12,2) {C};
-
-      % X-axis labels
-      \node [below,align=center] at (\arrx,0) {\scriptsize Arrival     \\ \scriptsize Time \\ $a_D$};
-      \node [below, align=center] at (\initx,0) {\scriptsize Charge    \\ \scriptsize Initiation  \\ $u_D$};
-      \node [below, align=center] at (\endx,0) {\scriptsize Charge     \\ \scriptsize End \\ $d_D$};
-      \node [below, align=center] at (\depx,0) {\scriptsize Departure  \\ \scriptsize Time \\ $e_D$};
-
-      % Y-axis labels
-      \node[rotate=90] at (-1, 2.25) {Queue 1};
-      \node[rotate=90] at (-1, 7.25) {Queue 2};
-      \node[rotate=90] at (-1, 12.25) {Queue 3};
-
-      % Vertical lines
-      \draw[dashed] (\arrx,\yshift)--(\arrx,0);
-      \draw[dashed] (\initx,\yshift)--(\initx,0);
-      \draw[dashed] (\endx,\yshift)--(\endx,0);
-      \draw[dashed] (\depx,\yshift)--(\depx,0);
-
-      % Horizontal lines
-      \draw[dotted] (0, 4.5) -- (15, 4.5);
-      \draw[dotted] (0, 9.5) -- (15, 9.5);
-
-    \end{tikzpicture}
-  }}
-  \caption{The representation of the queue-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete queuing locations. The shaded rectangles represent schedules BEBs to be charged. The height of each shaded rectangle represents the space taken on the queue and the width being the time to service said BEB. The vertical dashed lines are associated with vessel D and represent the arrival time, initial charge time, charge completion time, and departure time. Note that the arrival time may be before the initial charge time and the completion time may before the departure time.}
-  \label{fig:spacial-and-temporal-constr}
-\end{figure}
-
 \section{Mixed Integer Linear Programming}
-\label{sec:org099823b}
+\label{sec:org8c77ca4}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -578,7 +533,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org3ac6b03}
+\label{sec:org2d05784}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -1038,28 +993,6 @@ Decision Variables &  &  & Decision Variables &  & \\[0pt]
     \label{fig:packexample}
 \end{figure}
 
-\begin{figure}[ht]
-\centering
-    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
-    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along
-      the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be
-      continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle
-      represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed
-      lines are associated with vessel D and represent the arrival time, berthing time, service completion time, and
-      departure time. Note that the arrival time may be before the berthing time and the completion time may be before
-      the departure time.}
-    \label{fig:bap}
-\end{figure}
-
-\begin{figure}[htpb]
-\centering
-    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/overlap}
-    \caption{Examples of different methods of overlapping. Space overlap: $v_{k_1} < v_{i} + l_i \therefore \psi_{k_{1}i} = 0$.
-             Time overlap $u_{k_1} < u_{j} + s_j \therefore \sigma_{k_{2}j} = 0$. Both space and time overlap $\sigma_{k_{3}i} = 0$ and
-             $\psi_{k_{3}j} = 0$.}
-    \label{fig:multipleassign}
-\end{figure}
-
 \begin{subfigures}
     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     % Qin
@@ -1251,54 +1184,6 @@ Each BEB arrival, except for the last arrival for each BEB, has a paired ``route
 visit. This route, as one would expect, causes the BEB to discharge by some certain amount. Each bus is assumed to have
 a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as \(\Delta_i \in \mathbb{R}\). Each bus has a desired minimum
 battery percentage, \(\nu_b \in [0, 1]\).
-
-\begin{figure}[ht!]
-  \centering
-  \scalebox{0.5}{
-  \centerline{
-    \begin{tikzpicture}
-      % Variables
-      \def \arrx   {2.0}
-      \def \initx  {3.5}
-      \def \endx   {8.5}
-      \def \depx   {10.0}
-      \def \yshift {5}
-
-      % Axis
-      \draw [thick,<->] (0,15) node[above]{Queues} -- (0,0) -- (15,0) node[right]{Time};
-
-      % Rectangles
-      \node[rectangle, draw, fill=gray, minimum width=4cm, minimum height = 3cm] at (3,12) {A};
-      \node[rectangle, draw, fill=gray, minimum width=3cm, minimum height = 3cm] at (9,12) {B};
-      \node[rectangle, draw, fill=gray, minimum width=5cm, minimum height = 3cm] at (6,7) {D};
-      \node[rectangle, draw, fill=gray, minimum width=6cm, minimum height = 3cm] at (12,2) {C};
-
-      % X-axis labels
-      \node [below,align=center] at (\arrx,0) {\scriptsize Arrival     \\ \scriptsize Time \\ $a_D$};
-      \node [below, align=center] at (\initx,0) {\scriptsize Charge    \\ \scriptsize Initiation  \\ $u_D$};
-      \node [below, align=center] at (\endx,0) {\scriptsize Charge     \\ \scriptsize End \\ $d_D$};
-      \node [below, align=center] at (\depx,0) {\scriptsize Departure  \\ \scriptsize Time \\ $e_D$};
-
-      % Y-axis labels
-      \node[rotate=90] at (-1, 2.25) {Queue 1};
-      \node[rotate=90] at (-1, 7.25) {Queue 2};
-      \node[rotate=90] at (-1, 12.25) {Queue 3};
-
-      % Vertical lines
-      \draw[dashed] (\arrx,\yshift)--(\arrx,0);
-      \draw[dashed] (\initx,\yshift)--(\initx,0);
-      \draw[dashed] (\endx,\yshift)--(\endx,0);
-      \draw[dashed] (\depx,\yshift)--(\depx,0);
-
-      % Horizontal lines
-      \draw[dotted] (0, 4.5) -- (15, 4.5);
-      \draw[dotted] (0, 9.5) -- (15, 9.5);
-
-    \end{tikzpicture}
-  }}
-  \caption{The representation of the queue-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete queuing locations. The shaded rectangles represent schedules BEBs to be charged. The height of each shaded rectangle represents the space taken on the queue and the width being the time to service said BEB. The vertical dashed lines are associated with vessel D and represent the arrival time, initial charge time, charge completion time, and departure time. Note that the arrival time may be before the initial charge time and the completion time may before the departure time.}
-  \label{fig:spacial-and-temporal-constr}
-\end{figure}
 
 \section{Optimization Problem}
 \label{sec:optimization-problem}
@@ -1750,12 +1635,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:orgf4abcd6}
+\label{sec:orgf642d99}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org7a6528e}
+\label{sec:orgb14e6ff}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2312,7 +2197,7 @@ than the MILP PAP.
     \caption{Charging schedule generated by SA PAP algorithm using the quick strategy.}
     \label{subfig:schedule-quick-sa}
   \end{subfigure}
-  \caption{Vairous schedules generated by the different frameworks. Nodes of the same color and shape connected by lines of the same color (whether dashed or solid) represents a charging schedule for a singular BEB. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
+  \caption{Vairous schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
   \label{fig:schedule}
 \end{figure}
 
@@ -2357,7 +2242,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-quinn}
-    \caption{Bus charges for the Qin Modified charging schedule. The charging scheme of the Qin charger is more predictable during the working day.}
+    \caption{Bus charges for the Qin Modified charging schedule.}
     \label{subfig:qin-charge}
   \end{subfigure}
   \hfill
@@ -2366,7 +2251,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-milp}
-    \caption{The bus charges for the MILP PAP charging schedule. The MILP model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
+    \caption{The bus charges for the MILP PAP charging schedule.}
     \label{subfig:milp-charge}
   \end{subfigure}
   \hfill
@@ -2378,7 +2263,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-sa-quick}
-    \caption{The bus charges for the SA PAP charging schedule. The SA model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
+    \caption{The bus charges for the quick SA PAP charging schedule.}
     \label{subfig:sa-quick-charge}
   \end{subfigure}
   \hfill
@@ -2387,10 +2272,10 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-sa-heuristic}
-    \caption{The bus charges for the SA PAP charging schedule. The SA model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
+    \caption{The bus charges for the heuristic SA PAP charging schedule.}
     \label{subfig:sa-heuristic-charge}
   \end{subfigure}
-  \caption{}
+  \caption{Plots of the initil SOC of each visit over the time horizon for each schedule.}
   \label{fig:charge}
 \end{figure}
 
@@ -2398,7 +2283,7 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/power-milp-qin}
-    \caption{Amount of power consumed by Qin-Modified and MILP schedule over the time horizon.}
+    \caption{Amount of power consumed by Qin-Modified and MILP schedules over the time horizon.}
     \label{fig:power-usage-milp-qin}
   \end{subfigure}
 
@@ -2407,16 +2292,16 @@ than the MILP PAP.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/power-sa}
-    \caption{Amount of power consumed by Qin-Modified and MILP schedule over the time horizon.}
+    \caption{Amount of power consumed by quick and heuristic SA schedules over the time horizon.}
     \label{fig:power-usage-sa}
   \end{subfigure}
-  \caption{}
+  \caption{Amount of power consumed by each of the schedules over the time horizon.}
   \label{fig:power}
 \end{figure}
 
 \begin{figure}[htpb]
 \centering \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/energy}
-    \caption{Total accumulated energy consumed by the Qin-Modified and MILP schedule throughout the time horizon.}
+    \caption{Total accumulated energy consumed by the Qin-Modified, MILP, quick and heuristic SA schedules throughout the time horizon.}
     \label{fig:energy-usage}
 \end{figure}
 
@@ -2543,7 +2428,7 @@ different convergence rates.
   % SA quick
   \includegraphics[width=\textwidth]{img/schedule-sa-nonlinear}
   \label{subfig:schedule-nonlinear-sa}
-  \caption{Vairous schedules generated by the different frameworks. Nodes of the same color and shape connected by lines of the same color (whether dashed or solid) represents a charging schedule for a singular BEB. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
+  \caption{Various schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
   \label{fig:schedule}
 \end{figure}
 
@@ -2552,7 +2437,7 @@ different convergence rates.
   % Fast
   \centering
   \includegraphics[width=\textwidth]{img/charger-count-fast-sa-nonlinear}
-  \caption{Number of fast chargers for Qin and MILP PAP.}
+  \caption{Number of fast chargers for the heuristic SA schedule with non-linear battery dynamics.}
   \label{subfig:fast-charger-usage-nonlinear-sa}
 \end{figure}
 
@@ -2561,7 +2446,7 @@ different convergence rates.
   % Slow
   \centering
   \includegraphics[width=\textwidth]{img/charger-count-slow-sa-nonlinear}
-  \caption{Number of slow chargers for the quick and heuristic SA executions.}
+  \caption{Number of slow chargers for the heuristic SA schedule with non-linear battery dynamics.}
   \label{subfig:slow-charger-usage-nonlinear-sa}
 \end{figure}
 
@@ -2569,21 +2454,21 @@ different convergence rates.
   %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % SA Heuristic
   \includegraphics[width=\textwidth]{img/charge-sa-nonlinear}
-  \caption{The bus charges for the SA PAP charging schedule. The SA model allows for guarantees of minimum/maximum changes during the working day as well as charges at the end of the day.}
+  \caption{The bus charges for the heuristic SA with non-linear battery dynimacs charging schedule.}
   \label{subfig:nonlinear-sa-charge}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{img/power-sa-nonlinear}
-  \caption{Amount of power consumed by Qin-Modified and MILP schedule over the time horizon.}
+  \caption{Amount of power consumed by heuristic SA with non-linear battery dynimacs schedule over the time horizon.}
   \label{fig:power-usage-nonlinear-sa}
   \label{fig:power}
 \end{figure}
 
 \begin{figure}[htpb]
 \centering \includegraphics[width=\textwidth]{img/energy-sa-nonlinear}
-    \caption{Total accumulated energy consumed by the Qin-Modified and MILP schedule throughout the time horizon.}
+    \caption{Total accumulated energy consumed by the heuristic SA with non-linear battery dynamics schedule throughout the time horizon.}
     \label{fig:energy-usage-nonlinear-sa}
 \end{figure}
 
