@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 12:16
+% Created 2024-03-29 Fri 12:22
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -387,7 +387,7 @@ a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as 
 battery percentage, \(\nu_b \in [0, 1]\).
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgea1d8ee}
+\label{sec:org25cc888}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -534,7 +534,7 @@ charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply sta
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
 
 \section{Summary}
-\label{sec:org9ec162a}
+\label{sec:org1b17ac4}
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
@@ -950,31 +950,6 @@ constraints \autoref{subeq:binaryspace}-\autoref{subeq:Ispace} define the sets o
 
 \section{Example}
 \label{sec:milp-example}
-\begin{subfigures}
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % BAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
-        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
-          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
-          arrow represents the direction of departure.}
-        \label{subfig:bapexample}
-    \end{figure}
-    \hfill
-
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % PAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
-        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
-          indicated by the arrow.}
-        \label{subfig:papexample}
-    \end{figure}
-\end{subfigures}
-
-
 \begin{landscape}
 \begin{table}[htbp]
 \caption{\label{tab:variables}Notation used throughout \ref{sec:milp-pap}. Units are provided when available.}
@@ -1210,54 +1185,6 @@ Each BEB arrival, except for the last arrival for each BEB, has a paired ``route
 visit. This route, as one would expect, causes the BEB to discharge by some certain amount. Each bus is assumed to have
 a fixed discharge. Let the discharge of the route for visit \(i\) be denoted as \(\Delta_i \in \mathbb{R}\). Each bus has a desired minimum
 battery percentage, \(\nu_b \in [0, 1]\).
-
-\begin{figure}[ht!]
-  \centering
-  \scalebox{0.5}{
-  \centerline{
-    \begin{tikzpicture}
-      % Variables
-      \def \arrx   {2.0}
-      \def \initx  {3.5}
-      \def \endx   {8.5}
-      \def \depx   {10.0}
-      \def \yshift {5}
-
-      % Axis
-      \draw [thick,<->] (0,15) node[above]{Queues} -- (0,0) -- (15,0) node[right]{Time};
-
-      % Rectangles
-      \node[rectangle, draw, fill=gray, minimum width=4cm, minimum height = 3cm] at (3,12) {A};
-      \node[rectangle, draw, fill=gray, minimum width=3cm, minimum height = 3cm] at (9,12) {B};
-      \node[rectangle, draw, fill=gray, minimum width=5cm, minimum height = 3cm] at (6,7) {D};
-      \node[rectangle, draw, fill=gray, minimum width=6cm, minimum height = 3cm] at (12,2) {C};
-
-      % X-axis labels
-      \node [below,align=center] at (\arrx,0) {\scriptsize Arrival     \\ \scriptsize Time \\ $a_D$};
-      \node [below, align=center] at (\initx,0) {\scriptsize Charge    \\ \scriptsize Initiation  \\ $u_D$};
-      \node [below, align=center] at (\endx,0) {\scriptsize Charge     \\ \scriptsize End \\ $d_D$};
-      \node [below, align=center] at (\depx,0) {\scriptsize Departure  \\ \scriptsize Time \\ $e_D$};
-
-      % Y-axis labels
-      \node[rotate=90] at (-1, 2.25) {Queue 1};
-      \node[rotate=90] at (-1, 7.25) {Queue 2};
-      \node[rotate=90] at (-1, 12.25) {Queue 3};
-
-      % Vertical lines
-      \draw[dashed] (\arrx,\yshift)--(\arrx,0);
-      \draw[dashed] (\initx,\yshift)--(\initx,0);
-      \draw[dashed] (\endx,\yshift)--(\endx,0);
-      \draw[dashed] (\depx,\yshift)--(\depx,0);
-
-      % Horizontal lines
-      \draw[dotted] (0, 4.5) -- (15, 4.5);
-      \draw[dotted] (0, 9.5) -- (15, 9.5);
-
-    \end{tikzpicture}
-  }}
-  \caption{The representation of the queue-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete queuing locations. The shaded rectangles represent schedules BEBs to be charged. The height of each shaded rectangle represents the space taken on the queue and the width being the time to service said BEB. The vertical dashed lines are associated with vessel D and represent the arrival time, initial charge time, charge completion time, and departure time. Note that the arrival time may be before the initial charge time and the completion time may before the departure time.}
-  \label{fig:spacial-and-temporal-constr}
-\end{figure}
 
 \section{Optimization Problem}
 \label{sec:optimization-problem}
@@ -1709,12 +1636,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org517baa2}
+\label{sec:orgfbc9ced}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org9ce452e}
+\label{sec:org82aa61d}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
