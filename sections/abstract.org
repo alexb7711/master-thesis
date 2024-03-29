@@ -2,9 +2,7 @@
 % A space is needed before the text starts so that the first paragraph
 % is indented properly.
 
-This is the abstract of the demonstration thesis.  Hopefully the
-examples will be sufficiently clear that you will have few formatting
-problems. The Graduate School requires that the abstract be 350 words
-or less, so be careful of the length of the abstract.
+With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a reliable charging schedule is vital to a successful migration from their fossil fuel counterparts. In this work, a BEB charging scheduling framework that considers spatiotemporal schedule constraints, fixed route schedules, fast and slow charging, and battery dynamics is modeled as a Mixed Integer Linear Program (MILP). The MILP is modeled after the Berth Allocation Problem (BAP) in a modified form known as the Position Allocation Problem (PAP). Linear battery dynamics are included to model the charging of buses while at the station. To model the BEB discharges over their respective routes, it is assumed each BEB has an average kWh charge loss while on route. The optimization coordinates BEB charging to ensure that each vehicle remains above a specified state-of-charge (SOC). The model also minimizes the total number of chargers utilized and prioritizes slow charging for battery health. The model validity is demonstrated with a set of routes and is compared to a heuristic algorithm based on charge thresholds referred to as the Qin-Modified method.
 
+The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the demand cost. Two generation mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. Similarly, the model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results to the MILP PAP and the Qin-Modified. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{abstract}
