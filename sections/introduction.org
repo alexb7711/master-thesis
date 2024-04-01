@@ -26,15 +26,15 @@ relevant problems as EV/BEBs become more commonplace [cite:@hoke-2014-accoun-lit
 
 The literature shows an interest in solving the problem of assigning BEBs to charging queues or optimizing their
 infrastructure [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
-@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. In fact, many works attempt to solve both problems simultanously
+@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. In fact, many works attempt to solve both problems simultaneously
 barring some simplification whether it be only allowing chargers of a single type
 [cite:@he-2020-optim-charg;@tang-2019-robus-sched]. If multiple chargers are used, then one of each type is assigned at
 each location. Others have also assumed that a BEB shall recieve full charge upon each arrival
 [cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar]. Some works on the
 stochastic effects of energy consumption while on route for a BEB as well as trip times [cite:@zhou-2020-collab-optim;
-@bie-2021-optim-elect]. One other source, as far as the reseach for this work has shown, describes a method of producing
-a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to minimize
-over the total charger count [cite:@whitaker-2023-a-network].
+@bie-2021-optim-elect]. One other source, as far as the research for this work has shown, describes a method of
+producing a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to
+minimize over the total charger count [cite:@whitaker-2023-a-network].
 
 The work described in this proposal is similar to the work in [cite:@whitaker-2023-a-network]; however provides an
 alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
