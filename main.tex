@@ -1,4 +1,4 @@
-% Created 2024-03-29 Fri 15:59
+% Created 2024-04-01 Mon 10:01
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -353,7 +353,7 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org3c3b251}
+\label{sec:org9f16c2f}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -1475,11 +1475,12 @@ however, each problem must tailor its implementation to meet its particular need
 SA is an exploitation oriented, single-solution based metaheuristic. In addition to the advantages of simplicity, both
 theoretically and in its implementation \cite{gendreau-2018-handb-metah,radosavljevic-2018-metah-optim}. SA is also of
 considerable interest for global optimization over regions containing several local and global minima due to inherent
-non-linearities of the objective function \cite{gendreau-2018-handb-metah}. This model is named after its analogized
-process where a crystalline solid is heated then allowed to cool at a slow rate until it achieves its most regular
-possible crystal lattice configuration (i.e. its minimum lattice energy state)
-\cite{henderson-1989-theor-pract,press-1992-numer-recip}. SA establishes a connection between this thermodynamic
-process and the search for global optima in optimization problems.
+non-linearities of the objective function \cite{gendreau-2018-handb-metah}. Note that because SA is a metaheuristic
+strategy, there is no guarantee of optimality, its objective is to yield a result that is ``good enough''
+\cite{radosavljevic-2018-metah-optim}. This model is named after its analogized process where a crystalline solid is
+heated then allowed to cool at a slow rate until it achieves its most regular possible crystal lattice configuration
+(i.e. its minimum lattice energy state) \cite{henderson-1989-theor-pract,press-1992-numer-recip}. SA establishes a
+connection between this thermodynamic process and the search for global optima in optimization problems.
 
 There are three key components to SA: cooling schedule (temperature function), acceptance criteria, and generation
 mechanisms \cite{keller-2019-multi-objec,press-1992-numer-recip}. The temperature function describes the speed at
@@ -1488,7 +1489,6 @@ mechanisms provide a means of modifying the system by some singular discrete cha
 the previous solution \cite{gendreau-2018-handb-metah}. The acceptance criteria is a function of the system temperature
 that makes the decision whether the system will accept an inferior solution in favor of exploring the solution space.
 Finally, the constant temperature iteration count is the number of steps taken to try to exploit a solution at a
-constant temperature. Each of these mechanisms are elaborated in the subsequent sections.
 
 \subsection{Cooling Equation}
 \label{cooling-equation-experimental}
@@ -1576,12 +1576,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org75393df}
+\label{sec:orgc300e36}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org1d1d163}
+\label{sec:org9a0ed34}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -2363,14 +2363,82 @@ different convergence rates. Note from the figure, the values for the rate of co
 
 \section{Results}
 \label{sec:nonlinear-results}
-\begin{figure}[h]
+\begin{table}[htbp]
+\caption{\label{tab:charge-count}Table of mean and max instantaneous charger usage throughout the time horizon. The schedule row indicates the number of queues required by each schedule.}
+\centering
+\begin{tabular}{|l|ll|ll|ll|ll|}
+\hline
+ & MILP &  & Non-Linear &  & Heuristic & \\[0pt]
+\hline
+ & Slow & Fast & Slow & Fast & Slow & Fast\\[0pt]
+Mean & 1.877 & 0.133 & 1.461 & 0.156 & 1.8 & 0.159\\[0pt]
+Max & 4 & 2 & 5 & 2 & 7 & 2\\[0pt]
+Schedule & 4 & 3 & 8 & 2 & 9 & 4\\[0pt]
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\caption{\label{tab:charge}Table of mean, min, and max SOC (kWh) for each charging schedule.}
+\centering
+\begin{tabular}{|l|cccc|}
+\hline
+ & MILP & Non-Linear & Heuristic & Quick\\[0pt]
+\hline
+Mean & 179.580229533742 & 293.913456149408 & 189.525113828846 & 216.523166855178\\[0pt]
+Min & 96.9999999999463 & 57.84468 & 6.3432083 & 29.862568\\[0pt]
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\caption{\label{tab:power}Table of mean and max power demand for each charging schedule.}
+\centering
+\begin{tabular}{|l|ccc|}
+\hline
+ & MILP & Non-Linear & Heuristic\\[0pt]
+\hline
+Mean & 177.34 & 185.84 & 198.84\\[0pt]
+Max & 1910 & 1911.9 & 1911.9\\[0pt]
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}
   \centering
   %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % SA quick
-  \includegraphics[width=\textwidth]{img/schedule-sa-nonlinear}
-  \label{subfig:schedule-nonlinear-sa}
-  \caption{Various schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
-  \label{fig:schedule}
+  % Non-Linear
+  \begin{subfigure}[t]{\textwidth}
+    \centering
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % SA quick
+    \includegraphics[width=\textwidth]{img/schedule-sa-nonlinear}
+    \label{subfig:schedule-nonlinear-sa}
+    \caption{Various schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
+    \label{fig:schedule}
+  \end{subfigure}
+  \hfill
+
+  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % MILP
+  \begin{subfigure}[t]{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-milp}
+    \caption{Charging schedule generating by the MILP PAP algorithm.}
+    \label{subfig:schedule-milp}
+  \end{subfigure}
+\end{figure}
+
+\begin{figure} \ContinuedFloat
+  \centering
+
+  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % SA heuristic
+  \begin{subfigure}[t]{\textwidth}
+    \centering \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-sa-heuristic}
+    \caption{Charging schedule generated by the SA PAP algorithm using the heuristic strategy.}
+    \label{subfig:schedule-heuristic-sa}
+  \end{subfigure}
 \end{figure}
 
 \begin{figure}[h]
