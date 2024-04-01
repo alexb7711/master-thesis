@@ -1,0 +1,12 @@
+#+name: tab:charge-count
+#+caption: Table of mean and max instantaneous charger usage throughout the time horizon. The schedule row indicates the number of queues required by each schedule.
+#+ATTR_LATEX: :environment tabular :align |l|ll|ll|ll|ll|
+|----------+-------+-------+------------+-------+-----------+-------|
+|          |  MILP |       | Non-Linear |       | Heuristic |       |
+|----------+-------+-------+------------+-------+-----------+-------|
+| /        |     < |     > |          < |     > |         < |     > |
+|          |  Slow |  Fast |       Slow |  Fast |      Slow |  Fast |
+| Mean     | 1.877 | 0.133 |      1.461 | 0.156 |       1.8 | 0.159 |
+| Max      |     4 |     2 |          5 |     2 |         7 |     2 |
+| Schedule |     4 |     3 |          8 |     2 |         9 |     4 |
+|----------+-------+-------+------------+-------+-----------+-------|
