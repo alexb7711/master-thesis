@@ -1,4 +1,4 @@
-% Created 2024-04-01 Mon 10:01
+% Created 2024-04-01 Mon 13:34
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -353,7 +353,7 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org9f16c2f}
+\label{sec:org07e6163}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -919,7 +919,7 @@ Constants &  & Constants & \\[0pt]
 Input Parameters &  & Input Parameters & \\[0pt]
 \(\Gamma\) & \(\Gamma: \mathbb{V} \rightarrow \mathbb{B}\) with \(\Gamma_i\) used as a shorthand to denote the bus \(b\) for visit \(i\) &  & \\[0pt]
 \(\alpha_b\) & Initial charge percentage time for bus \(b\) & \(\beta_b\) & Final charge percentage for bus \(b\) at the end of the time horizon\\[0pt]
-\(\epsilon_q\) & Cost of using charger \(q\) per unit time & \(\Upsilon\) & \(\Upsilon: \mathbb{V} \rightarrow \mathbb{V}\) mapping a visit to the next visit by the same bus w\(\Upsilon_i\) being the shorthand.\\[0pt]
+\(\epsilon_q\) & Cost of using charger \(q\) per unit time & \(\Upsilon\) & \(\Upsilon: \mathbb{V} \rightarrow \mathbb{V}\) mapping a visit to the next visit by the same bus \(\Upsilon_i\) being the shorthand.\\[0pt]
 \(\kappa_b\) & Battery capacity for bus \(b\) & \(\Delta_i\) & Discharge of visit over route \(i\)\\[0pt]
 \(\nu_b\) & Minimum charge allowed for bus \(b\) & \(\tau_i\) & Time visit \(i\) must depart the station\\[0pt]
 \(\zeta_b\) & Discharge rate for bus \(b\) & \(a_i\) & Arrival time of visit \(i\)\\[0pt]
@@ -1080,7 +1080,7 @@ introduces the structure of the MILP formulation as well as a description of the
 objective function and constraints. In \ref{sec:simulated-annealing}, the concept and theory of SA is introduced. In
 particular the algorithms and methods utilized for the SA implementation for this work are discussed.
 \ref{sec:optimization-algorithm} outlines a generic SA algorithm, and then combines the previous sections to introduce the
-particular implementation for the SA-PAP. In \ref{sec:example}, an example problem is provided to demonstrate the capability
+particular implementation for the SA-PAP. In , an example problem is provided to demonstrate the capability
 of the work provided in this paper. The results will be presented and discussed.
 
 \section{Problem Description}
@@ -1576,12 +1576,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:orgc300e36}
+\label{sec:orgf57125f}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org9a0ed34}
+\label{sec:org7c60661}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in
@@ -1920,7 +1920,7 @@ function is exhausted.
 \end{algorithm}
 
 \section{Example}
-\label{sec:example}
+\label{sec:sa-pap-example}
 An example is now provided to demonstrate the utility of the developed SA charge scheduling technique. In
 \ref{sec:beb-scenario} a description of the example scenario is presented followed by a brief introduction of the original
 MILP PAP. An alternative heuristic based planning strategy called Qin-Modified, and a heuristic modification to the SA
@@ -2092,8 +2092,8 @@ Max & 1910 & 970 & 1911.9 & 1911.9\\[0pt]
 
 The total energy consumed by each schedule is shown in \ref{fig:energy-usage}. The ordering of most energy consumed to
 least is as follows: Qin-Modified, quick SA, heuristic SA, and the MILP PAP. The respective energy consumption for each
-technique is: 10198.799 kWh, 6303.1704 kWh, 5785.76 kWh, and 4797.746 kWh. The heuristic SA consuming about 988 kWh more
-than the MILP PAP.
+technique is: 10198.799 kWh, 6303.1704 kWh, 4797.746 kWh, and 4256.746 kWh. The heuristic SA consuming about 988 kWh
+more than the MILP PAP.
 
 \begin{figure}
   \centering
@@ -2216,7 +2216,7 @@ than the MILP PAP.
     \caption{The bus charges for the heuristic SA PAP charging schedule.}
     \label{subfig:sa-heuristic-charge}
   \end{subfigure}
-  \caption{Plots of the initil SOC of each visit over the time horizon for each schedule.}
+  \caption{Plots of the initial SOC of each visit over the time horizon for each schedule.}
   \label{fig:charge}
 \end{figure}
 
@@ -2364,7 +2364,7 @@ different convergence rates. Note from the figure, the values for the rate of co
 \section{Results}
 \label{sec:nonlinear-results}
 \begin{table}[htbp]
-\caption{\label{tab:charge-count}Table of mean and max instantaneous charger usage throughout the time horizon. The schedule row indicates the number of queues required by each schedule.}
+\caption{\label{tab:nonlinear-charge-count}Table of mean and max instantaneous charger usage throughout the time horizon. The schedule row indicates the number of queues required by each schedule.}
 \centering
 \begin{tabular}{|l|ll|ll|ll|ll|}
 \hline
@@ -2378,21 +2378,56 @@ Schedule & 4 & 3 & 8 & 2 & 9 & 4\\[0pt]
 \end{tabular}
 \end{table}
 
+The following results are generated utilizing the same parameters and problem setup as \ref{sec:sa-pap-example}. The only
+difference is rather than using the charging rates of 911 kW and 70 kW for the fast and slow chargers, respectively.
+Convergence rates of 0.1 and 0.01 are utilized for fast and slow chargers, respectively. \cite{whitaker-2023-a-network}
+states that a convergence rate of 0.1 leads a 90\% charge of a 388 kWh battery in about 23 minutes which is comparable to
+the 911 kW fast charger utilized in the slow model and a convergence rate of 0.01 leads to a 90\% charge in about four
+hours. Assuming linear battery dynamics, that leads to a slow charger of 87 kW. Thus, to match the utilized 30 kW
+charger, a convergence rate of about 0.002 is comparable. Furthermore, the heuristic technique was executed utilizing
+the non-linear battery dynamics as it performed better as shown in the results of \ref{sec:sa-pap-example}.
+
+\ref{subfig:schedule-nonlinear-sa} depicts the charge schedule generated utilizing non-linear battery dynamics.
+Similarly to before, the symbol represents the point at which a BEB begins charging. The horizontal line with vertical
+tic indicate the time over which said BEB receives its charge. The schedule utilized a total of eight slow charging
+queues, one of which is not utilized. The MILP and heuristic SA are included in \ref{fig:nonlinear-schedule} for
+convenience of comparison. \ref{tab:nonlinear-charge-count} tabulates the mean, max, and the required amount of charger
+queues for each schedule and \ref{fig:charger-usage-nonlinear-sa} visually depicts the number of chargers utilized over
+the time horizon. The non-linear charge schedule had, on average, the fewest number of slow chargers being utilized. As
+for the fast chargers, the MILP remained, on average, the lowest with the non-linear and heuristic coming out to be
+about the same. The MILP, as before, utilized all the charge queues that were requested by the schedule while the
+non-linear and heuristic did not. The non-linear schedule required eight slow charge queues, one less than that of the
+heuristic, but only utilized at most five slow chargers at any given moment whereas the heuristic utilized seven. That
+is, the non-linear schedule, while utilizing fewer fast chargers, had a larger area of improvement than the heuristic
+schedule to minimize the total charge queues utilized. As stated in previous chapters, SA can only estimate optimality.
+Thus, the generated schedules will contain ``blemishes'' in the output. Post-processing could be applied to assist in
+further compacting the schedule.
+
 \begin{table}[htbp]
-\caption{\label{tab:charge}Table of mean, min, and max SOC (kWh) for each charging schedule.}
+\caption{\label{tab:nonlinear-charge}Table of mean, min, and max SOC (kWh) for each charging schedule.}
 \centering
-\begin{tabular}{|l|cccc|}
+\begin{tabular}{|l|ccc|}
 \hline
- & MILP & Non-Linear & Heuristic & Quick\\[0pt]
+ & MILP & Non-Linear & Heuristic\\[0pt]
 \hline
-Mean & 179.580229533742 & 293.913456149408 & 189.525113828846 & 216.523166855178\\[0pt]
-Min & 96.9999999999463 & 57.84468 & 6.3432083 & 29.862568\\[0pt]
+Mean & 179.580229533742 & 293.913456149408 & 189.525113828846\\[0pt]
+Min & 96.9999999999463 & 57.84468 & 6.3432083\\[0pt]
 \hline
 \end{tabular}
 \end{table}
 
+\ref{fig:nonlinear-sa-charge} plots the initial SOC of each visit over time horizon and \ref{tab:nonlinear-charge}
+tabulates the mean and max demand SOC for each. The non-linear schedule maintained the highest mean SOC followed by the
+heuristic, then the MILP. Although having the largest mean SOC, the non-linear SA was unable to keep the SOC of the BEBs
+above the 25\% threshold; however, the nonlinear schedule was more successful than the heuristic SA algorithm with a
+minimum SOC of 57.84 kWh. The larger mean and min SOC for the non-linear schedule is a contributing, but note that after
+80\% (\fpeval{388 * 0.8} kWh), SOC increase per unit time begins to diminish whereas in the linear model it
+does not. The MILP model, while being at the disadvantage of having an inferior slow charger, was able to maintain the
+SOC above the minimum threshold. A possible method of assisting the SA in avoiding the BEBs going below the minimum
+threshold is to apply a safety factor, \(S_{sf}\nu_i \kappa_i\) where \(S_{sf} > 1 \in \mathbb{R}\) is some scalar greater than one.
+
 \begin{table}[htbp]
-\caption{\label{tab:power}Table of mean and max power demand for each charging schedule.}
+\caption{\label{tab:nonlinear-power}Table of mean and max power demand for each charging schedule.}
 \centering
 \begin{tabular}{|l|ccc|}
 \hline
@@ -2404,18 +2439,26 @@ Max & 1910 & 1911.9 & 1911.9\\[0pt]
 \end{tabular}
 \end{table}
 
+\ref{fig:power-usage-nonlinear-sa} plots the power usage of the time horizon and \ref{tab:nonlinear-power} tabulates the
+mean and max demand for each. The non-linear SA was able to maintain a lower mean demand, as compared to that of the SA,
+while the MILP PAP continues to maintain the lowest mean demand over all the different schedules. In terms of peak
+demand, there is not much difference between each schedule. The demand of the nonlinear SA does contain longer sustained
+demand than the heuristic SA approach, which explains the nonlinear SA surpassing the MILP in the total energy consumed.
+
+The consumed energy by each schedule is shown in \ref{fig:energy-usage-nonlinear-sa}. The ordering of most energy
+consumed to least is as follows: heuristic SA, non-linear SA, and the MILP PAP with the respective energy consumption
+for each being 797.746 kWh, 4487.259 kWh, and 4256.746 kWh. The non-linear SA consumed about 231.1 kWh more than the
+MILP PAP.
+
 \begin{figure}
   \centering
   %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % Non-Linear
   \begin{subfigure}[t]{\textwidth}
     \centering
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % SA quick
     \includegraphics[width=\textwidth]{img/schedule-sa-nonlinear}
+    \caption{Charge schedule generated by the non-linear SA algorithm.}
     \label{subfig:schedule-nonlinear-sa}
-    \caption{Various schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
-    \label{fig:schedule}
   \end{subfigure}
   \hfill
 
@@ -2424,7 +2467,7 @@ Max & 1910 & 1911.9 & 1911.9\\[0pt]
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-milp}
-    \caption{Charging schedule generating by the MILP PAP algorithm.}
+    \caption{Charging schedule generated by the MILP PAP algorithm.}
     \label{subfig:schedule-milp}
   \end{subfigure}
 \end{figure}
@@ -2439,24 +2482,31 @@ Max & 1910 & 1911.9 & 1911.9\\[0pt]
     \caption{Charging schedule generated by the SA PAP algorithm using the heuristic strategy.}
     \label{subfig:schedule-heuristic-sa}
   \end{subfigure}
+  \caption{Charge schedules generated by the Non-linear SA, MILP, and Heuristic SA algorithms.}
+  \label{fig:nonlinear-schedule}
 \end{figure}
 
-\begin{figure}[h]
-  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % Fast
+\begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{img/charger-count-fast-sa-nonlinear}
-  \caption{Number of fast chargers for the heuristic SA schedule with non-linear battery dynamics.}
-  \label{subfig:fast-charger-usage-nonlinear-sa}
-\end{figure}
+  \begin{subfigure}[t]{\textwidth}
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % Fast
+    \centering
+    \includegraphics[width=\textwidth]{img/charger-count-fast-sa-nonlinear}
+    \caption{Number of fast chargers for the heuristic SA schedule with non-linear battery dynamics.}
+    \label{subfig:fast-charger-usage-nonlinear-sa}
+  \end{subfigure}
 
-\begin{figure}[h]
   %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   % Slow
-  \centering
-  \includegraphics[width=\textwidth]{img/charger-count-slow-sa-nonlinear}
-  \caption{Number of slow chargers for the heuristic SA schedule with non-linear battery dynamics.}
-  \label{subfig:slow-charger-usage-nonlinear-sa}
+  \begin{subfigure}[t]{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/charger-count-slow-sa-nonlinear}
+    \caption{Number of slow chargers for the heuristic SA schedule with non-linear battery dynamics.}
+    \label{subfig:slow-charger-usage-nonlinear-sa}
+  \end{subfigure}
+        \caption{Number of slow and fast chargers for each of the schedules.}
+        \label{fig:charger-usage-nonlinear-sa}
 \end{figure}
 
 \begin{figure}[h]
@@ -2472,7 +2522,6 @@ Max & 1910 & 1911.9 & 1911.9\\[0pt]
   \includegraphics[width=\textwidth]{img/power-sa-nonlinear}
   \caption{Amount of power consumed by heuristic SA with non-linear battery dynimacs schedule over the time horizon.}
   \label{fig:power-usage-nonlinear-sa}
-  \label{fig:power}
 \end{figure}
 
 \begin{figure}[htpb]
@@ -2524,9 +2573,20 @@ peaks of 1911.9 kW. Overall, the most effective schedule was the MILP; however a
 heuristic SA was able to generate a schedule that was ``in the ballpark'' of that of the MILP while further taking the
 demand cost into consideration.
 
-TODO: Paragraph on non-linear
+In \ref{sec:nonlinear-battery-dynamics}, non-linear battery dynamics were derived and introduced in the SA PAP model. The
+behavior of different convergence rates were demonstrated, and then an example was presented. Convergence rates of 0.1
+and 0.002 were utilized for the fast and slow chargers, respectively. Overall, the non-linear SA performed better than
+the heuristic technique except in terms of packing the schedule. This, however, is taken to be a factor of the SA
+algorithm only being able to estimate optimality. Thus, as expected, the MILP produced the most optimal output of the
+schedules. The non-linear SA was able to approximate the output relatively well while further taking peak demand into
+consideration the non-linear battery dynamics model.
 
-TODO: Paragraph wrapping things up
+Further fields of interest are to investigate the performance of the quick and heuristic SA approaches utilizing a
+denser set of routes to schedule as compared to the MILP. Non-linear dynamics would be of interest to incorporate into
+the MILP model to further explore comparisons to the SA implementation. Another area of interest would be initializing a
+MILP solver with a solution generated from an SA algorithm in an attempt to increase performance. Furthermore, an
+interest in creating a robust strategy by accounting for uncertain arrival times by ``fuzzifying'' the arrival times. An
+introduction into this method is provided in \ref{sec:fuzzy-sa-pap}.
 
 \makeappendices
 \appendix{The Fully Fuzzy Linear Program Model}

@@ -1,4 +1,4 @@
-#+name: tab:power
+#+name: tab:nonlinear-power
 #+caption: Table of mean and max power demand for each charging schedule.
 #+ATTR_LATEX: :environment tabular :align |l|ccc|
 |------+--------+------------+-----------|

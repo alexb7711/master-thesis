@@ -135,7 +135,7 @@
       \caption{The bus charges for the heuristic SA PAP charging schedule.}
       \label{subfig:sa-heuristic-charge}
     \end{subfigure}
-    \caption{Plots of the initil SOC of each visit over the time horizon for each schedule.}
+    \caption{Plots of the initial SOC of each visit over the time horizon for each schedule.}
     \label{fig:charge}
   \end{figure}
 #+end_src

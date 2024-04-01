@@ -1,4 +1,4 @@
-#+name: tab:charge-count
+#+name: tab:nonlinear-charge-count
 #+caption: Table of mean and max instantaneous charger usage throughout the time horizon. The schedule row indicates the number of queues required by each schedule.
 #+ATTR_LATEX: :environment tabular :align |l|ll|ll|ll|ll|
 |----------+-------+-------+------------+-------+-----------+-------|
