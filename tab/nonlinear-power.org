@@ -1,0 +1,10 @@
+#+name: tab:nonlinear-power
+#+caption: Table of mean and max power demand for each charging schedule.
+#+ATTR_LATEX: :environment tabular :align |l|ccc|
+|------+--------+------------+-----------|
+|      |   MILP | Non-Linear | Heuristic |
+|------+--------+------------+-----------|
+| /    |      < |          < |         < |
+| Mean | 177.34 |     185.84 |    198.84 |
+| Max  |   1910 |     1911.9 |    1911.9 |
+|------+--------+------------+-----------|

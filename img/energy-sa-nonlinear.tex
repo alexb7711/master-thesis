@@ -12,6 +12,8 @@
 \begin{document}
 
 \pgfplotstableread[col sep = comma]{data/sa-nonlinear-acc-energy-usage.csv}\accenergydatasanonlinear
+\pgfplotstableread[col sep = comma]{../sup-doc/sa-pap-paper/img/data/sa-heuristic-acc-energy-usage.csv}\accenergydatasaheuristic
+\pgfplotstableread[col sep = comma]{../sup-doc/sa-pap-paper/img/data/milp-acc-energy-usage.csv}\accenergydatamilp
 
 \begin{tikzpicture}
 \begin{axis}[title={Accumulated Energy Usage},
@@ -21,9 +23,19 @@
     xlabel={Time [hr]}, ylabel={Energy Usage [kWh]},
     xmin=4, xmax=24, ymin=0,
     legend pos = north west]
+
+    % MILP ----------
+    \addplot[red!100!black, no markers]
+             table[x=time, y=power] {\accenergydatamilp};
+    \addlegendentry{MILP}
+    % SA Heuristic ----------
+    \addplot[gray!100!black, no markers]
+             table[x=time, y=power] {\accenergydatasaheuristic};
+    \addlegendentry{SA Heuristic}
     % SA Nonlinear ----------
-    \addplot[purple!100!black, no markers]
+    \addplot[green!100!black, no markers]
              table[x=time, y=power] {\accenergydatasanonlinear};
+    \addlegendentry{SA Non-Linear}
 \end{axis}
 \end{tikzpicture}
 

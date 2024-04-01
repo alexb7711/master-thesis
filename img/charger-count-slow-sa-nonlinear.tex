@@ -13,6 +13,8 @@
 \begin{document}
 
 \pgfplotstableread[col sep = comma]{data/sa-nonlinear-charge-cnt.csv}\usagedatasanonlinear
+\pgfplotstableread[col sep= comma]{../sup-doc/sa-pap-paper/img/data/sa-heuristic-charge-cnt.csv}\usagedatasaheuristic
+\pgfplotstableread[col sep= comma]{../sup-doc/sa-pap-paper/img/data/milp-charge-cnt.csv}\usagedatamilp
 
 \begin{tikzpicture}
   \begin{axis}[title={Slow Charge Usage},
@@ -24,7 +26,12 @@
       ytick distance=1,
       legend style={nodes={scale=0.75, transform shape}},
       legend pos = north west]
-    \addplot[purple!80!black, fill=purple, fill opacity=0.5, no markers] table[x=visit, y=slow] {\usagedatasanonlinear};
+    \addplot[gray!80!black, fill=gray, fill opacity=0.05, no markers] table[x=visit, y=slow] {\usagedatasaheuristic};
+    \addlegendentry{SA Heuristic}
+    \addplot[red!80!black, fill=red, fill opacity=0.25, no markers] table[x=visit, y=slow] {\usagedatamilp};
+    \addlegendentry{MILP}
+    \addplot[green!80!black, fill=green, fill opacity=0.25, no markers] table[x=visit, y=slow] {\usagedatasanonlinear};
+    \addlegendentry{SA Non-Linear}
   \end{axis}
 \end{tikzpicture}%\
 

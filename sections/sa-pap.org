@@ -108,7 +108,7 @@ principle by plotting the geometric schedule using varying values of $\beta$.
 
 ** Example
 :PROPERTIES:
-:CUSTOM_ID: sec:example
+:CUSTOM_ID: sec:sa-pap-example
 :END:
 
 #+include: ../sup-doc/sa-pap-paper/sections/example.org::#sec:example :only-contents t

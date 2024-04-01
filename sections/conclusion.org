@@ -15,12 +15,12 @@ considerations in the objective function while included an additional cost known
 implemented in the SA PAP model.
 
 [[#sec:milp-pap]] demonstrated an example of the MILP PAP formulation and compared its results to a heuristic-based
-schedule, referred to as Qin-Modified. The MILP PAP optimization was run for \timeran seconds to a non-optimal solution.
-The Qin-Modified and MILP schedule utilized a similar amount of fast chargers; however, the MILP schedule more readily
-used the slow chargers to its advantage when the objective function saw fit. More importantly, the MILP PAP schedule
-utilized approximately $0.1\cdot10^4$ kWh more than the Qin-Modified; however, the charges for the MILP schedule remained
-above the constrained minimum SOC of \mincharge, and charged all the buses to \fpeval{\bcharge *100}% at the end of the
-working day. The Qin-Modified schedule, on the other hand, allowed the SOC of certain BEBs to drop to 0%.
+schedule, referred to as Qin-Modified. The Qin-Modified and MILP schedule utilized a similar amount of fast chargers;
+however, the MILP schedule more readily used the slow chargers to its advantage when the objective function saw fit.
+More importantly, the MILP PAP schedule utilized approximately $0.1\cdot10^4$ kWh more than the Qin-Modified; however, the
+charges for the MILP schedule remained above the constrained minimum SOC of \mincharge, and charged all the buses to
+\fpeval{\bcharge *100}% at the end of the working day. The Qin-Modified schedule, on the other hand, allowed the SOC of
+certain BEBs to drop to 0%.
 
 In [[#sec:sa-pap]] an example of the SA PAP algorithm was presented and compared against the MILP PAP and Qin-Modified
 techniques. The SA PAP was run utilizing two different neighborhood searching techniques named the quick and heuristic
@@ -44,6 +44,17 @@ peaks of 1911.9 kW. Overall, the most effective schedule was the MILP; however a
 heuristic SA was able to generate a schedule that was "in the ballpark" of that of the MILP while further taking the
 demand cost into consideration.
 
-TODO: Paragraph on non-linear
+In [[#sec:nonlinear-battery-dynamics]], non-linear battery dynamics were derived and introduced in the SA PAP model. The
+behavior of different convergence rates were demonstrated, and then an example was presented. Convergence rates of 0.1
+and 0.002 were utilized for the fast and slow chargers, respectively. Overall, the non-linear SA performed better than
+the heuristic technique except in terms of packing the schedule. This, however, is taken to be a factor of the SA
+algorithm only being able to estimate optimality. Thus, as expected, the MILP produced the most optimal output of the
+schedules. The non-linear SA was able to approximate the output relatively well while further taking peak demand into
+consideration the non-linear battery dynamics model.
 
-TODO: Paragraph wrapping things up
+Further fields of interest are to investigate the performance of the quick and heuristic SA approaches utilizing a
+denser set of routes to schedule as compared to the MILP. Non-linear dynamics would be of interest to incorporate into
+the MILP model to further explore comparisons to the SA implementation. Another area of interest would be initializing a
+MILP solver with a solution generated from an SA algorithm in an attempt to increase performance. Furthermore, an
+interest in creating a robust strategy by accounting for uncertain arrival times by "fuzzifying" the arrival times. An
+introduction into this method is provided in \ref{sec:fuzzy-sa-pap}.

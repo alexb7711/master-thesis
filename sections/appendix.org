@@ -3,25 +3,19 @@
 #+latex: \appendix{The Fully Fuzzy Linear Program Model}
 #+latex: \label{sec:fuzzy-sa-pap}
 
-#+begin_comment
-TODO: Better introduction
-#+end_comment
-
 This section introduces an area of interest for future work. As far as the research for this thesis has shown, no other
-work has provided robustness in their resulting charge schedule. This section introduces a sense of robustness into the
-MILP model by allowing uncertainty in the arrival times of the BEBs. By “fuzzifying” the model, the “fuzzy” variables
-are allowed to have upper and lower bounds for which the model can provide solutions for. The work to be introduced
-promises much potential for further research and development in regard to scheduling BEBs. What follows is a proposal
-for a Simulated Annealing (SA) implementation and extension of the PAP utilizing Fully Fuzzy Mixed Integer Linear
-Programming (FFMILP) constraints with non-linear battery dynamics.
+work has provided robustness in their resulting charge schedule. This section outlines a mathematical method to
+introduce robustness into the MILP constraints by allowing uncertainty in the arrival times of the BEBs via
+"fuzzification" [cite:@kaur-2016-introd-fuzzy; @bello-2019-fuzzy-activ]. The process fuzzifying the model introduces
+fuzzy variables that contain bounds for which the model can provide solutions for. The mathematics to be introduced
+promises much potential for further research and development in regard to scheduling BEBs. What follows is an outline
+and extension of the MILP PAP utilizing Fully Fuzzy Mixed Integer Linear Programming (FFMILP) constraints.
 
-The Fuzzy PAP (FPAP) expands upon the MILP-PAP by adding a layer of robustness to the model's solutions
-[cite:@bello-2019-fuzzy-activ; @kaur-2016-introd-fuzzy]. By introducing fuzziness to the model, that allows a sense of
-uncertainty to some of the parameters. In a realistic scenario, multiple factors such as technical problems, weather
-conditions, road detours, among others, buses may arrive earlier or later than anticipated to the station/depot. For
-crisp models, there is no sense of lateness or earliness, thus the model's solutions lose validity at the moment that
-any buses do not adhere to the route time perfectly. Fuzzifying the models in turn produces a fuzzy solution that
-encodes ranges of times that buses may arrive while still remaining a valid solution.
+In a realistic scenario, multiple factors such as technical problems, weather conditions, road detours, and various
+others factor may arise causing buses to arrive earlier or later than anticipated to the station/depot. For crisp models
+(a traditional MILP), there is no sense of lateness or earliness, thus a model's solution loses validity at the moment
+any bus does not adhere to the route timing. Fuzzifying the model in turn produces a fuzzy solution that encodes ranges
+of times that buses may arrive while still remaining a valid solution.
 
 The appendix proceeds as follows. \ref{sec:fuzzy-preliminaries} introduces some of the basic concepts of Mixed Integer
 Linear Programming (MILP), fuzzy set theory, and Fully Fuzzy Linear Programming (FFLP). \ref{sec:the-fuzzy-bap}

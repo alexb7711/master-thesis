@@ -68,18 +68,14 @@ and even fuzzy set theory has been applied to allow for more flexible schedules 
 :CUSTOM_ID: sec:problem-description
 :END:
 
-The intent of the proposed work is to build upon the Position Allocation Problem [cite:@qarebagh-2019-optim-sched], a
+The work of this thesis builds upon the Position Allocation Problem (PAP) [cite:@qarebagh-2019-optim-sched], a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
-vehicles [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The PAP's goal is that of
-allocating space for incoming BEBs to be queued and charged as depicted in \autoref{subfig:papexample}. The BEBs are
-assumed to be on schedules that are defined in advance. That is, the times the BEBs are on their respective routes and
-the time they are at the station are known. The BEBs' initial charges are assumed to be known, the discharges are
-estimated by calculating an average bus speed, the time on route, and an average amount of energy consumed per mile, and
-a specified final charge must be met for each BEB. An example of a standard PAP/BAP solution (their visual
-representations are interchangeable) is visualized in \autoref{fig:bap}, note that the figure utilized BAP terminology.
-The x and y-axis represent time and queuing space, respectively. The figure discretizes the queuing space, but it may be
-continuous if desired as previously stated. The shaded rectangles' widths represent their respective allocated charge
-times, and their heights represent the physical space taken by each EV.
+vehicles (EVs) [cite:@buhrkal-2011-model-discr;@frojan-2015-contin-berth;@imai-2001-dynam-berth]. The goal of the PAP is
+to allocate incoming EVs into queues to be charged as depicted in \autoref{subfig:papexample}. An example of a standard
+PAP/BAP solution (their visual representations are interchangeable) is visualized in \autoref{fig:bap}, note that the
+figure utilized BAP terminology. The x and y-axis represent time and queuing space, respectively. The figure discretizes
+the queuing space, but it may be continuous if desired. The shaded rectangles' widths represent their respective
+allocated charge times, and their heights represent the physical space taken by each EV.
 
 #+begin_src latex
 \begin{subfigures}
@@ -107,12 +103,21 @@ times, and their heights represent the physical space taken by each EV.
 \end{subfigures}
 #+end_src
 
-Now that the problem has been defined conceptually, the problem shall be defined in more mathematical terms.
-#+include: "../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description" :lines "5-42"
+Adapting the PAP model for BEBs, consider a fleet of BEBs scheduled to perform a set of prescribed routes on a given
+day. An individual BEB from said fleet begins and completes an individual route at the same station from which it also
+receives its charge. During each route, the BEB's State of Charge (SOC) is depleted by a certain amount. The charge
+supplied during its visit must be enough to sustain the BEB's SOC at an appropriate level so that it may complete its
+next route. The charge may be supplied from any single charger given a set of chargers at the station. Let the term
+"arrival" describe the time at which a BEB reaches the station. Furthermore, let the term "visit" denote a BEB having
+arrived, awaited its predetermined time (whether it has received a charge or not), and departed from the station. Each
+BEB may have multiple visits to the station throughout their working day. This paper describes a method to optimize the
+assignment of each visit to a charger given a schedule for a fleet of BEBs that follow the behavior described above. The
+various models presented in this work optimizes over peak power usage and energy consumption, as well as attempts to
+optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 ** Mixed Integer Linear Programming
 
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :lines "7-24"
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :lines "2-24"
 
 ** Overview of the BAP
 :PROPERTIES:
@@ -159,7 +164,7 @@ other scheduled charge times.
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
 
-** Summary
+** Summary :noexport:
 In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
 methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
 charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
