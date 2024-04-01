@@ -19,5 +19,5 @@ jobs:
     - name: "Create Release"
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "alexander-brown-thesis.pdf"
+        artifacts: "main.pdf"
         bodyFile: "README.org"
