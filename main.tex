@@ -1,4 +1,4 @@
-% Created 2024-04-01 Mon 14:17
+% Created 2024-04-01 Mon 16:01
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 \usepackage[utf8]{inputenc}
@@ -196,14 +196,14 @@ fleets, and optimizing the infrastructure are problems of more recent interest a
 relevant problems as EV/BEBs become more commonplace \cite{hoke-2014-accoun-lithium,sebastiani-2016-evaluat-elect,wei-2018-optim-spatio}.
 
 The literature shows an interest in solving the problem of assigning BEBs to charging queues or optimizing their
-infrastructure \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. In fact, many works attempt to solve both problems simultanously
+infrastructure \cite{wei-2018-optim-spatio,sebastiani-2016-evaluat-elect,hoke-2014-accoun-lithium,wang-2017-elect-vehic}. In fact, many works attempt to solve both problems simultaneously
 barring some simplification whether it be only allowing chargers of a single type
 \cite{he-2020-optim-charg,tang-2019-robus-sched}. If multiple chargers are used, then one of each type is assigned at
 each location. Others have also assumed that a BEB shall recieve full charge upon each arrival
 \cite{wei-2018-optim-spatio,wang-2017-elect-vehic,zhou-2020-bi-objec,wang-2017-optim-rechar}. Some works on the
-stochastic effects of energy consumption while on route for a BEB as well as trip times \cite{zhou-2020-collab-optim,bie-2021-optim-elect}. One other source, as far as the reseach for this work has shown, describes a method of producing
-a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to minimize
-over the total charger count \cite{whitaker-2023-a-network}.
+stochastic effects of energy consumption while on route for a BEB as well as trip times \cite{zhou-2020-collab-optim,bie-2021-optim-elect}. One other source, as far as the research for this work has shown, describes a method of
+producing a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to
+minimize over the total charger count \cite{whitaker-2023-a-network}.
 
 The work described in this proposal is similar to the work in \cite{whitaker-2023-a-network}; however provides an
 alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
@@ -353,7 +353,7 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org5bb971e}
+\label{sec:org4bbbe56}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -550,13 +550,11 @@ consider each arrival to be unique; thus, the tracking of battery charge from on
 Furthermore, the input parameters for the model can be predefined in such a manner as to minimize the number of fast and
 slow chargers utilized as well as minimize the energy consumption. That is, the model will simultaneously minimize the
 number of chargers as well as the total consumed energy. The result is a MILP formulation that coordinates charging
-times and charger type for every visit while considering a dynamic charge model with scheduling constraints.
 
-The remainder of the paper proceeds as follows: In \autoref{sec:the-position-allocation-problem}, the PAP is introduced
-with a formulation of the resulting MILP. \autoref{sec:problemformulation} constructs the MILP for BEB scheduling,
-including modifications to the PAP queuing constraints and the development of a dynamic charging model.
-\autoref{sec:example} demonstrates an example of using the formulation to coordinate \A buses over \N total visits to
-the station. The paper ends in \autoref{sec:conclusion} with concluding remarks.
+The remainder of this chapter proceeds as follows: \autoref{sec:problemformulation} constructs the MILP for BEB
+scheduling, including modifications to the PAP queuing constraints and the development of a dynamic charging model.
+\autoref{sec:example} demonstrates an example of using the formulation to coordinate \A buses over \N total visits
+to the station.
 
 \section{A Rectangle Packing Formulation for BEB Charging}
 \label{sec:problemformulation}
@@ -809,7 +807,7 @@ constraints. \autoref{subeq:gpgret}-\autoref{subeq:gwles} define the charge gain
 constraints \autoref{subeq:binaryspace}-\autoref{subeq:Ispace} define the sets of valid values for each variable.
 
 \section{Example}
-\label{sec:milp-example}
+\label{sec:example}
 An example will now be presented to demonstrate the utility of the developed MILP charge scheduling technique. A
 description of the scenario is first presented followed by a description of an alternative heuristic-based planning
 strategy called Qin-Modified which is used as a comparison to the MILP PAP. Results are then presented,
@@ -1080,7 +1078,7 @@ introduces the structure of the MILP formulation as well as a description of the
 objective function and constraints. In \ref{sec:simulated-annealing}, the concept and theory of SA is introduced. In
 particular the algorithms and methods utilized for the SA implementation for this work are discussed.
 \ref{sec:optimization-algorithm} outlines a generic SA algorithm, and then combines the previous sections to introduce the
-particular implementation for the SA-PAP. In , an example problem is provided to demonstrate the capability
+particular implementation for the SA-PAP. In \ref{sec:example}, an example problem is provided to demonstrate the capability
 of the work provided in this paper. The results will be presented and discussed.
 
 \section{Problem Description}
@@ -1576,12 +1574,12 @@ current state of visits, \(\I\), and the current state of the charger availabili
 affects a subset of \(\I\) and the updated charger availability \(\C\).
 
 \paragraph{Generator Input}
-\label{sec:org60bf931}
+\label{sec:orgf1165a8}
 Each generator accepts a tuple \(\Sol \equiv (i, \I, \C)\) where \(i\) is the visit index being manipulated, \(\I\) is the set of
 visits, and \(\C\) is the set that describes the availability for all chargers \(q \in \Qset\).
 
 \paragraph{Generator Output}
-\label{sec:org9da365d}
+\label{sec:orgecf1efa}
 The output of the generating functions is the same as the input, but with changes applied to it by a generator. Let a
 modified variable be denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written as \(\bar{\Sol}\). Although
 not all the variables in \(\Sol\) are modified, it is written in this manner for the sake of consistency and simplicity in

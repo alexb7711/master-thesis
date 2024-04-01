@@ -8,7 +8,12 @@
 :custom_id: sec:milp-introduction
 :END:
 
-#+include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :only-contents t
+#+include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :lines "5-50"
+
+The remainder of this chapter proceeds as follows: \autoref{sec:problemformulation} constructs the MILP for BEB
+scheduling, including modifications to the PAP queuing constraints and the development of a dynamic charging model.
+\autoref{sec:example} demonstrates an example of using the formulation to coordinate \A buses over \N total visits
+to the station.
 
 ** Position Allocation Problem :noexport:
 :PROPERTIES:
@@ -25,7 +30,7 @@
 
 ** Example
 :PROPERTIES:
-:custom_id: sec:milp-example
+:custom_id: sec:example
 :END:
 
 #+include: ../sup-doc/milp-pap-paper-frontiers/sections/example.org::#sec:example :only-contents t
