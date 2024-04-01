@@ -73,7 +73,7 @@
     % SA Heuristic
     \includegraphics[width=\textwidth]{img/charge-sa-nonlinear}
     \caption{The bus charges for the heuristic SA with non-linear battery dynimacs charging schedule.}
-    \label{subfig:nonlinear-sa-charge}
+    \label{fig:nonlinear-sa-charge}
   \end{figure}
 #+end_src
 

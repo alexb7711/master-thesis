@@ -15,12 +15,12 @@ considerations in the objective function while included an additional cost known
 implemented in the SA PAP model.
 
 [[#sec:milp-pap]] demonstrated an example of the MILP PAP formulation and compared its results to a heuristic-based
-schedule, referred to as Qin-Modified. The MILP PAP optimization was run for \timeran seconds to a non-optimal solution.
-The Qin-Modified and MILP schedule utilized a similar amount of fast chargers; however, the MILP schedule more readily
-used the slow chargers to its advantage when the objective function saw fit. More importantly, the MILP PAP schedule
-utilized approximately $0.1\cdot10^4$ kWh more than the Qin-Modified; however, the charges for the MILP schedule remained
-above the constrained minimum SOC of \mincharge, and charged all the buses to \fpeval{\bcharge *100}% at the end of the
-working day. The Qin-Modified schedule, on the other hand, allowed the SOC of certain BEBs to drop to 0%.
+schedule, referred to as Qin-Modified. The Qin-Modified and MILP schedule utilized a similar amount of fast chargers;
+however, the MILP schedule more readily used the slow chargers to its advantage when the objective function saw fit.
+More importantly, the MILP PAP schedule utilized approximately $0.1\cdot10^4$ kWh more than the Qin-Modified; however, the
+charges for the MILP schedule remained above the constrained minimum SOC of \mincharge, and charged all the buses to
+\fpeval{\bcharge *100}% at the end of the working day. The Qin-Modified schedule, on the other hand, allowed the SOC of
+certain BEBs to drop to 0%.
 
 In [[#sec:sa-pap]] an example of the SA PAP algorithm was presented and compared against the MILP PAP and Qin-Modified
 techniques. The SA PAP was run utilizing two different neighborhood searching techniques named the quick and heuristic
