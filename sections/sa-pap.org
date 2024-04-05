@@ -8,14 +8,14 @@
 :CUSTOM_ID: sec:sa-introduction
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/introduction.org::#sec:introduction :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/introduction.org::#sec:sa-introduction :only-contents t
 
 ** Problem Description
 :PROPERTIES:
 :CUSTOM_ID: sec:problem-description
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:problem-description :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/problem-description.org::#sec:sa-problem-description :only-contents t
 
 ** Optimization Problem
 :PROPERTIES:
@@ -23,14 +23,14 @@
 :END:
 
 #+include: ../tab/sa-vars.org
-#+include: ../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:optimization-problem :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/optimization-problem.org::#sec:sa-optimization-problem :only-contents t
 
 ** Simulated Annealing
 :PROPERTIES:
 :CUSTOM_ID: sec:simulated-annealing
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:simulated-annealing :lines "5-24"
+#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:sa-simulated-annealing :lines "5-24"
 
 *** Cooling Equation
 :PROPERTIES:
@@ -83,32 +83,32 @@ principle by plotting the geometric schedule using varying values of $\beta$.
 :CUSTOM_ID: sec:acceptance
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:acceptance :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:sa-acceptance :only-contents t
 
 *** Neighbor Generators and Wrappers
 :PROPERTIES:
 :CUSTOM_ID: sec:generation-mechanisms
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:generation-mechanisms :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:sa-generation-mechanisms :only-contents t
 
 *** Alternative Heuristic Implementation
 :PROPERTIES:
 :CUSTOM_ID: sec:heuristic-implementation
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:heuristic-implementation :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:sa-heuristic-implementation :only-contents t
 
 ** Optimization Algorithm
 :PROPERTIES:
 :CUSTOM_ID: sec:optimization-algorithm
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/optimization-algorithm.org::#sec:optimization-algorithm :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/optimization-algorithm.org::#sec:sa-optimization-algorithm :only-contents t
 
 ** Example
 :PROPERTIES:
 :CUSTOM_ID: sec:sa-pap-example
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/example.org::#sec:example :only-contents t
+#+include: ../sup-doc/sa-pap-paper/sections/example.org::#sec:sa-example :only-contents t
