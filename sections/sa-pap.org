@@ -30,7 +30,7 @@
 :CUSTOM_ID: sec:simulated-annealing
 :END:
 
-#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:sa-simulated-annealing :lines "5-24"
+#+include: ../sup-doc/sa-pap-paper/sections/simulated-annealing.org::#sec:sa-simulated-annealing :lines "5-20"
 
 *** Cooling Equation
 :PROPERTIES:

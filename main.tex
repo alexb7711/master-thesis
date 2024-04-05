@@ -1,17 +1,7 @@
-% Created 2024-04-05 Fri 15:02
+% Created 2024-04-05 Fri 17:46
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
-\usepackage{longtable}
-\usepackage{wrapfig}
-\usepackage{rotating}
-\usepackage[normalem]{ulem}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{capt-of}
-\usepackage{hyperref}
+
 \usepackage{amsmath}                        % Cool math
 \usepackage{amsfonts}                       % Cool math fonts
 \usepackage{amssymb}                        % Cool math fonts
@@ -118,13 +108,6 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \author{Alexander Brown}
 \date{}
 \title{A Simulated Annealing Approach to the Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics}
-\hypersetup{
- pdfauthor={Alexander Brown},
- pdftitle={A Simulated Annealing Approach to the Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics},
- pdfkeywords={},
- pdfsubject={},
- pdfcreator={Emacs 29.1 (Org mode 9.6.6)}, 
- pdflang={English}}
 \begin{document}
 
 \newtheorem*{lemma}{Lemma}
@@ -158,7 +141,7 @@ With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a r
 The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the peak power use (demand cost). Two mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. The model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results two other models: the MILP PAP and the Qin-Modified. The MILP PAP is utilized as a baseline as it is formulated in a way that can guarantee optimality. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over a similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{publicabstract}
 \begin{dedication}
-To my dearly beloved fiancÃ©e and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
+To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
 
 %
 % If you intend to have a dedication longer than one line, do not put
@@ -353,7 +336,7 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org8d7e8f1}
+\label{sec:orgeece6d8}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -550,6 +533,7 @@ consider each arrival to be unique; thus, the tracking of battery charge from on
 Furthermore, the input parameters for the model can be predefined in such a manner as to minimize the number of fast and
 slow chargers utilized as well as minimize the energy consumption. That is, the model will simultaneously minimize the
 number of chargers as well as the total consumed energy. The result is a MILP formulation that coordinates charging
+times and charger type for every visit while considering a dynamic charge model with scheduling constraints.
 
 The remainder of this chapter proceeds as follows: \autoref{sec:problemformulation} constructs the MILP for BEB
 scheduling, including modifications to the PAP queuing constraints and the development of a dynamic charging model.
@@ -1453,16 +1437,13 @@ process and the search for global optimum in optimization problems. Within the S
 cooling schedule, acceptance criteria, and generation mechanisms
 \cite{keller-2019-multi-objec,press-1992-numer-recip}.
 
-The cooling function describes the speed at which the figurative temperature is decreased in a controlled manner over
+The cooling equation describes the speed at which the figurative temperature is decreased in a controlled manner over
 time. Throughout the SA process, many ``candidate'' solutions are generated and compared to an ``active'' solution. The
 method by which the solutions are accepted is determined by the acceptance criteria. The acceptance criteria is a
 function of the system temperature that makes the decision whether the system will accept an inferior solution in favor
 of exploring the solution space. The means by which candidate solutions are generated is via the generation mechanisms.
 These generators modify the system by some singular discrete change that is within the neighborhood of the previous
 solution \cite{gendreau-2018-handb-metah}. Each of these components are elaborated in the subsequent sections.
-
-\subsection{Cooling Equation}
-\label{cooling-equation-experimental}
 
 \subsection{Cooling Equation}
 \label{cooling-equation-experimental}
@@ -1768,7 +1749,7 @@ through each visit and executing \ref{alg:new-visit} to place visit \(i\) at ran
 \paragraph{Perturb Schedule}
 \label{sec:sa-tweak-schedule}
 Once the active solution has been created by \ref{alg:charge-schedule-generation}, the SA process begins modifying it to
-create candidate solutions. After each step of the cooling function, the active solution will be altered \(n_K\) times by
+create candidate solutions. After each step of the cooling equation, the active solution will be altered \(n_K\) times by
 a random primitive generator. During these \(n_K\) iterations the active solution is modified to create a neighboring
 candidate solution. This candidate solution will then be compared against the active solution in the manner discussed in
 . \ref{alg:perturb-schedule} describes the method by which the SA algorithm decides how to perturb the
@@ -1845,8 +1826,8 @@ The SA-PAP algorithm in \ref{alg:sa-pap} will now be outlined. The algorithm beg
 and creating an initial solution. The algorithm then begins to iterate through the temperature schedule (outer loop).
 For each iteration of the outer loop, an inner loop is executed \(n_K\) times. During this inner loop, the solution is
 modified by a generating function to create a candidate solution. The candidate is solution is then compared with the
-active solution, and updated according to the acceptance criteria. These actions are performed until the temperature
-function is exhausted.
+active solution, and updated according to the acceptance criteria. These actions are performed until the cooling
+equation is exhausted.
 
 \begin{algorithm}[H]
   \scriptsize
@@ -1863,7 +1844,7 @@ function is exhausted.
 
   \Begin
     {
-      \tcc{Generate vector of temperatures given temperature function $\Tau$ and initial temperature $\Tau_0$}
+      \tcc{Generate vector of temperatures given cooling equation $\Tau$ and initial temperature $\Tau_0$}
       $t \leftarrow$ \Temp{$\Tau_0$}
 
       $\Sol \leftarrow$\CSG{($\I$, $\C$)}\tcc{Generate an initial solution}
@@ -2010,10 +1991,10 @@ whether a set of routes has a particularly taxing route later in the time horizo
 example scenario, the BEBs that reached charges of 0\% began with a sequence of short routes, much like the other BEBs.
 However, rather than continuing this trend, these sets of routes had one or two longer routes which the Qin-Modified
 algorithm was unable to account for. To remedy this problem, a safety factor could be introduced to artificially
-increase the threshold, \(S_f \nu_{\Xi_i}\kappa_{\Xi_i}\) where \(S_f > 1; S_f \in R\). Interestingly, Qin-Modified strategy was able to
-keep the mean SOC the highest followed by the quick SA, heuristic SA, and then the MILP. This is most likely due to the
-higher placement of the low, medium, and high thresholds applied to the algorithm than what is used by Rocky Mountain
-Power. This measure is useful when viewing with respect to \ref{fig:power} and \ref{fig:energy-usage}.
+increase the threshold, \(S_f \nu_{\Xi_i}\kappa_{\Xi_i}\) where \(S_f > 1;\; S_f \in \mathbb{R}\). Interestingly, Qin-Modified strategy was able
+to keep the mean SOC the highest followed by the quick SA, heuristic SA, and then the MILP. This is most likely due to
+the higher placement of the low, medium, and high thresholds applied to the algorithm than what is used by Rocky
+Mountain Power. This measure is useful when viewing with respect to \ref{fig:power} and \ref{fig:energy-usage}.
 
 \begin{table}[htbp]
 \caption{\label{tab:charge}Table of mean, min, and max SOC (kWh) for each charging schedule.}

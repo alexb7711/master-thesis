@@ -8,7 +8,7 @@
 :custom_id: sec:milp-introduction
 :END:
 
-#+include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :lines "5-50"
+#+include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :lines "5-51"
 
 The remainder of this chapter proceeds as follows: \autoref{sec:problemformulation} constructs the MILP for BEB
 scheduling, including modifications to the PAP queuing constraints and the development of a dynamic charging model.
