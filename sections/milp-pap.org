@@ -8,7 +8,14 @@
 :custom_id: sec:milp-introduction
 :END:
 
-#+include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :lines "5-51"
+The contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This incorporates
+a proportional charging model into the MILP framework, includes consideration for multiple charger types, and
+consideration of each route in the schedule. The last contribution is of importance because both the BAP and PAP
+consider each arrival to be unique; thus, the tracking of battery charge from one visit to the next must be considered.
+Furthermore, the input parameters for the model can be predefined in such a manner as to minimize the number of fast and
+slow chargers utilized as well as minimize the energy consumption. That is, the model will simultaneously minimize the
+number of chargers as well as the total consumed energy. The result is a MILP formulation that coordinates charging
+times and charger type for every visit while considering a dynamic charge model with scheduling constraints.
 
 The remainder of this chapter proceeds as follows: \autoref{sec:problemformulation} constructs the MILP for BEB
 scheduling, including modifications to the PAP queuing constraints and the development of a dynamic charging model.

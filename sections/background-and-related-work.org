@@ -13,6 +13,10 @@ proposition. Relevant introductory theory will be presented throughout.
 :CUSTOM_ID: sec:state-of-the-art
 :END:
 
+# +include: ../sup-doc/milp-pap-paper-frontiers/sections/introduction.org::#sec:introduction :lines "5-51"
+
+# +include: ../sup-doc/sa-pap-paper/sections/introduction.org::#sec:sa-introduction :only-contents t
+
 Two of the main problems that have been of recent interest are solving the problems of route scheduling and charging
 fleets as well as determining the infrastructure upon which they rely. In fact, the prospect of solving both problems
 simultaneously has received much attention [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
@@ -37,6 +41,7 @@ battery SOC is below 80% [cite:@liu-2020-batter-elect], non-linear battery dynam
 model the charge curve. A common way to model the non-linear battery dynamics is utilizing Constant Voltage (CV),
 Constant Current (CC), and Constant Current Constant Voltage (CCCV) [cite:@abdollahi-2016-optim-batter;
 @chen-2008-desig-grey]. It has also been suggested that the dynamics can be modeled as a piecewise function containing a
+
 linear and non-linear component from which a piecewise function approach may be taken for the CV and CC components
 [cite:@zhang-2021-optim-elect;@abdollahi-2016-optim-batter]. Others have modeled the battery dynamics as a discrete
 first order dynamics model [cite:@whitaker-2023-a-network]. The first-order differential system, when provided a step
