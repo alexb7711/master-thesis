@@ -1,4 +1,4 @@
-* SA PAP
+* SIMULATED ANNEALING WITH LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:sa-pap
 :END:
@@ -72,7 +72,7 @@ principle by plotting the geometric schedule using varying values of $\beta$.
     ~
     \begin{subfigure}[t]{0.5\textwidth}
       \centering \includegraphics[width=\textwidth]{img/geometric.png}
-      \caption{Geometric cooling schedule utilizing various value of $\beta_1$.}
+      \caption{Geometric cooling schedule utilizing various value of $\beta$.}
       \label{fig:geometric}
     \end{subfigure}
   \end{figure}

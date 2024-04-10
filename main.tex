@@ -1,4 +1,4 @@
-% Created 2024-04-05 Fri 17:46
+% Created 2024-04-10 Wed 09:41
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 
@@ -129,7 +129,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 
 With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a reliable charging schedule is vital to a successful migration from their fossil fuel counterparts. In this work, a BEB charging scheduling framework that considers spatiotemporal schedule constraints, fixed route schedules, fast and slow charging, and battery dynamics is modeled as a Mixed Integer Linear Program (MILP). The MILP is modeled after the Berth Allocation Problem (BAP) in a modified form known as the Position Allocation Problem (PAP). Linear battery dynamics are included to model the charging of buses while at the station. To model the BEB discharges over their respective routes, it is assumed each BEB has an average kWh charge loss while on route. The optimization coordinates BEB charging to ensure that each vehicle remains above a specified state-of-charge (SOC). The model also minimizes the total number of chargers utilized and prioritizes slow charging for battery health. The model validity is demonstrated with a set of routes and is compared to a heuristic algorithm based on charge thresholds referred to as the Qin-Modified method.
 
-The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the demand cost. Two generation mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. Similarly, the model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results to the MILP PAP which is utlized as a baseline as it is formulated in a way that can guarantee optimality. The Qin-Modified is again presented as another means of comparison. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
+The MILP approach is then further extended via a Simulated Annealing (SA) implementation. The framework maintains the same considerations and while further developing a method to minimize the demand cost. Two generation mechanisms are implemented for the SA algorithm denoted as the ``quick'' and ``heuristic'' implementations, respectively. Similarly, the model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results to the MILP which is utilized as a baseline as it is formulated in a way that can guarantee optimality. The Qin-Modified is again presented as another means of comparison. The results presented show that the ``heuristic'' approach was able to generate a solution comparable to that of the MILP approach over similar execution times. The SA PAP framework is further extended to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{abstract}
 
 \begin{publicabstract}
@@ -138,10 +138,10 @@ The MILP PAP is then further extended via a Simulated Annealing (SA) implementat
 
 With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a reliable charging schedule is vital to a successful migration from their fossil fuel counterparts. In this work, a BEB charging scheduling framework that considers fixed route schedules, multiple charger types, and battery dynamics is modeled as a Mixed Integer Linear Program (MILP). The MILP is modeled after the Berth Allocation Problem (BAP) in a modified form known as the Position Allocation Problem (PAP). The optimization coordinates BEB charging to ensure that each vehicle remains above a specified charge percentage. The model also minimizes the total number of chargers utilized and prioritizes slow charging for battery health. The model validity is demonstrated with a set of routes and is compared to a heuristic algorithm based on charge thresholds referred to as the Qin-Modified method.
 
-The MILP PAP is then further extended via a Simulated Annealing (SA) implementation of the MILP PAP. The framework maintains the same considerations and while further deveoping a method to minimize the peak power use (demand cost). Two mechanisms are implemented for the SA algorithm denoted as the "quick" and "heuristic" implementations, respectively. The model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results two other models: the MILP PAP and the Qin-Modified. The MILP PAP is utilized as a baseline as it is formulated in a way that can guarantee optimality. The results presented show that the "heuristic" approach was able to generate a solution comparable to that of the MILP PAP over a similar execution times. The SA PAP framework is further extened to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
+The MILP approach is then further extended via a Simulated Annealing (SA) implementation. The framework maintains the same considerations and while further developing a method to minimize the peak power use (demand cost). Two mechanisms are implemented for the SA algorithm denoted as the ``quick'' and ``heuristic'' implementations, respectively. The model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results two other models: the MILP approach and the Qin-Modified. The MILP is utilized as a baseline as it is formulated in a way that can guarantee optimality. The results presented show that the ``heuristic'' approach was able to generate a solution comparable to that of the MILP over a similar execution times. The SA PAP framework is further extended to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{publicabstract}
 \begin{dedication}
-To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
+To my dearly beloved fiancÃ©e and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
 
 %
 % If you intend to have a dedication longer than one line, do not put
@@ -188,7 +188,7 @@ stochastic effects of energy consumption while on route for a BEB as well as tri
 producing a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to
 minimize over the total charger count \cite{whitaker-2023-a-network}.
 
-The work described in this proposal is similar to the work in \cite{whitaker-2023-a-network}; however provides an
+The work described in this thesis is similar to the work in \cite{whitaker-2023-a-network}; however provides an
 alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
 after the Berth Allocation Problem (BAP), which was designed to optimally schedule cargo vessels to be berthed and
 serviced \cite{buhrkal-2011-model-discr,imai-2001-dynam-berth,frojan-2015-contin-berth}. The PAP utilizes this
@@ -197,45 +197,17 @@ notion to develop a model of assigning EVs to queue in ordered to be charged \ci
 Because of the PAP's extremely close modeling methods to the BAP, literature from the BAP can (and will) provide support
 for the development of the PAP in this work. The BAP has been studied in literature since the 1990s and provides a depth
 of work to derive from \cite{rodrigues-2022-berth}. The work to be introduced promises much potential for further
-research and development in regard to scheduling BEBs. What follows is a proposal for a Simulated Annealing (SA)
+research and development in regard to scheduling BEBs. What follows is a Simulated Annealing (SA)
 implementation and extension of the PAP utilizing Mixed Integer Linear Programming (MILP) constraints with non-linear
 battery dynamics.
 
 In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
 statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
-objectives and approaches in \ref{sec:objectives} and , respectively. The BEB queue scheduling problem discussed
+objectives and approaches in and , respectively. The BEB queue scheduling problem discussed
 throughout this section is of particular interest at this time in the BEB industry and requires more attention. The
 research proposed directly approaches this problem by improving upon existing implementations to provide a robust and
-accurate solution. In the subsequent sections the objectives will be introduced in \ref{sec:objectives} and the approach for
+accurate solution. In the subsequent sections the objectives will be introduced in and the approach for
 each objective will be discussed in .
-
-\section{OBJECTIVES}
-\label{sec:objectives}
-The field of BEB research provides exciting many avenues and is continuing to gain traction in industry as BEBs replace
-their gasoline counterparts. This work will introduce a novel approach to BEB scheduling that minimizes monetary costs
-for the user, and includes an accurate dynamic battery model. The PAP provides a solid foundation from which this work
-derived. However, the PAP does not perfectly encapsulate the problem and thus needs some modifications to accommodate
-the BEB model. The PAP does not account for the revisits of a BEB and therefore the State-Of-Charge (SOC) cannot be
-tracked. The model does not account for multiple charger types, and in fact models the charger as a single continuous
-bar. These accommodations must be accounted for and are included in the objectives for the proposed BEB charging plan
-below.
-
-\begin{itemize}
-\item \textbf{Objective 1}: Mathematically model the PAP to optimally assign BEBs to queues with unknown charging times to allow consideration of consumption cost and battery health
-
-\begin{itemize}
-\item \textbf{Task 1.1}: Modify PAP to enable multiple visits by a BEB with variable charger duration per visit.
-
-\item \textbf{Task 1.2}: Incorporate heterogeneous charger capabilities into the PAP to model slow and fast charging, minimize
-and total charger count. Slow charging will be incentivized for battery health and consumption cost.
-\end{itemize}
-
-\item \textbf{Objective 2}: Mathematically model non-linear battery dynamics to increase the accuracy of the SOC estimate
-
-\begin{itemize}
-\item \textbf{Task 2.1}: Incorporate non-linear battery dynamics into the model
-\end{itemize}
-\end{itemize}
 \chapter{BACKGROUND AND RELATED WORK}
 \label{sec:background-and-related-work}
 The BEB queue scheduling problem is one that has been of increasing interest and relevancy in the EV/BEB industry. It is
@@ -336,7 +308,7 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgeece6d8}
+\label{sec:org9f5b99e}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -482,7 +454,7 @@ the departure time, \(d_i\). \autoref{subeq:bapvalid_starts} enforces the arriva
 the service start time, \(u_i\), which in turn must be less than or equal to the latest time the vehicle may begin
 charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply states that \(\sigma_{ij}\) and \(\psi_{ij}\) are
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
-\chapter{MILP PAP}
+\chapter{MIXED INTEGER LINEAR PROGRAM WITH LINEAR BATTERY DYNAMICS}
 \label{sec:milp-pap}
 \section{Introduction}
 \label{sec:milp-introduction}
@@ -996,7 +968,7 @@ Decision Variables &  & Decision Variables & \\[0pt]
     \label{fig:energy-usage}
 \end{figure}
 
-\chapter{SA PAP}
+\chapter{SIMULATED ANNEALING WITH LINEAR BATTERY DYNAMICS}
 \label{sec:sa-pap}
 \section{Introduction}
 \label{sec:sa-introduction}
@@ -1481,7 +1453,7 @@ principle by plotting the geometric schedule using varying values of \(\beta\).
   ~
   \begin{subfigure}[t]{0.5\textwidth}
     \centering \includegraphics[width=\textwidth]{img/geometric.png}
-    \caption{Geometric cooling schedule utilizing various value of $\beta_1$.}
+    \caption{Geometric cooling schedule utilizing various value of $\beta$.}
     \label{fig:geometric}
   \end{subfigure}
 \end{figure}
@@ -2196,7 +2168,7 @@ more than the MILP PAP.
     \label{fig:energy-usage}
 \end{figure}
 
-\chapter{Non-Linear Battery Dynamics}
+\chapter{SIMULATED ANNEALING WITH NON-LINEAR BATTERY DYNAMICS}
 \label{sec:nonlinear-battery-dynamics}
 This chapter introduces a method of replacing the linear battery dynamics utilized throughout this work with a
 non-linear dynamics model. The chapter proceeds as follows: an introduction to the non-linear battery dynamics model is
@@ -2484,7 +2456,7 @@ MILP PAP. Notably, the ordering of the schedule mean demands are consistent with
     \label{fig:energy-usage-nonlinear-sa}
 \end{figure}
 
-\chapter{Conclusion}
+\chapter{CONCLUSION}
 \label{sec:conclusion}
 This work presented a novel approach to the BEB charge scheduling problem. \ref{sec:milp-pap} introduced the concept of the
 Berth Allocation Problem (BAP) which solves the problem of optimally assigning vessels to be serviced. From the BAP, the

@@ -1,4 +1,4 @@
-* Non-Linear Battery Dynamics
+* SIMULATED ANNEALING WITH NON-LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:nonlinear-battery-dynamics
 :END:
