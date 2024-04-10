@@ -1,7 +1,8 @@
 # ======================================================================================================================
 # Preamble
 
-#+TITLE: A Simulated Annealing Approach to the Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics
+#+TITLE:A Position Allocation Problem Approach To The Battery Electric Bus Charging Problem Utilizing Mixed Integer Linear Programming And Simulated Annealing Techniques With Linear And Non-Linear Battery Charging Dynamics
+
 #+AUTHOR: Alexander Brown
 #+EMAIL: A01704744@usu.edu
 
@@ -59,5 +60,5 @@
 #+bibliography:citation-database/lib-ref.bib
 
 #+begin_export latex
-\references{citation-database/lib-ref,citation-database/lit-ref}{IEEEtran}
+\references{citation-database/lib-ref,citation-database/lit-ref,citation-database/misc}{IEEEtran}
 #+end_export

@@ -1,4 +1,4 @@
-* SIMULATED ANNEALING WITH NON-LINEAR BATTERY DYNAMICS
+* A SIMULATED ANNEALING APPROACH WITH NON-LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:nonlinear-battery-dynamics
 :END:
@@ -33,22 +33,22 @@ As previously stated, the SOC can be accurately modeled until the battery reache
 for a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
 
 #+begin_src latex
-      \begin{figure}
+  \begin{figure}
 
-        \begin{minipage}{0.5\textwidth}
-          \centering
-          \includegraphics[width=0.9\textwidth]{img/soc-plot.png}
-          \captionof{figure}{Illustration of non-linear charging profile.}
-          \label{fig:soc-plot}
-        \end{minipage}%
-        \begin{minipage}{0.5\textwidth}
-          \centering
-          \includegraphics[width=0.9\textwidth]{img/nonlinear-bat.png}
-          \captionof{figure}{Charging profiles for various convergence rates.}
-          \label{fig:convergence-rates}
-        \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth]{img/soc-plot.png}
+      \captionof{figure}{Illustration of non-linear charging profile.}
+      \label{fig:soc-plot}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth]{img/nonlinear-bat.png}
+      \captionof{figure}{Charging profiles for various convergence rates.}
+      \label{fig:convergence-rates}
+    \end{minipage}
 
-      \end{figure}
+  \end{figure}
 #+end_src
 
 While some leverage the linear and non-linear components to derive their SOC model [cite:@abdollahi-2016-optim-batter],

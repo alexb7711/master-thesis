@@ -32,45 +32,17 @@ fleets, and optimizing the infrastructure are problems of more recent interest a
 relevant problems as EV/BEBs become more commonplace [cite:@hoke-2014-accoun-lithium; @sebastiani-2016-evaluat-elect;
 @wei-2018-optim-spatio].
 
-Works concerning charge planning often use a version of the vehicle scheduling problem [cite:@zhang-2021-optim-elect;
-@duan-2021-refor-mixed; @rinaldi-2020-mixed-fleet; @tang-2019-robus-sched; @li-2014-trans-bus; @he-2020-optim-charg],
-while others have based their implementation on alternative methods
-[cite:@qarebagh-2019-optim-sched;@whitaker-2023-a-network]. [cite:@whitaker-2023-a-network] utilizes a network flow
-approach to model the scheduling while [cite:@qarebagh-2019-optim-sched] utilizes what is known as the Position
-Allocation Problem (PAP). Nearly all the literature reviewed considered consumption costs [cite:@jahic-2019-preem;
-@frendo-2021-open-sourc; @qin-2016-numer-analy; @zhou-2020-bi-objec; @duan-2021-refor-mixed; @mortensen-2023-cost-minim;
-@zhou-2020-collab-optim; @rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim], while fewer consider demand costs
-[cite:@jahic-2019-preem; @frendo-2021-open-sourc; @qin-2016-numer-analy; @mortensen-2023-cost-minim;
-@he-2020-optim-charg]. Many of these works introduce simplifying assumptions for the sake of computation. For example,
-some approaches only consider fast chargers during planing [cite:@zhou-2020-collab-optim; @li-2014-trans-bus;
-@wang-2017-optim-rechar; @sebastiani-2016-evaluat-elect; @wei-2018-optim-spatio]. Approaches that consider more than one
-charger type typically isolate the specific charger types in different locations [cite:@tang-2019-robus-sched;
-@he-2020-optim-charg].
-
-Others have assumed that BEBs always charge to full capacity [cite:@duan-2021-refor-mixed; @zhang-2021-optim-elect;
-@zhou-2020-bi-objec; @wang-2017-elect-vehic], partial charging utilizing a linear battery dynamics model
-[cite:@wei-2018-optim-spatio; @he-2020-optim-charg; @mortensen-2023-cost-minim], or non-linear battery dynamics with
-partial charging [cite:@whitaker-2023-a-network; @zhang-2021-optim-elect; @qin-2016-numer-analy; @jahic-2019-preem;
-@frendo-2021-open-sourc]. Works that assumed scheduled BEBs always charge to full capacity significantly simplify the
-scheduling problem, but eliminates the key factor in reducing the demand cost, partial charging
-[cite:@tang-2019-robus-sched; @duan-2021-refor-mixed; @rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim]. The
-approaches that utilized non-linear charging profiles with partial charging achieve the same benefit in demand cost
-reduction, with the added benefit of a higher fidelity at the expense of computation [cite:@zhang-2021-optim-elect].
-Exceptions to this are [cite:@he-2020-optim-charg] that utilize a piecewise-linear charging profiles. This model has the
-drawback of assuming that a charger is always available. [cite:@whitaker-2023-a-network] proposes a discrete linear
-time-invariant dynamic model that results in an exponential decay non-linear charge profile.
-
-The selected model for the battery charge dynamics, although pertinent to this work as it directly affects the quality
-of the produced schedule, does not impact the considerations of battery health. Battery health begins to be of concern
-when over-charging, under-charging, or forcing the battery to perform "deep" cycles [cite:@zhou-2020-bi-objec;
-@millner-2010-model-lithium; @edge-2021-lithium]. Furthermore, other works have suggested that charging a battery nearly
-to capacity is detrimental to the health and can significantly reduce the total charge cycles a battery may undergo
-[cite:@edge-2021-lithium; @millner-2010-model-lithium]. While the charge profile for batteries are inherently
-non-linear, some works have assumed proportional charging as linear battery dynamics remain a valid assumption when the
-battery SOC is below 80% [cite:@liu-2020-batter-elect]. Thus, while linear dynamics may lack the fidelity of accuracy
-above 80%, it is able to accurately estimate the SOC within a range that will guarantee battery health. Thus, this work
-assumes that a linear model is sufficiently accurate to produce an operationally valid schedule while maintaining
-battery health.
+Literature shows an interest in solving the problem of assigning BEBs to charging queues or optimizing their
+infrastructure [cite:@wei-2018-optim-spatio;@sebastiani-2016-evaluat-elect;
+@hoke-2014-accoun-lithium;@wang-2017-elect-vehic]. In fact, many works attempt to solve both problems simultaneously
+barring some simplification whether it be only allowing chargers of a single type
+[cite:@he-2020-optim-charg;@tang-2019-robus-sched]. If multiple chargers are used, then one of each type is assigned at
+each location. Others have also assumed that a BEB shall recieve full charge upon each arrival
+[cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar]. Some works on the
+stochastic effects of energy consumption while on route for a BEB as well as trip times [cite:@zhou-2020-collab-optim;
+@bie-2021-optim-elect]. One other source, as far as the research for this work has shown, describes a method of
+producing a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to
+minimize over the total charger count [cite:@whitaker-2023-a-network].
 
 The work described in this thesis is similar to the work in [cite:@whitaker-2023-a-network]; however provides an
 alternate method of modeling the problem in what is known as the Position Allocation Problem (PAP). The PAP is modeled
@@ -78,19 +50,21 @@ after the Berth Allocation Problem (BAP), which was designed to optimally schedu
 serviced [cite:@buhrkal-2011-model-discr; @imai-2001-dynam-berth; @frojan-2015-contin-berth;]. The PAP utilizes this
 notion to develop a model of assigning EVs to queue in ordered to be charged [cite:@qarebagh-2019-optim-sched].
 
-Because of the PAP's modeling is similar to that of the BAP, literature from the BAP provides a foundation for the
+Because the PAP's modeling is similar to that of the BAP, literature from the BAP provides a foundation for the
 development of the PAP in this work. The BAP has been studied in literature since the 1990s and provides a depth of work
 to derive from [cite:@rodrigues-2022-berth]. The work to be introduced promises much potential for further research and
 development in regard to scheduling BEBs. What follows is a Simulated Annealing (SA) implementation and extension of the
 PAP utilizing Mixed Integer Linear Programming (MILP) constraints with non-linear battery dynamics.
 
-In the next section, a review of relevant literature of BEBs is introduced and discussed. Background and a problem
-statement will be elaborated further to provide context and a required basis of understanding prior to discussing the
-objectives and approaches in [[#sec:objectives]] and [[#sec:approach]], respectively. The BEB queue scheduling problem discussed
-throughout this section is of particular interest at this time in the BEB industry and requires more attention. The
-research proposed directly approaches this problem by improving upon existing implementations to provide a robust and
-accurate solution. In the subsequent sections the objectives will be introduced in [[#sec:objectives]] and the approach for
-each objective will be discussed in [[#sec:approach]].
+The work proceeds as follows: [[#sec:background-and-related-work]] provides the state-of-the-art along with various
+introductory material pertinent to this work. [[#sec:milp-pap]] constructs the MILP for BEB scheduling, including
+modifications to the PAP queuing constraints and the development of a dynamic charging model. An example this presented
+as a demonstration of the model's utility. The results are subsequently provided and discussed. In [[#sec:sa-pap]], the
+previously derived BEB charging model is adapted for a Simulated Annealing (SA) implementation. This method maintains
+the same considerations from the MILP implementation, but further accounts for a peak power demand cost. An example is
+then provided with discussion on the results. [[#sec:nonlinear-battery-dynamics]] further adapts the SA approach by deriving
+and incorporating non-linear battery dynamics. The example from [[#sec:sa-pap]] is run again utilizing the non-linear
+battery dynamics. The results are then presented and discussed.
 
 #+begin_comment
 Public transportation systems are crucial in any urban area; however, the increased awareness and concern of

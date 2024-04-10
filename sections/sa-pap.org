@@ -1,4 +1,4 @@
-* SIMULATED ANNEALING WITH LINEAR BATTERY DYNAMICS
+* A SIMULATED ANNEALING APPROACH WITH LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:sa-pap
 :END:
@@ -14,11 +14,11 @@ consumption cost, and minimizes demand cost. These contributions are demonstrate
 other models: the Mixed Integer Linear Program (MILP) implementation of the PAP and what is known as the Qin-Modified
 technique.
 
-The remainder of this chapter goes as follows. [[#sec:sa-problem-description]] provides the problem statement associated with
-this work. [[#sec:sa-optimization-problem]] provides a description of the input parameters and decision variables then
+The remainder of this chapter goes as follows. [[#sec:sa-problem-description]] provides the problem statement associated
+with this work. [[#sec:sa-optimization-problem]] provides a description of the input parameters and decision variables then
 introduces the structure of the formulation. In [[#sec:sa-simulated-annealing]], the concept and theory of SA is introduced.
 In particular, the algorithms and methods utilized for the SA implementation for this work are discussed.
-[[#sec:sa-optimization-algorithm]] combines the previous sections to introduce the particular pseudo code for the SA PAP. In
+[[#sec:sa-optimization-algorithm]] combines the previous sections to introduce the particular pseudocode for the SA PAP. In
 [[#sec:sa-example]], an example problem is provided to demonstrate the capability of the work provided in this paper. The
 results will be presented and discussed.
 
