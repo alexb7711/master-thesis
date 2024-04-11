@@ -44,6 +44,9 @@
 # =========================================================================================================================
 # Theorems, Definitions, Corollarios, and Lemmas
 # https://www.overleaf.com/learn/latex/Theorems_and_proofs#Numbered_theorems,_definitions,_corollaries_and_lemmas
+
+#+LATEX_HEADER: \newtheorem{definition}{Definition}[section]
+
 \newtheorem*{lemma}{Lemma}
 
 # =========================================================================================================================
