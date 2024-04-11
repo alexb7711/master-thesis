@@ -53,9 +53,9 @@
 # `autoref' formatting
 #+latex_header: \renewcommand*{\chapterautorefname}{Chapter}
 #+latex_header: \renewcommand*{\sectionautorefname}{Section}
-#+latex_header: \renewcommand*{\subsectionautorefname}{Subsection}
-#+latex_header: \renewcommand*{\subsubsectionautorefname}{Subsubsection}
-#+latex_header: \renewcommand*{\paragraphautorefname}{Paragraph}
+#+latex_header: \renewcommand*{\subsectionautorefname}{Section}
+#+latex_header: \renewcommand*{\subsubsectionautorefname}{Section}
+#+latex_header: \renewcommand*{\paragraphautorefname}{Section}
 #+latex_header: \renewcommand*{\algorithmautorefname}{Algorithm}
 #+latex_header:\newcommand{\definitionautorefname}{Definition}
 
