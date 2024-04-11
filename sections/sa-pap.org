@@ -10,7 +10,7 @@
 In the previous chapter a MILP was derived to create an optimal charging schedule for a fleet of BEBs. While MILPs are
 extensible via the modular nature of the constraints, they are limited by the required linearity of the equations. If a
 non-linear equation is able to be linearized, that often leads to an introduction of slack variables that can further
-increase the complexity of the model, as was seen in [[#sec:milp-pap]]. The chapter aims to expand on the MILP by
+increase the complexity of the model, as was seen in [[#sec:milp-pap]]. The chapter aims to expand on the MILP approach by
 introducing a Simulated Annealing (SA) framework that utilizes linear battery dynamics, accounts for partial charging,
 minimizes total charger count, allows for multiple charger types, minimizes consumption cost, and minimizes demand cost.
 These contributions are demonstrated via simulation and comparison to two other models: the Mixed Integer Linear Program

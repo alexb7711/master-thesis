@@ -3,13 +3,13 @@
 :CUSTOM_ID: sec:nonlinear-battery-dynamics
 :END:
 
-The models presented up to this point have employed linear battery dynamic constraints to estimate the SOC of the BEB
-during its charging phase. While linear battery dynamics are accurate up to about an 80% SOC
-[cite:@liu-2020-batter-elect], fidelity is lost after this point due to the non-linearity of the charge profile. This
-chapter introduces a method of replacing the linear battery dynamics throughout this work with a non-linear dynamics
-model. The non-linear model will be employed the SA algorithm derived in [[#sec:sa-pap]] The chapter proceeds as follows: an
-introduction to the non-linear battery dynamics model is shown in [[#sec:nonlinear-model]] along with a proof and
-description of how the model is incorporated. [[#sec:nonlinear-results]] presents and discusses the results.
+The models presented up to this point have employed linear battery dynamic models to estimate the SOC of the BEB during
+its charging phase. While linear battery dynamics are accurate up to about an 80% SOC [cite:@liu-2020-batter-elect],
+fidelity is lost after this point due to the non-linearity of the charge profile. This chapter introduces a method of
+replacing the linear battery dynamics throughout this work with a non-linear dynamics model. The non-linear model will
+be employed in the SA algorithm from [[#sec:sa-pap]]. The chapter proceeds as follows: an introduction to the non-linear
+battery dynamics model is shown in [[#sec:nonlinear-model]] along with a proof and description of how the model is
+incorporated. [[#sec:nonlinear-results]] presents and discusses the results.
 
 ** Non-linear Battery Dynamics Model
 :PROPERTIES:
@@ -25,9 +25,9 @@ incorporate temperature, battery degradation, and current
 
 Some of the conventional methods to charge batteries are: Constant Voltage (CV), Constant Current (CC), and Constant
 Current Constant Voltage (CCCV) [cite:@arabsalmanabadi-2018-charg-techn]. In CCCV, a constant current is applied to a
-battery until it reaches terminal voltage. At this point a constant voltage is applied as the charge current decreases
-and the battery reaches full charge [cite:@chen-2008-desig-grey]. Thus, by extension, CV merely applies a constant
-voltage and CC a constant current [cite:@arabsalmanabadi-2018-charg-techn].
+battery until it reaches terminal voltage. Once this point has been reached, a constant voltage is applied as the charge
+current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey]. Thus, by extension, CV merely
+applies a constant voltage and CC a constant current [cite:@arabsalmanabadi-2018-charg-techn].
 
 As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80%
 [cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. Naturally, it has been suggested by

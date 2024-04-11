@@ -54,8 +54,8 @@ partial charging [cite:@whitaker-2023-a-network; @zhang-2021-optim-elect; @qin-2
 @frendo-2021-open-sourc]. Works that assumed scheduled BEBs always charge to full capacity significantly simplify the
 scheduling problem, but eliminates the key factor in reducing the demand cost, partial charging
 [cite:@tang-2019-robus-sched; @duan-2021-refor-mixed; @rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim]. The
-approaches that utilized non-linear charging profiles with partial charging achieve the same benefit in demand cost
-reduction, with the added benefit of a higher fidelity at the expense of computation [cite:@zhang-2021-optim-elect].
+approaches that utilized non-linear charging profiles with partial charging are able to achieve a reduction in the
+demand cost, with the added benefit of a higher fidelity at the expense of computation [cite:@zhang-2021-optim-elect].
 Exceptions to this are [cite:@he-2020-optim-charg] that utilize a piecewise-linear charging profiles. This model has the
 drawback of assuming that a charger is always available. A common way to model the non-linear battery dynamics is
 utilizing Constant Voltage (CV), Constant Current (CC), and Constant Current Constant Voltage (CCCV)
