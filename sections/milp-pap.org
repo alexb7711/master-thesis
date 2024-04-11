@@ -8,8 +8,11 @@
 :custom_id: sec:milp-introduction
 :END:
 
-The contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This incorporates
-a proportional charging model into the MILP framework, includes consideration for multiple charger types, and
+The objective of this chapter is to utilize the PAP from [[#sec:overview-of-the-pap]] as a basis of deriving the formulation
+for scheduling a fleet of BEBs. Because the PAP was designed for a set of EVs with predefined arrival times, initial
+charges, and charge times, the PAP must be modified to support the behavior that a fleet of buses exhibit. As such, the
+contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This incorporates a
+proportional charging model into the MILP framework, includes consideration for multiple charger types, and
 consideration of each route in the schedule. The last contribution is of importance because both the BAP and PAP
 consider each arrival to be unique; thus, the tracking of battery charge from one visit to the next must be considered.
 Furthermore, the input parameters for the model can be predefined in such a manner as to minimize the number of fast and

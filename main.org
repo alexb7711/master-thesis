@@ -1,18 +1,14 @@
-# ======================================================================================================================
-# Preamble
-
-#+TITLE:A Position Allocation Problem Approach To The Battery Electric Bus Charging Problem Utilizing Mixed Integer Linear Programming And Simulated Annealing Techniques With Linear And Non-Linear Battery Charging Dynamics
-
-#+AUTHOR: Alexander Brown
-#+EMAIL: A01704744@usu.edu
-
 #+OPTIONS: title:nil
 #+LANGUAGE: en
 
-#+include: sections/preamble.org
+#+TITLE:A SIMULATED ANNEALING APPROACH TO THE BATTERY ELECTRIC BUS CHARGING PROBLEM
+#+AUTHOR: Alexander Brown
+#+EMAIL: A01704744@usu.edu
 
-# Theorems/Lemmas/Definition headers
-#+LATEX_HEADER: \newtheorem{definition}{Definition}[section]
+# ======================================================================================================================
+# Preamble
+
+#+include: sections/preamble.org
 
 #+begin_export latex
 \preliminaries   % set frontmatter style
@@ -26,11 +22,13 @@
 
 # ======================================================================================================================
 # Abstract
+
 #+include: sections/abstract.org
+#+include: sections/publicabstract.org
 
 # ======================================================================================================================
 # Preliminaries
-#+include: sections/publicabstract.org
+
 #+include: sections/dedication.org
 #+include: sections/acknowl.org
 

@@ -1,4 +1,4 @@
-% Created 2024-04-10 Wed 16:20
+% Created 2024-04-10 Wed 19:41
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 
@@ -29,6 +29,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \setlength{\intextsep}{2em} % Vertical space above & below [h] floats
 \setlength{\textfloatsep}{2em} % Vertical space below (above) [t] ([b]) floats
 \usetikzlibrary{arrows.meta}                % Arrows for tikz
+\newtheorem{definition}{Definition}[section]
 \renewcommand*{\chapterautorefname}{Chapter}
 \renewcommand*{\sectionautorefname}{Section}
 \renewcommand*{\subsectionautorefname}{Subsection}
@@ -104,10 +105,9 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \degree{Master of Science}
 \month{Dec}
 \gradyear{2024}
-\newtheorem{definition}{Definition}[section]
 \author{Alexander Brown}
 \date{}
-\title{A Position Allocation Problem Approach To The Battery Electric Bus Charging Problem Utilizing Mixed Integer Linear Programming And Simulated Annealing Techniques With Linear And Non-Linear Battery Charging Dynamics}
+\title{A SIMULATED ANNEALING APPROACH TO THE BATTERY ELECTRIC BUS CHARGING PROBLEM}
 \begin{document}
 
 \newtheorem*{lemma}{Lemma}
@@ -131,7 +131,6 @@ With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a r
 
 The MILP approach is then further extended via a Simulated Annealing (SA) implementation. The framework maintains the same considerations and while further developing a method to minimize the demand cost. Two generation mechanisms are implemented for the SA algorithm denoted as the ``quick'' and ``heuristic'' implementations, respectively. Similarly, the model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results to the MILP which is utilized as a baseline as it is formulated in a way that can guarantee optimality. The Qin-Modified is again presented as another means of comparison. The results presented show that the ``heuristic'' approach was able to generate a solution comparable to that of the MILP approach over similar execution times. The SA PAP framework is further extended to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{abstract}
-
 \begin{publicabstract}
 % A space is needed before the text starts so that the first paragraph
 % is indented properly.
@@ -140,6 +139,7 @@ With an increasing adoption of Battery Electric Bus (BEB) fleets, developing a r
 
 The MILP approach is then further extended via a Simulated Annealing (SA) implementation. The framework maintains the same considerations and while further developing a method to minimize the peak power use (demand cost). Two mechanisms are implemented for the SA algorithm denoted as the ``quick'' and ``heuristic'' implementations, respectively. The model validity is demonstrated by utilizing a set of routes sampled form the Utah Transit Authority (UTA) and comparing the results two other models: the MILP approach and the Qin-Modified. The MILP is utilized as a baseline as it is formulated in a way that can guarantee optimality. The results presented show that the ``heuristic'' approach was able to generate a solution comparable to that of the MILP over a similar execution times. The SA PAP framework is further extended to incorporate non-linear battery dynamics to further increase the accuracy of the SOC model during a BEBs charging phase.
 \end{publicabstract}
+
 \begin{dedication}
 To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
 
@@ -325,7 +325,7 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:orgdf86bc1}
+\label{sec:orgdd3b31e}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
@@ -475,8 +475,11 @@ binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i
 \label{sec:milp-pap}
 \section{Introduction}
 \label{sec:milp-introduction}
-The contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This incorporates
-a proportional charging model into the MILP framework, includes consideration for multiple charger types, and
+The objective of this chapter is to utilize the PAP from \ref{sec:overview-of-the-pap} as a basis of deriving the formulation
+for scheduling a fleet of BEBs. Because the PAP was designed for a set of EVs with predefined arrival times, initial
+charges, and charge times, the PAP must be modified to support the behavior that a fleet of buses exhibit. As such, the
+contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This incorporates a
+proportional charging model into the MILP framework, includes consideration for multiple charger types, and
 consideration of each route in the schedule. The last contribution is of importance because both the BAP and PAP
 consider each arrival to be unique; thus, the tracking of battery charge from one visit to the next must be considered.
 Furthermore, the input parameters for the model can be predefined in such a manner as to minimize the number of fast and
@@ -949,11 +952,14 @@ Decision Variables &  & Decision Variables & \\[0pt]
 \label{sec:sa-pap}
 \section{Introduction}
 \label{sec:sa-introduction}
-This work aims to expand on the PAP by introducing a Simulated Annealing (SA) framework that utilizes linear battery
-dynamics, accounts for partial charging, minimizes total charger count, allows for multiple charger types, minimizes
-consumption cost, and minimizes demand cost. These contributions are demonstrated via simulation and comparison to two
-other models: the Mixed Integer Linear Program (MILP) implementation of the PAP and what is known as the Qin-Modified
-technique.
+In the previous chapter a MILP was derived to create an optimal charging schedule for a fleet of BEBs. While MILPs are
+extensible via the modular nature of the constraints, they are limited by the required linearity of the equations. If a
+non-linear equation is able to be linearized, that often leads to an introduction of slack variables that can further
+increase the complexity of the model, as was seen in \ref{sec:milp-pap}. The chapter aims to expand on the MILP by
+introducing a Simulated Annealing (SA) framework that utilizes linear battery dynamics, accounts for partial charging,
+minimizes total charger count, allows for multiple charger types, minimizes consumption cost, and minimizes demand cost.
+These contributions are demonstrated via simulation and comparison to two other models: the Mixed Integer Linear Program
+(MILP) implementation of the PAP and what is known as the Qin-Modified technique.
 
 The remainder of this chapter goes as follows. provides the problem statement associated
 with this work. provides a description of the input parameters and decision variables then
@@ -2096,10 +2102,13 @@ more than the MILP PAP.
 
 \chapter{A SIMULATED ANNEALING APPROACH WITH NON-LINEAR BATTERY DYNAMICS}
 \label{sec:nonlinear-battery-dynamics}
-This chapter introduces a method of replacing the linear battery dynamics utilized throughout this work with a
-non-linear dynamics model. The chapter proceeds as follows: an introduction to the non-linear battery dynamics model is
-shown in \ref{sec:nonlinear-model} along with a proof and description of how the model is incorporated.
-\ref{sec:nonlinear-results} presents and discusses the results.
+The models presented up to this point have employed linear battery dynamic constraints to estimate the SOC of the BEB
+during its charging phase. While linear battery dynamics are accurate up to about an 80\% SOC
+\cite{liu-2020-batter-elect}, fidelity is lost after this point due to the non-linearity of the charge profile. This
+chapter introduces a method of replacing the linear battery dynamics throughout this work with a non-linear dynamics
+model. The non-linear model will be employed the SA algorithm derived in \ref{sec:sa-pap} The chapter proceeds as follows: an
+introduction to the non-linear battery dynamics model is shown in \ref{sec:nonlinear-model} along with a proof and
+description of how the model is incorporated. \ref{sec:nonlinear-results} presents and discusses the results.
 
 \section{Non-linear Battery Dynamics Model}
 \label{sec:nonlinear-model}
