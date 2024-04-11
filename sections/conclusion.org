@@ -1,4 +1,4 @@
-* Conclusion
+* CONCLUSION
 :PROPERTIES:
 :CUSTOM_ID: sec:conclusion
 :END:

@@ -1,12 +1,15 @@
-* Non-Linear Battery Dynamics
+* A SIMULATED ANNEALING APPROACH WITH NON-LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:nonlinear-battery-dynamics
 :END:
 
-This chapter introduces a method of replacing the linear battery dynamics utilized throughout this work with a
-non-linear dynamics model. The chapter proceeds as follows: an introduction to the non-linear battery dynamics model is
-shown in [[#sec:nonlinear-model]] along with a proof and description of how the model is incorporated.
-[[#sec:nonlinear-results]] presents and discusses the results.
+The models presented up to this point have employed linear battery dynamic models to estimate the SOC of the BEB during
+its charging phase. While linear battery dynamics are accurate up to about an 80% SOC [cite:@liu-2020-batter-elect],
+fidelity is lost after this point due to the non-linearity of the charge profile. This chapter introduces a method of
+replacing the linear battery dynamics throughout this work with a non-linear dynamics model. The non-linear model will
+be employed in the SA algorithm from [[#sec:sa-pap]]. The chapter proceeds as follows: an introduction to the non-linear
+battery dynamics model is shown in [[#sec:nonlinear-model]] along with a proof and description of how the model is
+incorporated. [[#sec:nonlinear-results]] presents and discusses the results.
 
 ** Non-linear Battery Dynamics Model
 :PROPERTIES:
@@ -21,11 +24,10 @@ incorporate temperature, battery degradation, and current
 [cite:@zhang-2021-optim-elect;@chen-2008-desig-grey;@watrin-2012-multip-lithium].
 
 Some of the conventional methods to charge batteries are: Constant Voltage (CV), Constant Current (CC), and Constant
-Current Constant Voltage (CCCV) [cite:@arabsalmanabadi-2018-charg-techn]. CCCV, as the name describes, is the
-combination of CCCV model [cite:@abdollahi-2016-optim-batter; @chen-2008-desig-grey; @wang-2021-resear-optim]. In CCCV,
-a constant current is applied to a battery until it reaches terminal voltage. At this point a constant voltage is
-applied as the charge current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey]. Thus, by
-extension, CV merely applies a constant voltage and CC a constant current.
+Current Constant Voltage (CCCV) [cite:@arabsalmanabadi-2018-charg-techn]. In CCCV, a constant current is applied to a
+battery until it reaches terminal voltage. Once this point has been reached, a constant voltage is applied as the charge
+current decreases and the battery reaches full charge [cite:@chen-2008-desig-grey]. Thus, by extension, CV merely
+applies a constant voltage and CC a constant current [cite:@arabsalmanabadi-2018-charg-techn].
 
 As previously stated, the SOC can be accurately modeled until the battery reaches a charge of about 80%
 [cite:@liu-2020-batter-elect]. At this point the SOC becomes non-linear. Naturally, it has been suggested by
@@ -33,22 +35,22 @@ As previously stated, the SOC can be accurately modeled until the battery reache
 for a battery is shown in [[fig:soc-plot]] to demonstrate these components [cite:@zhang-2021-optim-elect].
 
 #+begin_src latex
-      \begin{figure}
+  \begin{figure}
 
-        \begin{minipage}{0.5\textwidth}
-          \centering
-          \includegraphics[width=0.9\textwidth]{img/soc-plot.png}
-          \captionof{figure}{Illustration of non-linear charging profile.}
-          \label{fig:soc-plot}
-        \end{minipage}%
-        \begin{minipage}{0.5\textwidth}
-          \centering
-          \includegraphics[width=0.9\textwidth]{img/nonlinear-bat.png}
-          \captionof{figure}{Charging profiles for various convergence rates.}
-          \label{fig:convergence-rates}
-        \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth]{img/soc-plot.png}
+      \captionof{figure}{Illustration of non-linear charging profile.}
+      \label{fig:soc-plot}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth]{img/nonlinear-bat.png}
+      \captionof{figure}{Charging profiles for various convergence rates.}
+      \label{fig:convergence-rates}
+    \end{minipage}
 
-      \end{figure}
+  \end{figure}
 #+end_src
 
 While some leverage the linear and non-linear components to derive their SOC model [cite:@abdollahi-2016-optim-batter],

@@ -1,17 +1,14 @@
-# ======================================================================================================================
-# Preamble
-
-#+TITLE: A Simulated Annealing Approach to the Position Allocation Problem Utilizing Mixed Integer Linear Programming Constraints with Non-Linear Battery Dynamics
-#+AUTHOR: Alexander Brown
-#+EMAIL: A01704744@usu.edu
-
 #+OPTIONS: title:nil
 #+LANGUAGE: en
 
-#+include: sections/preamble.org
+#+TITLE:A SIMULATED ANNEALING APPROACH TO THE BATTERY ELECTRIC BUS CHARGING PROBLEM
+#+AUTHOR: Alexander Brown
+#+EMAIL: A01704744@usu.edu
 
-# Theorems/Lemmas/Definition headers
-#+LATEX_HEADER: \newtheorem{definition}{Definition}[section]
+# ======================================================================================================================
+# Preamble
+
+#+include: sections/preamble.org
 
 #+begin_export latex
 \preliminaries   % set frontmatter style
@@ -25,11 +22,13 @@
 
 # ======================================================================================================================
 # Abstract
+
 #+include: sections/abstract.org
+#+include: sections/publicabstract.org
 
 # ======================================================================================================================
 # Preliminaries
-#+include: sections/publicabstract.org
+
 #+include: sections/dedication.org
 #+include: sections/acknowl.org
 
@@ -59,5 +58,5 @@
 #+bibliography:citation-database/lib-ref.bib
 
 #+begin_export latex
-\references{citation-database/lib-ref,citation-database/lit-ref}{IEEEtran}
+\references{citation-database/lib-ref,citation-database/lit-ref,citation-database/misc}{IEEEtran}
 #+end_export

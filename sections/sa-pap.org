@@ -1,4 +1,4 @@
-* SA PAP
+* A SIMULATED ANNEALING APPROACH WITH LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:sa-pap
 :END:
@@ -7,8 +7,22 @@
 :PROPERTIES:
 :CUSTOM_ID: sec:sa-introduction
 :END:
+In the previous chapter a MILP was derived to create an optimal charging schedule for a fleet of BEBs. While MILPs are
+extensible via the modular nature of the constraints, they are limited by the required linearity of the equations. If a
+non-linear equation is able to be linearized, that often leads to an introduction of slack variables that can further
+increase the complexity of the model, as was seen in [[#sec:milp-pap]]. The chapter aims to expand on the MILP approach by
+introducing a Simulated Annealing (SA) framework that utilizes linear battery dynamics, accounts for partial charging,
+minimizes total charger count, allows for multiple charger types, minimizes consumption cost, and minimizes demand cost.
+These contributions are demonstrated via simulation and comparison to two other models: the Mixed Integer Linear Program
+(MILP) implementation of the PAP and what is known as the Qin-Modified technique.
 
-#+include: ../sup-doc/sa-pap-paper/sections/introduction.org::#sec:sa-introduction :only-contents t
+The remainder of this chapter goes as follows. [[#sec:sa-problem-description]] provides the problem statement associated
+with this work. [[#sec:sa-optimization-problem]] provides a description of the input parameters and decision variables then
+introduces the structure of the formulation. In [[#sec:sa-simulated-annealing]], the concept and theory of SA is introduced.
+In particular, the algorithms and methods utilized for the SA implementation for this work are discussed.
+[[#sec:sa-optimization-algorithm]] combines the previous sections to introduce the particular pseudocode for the SA PAP. In
+[[#sec:sa-example]], an example problem is provided to demonstrate the capability of the work provided in this paper. The
+results will be presented and discussed.
 
 ** Problem Description
 :PROPERTIES:
@@ -72,7 +86,7 @@ principle by plotting the geometric schedule using varying values of $\beta$.
     ~
     \begin{subfigure}[t]{0.5\textwidth}
       \centering \includegraphics[width=\textwidth]{img/geometric.png}
-      \caption{Geometric cooling schedule utilizing various value of $\beta_1$.}
+      \caption{Geometric cooling schedule utilizing various value of $\beta$.}
       \label{fig:geometric}
     \end{subfigure}
   \end{figure}
