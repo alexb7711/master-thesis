@@ -19,6 +19,7 @@
 #+latex_header: \usepackage{graphicx}                       %
 #+latex_header: \usepackage{multicol}                       % Add capability to make columns
 #+latex_header: \usepackage{multirow}                       % Add capability to make rows
+#+latex_header: \usepackage[group-separator={,}, group-minimum-digits=3]{siunitx}   % Format numbers
 #+latex_header: \usepackage{pgfgantt}                       % Add capability to create gantt charts
 #+latex_header: \usepackage{standalone}                     % Allow standalone documents
 #+latex_header: \usepackage{subfloat}                       % Subfigures
@@ -48,6 +49,11 @@
 #+LATEX_HEADER: \newtheorem{definition}{Definition}[section]
 
 \newtheorem*{lemma}{Lemma}
+
+# =========================================================================================================================
+# Subcaptions
+#+latex_header: \newcommand\mysubcaption[1]{\phantomcaption%
+#+latex_header:        \caption*{\figurename~\thefigure(\thesubfigure). #1}}
 
 # =========================================================================================================================
 # `autoref' formatting
