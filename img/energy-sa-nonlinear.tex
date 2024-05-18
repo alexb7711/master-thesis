@@ -24,14 +24,14 @@
     xmin=4, xmax=24, ymin=0,
     legend pos = north west]
 
-    % MILP ----------
+    % BPAP ----------
     \addplot[red!100!black, no markers]
              table[x=time, y=power] {\accenergydatamilp};
-    \addlegendentry{MILP}
+    \addlegendentry{BPAP}
     % SA Heuristic ----------
     \addplot[gray!100!black, no markers]
              table[x=time, y=power] {\accenergydatasaheuristic};
-    \addlegendentry{SA Heuristic}
+    \addlegendentry{SA Linear Heuristic}
     % SA Nonlinear ----------
     \addplot[green!100!black, no markers]
              table[x=time, y=power] {\accenergydatasanonlinear};

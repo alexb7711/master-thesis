@@ -28,15 +28,15 @@
     % SA Heuristic ----------
     \addplot[gray!80!black, fill=gray, fill opacity=0.2, no markers]
              table[x=time, y=power] {\powerdatasaheuristic};
-    \addlegendentry{SA Heuristic}
-    % MILP ----------
+    \addlegendentry{SA Linear Heuristic}
+    % BPAP ----------
     \addplot[red!80!black, fill=red, fill opacity=0.25, no markers]
              table[x=time, y=power] {\powerdatamilp};
-    \addlegendentry{MILP}
+    \addlegendentry{BPAP}
     % SA Nonlinear ----------
     \addplot[green!80!black, fill=green, fill opacity=0.05, no markers]
              table[x=time, y=power] {\powerdatasanonlinear};
-    \addlegendentry{SA Non-Linear}
+    \addlegendentry{SA Non-Linear Heuristic}
 \end{axis}
 \end{tikzpicture}%
 
