@@ -1,4 +1,4 @@
-% Created 2024-05-18 Sat 14:54
+% Created 2024-05-24 Fri 13:19
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 
@@ -32,7 +32,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \usetikzlibrary{arrows.meta}                % Arrows for tikz
 \newtheorem{definition}{Definition}[section]
 \newcommand\mysubcaption[1]{\phantomcaption%
-\caption*{\figurename~\thefigure(\thesubfigure). #1}}
+\caption*{\figurename~\thefigure(\thesubfigure) #1}}
 \renewcommand*{\chapterautorefname}{Chapter}
 \renewcommand*{\sectionautorefname}{Section}
 \renewcommand*{\subsectionautorefname}{Section}
@@ -110,7 +110,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \gradyear{2024}
 \author{Alexander Brown}
 \date{}
-\title{A SIMULATED ANNEALING APPROACH TO THE BATTERY ELECTRIC BUS CHARGING PROBLEM}
+\title{A POSITION ALLOCATION APPROACH TO THE BATTERY ELECTRIC BUS CHARGING PROBLEM}
 \begin{document}
 
 \newtheorem*{lemma}{Lemma}
@@ -144,7 +144,7 @@ The MILP approach is then further extended via a Simulated Annealing (SA) implem
 \end{publicabstract}
 
 \begin{dedication}
-To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
+To my dearly beloved fiancÃ©e and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
 
 %
 % If you intend to have a dedication longer than one line, do not put
@@ -196,7 +196,7 @@ barring some simplification whether it be only allowing chargers of a single typ
 each location. Others have also assumed that a BEB shall recieve full charge upon each arrival
 \cite{wei-2018-optim-spatio,wang-2017-elect-vehic,zhou-2020-bi-objec,wang-2017-optim-rechar}. Some works on the
 stochastic effects of energy consumption while on route for a BEB as well as trip times \cite{zhou-2020-collab-optim,bie-2021-optim-elect}. One other source, as far as the research for this work has shown, describes a method of
-producing a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to
+producing a BEB charge schedule wih a high fidelity while accounting for multiple charger types as well as being able to
 minimize over the total charger count \cite{whitaker-2023-a-network}.
 
 The work described in this thesis is similar to the work in \cite{whitaker-2023-a-network}; however provides an
@@ -213,8 +213,8 @@ PAP utilizing Mixed Integer Linear Programming (MILP) constraints with non-linea
 
 The work proceeds as follows: \ref{sec:background-and-related-work} provides the state-of-the-art along with various
 introductory material pertinent to this work. \ref{sec:milp-pap} constructs the MILP for BEB scheduling, including
-modifications to the PAP queuing constraints and the development of a dynamic charging model. An example this presented
-as a demonstration of the model's utility. The results are subsequently provided and discussed. In \ref{sec:sa-pap}, the
+modifications to the PAP queuing constraints and the development of a dynamic charging model. An example is presented as
+a demonstration of the model's utility. The results are subsequently provided and discussed. In \ref{sec:sa-pap}, the
 previously derived BEB charging model is adapted for a Simulated Annealing (SA) implementation. This method maintains
 the same considerations from the MILP implementation, but further accounts for a peak power demand cost. An example is
 then provided with discussion on the results. \ref{sec:nonlinear-battery-dynamics} further adapts the SA approach by deriving
@@ -233,7 +233,7 @@ Works concerning charge planning often use a version of the vehicle scheduling p
 while others have based their implementation on alternative methods
 \cite{qarebagh-2019-optim-sched,whitaker-2023-a-network}. \cite{whitaker-2023-a-network} utilizes a network flow
 approach to model the scheduling while \cite{qarebagh-2019-optim-sched} utilizes what is known as the Position
-Allocation Problem (PAP). Nearly all the literature reviewed considered consumption costs \cite{jahic-2019-preem,frendo-2021-open-sourc,qin-2016-numer-analy,zhou-2020-bi-objec,duan-2021-refor-mixed,mortensen-2023-cost-minim,zhou-2020-collab-optim,rinaldi-2020-mixed-fleet,zhou-2020-collab-optim}, while fewer consider demand costs
+Allocation Problem (PAP). Nearly all the literature reviewed considered consumption costs \cite{jahic-2019-preem,frendo-2021-open-sourc,qin-2016-numer-analy,zhou-2020-bi-objec,duan-2021-refor-mixed,mortensen-2023-cost-minim,zhou-2020-collab-optim,rinaldi-2020-mixed-fleet}, while fewer consider demand costs
 \cite{jahic-2019-preem,frendo-2021-open-sourc,qin-2016-numer-analy,mortensen-2023-cost-minim,he-2020-optim-charg}. Many of these works introduce simplifying assumptions for the sake of computation. For example,
 some approaches only consider fast chargers during planing \cite{zhou-2020-collab-optim,li-2014-trans-bus,wang-2017-optim-rechar,sebastiani-2016-evaluat-elect,wei-2018-optim-spatio}. Approaches that consider more than one
 charger type typically isolate the specific charger types in different locations \cite{tang-2019-robus-sched,he-2020-optim-charg}.
@@ -291,29 +291,24 @@ figure utilized BAP terminology. The x and y-axis represent time and queuing spa
 the queuing space, but it may be continuous if desired. The shaded rectangles' widths represent their respective
 allocated charge times, and their heights represent the physical space taken by each EV.
 
-\begin{subfigures}
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % BAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
-        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
-          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
-          arrow represents the direction of departure.}
-        \label{subfig:bapexample}
-    \end{figure}
-    \hfill
+%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% PAP
+\begin{figure}[htpb]
+  \centering
+  \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
+  \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
+    indicated by the arrow.}
+  \label{subfig:papexample}
+\end{figure}
 
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % PAP
-    \begin{figure}[htpb]
-    \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
-        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
-          indicated by the arrow.}
-        \label{subfig:papexample}
-    \end{figure}
-\end{subfigures}
+%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% BAP/PAP solution plot example
+\begin{figure}
+  \centering
+  \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
+  \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed lines are associated with vessel D and represent the arrival time, berthing time, serviced completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
+  \label{fig:bap}
+\end{figure}
 
 Adapting the PAP model for BEBs, consider a fleet of BEBs scheduled to perform a set of prescribed routes on a given
 day. An individual BEB from said fleet begins and completes an individual route at the same station from which it also
@@ -322,19 +317,19 @@ supplied during its visit must be enough to sustain the BEB's SOC at an appropri
 next route. The charge may be supplied from any single charger given a set of chargers at the station. Let the term
 ``arrival'' describe the time at which a BEB reaches the station. Furthermore, let the term ``visit'' denote a BEB having
 arrived, awaited its predetermined time (whether it has received a charge or not), and departed from the station. Each
-BEB may have multiple visits to the station throughout their working day. This paper describes a method to optimize the
+BEB may have multiple visits to the station throughout their working day. This thesis describes a method to optimize the
 assignment of each visit to a charger given a schedule for a fleet of BEBs that follow the behavior described above. The
 various models presented in this work optimizes over peak power usage and energy consumption, as well as attempts to
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org986723a}
+\label{sec:org2836369}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
 constraints \cite{chen-2010-applied}. Given an objective function \(J\), decision variables (i.e. variables of
 optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\), and input parameters \(c_j, d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a
-mathematical structure represented as shown in \ref{eq:milp-structure} \cite{chen-2010-applied}
+mathematical structure \cite{chen-2010-applied}:
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -342,8 +337,9 @@ mathematical structure represented as shown in \ref{eq:milp-structure} \cite{che
 &\text{max}        &J = \sum_j c_j x_j + \sum_k d_k y_k&         &               &\label{eq:fuzzy-milp-objective}\\
 &\text{subject to} &\sum_j a_{ij} x_j + \sum_k g_{ik} y_k \le b_i&  &(i = 1,2,...,m)& \label{eq:fuzzy-milp-constraint}\\
 &                  &x_j \ge 0&                              &(j = 1,2,...,n)& \label{eq:fuzzy-milp-continuous}\\
-&                  &y_k \in \mathbb{Z^+}&                   &(k = 1,2,...,n)& \label{eq:fuzzy-milp-integer}\\
+&                  &y_k \in \mathbb{Z^+}&                   &(k = 1,2,...,n)& \label{eq:fuzzy-milp-integer}
 &\end{align}
+\text{.}
 \end{subequations}
 
 The objective function in \ref{eq:fuzzy-milp-objective} comprises two parts, the continuous part, \(\sum_j c_j x_j\), and
@@ -353,6 +349,11 @@ example they are modeled as continuous. The objective function's utility is to p
 (provided that a set of decision variables and input parameters are defined). While an individual score may not have any
 intrinsic meaning, it provides a method of ranking different solutions of the same model. The constraint equations
 (\ref{eq:fuzzy-milp-constraint} - \ref{eq:fuzzy-milp-integer}) must all be satisfied for the output of an objective
+function to have any meaning. Thus, the constraint equations limit the solution space of the decision variables.
+\ref{eq:fuzzy-milp-constraint} states that the summation of the products of the respective continuous and integer
+decision variables and input parameters must be less than or equal to some value \(b_i\). \ref{eq:fuzzy-milp-continuous}
+and \ref{eq:fuzzy-milp-integer} state that the decision variables \(x_j\) and \(y_k\), must be greater than or equal to 0,
+respectively.
 
 \section{Overview of the BAP}
 \label{sec:overview-of-the-bap}
@@ -362,14 +363,6 @@ intrinsic meaning, it provides a method of ranking different solutions of the sa
   \includegraphics{sup-doc/milp-pap-paper-frontiers/img/spatiotemporal-packing}
   \caption{Example of rectangle packing problem. The large square represented by $O$ indicates the canstrained area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
   \label{fig:packexample}
-\end{figure}
-
-%% BAP/PAP solution plot example
-\begin{figure}
-  \centering
-  \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
-  \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed lines are associated with vessel D and represent the arrival time, berthing time, serviced completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
-  \label{fig:bap}
 \end{figure}
 
 The BAP is a rectangle packing problem where a set of rectangles, \(\mathbb{O}\), are attempted to be optimally placed in
@@ -393,6 +386,18 @@ vessels. The width of the boxes represents the time spent being serviced, and th
 the vessel requires on the berth. The vertical line adjacent to ``Arrival Time'' represents the actual time that the
 vessel arrives and is available to be berthed. ``Berthing Time'' is the time the vessel is berthed and begins being
 serviced. ``Completion time'' represents the time at which the berthing space becomes available again.
+
+%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% BAP
+\begin{figure}[htpb]
+\centering
+    \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
+    \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
+      time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
+      arrow represents the direction of departure.}
+    \label{subfig:bapexample}
+\end{figure}
+\hfill
 
 \section{Overview of the PAP}
 \label{sec:overview-of-the-pap}
@@ -474,7 +479,7 @@ the departure time, \(d_i\). \autoref{subeq:bapvalid_starts} enforces the arriva
 the service start time, \(u_i\), which in turn must be less than or equal to the latest time the vehicle may begin
 charging and stay within the time horizon. \autoref{subeq:bapsdspace} simply states that \(\sigma_{ij}\) and \(\psi_{ij}\) are
 binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i\) is within the range, \([0,L]\).
-\chapter{A POSITION ALLOCATION APPROACH WITH LINEAR BATTERY DYNAMICS}
+\chapter{A MIXED INTEGER LINEAR PROGRAM APPROACH WITH LINEAR BATTERY DYNAMICS}
 \label{sec:milp-pap}
 \section{Introduction}
 \label{sec:milp-introduction}
@@ -1087,18 +1092,17 @@ visits by each BEB be denoted as \(\Isetinit\) where \(\Isetinit \subset \Iset\)
 \Isetinit \rvert = n_B\). The initial SOC for bus \(b_i\) can be represented as \(\eta_{i} = \alpha_{b_i}\kappa_{b_i}; \forall i \in \Isetinit\)
 where \(\kappa_{b_i}\) is the battery capacity for bus \(b_i\). After each arrival, the BEB is assigned to a charging queue. Let
 \(r_q\) represent the power supplied from the charger in queue \(q \in Q\). Each visit, except for the final visit of each
-BEB, is paired with a route that has a required amount energy to complete, \(\Delta_i\). As alluded to earlier, there are no
-routes after the last visit for each BEB. Thus, similarly to the set of initial visits, let the set of final visits for
-all BEBs be denoted as \(\Isetfinal\). The discharge for the final visit of each BEB is then defined as \(\Delta_{i} = 0; \forall i \in
-\Isetfinal\).
+BEB, is paired with a subsequent route to be executed with a corresponding energy requirement, \(\Delta_i\). As alluded to
+earlier, there are no routes after the last visit for each BEB. Thus, similarly to the set of initial visits, let the
+set of final visits for all BEBs be denoted as \(\Isetfinal\). The discharge for the final visit of each BEB is then
+defined as \(\Delta_{i} = 0; \forall i \in \Isetfinal\).
 
 \subsubsection{Decision Variables}
 \label{sec:sa-decision-variables}
-Decision variables are those chosen by the optimizer. There are three direct decision variables for each visit, i.e.,
-direct referring to the variables that the optimizer has immediate control over. The direct variables include initial
-and final charging times, \(u_i\) and \(d_i\), respectfully, and the selected charging queue, \(q_i \in \Qset\).
+Decision variables are those chosen by the optimizer. There are three direct decision variables for each visit: the
+initial and final charging times, \(u_i\) and \(d_i\), respectfully, and the selected charging queue, \(q_i \in \Qset\).
 
-The remaining variables are slack variables which are introduced to track the vehicle charge and queuing position based
+The remaining variables are slack variables, which are introduced to track the vehicle charge and queuing position based
 on the problem parameters and direct decision variables. Recall the initial SOC for a visit is written as \(\eta_i\), where
 \(i \in \Iset \setminus \Iset_0\). Further recall the set of initial visits, \(\Iset_0\), have an assumed known SOC (i.e., the initial
 SOC of each BEB at the beginning of the working day is considered as an input parameter). The charge for bus \(i\)'s next
@@ -1477,12 +1481,12 @@ denoted with a bar, \(\bar{\cdot}\). Thus, the modified input tuple is written a
 
 \subsubsection{Generators}
 \label{sec:sa-generators}
-The mechanism by which candidate solutions are generated is introduced in the subsequent sections. Recall that to
-satisfy constraints, \(n_B\) extra idle queues are added that provide no power to the BEB. Because of this, the set of
-queues is fully defined where \(Q\) is the ordered set of idle queues, slow queues, then fast queue. The use case for the
-idle queues are for when a bus is not to be placed on a charger. Rather, it will be placed in the queue, \(q \in B\), which
-satisfies the previously defined spatial constraints while allowing the bus to be ``set aside''. The charge queues are
-denoted by \(q \in \{1, ..., n_B , n_B + 1, ..., n_Q\}\).
+The mechanism by which candidate solutions are generated are now introduced. Recall that to satisfy constraints, \(n_B\)
+extra idle queues are added that provide no power to the BEB. Because of this, the set of queues is fully defined where
+\(Q\) is the ordered set of idle queues, slow queues, then fast queue. The use case for the idle queues are for when a bus
+is not to be placed on a charger. Rather, it will be placed in the queue, \(q \in B\), which satisfies the previously
+defined spatial constraints while allowing the bus to be ``set aside''. The charge queues are denoted by \(q \in \{1, ...,
+n_B , n_B + 1, ..., n_Q\}\).
 
 For the sake of ease in referring to the various variables associated with a visit, dot notation is used. For example,
 suppose the arrival time is desired to be extracted from visit \(i\). Given \(\I\), the notation that describes extracting
@@ -1713,15 +1717,15 @@ through each visit and executing \ref{alg:new-visit} to place visit \(i\) at ran
 \ref{alg:perturb-schedule} describes the method by which the SA algorithm decides how to perturb a given charge
 schedule. The method that will be employed to generate neighboring solutions is as follows: pick a visit, pick a
 primitive generator, and execute said primitive generator once. Let \(\W^y_{[\cdot]}\) denote a random selection with a
-distribution specified by a weight vector \(y \in \mathbb{R}\). Thus, \ref{alg:perturb-schedule} is as follows: Lines 2-12 generate a
-vector of weights for the visit index selection. The weights have a default value of one. Each visit is then indexed in
-reverse order. If the SOC of the visit is less than \(\nu_b \kappa_b\), then the weight for the visit is calculated as shown on
-Line 10. The route for BEB \(b\) is then set as a ``priority'' on Line 9 to propagate the previously calculated weight to
-earlier visits of BEB \(b\) as shown on Line 5. This is done in an attempt to encourage the SA algorithm to ``fix'' the
-current or previous visits so that the SOC stays above the minimum threshold. The algorithm then selects a visit index
-with weighted distribution \(y^v\) and selects a primitive with a weighted distribution, \(y^p\). Letting \(n_G\) denote the
-number of primitive generating functions, line 15 selects a primitive generating function with a weighted distribution,
-\(\W^{y^v}_{[1, n_G]}\). The primitive is then executed, and the results are returned.
+distribution specified by a weight vector \(y \in \mathbb{R}\). Lines 2-12 of \ref{alg:perturb-schedule} generate a vector of weights
+for the visit index selection. The weights have a default value of one. Each visit is then indexed in reverse order. If
+the SOC of the visit is less than \(\nu_b \kappa_b\), then the weight for the visit is calculated as shown on Line 10. The route
+for BEB \(b\) is then set as a ``priority'' on Line 9 to propagate the previously calculated weight to earlier visits of BEB
+\(b\) as shown on Line 5. This is done in an attempt to encourage the SA algorithm to ``fix'' the current or previous visits
+so that the SOC stays above the minimum threshold. The algorithm then selects a visit index with weighted distribution
+\(y^v\) and selects a primitive with a weighted distribution, \(y^p\). Letting \(n_G\) denote the number of primitive
+generating functions, line 15 selects a primitive generating function with a weighted distribution, \(\W^{y^v}_{[1,
+n_G]}\). The primitive is then executed, and the results are returned.
 
 \begin{algorithm}[h]
 \scriptsize
@@ -1860,8 +1864,8 @@ health, the values of \(\epsilon\) in the objective function are \(\forall q \in
 =\) \num{\tempinit} with \(\beta = 0.997\), resulting in a total of \(n_M =\) \num{\tempcnt} steps. Rocky
 Mountain Power utilizes fifteen-minute intervals to calculate the demand cost \cite{rocky-mountain-power}. To match the
 method by which Rocky Mountain Power determines its demand cost, this work employed an interval of \(T_p =\)
-\num{\fpeval{15*60}} seconds in its demand cost calculation. A weight vector of \([0.6255, 0.6255, 0.4170,
-0.2085]\) is used to influence the distribution of selecting the new charger, new window, wait, and slide visit
+\num{\fpeval{15*60}} seconds in its demand cost calculation. A weight vector of \([0.3333, 0.3333, 0.1667,
+0.1667]\) is used to influence the distribution of selecting the new charger, new window, wait, and slide visit
 primitives, respectively. The algorithm also assumes a total of \(n_K = \localcnt\) iterations for the local search at a
 constant temperature. In total, that results in \num{\fpeval{\localcnt * \tempcnt}} configurations being
 searched in a total runtime of \num{\fpeval{\quicklocal * \tempcnt}} seconds.
@@ -1870,7 +1874,7 @@ introduced the idea of an alternative heuristic implementation for the SA algori
 distinguish the heuristic implementation from the method derived in , let this
 implementation be referred to as ``heuristic'' implementation and the previous as the ``quick'' implementation due to the
 fact that it is designed to execute more quickly. Using the same weights for randomly selecting the primitive
-generators, the heuristic approach further implemented a weighted distribution vector of \([0.9487, 0.3162]\) to decide
+generators, the heuristic approach further implemented a weighted distribution vector of \([0.75, 0.25]\) to decide
 whether to select a slow or fast charger, respectively. The heuristic approach had a total runtime of
 \num{\fpeval{\heuristiclocal * \tempcnt}} seconds. The heuristic generators were expected to be slightly
 slower due to its iterative approach.
@@ -1886,13 +1890,13 @@ above the medium threshold and below high will only be assigned to slow chargers
 not be charged. Once a bus has been assigned to a charger, it remains on the charger for the duration of the time it is
 at the station, or it reaches 90\% charge, whichever comes first.
 
-Another method utilized to compare with against SA PAP is the BEB implementation of the BPAP. The BPAP implementation is
-utilized in this work as a benchmark for the other schedules as it is implemented utilizing a commercial solver. The
-inputs to the system are the same as those discussed above. It is of note that the BPAP does not implement the demand
-cost in its objective function. In an attempt to compare the solution of the BPAP with the SA output more directly, a
-similar solve time of 1,900 seconds is utilized. The BPAP was executed using the Gurobi MILP solver
-\cite{gurobi-2021-gurob-optim}. The previously described simulations were run on a machine equipped with an AMD Ryzen 9
-5900X 12 - Processor (24 core) at 4.95GHz.
+Another method utilized to compare with against SA PAP is the BEB implementation of the PAP
+\cite{brown-2024-posit-alloc}. The BPAP implementation is utilized in this work as a benchmark for the other schedules
+as it is implemented utilizing a commercial solver. The inputs to the system are the same as those discussed above. It
+is of note that the BPAP does not implement the demand cost in its objective function. In an attempt to compare the
+solution of the BPAP with the SA output more directly, a similar solve time of 1,900 seconds is utilized. The BPAP was
+executed using the Gurobi MILP solver \cite{gurobi-2021-gurob-optim}. The previously described simulations were run on
+a machine equipped with an AMD Ryzen 9 5900X 12 - Processor (24 core) at 4.95GHz.
 
 \subsection{Results}
 \label{sec:sa-results}
@@ -1900,7 +1904,7 @@ The schedules generated by each of the methods is presented in \ref{fig:schedule
 schedule plots, the waiting queues are excluded. Therefore, rows 0-14 represent slow charging queues and rows 15-29
 represent fast charging queues. The hollow circles with an 'X' represent the initial charge times, and the horizontal
 line with the vertical tick signifies the region of time the charger is active. The Qin-Modified schedule utilized two
-fast and chargers and fourteen slow chargers as can be seen in \ref{subfig:schedule-qin}. The BPAP framework generated a
+fast chargers and fourteen slow chargers as can be seen in \ref{subfig:schedule-qin}. The BPAP framework generated a
 schedule that utilizes three fast charges and four slow chargers as shown in \ref{subfig:schedule-milp}. The heuristic
 SA strategy created a schedule with nine slow charger queues and one fast charging queue as shown in
 \ref{subfig:schedule-heuristic-sa}. The quick strategy for the SA algorithm created a schedule utilizing seven slow
@@ -1914,7 +1918,7 @@ health.
 above an SOC of 25\% while the quick and heuristic SA approaches heavily penalize a schedule for allowing a BEB to go
 below the 25\% SOC threshold. The BPAP was able to successfully keep the SOC above the threshold while both SA approaches
 were a few kWh below the threshold. The SOC of the quick SA approach dropped to a minimum of 94.760 kWh and the
-heuristic had a minimum SOC of 91.265 kWh as shown in \ref{tab:charge}. Due to the threshold constraint being soft, the SA
+heuristic had a minimum SOC of 91.265 kWh, as shown in \ref{tab:charge}. Due to the threshold constraint being soft, the SA
 objective function may find it better to allow a small deficit in the threshold penalty function in favor of another
 action. As a remedy to ensure the SA schedules stays above the threshold, a safety factor could be introduced to
 artificially increase the threshold, \(S_f \nu_{b_i}\kappa_{b_i}\) where \(S_f > 1;\; S_f \in \mathbb{R}\).
@@ -1924,8 +1928,8 @@ strategy, being a purely reactive model, does not have foresight to determine wh
 taxing route later in the time horizon. As such, and in the case of the example scenario, the BEB that reached a charge
 of 0\% began with a sequence of short routes, much like the other BEBs. However, rather than continuing this trend, these
 sets of routes had one or two longer routes which the Qin-Modified algorithm was unable to account for. Interestingly,
-Qin-Modified strategy was able to keep the mean SOC the highest followed by the quick SA, heuristic SA, and then the
-BPAP.
+despite having a bus drop to zero charge, the Qin-Modified strategy had the highest mean SOC, followed by the quick SA,
+heuristic SA, and then the BPAP.
 
 \begin{table}[htbp]
 \caption{\label{tab:charge}Table of mean, min, and max SOC (kWh) for each charging schedule.}
@@ -1965,13 +1969,13 @@ Max & 1,910.000 & 2,000.000 & 1,150.950 & 1,120.950\\[0pt]
 
 The total energy consumed by each schedule is shown in \ref{fig:energy-usage}. The ordering of most energy consumed to
 least is as follows: Qin-Modified, quick SA, heuristic SA, and the BPAP. The respective energy consumption for each
-technique is: 9,459.120 kWh, 4,428.670 kWh, 4,295.660 kWh, and 4,237.200 kWh. The heuristic SA consuming about
-\num{\fpeval{4295.7 - 4237.2}} kWh more than the BPAP. While the quick and heuristic SA were slightly above
-the BPAP in energy consumption, it is a trade-off made by increasing the number of slow chargers and charge duration,
-and reducing the peak demand. Referencing \ref{tab:charge} and \ref{tab:power} for the mean SOC and mean demand, respectively,
-the descending order of consumed energy is correlated to the descending order of the mean SOC and the descending order
-of the mean power demand. This makes sense as a higher mean SOC implies the chargers being active more often; similarly
-for the mean demand.
+technique is: 9,459.120 kWh, 4,428.670 kWh, 4,295.660 kWh, and 4,237.200 kWh with the heuristic SA consuming about
+\num{\fpeval{4295.7 - 4237.2}} kWh more than the BPAP. While the quick and heuristic SA techniques were
+slightly above the BPAP in energy consumption, it is expected that the BPAP would have the lowest consumed energy as it
+only considers consumption cost. Despite considering peak demand, the SA methods had nearly the same consumption as the
+BPAP. Referencing \ref{tab:charge} and \ref{tab:power} for the mean SOC and mean demand, respectively, the descending order of
+consumed energy is correlated to the descending order of the mean SOC and the descending order of the mean power demand.
+This makes sense as a higher mean SOC implies the chargers being active more often; similarly for the mean demand.
 
 \begin{table}[htbp]
 \caption{\label{tab:scores}Table of objective function scores for each of the schedules.}
@@ -2004,7 +2008,7 @@ threshold.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-quinn}
-    \caption{Charging schedule generated by Qin Modified algorithm.}
+    \mysubcaption{}
     \label{subfig:schedule-qin}
   \end{subfigure}
 
@@ -2015,7 +2019,7 @@ threshold.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-milp}
-    \caption{Charging schedule generating by the MILP PAP algorithm.}
+    \mysubcaption{}
     \label{subfig:schedule-milp}
   \end{subfigure}
 \end{figure}
@@ -2027,7 +2031,7 @@ threshold.
   % SA heuristic
   \begin{subfigure}[t]{\textwidth}
     \centering \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-sa-heuristic}
-    \caption{Charging schedule generated by the SA PAP algorithm using the heuristic strategy.}
+    \mysubcaption{}
     \label{subfig:schedule-heuristic-sa}
   \end{subfigure}
 
@@ -2037,10 +2041,10 @@ threshold.
   % SA quick
   \begin{subfigure}[t]{\textwidth}
     \centering \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-sa-quick}
-    \caption{Charging schedule generated by SA PAP algorithm using the quick strategy.}
+    \mysubcaption{}
     \label{subfig:schedule-quick-sa}
   \end{subfigure}
-  \caption{Vairous schedules generated by the different frameworks. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
+  \caption{Various schedules generated by the different frameworks. \ref{subfig:schedule-qin} is the Qin-Modified schedule, \ref{subfig:schedule-milp} is the BPAP schedule, \ref{subfig:schedule-heuristic-sa} is the heuristic SA schedule, and \ref{subfig:schedule-quick-sa} is the quick SA schedule. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
   \label{fig:schedule}
 \end{figure}
 
@@ -2050,14 +2054,14 @@ threshold.
     \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charger-count-fast-milp-qin}
-        \caption{Number of fast chargers for Qin and MILP PAP.}
+        \mysubcaption{}
         \label{subfig:fast-charger-usage-milp-qinn}
     \end{subfigure}
 
     \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charger-count-fast-sa}
-        \caption{Number of fast chargers for quick and heuristic SA executions.}
+        \mysubcaption{}
         \label{subfig:fast-charger-usage-sa}
     \end{subfigure}
 \end{figure}
@@ -2068,65 +2072,23 @@ threshold.
     \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charger-count-slow-milp-qin}
-        \caption{Number of slow chargers for Qin and MILP PAP.}
+        \mysubcaption{}
         \label{subfig:slow-charger-usage-milp-qinn}
     \end{subfigure}
     \begin{subfigure}[t]{\textwidth}
     \centering
         \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charger-count-slow-sa}
-        \caption{Number of slow chargers for the quick and heuristic SA executions.}
+        \mysubcaption{}
         \label{subfig:slow-charger-usage-sa}
     \end{subfigure}
-\end{figure}
-
-\begin{figure}
-  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % Qin
-  \begin{subfigure}[t]{\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-quinn}
-    \caption{Bus charges for the Qin Modified charging schedule.}
-    \label{subfig:qin-charge}
-  \end{subfigure}
-  \hfill
-  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % MILP
-  \begin{subfigure}[t]{\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-milp}
-    \caption{The bus charges for the MILP PAP charging schedule.}
-    \label{subfig:milp-charge}
-  \end{subfigure}
-  \hfill
-\end{figure}
-
-\begin{figure}\ContinuedFloat
-  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % SA Quick
-  \begin{subfigure}[t]{\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-sa-quick}
-    \caption{The bus charges for the quick SA PAP charging schedule.}
-    \label{subfig:sa-quick-charge}
-  \end{subfigure}
-  \hfill
-  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  % SA Heuristic
-  \begin{subfigure}[t]{\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/charge-sa-heuristic}
-    \caption{The bus charges for the heuristic SA PAP charging schedule.}
-    \label{subfig:sa-heuristic-charge}
-  \end{subfigure}
-  \caption{Plots of the initial SOC of each visit over the time horizon for each schedule.}
-  \label{fig:charge}
+    \caption{Number of fast chargers utilized in parallel over the time horizon. \ref{subfig:fast-charger-usage-milp-qinn} plots the fast charger count for the BPAP and Qin schedules and \ref{subfig:fast-charger-usage-sa} plots the fast charger count for the quick and heuristic SA schedules.}
 \end{figure}
 
 \begin{figure}
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/power-milp-qin}
-    \caption{Amount of power consumed by Qin-Modified and MILP schedules over the time horizon.}
+    \mysubcaption{}
     \label{fig:power-usage-milp-qin}
   \end{subfigure}
 
@@ -2135,10 +2097,10 @@ threshold.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/power-sa}
-    \caption{Amount of power consumed by quick and heuristic SA schedules over the time horizon.}
+    \mysubcaption{}
     \label{fig:power-usage-sa}
   \end{subfigure}
-  \caption{Amount of power consumed by each of the schedules over the time horizon.}
+  \caption{Power demand for each schedule over the time horizon. \ref{fig:power-usage-milp-qin} plots the power demand for the Qin and BPAP schedules and \ref{fig:power-usage-sa} plots the power demand for the quick and heuristic SA schedules.}
   \label{fig:power}
 \end{figure}
 
@@ -2272,64 +2234,50 @@ different convergence rates. Note from the figure, the values for the rate of co
 
 \section{Results}
 \label{sec:nonlinear-results}
-The following results are generated utilizing the same parameters and problem setup as \ref{sec:sa-pap-example}. Convergence
-rates of 0.1 and 0.002 are utilized for fast and slow chargers, respectively. As stated in
-\cite{whitaker-2023-a-network}, a convergence rate of 0.1 leads a 90\% charge of a 388 kWh battery in about 23 minutes
-which is comparable to the 911 kW fast charger utilized in the slow model and a convergence rate of 0.01 leads to a 90\%
-charge in about four hours. Assuming linear battery dynamics, that leads to a slow charger of 87 kW. Thus, to match the
-utilized 30 kW charger, a convergence rate of about 0.002 found to be comparable via plotting the convergence to 80\% SOC
-(i.e. the linear portion of the SOC charge profile). Furthermore, the heuristic technique was executed utilizing the
-non-linear battery dynamics due to its better performance as discussed in the results of \ref{sec:sa-pap-example}.
+The following results are generated utilizing the same parameters and problem setup as \ref{sec:sa-pap-example}. To
+approximate the linear charge speeds, the convergence rate for each charger type was adjusted such that the non-linear
+charge curve intersected the respective linear charge profile at the 80\% SOC mark (i.e. the linear portion of the SOC
+charge profile). It was found that convergence rates of 0.002 and 0.000045 for fast and slow chargers, respectively,
+intersected their linear counterparts at 80\% SOC as shown in \ref{fig:nonlinear-linear-match}. Furthermore, the heuristic
+technique was executed utilizing the non-linear battery dynamics. The BPAP and linear heuristic SA plots are included as
+comparisons against the presented non-linear SA technique. Note that the BPAP and heuristic schedules are generated
+utilizing linear battery dynamics.
 
-\begin{table}[htbp]
-\caption{\label{tab:nonlinear-charge-count}Table of the maximum amount of chargers used in parallel throughout the time horizon. The schedule row indicates the number of queues required by each schedule.}
+
+\begin{figure}[htbp]
 \centering
-\begin{tabular}{l|ll|ll|ll}
-\hline
- & MILP &  & Non-Linear &  & Heuristic & \\[0pt]
-\hline
- & Slow & Fast & Slow & Fast & Slow & Fast\\[0pt]
-Max & 4 & 2 & 5 & 2 & 7 & 2\\[0pt]
-Schedule & 4 & 3 & 8 & 2 & 9 & 4\\[0pt]
-\hline
-\end{tabular}
-\end{table}
+\includegraphics[width=.9\linewidth]{img/nonlinear-bat-lin.png}
+\caption{\label{fig:nonlinear-linear-match}Plot of the linear and non-linear charge charge profiles. Note the intersections at the 80\% SOC line indicated by the horizontal red dashed line.}
+\end{figure}
 
 \ref{subfig:schedule-nonlinear-sa} depicts the charge schedule generated utilizing non-linear battery dynamics.
 Similarly to before, the symbol represents the point at which a BEB begins charging. The horizontal line with vertical
-tic indicate the time over which said BEB receives its charge. For the vertical axis of \ref{fig:nonlinear-schedule}
-rows 0-14 represent the slow charging queues and rows 15-29 represent the fast charging queues. The schedule utilized a
-total of eight slow charging queues, one of which is not utilized. The MILP and heuristic SA are included in
-\ref{fig:nonlinear-schedule} as baseline comparisons against the presented non-linear SA. Note that the MILP and
-heuristic schedules are generated utilizing linear battery dynamics.
-
-\ref{tab:nonlinear-charge-count} tabulates the maximum and the required amount of charger queues for each schedule and
-\ref{fig:charger-usage-nonlinear-sa} visually depicts the number of chargers utilized over the time horizon. Referring
-to the slow charger values in \ref{tab:nonlinear-charge-count}, the MILP was the only technique able to present a
-schedule that required no further packing of the schedule. The heuristic SA utilized at most nine chargers in seven
-while requesting a total of nine queues. The non-linear schedule, on the other hand, was able to generate a schedule
-that only utilized five charges in parallel, but requested eight total queues. Thus, as previously concluded, a method
-of post-processing the schedule to further optimize the spacial component of the schedule could be of interest.
+tic indicate the time over which said BEB receives its charge. Idle chargers were removed for the sake of legibility and
+space, therefore rows 0-14 of \ref{fig:nonlinear-schedule} represent the slow charging queues and rows 15-29 represent
+the fast charging queues. The non-linear schedule utilized a total of nine slow charging queues and one fast charger. It
+is of note that schedules generated are of a similar structure. However, the charge times for the fast chargers are of
+longer durations due to the non-linear charge profile. That is, the rate at which the non-linear battery dynamics model
+accepts additional charge at SOCs above 80\% is much lower than that of the linear battery dynamics, causing longer
+charge times.
 
 \begin{table}[htbp]
 \caption{\label{tab:nonlinear-charge}Table of mean, min, and max SOC (kWh) for each charging schedule.}
 \centering
 \begin{tabular}{l|ccc}
 \hline
- & MILP & Non-Linear & Heuristic\\[0pt]
+ & BPAP & Non-Linear & Linear\\[0pt]
 \hline
-Mean & 179.580229533742 & 293.913456149408 & 189.525113828846\\[0pt]
-Min & 96.9999999999463 & 57.84468 & 6.3432083\\[0pt]
+Mean & 181.327 & 180.601 & 182.004\\[0pt]
+Min & 97.000 & 83.092 & 91.265\\[0pt]
 \hline
 \end{tabular}
 \end{table}
 
 \ref{fig:nonlinear-sa-charge} plots the initial SOC of each visit over time horizon and \ref{tab:nonlinear-charge}
-tabulates the mean and max demand SOC for each. The non-linear schedule maintained the highest mean SOC followed by the
-heuristic, then the MILP. Although having the largest mean SOC, the non-linear SA was unable to keep the SOC of the BEBs
-above the 25\% threshold; however, the nonlinear schedule was more successful than the heuristic SA algorithm with a
-minimum SOC of 57.84 kWh. Similarly to the results of the linear battery dynamics results of \ref{sec:sa-pap}, a possible
-method of assisting the SA in avoiding the BEBs going below the minimum threshold is to apply a safety factor, \(S_{f}\nu_i
+tabulates the mean and max demand SOC for each. The mean SOC for both the linear and non-linear heuristic SA techniques
+were approximately the same, but the minimum SOC for the non-linear heuristic SA is lower than that of the linear. This
+is again due to the non-linear charge profile and the fact that the minimum SOC constraint is soft. This issue may
+possibly be remedied by including a safety factor term to artificially elevate the minimum SOC threshold, , \(S_{f}\nu_i
 \kappa_i\) where \(S_{f} > 1;\; S_f \in \mathbb{R}\).
 
 \begin{table}[htbp]
@@ -2337,26 +2285,25 @@ method of assisting the SA in avoiding the BEBs going below the minimum threshol
 \centering
 \begin{tabular}{l|ccc}
 \hline
- & MILP & Non-Linear & Heuristic\\[0pt]
+ & BPAP & Non-Linear & Linear\\[0pt]
 \hline
-Mean & 177.34 & 185.84 & 198.84\\[0pt]
-Max & 1910 & 1911.9 & 1911.9\\[0pt]
+Mean & 177.550 & 246.621 & 180.858\\[0pt]
+Max & 1910.000 & 1180.950 & 1150.950\\[0pt]
 \hline
 \end{tabular}
 \end{table}
 
 \ref{fig:power-usage-nonlinear-sa} plots the power usage over the time horizon and \ref{tab:nonlinear-power} tabulates
-the mean and max demand for each. The non-linear SA was able to maintain a lower mean demand, as compared to that of the
-heuristic SA, while the MILP PAP continues to maintain the lowest mean demand over all the schedules. In terms of peak
-demand, there is not much difference between each schedule with a range of \fpeval{1911.9 - 1910} kW. The
-demand of the non-linear SA contains longer sustained demand than the heuristic SA approach, which explains the larger
-mean demand for tho non-linear SA as well as it surpassing the MILP in the total energy consumed at the end of the
-working day.
+the mean and max demand for each. The BPAP and linear SA techniques maintain the lowest mean power demand. This is
+expected due to the longer charge durations required by the non-linear battery dynamics to reach the same SOC as the
+linear. However, it is vital to note that even with the non-linear charge profile, the peak demand was still below that
+of the BPAP and only 30 kW more than the linear SA. That is, even due to the longer charge durations, the schedule was
+still able to successfully minimize the power demand.
 
 The consumed energy by each schedule is shown in \ref{fig:energy-usage-nonlinear-sa}. The ordering of most energy
-consumed to least is as follows: heuristic SA, non-linear SA, and the MILP PAP with the respective energy consumption
-for each being 797.746 kWh, 4487.259 kWh, and 4256.746 kWh. The non-linear SA consumed about 231.1 kWh more than the
-MILP PAP. Notably, the ordering of the schedule mean demands are consistent with the energy consumed.
+consumed to least is as follows: non-linear SA, linear SA, and the BPAP with the respective energy consumption for each
+being \num{5919.230} kWh, \num{4295.660} kWh, and \num{4237.200} kWh. The non-linear SA consumed about \num{1163.07} kWh
+more than the BPAP. The energy consumed is considerably higher again due to the non-linear charge profile.
 
 \begin{figure}
   \centering

@@ -41,7 +41,7 @@ each location. Others have also assumed that a BEB shall recieve full charge upo
 [cite:@wei-2018-optim-spatio;@wang-2017-elect-vehic;@zhou-2020-bi-objec;@wang-2017-optim-rechar]. Some works on the
 stochastic effects of energy consumption while on route for a BEB as well as trip times [cite:@zhou-2020-collab-optim;
 @bie-2021-optim-elect]. One other source, as far as the research for this work has shown, describes a method of
-producing a BEB charge schedule wih a high fidelity while accounting for multiple charger times as well as being able to
+producing a BEB charge schedule wih a high fidelity while accounting for multiple charger types as well as being able to
 minimize over the total charger count [cite:@whitaker-2023-a-network].
 
 The work described in this thesis is similar to the work in [cite:@whitaker-2023-a-network]; however provides an
@@ -58,8 +58,8 @@ PAP utilizing Mixed Integer Linear Programming (MILP) constraints with non-linea
 
 The work proceeds as follows: [[#sec:background-and-related-work]] provides the state-of-the-art along with various
 introductory material pertinent to this work. [[#sec:milp-pap]] constructs the MILP for BEB scheduling, including
-modifications to the PAP queuing constraints and the development of a dynamic charging model. An example this presented
-as a demonstration of the model's utility. The results are subsequently provided and discussed. In [[#sec:sa-pap]], the
+modifications to the PAP queuing constraints and the development of a dynamic charging model. An example is presented as
+a demonstration of the model's utility. The results are subsequently provided and discussed. In [[#sec:sa-pap]], the
 previously derived BEB charging model is adapted for a Simulated Annealing (SA) implementation. This method maintains
 the same considerations from the MILP implementation, but further accounts for a peak power demand cost. An example is
 then provided with discussion on the results. [[#sec:nonlinear-battery-dynamics]] further adapts the SA approach by deriving

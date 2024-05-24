@@ -1,11 +1,11 @@
 #+name: tab:nonlinear-charge-count
 #+caption: Table of the maximum amount of chargers used in parallel throughout the time horizon. The schedule row indicates the number of queues required by each schedule.
 #+ATTR_LATEX: :environment tabular :align l|ll|ll|ll
-|----------+-------+-------+------------+-------+-----------+-------|
-|          |  MILP |       | Non-Linear |       | Heuristic |       |
-|----------+-------+-------+------------+-------+-----------+-------|
-| /        |     < |     > |          < |     > |         < |     > |
-|          |  Slow |  Fast |       Slow |  Fast |      Slow |  Fast |
-| Max      |     4 |     2 |          5 |     2 |         7 |     2 |
-| Schedule |     4 |     3 |          8 |     2 |         9 |     4 |
-|----------+-------+-------+------------+-------+-----------+-------|
+|----------+------+------+------------+------+--------+------|
+|          | BPAP |      | Non-Linear |      | Linear |      |
+|----------+------+------+------------+------+--------+------|
+| /        | <    |    > | <          |    > | <      |    > |
+|          | Slow | Fast | Slow       | Fast | Slow   | Fast |
+| Max      | 4    |    2 | 9          |    1 | 7      |    2 |
+| Schedule | 4    |    3 | 9          |    1 | 9      |    4 |
+|----------+------+------+------------+------+--------+------|

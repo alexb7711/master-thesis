@@ -1,4 +1,4 @@
-* A POSITION ALLOCATION APPROACH WITH LINEAR BATTERY DYNAMICS
+* A MIXED INTEGER LINEAR PROGRAM APPROACH WITH LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:milp-pap
 :END:
@@ -24,12 +24,6 @@ The remainder of this chapter proceeds as follows: \autoref{sec:problemformulati
 scheduling, including modifications to the PAP queuing constraints and the development of a dynamic charging model.
 \autoref{sec:example} demonstrates an example of using the formulation to coordinate \A buses over \N total visits
 to the station.
-
-** Position Allocation Problem :noexport:
-:PROPERTIES:
-:custom_id: sec:the-position-allocation-problem
-:END:
-#+include: ../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-position-allocation-problem :only-contents t
 
 ** A Rectangle Packing Formulation for BEB Charging
 :PROPERTIES:

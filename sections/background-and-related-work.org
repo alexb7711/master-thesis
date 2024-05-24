@@ -20,7 +20,7 @@ while others have based their implementation on alternative methods
 approach to model the scheduling while [cite:@qarebagh-2019-optim-sched] utilizes what is known as the Position
 Allocation Problem (PAP). Nearly all the literature reviewed considered consumption costs [cite:@jahic-2019-preem;
 @frendo-2021-open-sourc; @qin-2016-numer-analy; @zhou-2020-bi-objec; @duan-2021-refor-mixed; @mortensen-2023-cost-minim;
-@zhou-2020-collab-optim; @rinaldi-2020-mixed-fleet; @zhou-2020-collab-optim], while fewer consider demand costs
+@zhou-2020-collab-optim; @rinaldi-2020-mixed-fleet], while fewer consider demand costs
 [cite:@jahic-2019-preem; @frendo-2021-open-sourc; @qin-2016-numer-analy; @mortensen-2023-cost-minim;
 @he-2020-optim-charg]. Many of these works introduce simplifying assumptions for the sake of computation. For example,
 some approaches only consider fast chargers during planing [cite:@zhou-2020-collab-optim; @li-2014-trans-bus;
@@ -141,29 +141,24 @@ the queuing space, but it may be continuous if desired. The shaded rectangles' w
 allocated charge times, and their heights represent the physical space taken by each EV.
 
 #+begin_src latex
-\begin{subfigures}
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % BAP
-    \begin{figure}[htpb]
+  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % PAP
+  \begin{figure}[htpb]
     \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
-        \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
-          time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
-          arrow represents the direction of departure.}
-        \label{subfig:bapexample}
-    \end{figure}
-    \hfill
+    \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
+    \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
+      indicated by the arrow.}
+    \label{subfig:papexample}
+  \end{figure}
 
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % PAP
-    \begin{figure}[htpb]
+  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % BAP/PAP solution plot example
+  \begin{figure}
     \centering
-        \includestandalone{sup-doc/milp-pap-paper-frontiers/img/pap}
-        \caption{Example of position allocation. Vehicles are placed in queues to be charged and move in the direction
-          indicated by the arrow.}
-        \label{subfig:papexample}
-    \end{figure}
-\end{subfigures}
+    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
+    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed lines are associated with vessel D and represent the arrival time, berthing time, serviced completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
+    \label{fig:bap}
+  \end{figure}
 #+end_src
 
 Adapting the PAP model for BEBs, consider a fleet of BEBs scheduled to perform a set of prescribed routes on a given
@@ -173,14 +168,14 @@ supplied during its visit must be enough to sustain the BEB's SOC at an appropri
 next route. The charge may be supplied from any single charger given a set of chargers at the station. Let the term
 "arrival" describe the time at which a BEB reaches the station. Furthermore, let the term "visit" denote a BEB having
 arrived, awaited its predetermined time (whether it has received a charge or not), and departed from the station. Each
-BEB may have multiple visits to the station throughout their working day. This paper describes a method to optimize the
+BEB may have multiple visits to the station throughout their working day. This thesis describes a method to optimize the
 assignment of each visit to a charger given a schedule for a fleet of BEBs that follow the behavior described above. The
 various models presented in this work optimizes over peak power usage and energy consumption, as well as attempts to
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 ** Mixed Integer Linear Programming
 
-#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :lines "2-24"
+#+include: "../sup-doc/fuzzy-lp-paper/sections/preliminaries.org::*Mixed Integer Linear Program" :lines "2-30"
 
 ** Overview of the BAP
 :PROPERTIES:
@@ -195,17 +190,23 @@ optimize the amount of chargers utilized. Both linear and non-linear battery dyn
     \caption{Example of rectangle packing problem. The large square represented by $O$ indicates the canstrained area that the set of shaded rectangles $\mathbb{O}$ must be placed within.}
     \label{fig:packexample}
   \end{figure}
-
-  %% BAP/PAP solution plot example
-  \begin{figure}
-    \centering
-    \includegraphics{sup-doc/milp-pap-paper-frontiers/img/baprep}
-    \caption{The representation of the berth-time space. The x and y-axis represent time and space, respectively. Along the y-axis, the dashed lines represent discrete berthing locations. These locations may be chosen to be continuous. The shaded rectangles represent scheduled vessels to be serviced. The height of each shaded rectangle represents the space taken on the berth and the width being the time to service said vessel. The vertical dashed lines are associated with vessel D and represent the arrival time, berthing time, serviced completion time, and departure time. Note that the arrival time may be before the berthing time and the completion time may before the departure time.}
-    \label{fig:bap}
-  \end{figure}
 #+end_export
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:overview-of-bap" :only-contents t
+
+#+begin_src latex
+  %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % BAP
+  \begin{figure}[htpb]
+  \centering
+      \includestandalone{sup-doc/milp-pap-paper-frontiers/img/bap}
+      \caption{Example of berth allocation. Vessels are docked in berth locations (horizontal) and are queued over
+        time (vertical). The vertical arrow represents the movement direction of queued vessels and the horizontal
+        arrow represents the direction of departure.}
+      \label{subfig:bapexample}
+  \end{figure}
+  \hfill
+#+end_src
 
 ** Overview of the PAP
 :PROPERTIES:
@@ -226,9 +227,3 @@ other scheduled charge times.
 :END:
 
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
-
-** Summary :noexport:
-In this section the state of the art for BEB charging was discussed. The various problems of interest and solution
-methods for charging BEBs were outlined. Specifically this included: BEB assignment, infrastructure optimization,
-charge modeling, robust modeling, and the BAP/PAP model. The problem description for the proposed work was then provided
-along with a short introduction to MILP, the BAP, and the PAP along with its formulation.
