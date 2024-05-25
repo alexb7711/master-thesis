@@ -148,7 +148,7 @@ utilizing linear battery dynamics.
 
 
 #+name: fig:nonlinear-linear-match
-#+caption: Plot of the linear and non-linear charge charge profiles. Note the intersections at the 80% SOC line indicated by the horizontal red dashed line.
+#+caption: Plot of the linear and non-linear charge profiles. Note the intersections at the 80% SOC line indicated by the horizontal red dashed line.
 #+attr_latex: width: 0.8\textwidth
 [[../img/nonlinear-bat-lin.png]]
 
@@ -164,12 +164,11 @@ charge times.
 
 #+include: ../tab/nonlinear-charge.org
 
-\ref{fig:nonlinear-sa-charge} plots the initial SOC of each visit over time horizon and \ref{tab:nonlinear-charge}
-tabulates the mean and max demand SOC for each. The mean SOC for both the linear and non-linear heuristic SA techniques
-were approximately the same, but the minimum SOC for the non-linear heuristic SA is lower than that of the linear. This
-is again due to the non-linear charge profile and the fact that the minimum SOC constraint is soft. This issue may
-possibly be remedied by including a safety factor term to artificially elevate the minimum SOC threshold, , $S_{f}\nu_i
-\kappa_i$ where $S_{f} > 1;\; S_f \in \mathbb{R}$.
+\ref{tab:nonlinear-charge} tabulates the mean and max demand SOC for each. The mean SOC for both the linear and
+non-linear heuristic SA techniques were approximately the same, but the minimum SOC for the non-linear heuristic SA is
+lower than that of the linear. This is again due to the non-linear charge profile and the fact that the minimum SOC
+constraint is soft. This issue may be remedied by including a safety factor term to artificially elevate the minimum SOC
+threshold, $S_{f}\nu_i \kappa_i$ where $S_{f} > 1;\; S_f \in \mathbb{R}$.
 
 #+include: ../tab/nonlinear-power.org
 

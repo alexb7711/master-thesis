@@ -65,17 +65,17 @@
   \end{figure}
 #+end_src
 
-# --------------------------------------------------------------------------------
-# Bus charges
-#+begin_src latex
-  \begin{figure}[h]
-    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    % SA Heuristic
-    \includegraphics[width=\textwidth]{img/charge-sa-nonlinear}
-    \caption{The bus charges for the heuristic SA with non-linear battery dynimacs charging schedule.}
-    \label{fig:nonlinear-sa-charge}
-  \end{figure}
-#+end_src
+# # --------------------------------------------------------------------------------
+# # Bus charges
+# #+begin_src latex
+#   \begin{figure}[h]
+#     %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     % SA Heuristic
+#     \includegraphics[width=\textwidth]{img/charge-sa-nonlinear}
+#     \caption{The bus charges for the heuristic SA with non-linear battery dynimacs charging schedule.}
+#     \label{fig:nonlinear-sa-charge}
+#   \end{figure}
+# #+end_src
 
 # --------------------------------------------------------------------------------
 # Power consumption
