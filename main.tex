@@ -1,4 +1,4 @@
-% Created 2024-05-24 Fri 13:19
+% Created 2024-05-24 Fri 20:17
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 
@@ -144,7 +144,7 @@ The MILP approach is then further extended via a Simulated Annealing (SA) implem
 \end{publicabstract}
 
 \begin{dedication}
-To my dearly beloved fiancÃ©e and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
+To my dearly beloved fiancée and family for all your unwavering support and encouragement over the years. May this work symbolize a token of my deepest gratitude and love in return.
 
 %
 % If you intend to have a dedication longer than one line, do not put
@@ -323,13 +323,14 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org2836369}
+\label{sec:orgaaee104}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
 constraints \cite{chen-2010-applied}. Given an objective function \(J\), decision variables (i.e. variables of
-optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\), and input parameters \(c_j, d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a
-mathematical structure \cite{chen-2010-applied}:
+optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\) where \(\mathbb{Z}^+\) denotes the set of nonnegative integers, and input parameters \(c_j,
+d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a mathematical structure represented as shown in \ref{eq:milp-structure}
+\cite{chen-2010-applied}
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -337,9 +338,8 @@ mathematical structure \cite{chen-2010-applied}:
 &\text{max}        &J = \sum_j c_j x_j + \sum_k d_k y_k&         &               &\label{eq:fuzzy-milp-objective}\\
 &\text{subject to} &\sum_j a_{ij} x_j + \sum_k g_{ik} y_k \le b_i&  &(i = 1,2,...,m)& \label{eq:fuzzy-milp-constraint}\\
 &                  &x_j \ge 0&                              &(j = 1,2,...,n)& \label{eq:fuzzy-milp-continuous}\\
-&                  &y_k \in \mathbb{Z^+}&                   &(k = 1,2,...,n)& \label{eq:fuzzy-milp-integer}
+&                  &y_k \in \mathbb{Z^+}&                   &(k = 1,2,...,n)\text{.}& \label{eq:fuzzy-milp-integer}
 &\end{align}
-\text{.}
 \end{subequations}
 
 The objective function in \ref{eq:fuzzy-milp-objective} comprises two parts, the continuous part, \(\sum_j c_j x_j\), and
@@ -401,16 +401,6 @@ serviced. ``Completion time'' represents the time at which the berthing space be
 
 \section{Overview of the PAP}
 \label{sec:overview-of-the-pap}
-The BAP defines the foundation of the PAP; however, there are some differences in the way the variables are interpreted. For
-the \(i^{th}\) visit, starting service time is now the starting charge time, the berth location is now the charger queue
-for assignment, and the service time is now the elapsed charge time. There are also a few clarifying concepts about how
-the system is modeled. The PAP models the set of chargers as one continuous line; that is, the natural behavior of the
-PAP model is to allow vehicles to be queued anywhere along the ``charge strip'' \([0,S]\). Similarly, the charge times are
-continuous and can be placed anywhere on the time horizon, \([0,T]\), as long as the allocated times do not interfere with
-other scheduled charge times.
-
-\subsubsection{The PAP Formulation}
-\label{sec:the-pap-formulation}
 The BAP forms the basis of the PAP; however, there are some differences in the way the variables are interpreted. The
 starting service time, \(u_i\) seconds, is viewed as the initial charge time, and the service time, total elapsed time
 spent on the charger. Similarly, for the spatial term, \(v_i \in [0,L]\), the berth location is instead interpreted as the
@@ -421,7 +411,7 @@ horizon, \([0,T]\), as long as the allocated times do not interfere with other s
 
 The PAP formulation's parameters can be divided into two categories: input parameters and decision variables. Each type
 will now be introduced in turn. The following parameters are assumed to be known inputs for the MILP. \(L\) defines the
-length of the charger in meters. As stated previously, it is modeled as a continuous bar meaninng that a vehicle can be
+length of the charger in meters. As stated previously, it is modeled as a continuous bar meaning that a vehicle can be
 placed anywhere in the range \([0,L]\). It is assumed that the time horizon, \(T\) seconds, is known so that vehicles may be
 placed temporarily in the range \([0,T]\). The total number of visits to the station over the time horizon is represented
 by \(n_V\). The arrival time for each visit is represented by \(a_i\) seconds, and the required charge time is represented
@@ -431,15 +421,18 @@ The decision variables provide the means by which the solver may optimize the pr
 times for vehicle \(i\) are \(u_i\) and \(d_i\) seconds, respectively. The starting position on the charger is denoted as \(v_i
 \in [0,L]\) meters. The temporal ordering of vehicles \(i\) and \(j\) is determined by \(\sigma_{ij} \in \{0, 1\}\), where \(\sigma_{ij} = 1
 \implies\) \(i\) arrives before \(j\) for all \(1 \le i,j \le n_V\). Similarly, \(\psi_{ij} \in \{0, 1\}\) determines the relative
-position of vehicles \(i\) and \(j\) on the charger: \(\psi_{ij} = 1 \implies v_i < v_j\) for all \(1 \le i,j \le n_V\).
+position of vehicles \(i\) and \(j\) on the charger: \(\psi_{ij} = 1 \implies v_i < v_j\) for all \(1 \le i,j \le n_V\). A value of
+zero conveys no information about the relative ordering. Suppose \(\psi_{ij} = 1\) and \(\sigma_{ij} = 0\), from this it is known
+that EV \(i\) in a queue of a lesser index than \(j\); however, \(\sigma_{ij} = 0\) does not whether state that EV \(i\) is scheduled
+before, during, or after EV \(j\) temporally.
 
 To determine the values for each of these decision variables, a MILP was formulated in
-\cite{qarebagh-2019-optim-sched}. The formulation is shown in its entirety for completeness.
-The problem to be solved is
+\cite{qarebagh-2019-optim-sched}. The formulation is shown in its entirety for completeness. The problem to be solved
+is
 
 \begin{equation}
 	\label{eq:bapobjective}
-	\min\; \sum_{i=1}^N (d_i - a_i)
+	\min\; \sum_{i=1}^{n_v} (d_i - a_i)
 \end{equation}
 
 Subject to:
@@ -454,7 +447,8 @@ Subject to:
     s_i + u_i = d_i                       \label{subeq:bapdetach}       \\
     a_i \leq u_i \leq (T - s_i)                 \label{subeq:bapvalid_starts} \\
     \sigma_{ij} \in \{0,1\},\;\psi_{ij} \in \{0,1\}\; \label{subeq:bapsdspace}      \\
-    v_i \in [0, L ]                         \label{subeq:bapvspace}
+    v_i \in [0, L]                         \label{subeq:bapvspace} \\
+    i,j = 1..n_V;\; i \ne j                \label{subeq:ijspace}
 \end{align}
 \end{subequations}
 
@@ -467,7 +461,7 @@ of the PAP, this implies that there are no conflicts in the schedule spatially o
 establishes temporal ordering when active (\(\sigma_{ij}=1\)) in the manner described previously by utilizing big-M notation.
 Similarly, \autoref{subeq:bapspace} establishes spatial ordering when active (\(\psi_{ij} =1\)). Constraints
 \autoref{subeq:bapvalid_pos}-\autoref{subeq:bapdelta} enforce spatial and temporal ordering between each queue/vehicle
-pair. Constraints \autoref{subeq:bapsigma} and \autoref{subeq:bapdelta} enforce validity of the assignments. For
+pair. Constraint \autoref{subeq:bapvalid_pos} ensures that there exists at least one spatial or temporal ordering between EVs \(i\) and \(j\). Constraints \autoref{subeq:bapsigma} and \autoref{subeq:bapdelta} enforce validity of the assignments. For
 example, if \autoref{subeq:bapsigma} resulted in a value of two, that would imply both vehicle \(i\) and \(j\) are scheduled
 before and after each other temporally, which is impossible. In the case of \autoref{subeq:bapdelta} being equal to
 two, that would mean that vehicles \(i\) and \(j\) are scheduled both before and after one another on the charging strip,
@@ -485,10 +479,10 @@ binary terms. \autoref{subeq:bapvspace} ensures that the assigned value of \(v_i
 \label{sec:milp-introduction}
 The objective of this chapter is to utilize the PAP from \ref{sec:overview-of-the-pap} as a basis of deriving the formulation
 for scheduling a fleet of BEBs. Because the PAP was designed for a set of EVs with predefined arrival times, initial
-charges, and charge times, the PAP must be modified to support the behavior that a fleet of buses exhibit. As such, the
-contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This incorporates a
-proportional charging model into the MILP framework, includes consideration for multiple charger types, and
-consideration of each route in the schedule. The last contribution is of importance because both the BAP and PAP
+charge times, and final charge times, the PAP must be modified to support the behavior that a fleet of buses exhibit. As
+such, the contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This
+incorporates a proportional charging model into the MILP framework, includes consideration for multiple charger types,
+and consideration of each route in the schedule. The last contribution is of importance because both the BAP and PAP
 consider each arrival to be unique; thus, the tracking of battery charge from one visit to the next must be considered.
 Furthermore, the input parameters for the model can be predefined in such a manner as to minimize the number of fast and
 slow chargers utilized as well as minimize the energy consumption. That is, the model will simultaneously minimize the
@@ -537,10 +531,10 @@ used to denote an individual queue, and \(\mathbb{V} = \{1, ..., n_V\}\) is a se
 index, \(i\), to a bus index, \(b\). The notation \(\Gamma_i\) is used as a shorthand to refer to the bus index \(b\) for visit
 \(i\).
 
-The actual physical dimensions of the BEB are ignored and it is assumed that each BEB will be assigned to charge at a
+The actual physical dimensions of the BEB are ignored, and it is assumed that each BEB will be assigned to charge at a
 particular charger. Because of this assumption, the PAP spatial variable, \(l_i\), may be removed and \(v_i\) is made to be
 an integer corresponding to which queue visit \(i\) will be using, \(v_i \in \mathbb{Q}\). That is, the queue position is now
-discretized over \(n_Q\) chargers where a BEB occupies single charge queue. Thus, when \(\psi_{ij} = 1\), vehicle \(j\) is placed
+discretized over \(n_Q\) queues where a BEB occupies single charge queue. Thus, when \(\psi_{ij} = 1\), vehicle \(j\) is placed
 in a charging queue with a larger index than vehicle \(i\), \(v_j > v_i\). The charger length \(L\) is likewise replaced with
 \(n_Q\). Note that \(n_Q = n_B + n_C\), where \(n_B\) is the number of buses and \(n_C\) is the number of chargers. The
 rationale for adding additional idle queues is to allow BEBs to be ``set aside'' if no additional charge is required.
@@ -557,7 +551,7 @@ times at the station are placed in idle queues. This method will be applied when
 \end{subequations}
 
 The constraint in \autoref{subeq:space} is nearly identical to \autoref{subeq:bapspace}, but rather than viewing the
-charger as a continuous strip of length \(S\), it is discretized into \(n_Q\) queues each with a width of unit length one. A
+charger as a continuous strip of length \(L\), it is discretized into \(n_Q\) queues each with a width of unit length one. A
 BEB is also assigned a unit length of one which is reflected in \autoref{subeq:space} by \(\cdot \geq 1\).
 \autoref{subeq:valid_depart} ensures that the time the BEB is detached from the charger, \(d_i\), is before its departure
 time, \(\tau_i\) seconds. Note the introduction of the new variable \(\tau_i\) exists to allow the final charge time to be
@@ -713,7 +707,7 @@ Subject to the constraints
     \eta_i + \sum_{q=1}^{n_Q} g_{iq} r_q \leq \kappa_{\Gamma_i}         \label{subeq:max_charge}     \\
 \end{equation}
 \begin{equation}
-    \eta_{\Gamma^f_b} \geq \beta_{\Gamma_i} \kappa_{\Gamma_i}                   \label{subeq:final_charge}   \\
+    \eta_{\Gamma^f_b} \geq \beta_{\Gamma_f} \kappa_{\Gamma_f}                   \label{subeq:final_charge}   \\
 \end{equation}
 \begin{equation}
     s_i - (1 - w_{iq})M \leq g_{iq}                     \label{subeq:gpgret}         \\

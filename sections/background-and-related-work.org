@@ -213,17 +213,4 @@ optimize the amount of chargers utilized. Both linear and non-linear battery dyn
 :CUSTOM_ID: sec:overview-of-the-pap
 :END:
 
-The BAP defines the foundation of the PAP; however, there are some differences in the way the variables are interpreted. For
-the $i^{th}$ visit, starting service time is now the starting charge time, the berth location is now the charger queue
-for assignment, and the service time is now the elapsed charge time. There are also a few clarifying concepts about how
-the system is modeled. The PAP models the set of chargers as one continuous line; that is, the natural behavior of the
-PAP model is to allow vehicles to be queued anywhere along the "charge strip" $[0,S]$. Similarly, the charge times are
-continuous and can be placed anywhere on the time horizon, $[0,T]$, as long as the allocated times do not interfere with
-other scheduled charge times.
-
-**** The PAP Formulation
-:PROPERTIES:
-:CUSTOM_ID: sec:the-pap-formulation
-:END:
-
 #+include: "../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-pap-formulation" :only-contents t
