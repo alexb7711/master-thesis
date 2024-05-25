@@ -1,4 +1,4 @@
-% Created 2024-05-24 Fri 20:36
+% Created 2024-05-25 Sat 10:09
 % Intended LaTeX compiler: pdflatex
 \documentclass[ee,thesis]{usuthesis}
 
@@ -281,7 +281,7 @@ above 80\%, it is able to accurately estimate the SOC within a range that will g
 begins with an implementation of linear battery dynamics then incorporates a non-linear model suggested by \cite{whitaker-2023-a-network}.
 
 \section{Problem Description}
-\label{sec:problem-description}
+\label{sec:thesis-problem-description}
 The work of this thesis builds upon the Position Allocation Problem (PAP) \cite{qarebagh-2019-optim-sched}, a
 modification of the well studied Berth Allocation Problem (BAP), as a means to schedule the charging of electric
 vehicles (EVs) \cite{buhrkal-2011-model-discr,frojan-2015-contin-berth,imai-2001-dynam-berth}. The goal of the PAP is
@@ -323,14 +323,13 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org4de5e43}
+\label{sec:org425830e}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of
 constraints \cite{chen-2010-applied}. Given an objective function \(J\), decision variables (i.e. variables of
-optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\) where \(\mathbb{Z}^+\) denotes the set of nonnegative integers, and input parameters \(c_j,
-d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a mathematical structure represented as shown in \ref{eq:milp-structure}
-\cite{chen-2010-applied}
+optimization) \(x_j \in \mathbb{R}\) and \(y_k \in \mathbb{Z}^+\) where \(\mathbb{Z}^+\) denotes the set of non-negative integers, and input parameters \(c_j, d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a
+mathematical structure \cite{chen-2010-applied}:
 
 \begin{subequations}
 \label{eq:milp-structure}
@@ -340,6 +339,7 @@ d_k, a_{ij}, g_{ik}, b_i \in \mathbb{R}\), a MILP has a mathematical structure r
 &                  &x_j \ge 0&                              &(j = 1,2,...,n)& \label{eq:fuzzy-milp-continuous}\\
 &                  &y_k \in \mathbb{Z^+}&                   &(k = 1,2,...,n)\text{.}& \label{eq:fuzzy-milp-integer}
 &\end{align}
+\text{.}
 \end{subequations}
 
 The objective function in \ref{eq:fuzzy-milp-objective} comprises two parts, the continuous part, \(\sum_j c_j x_j\), and
@@ -519,7 +519,7 @@ The discussion of the four changes is separated into two sections. \autoref{sec:
 spatial-temporal constraint formulation to form a queuing constraint. \autoref{sec:batt_dynamics} then discusses the
 addition of bus charge management. This section ends with a brief discussion of a modified objective function and the
 statement of the full problem in \autoref{sec:BEB_MILP}. The notation is explained throughout and summarized in
-\autoref{tab:variables}.
+\autoref{tab:milp-variables}.
 
 \subsection{Queuing Constraints}
 \label{sec:queuing}
@@ -830,7 +830,7 @@ Another important measure for the chargers is to compare the amount of power and
 \autoref{fig:power-usage} depicts the power consumption throughout the time horizon. It can be seen that the
 Qin-Modified power consumption is steadily less or the same as the MILP schedule. This can be accounted for by the
 MILP's constraints to keep the bus SOC above \mincharge and to reach a final SOC of \fpeval{\bcharge *100}\% at the end
-of the working day. Along a similar vein, the accumulated energy consumed is shown in \autoref{fig:energy-usage}. The
+of the working day. Along a similar vein, the accumulated energy consumed is shown in \autoref{fig:milp-energy-usage}. The
 MILP schedule is more efficient up until about the eleventh hour. Again, this can be accounted for by the fact the MILP
 is accommodating the extra constraints. Due to these constraints the MILP PAP consumes about \(0.1\cdot10^4\) kWh more than
 the Qin-Modified. The overlap of the MILP PAP can be accounted for by referencing \autoref{subfig:fast-charger-usage}
@@ -840,7 +840,7 @@ same amount of chargers as the Qin Schedule. Again, due to the added constraints
 resources to keep within the specified bounds.
 
 \begin{table}[htbp]
-\caption{\label{tab:variables}Notation used throughout \ref{sec:milp-pap}.}
+\caption{\label{tab:milp-variables}Notation used throughout \ref{sec:milp-pap}.}
 \centering
 \begin{tabularx}{\textwidth}{L{0.3} L{1.2} L{0.3} L{1.2}}
 \textbf{Variable} & \textbf{Description} & \textbf{Variable} & \textbf{Description}\\[0pt]
@@ -948,7 +948,7 @@ Decision Variables &  & Decision Variables & \\[0pt]
 \centering
     \includegraphics[width=\textwidth]{sup-doc/milp-pap-paper-frontiers/img/energy}
     \caption{Total accumulated energy consumed by the Qin-Modified and MILP schedule throughout the time horizon.}
-    \label{fig:energy-usage}
+    \label{fig:milp-energy-usage}
 \end{figure}
 
 \chapter{A SIMULATED ANNEALING APPROACH WITH LINEAR BATTERY DYNAMICS}
@@ -2039,7 +2039,10 @@ threshold.
     \mysubcaption{}
     \label{subfig:schedule-quick-sa}
   \end{subfigure}
-  \caption{Various schedules generated by the different frameworks. \ref{subfig:schedule-qin} is the Qin-Modified schedule, \ref{subfig:schedule-milp} is the BPAP schedule, \ref{subfig:schedule-heuristic-sa} is the heuristic SA schedule, and \ref{subfig:schedule-quick-sa} is the quick SA schedule. The horizonontal line stemming from the nodes ending with a vertical tick indicate the charge duration for that particular visit.}
+  \caption{Various schedules generated by the different frameworks. \ref{subfig:schedule-qin} is the Qin-Modified
+    schedule, \ref{subfig:schedule-milp} is the BPAP schedule, \ref{subfig:schedule-heuristic-sa} is the heuristic SA
+    schedule, and \ref{subfig:schedule-quick-sa} is the quick SA schedule. The horizonontal line stemming from the nodes
+    ending with a vertical tick indicate the charge duration for that particular visit.}
   \label{fig:schedule}
 \end{figure}
 
@@ -2321,7 +2324,7 @@ more than the BPAP. The energy consumed is considerably higher again due to the 
     \centering
     \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-milp}
     \caption{Charging schedule generated by the MILP PAP algorithm.}
-    \label{subfig:schedule-milp}
+    \label{subfig:nonlin-schedule-milp}
   \end{subfigure}
 
   %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2329,7 +2332,7 @@ more than the BPAP. The energy consumed is considerably higher again due to the 
   \begin{subfigure}[t]{\textwidth}
     \centering \includegraphics[width=\textwidth]{sup-doc/sa-pap-paper/img/schedule-sa-heuristic}
     \caption{Charging schedule generated by the SA PAP algorithm using the heuristic strategy.}
-    \label{subfig:schedule-heuristic-sa}
+    \label{subfig:nonlinear-schedule-heuristic-sa}
   \end{subfigure}
   \caption{Charge schedules generated by the Non-linear SA, MILP, and Heuristic SA algorithms.}
   \label{fig:nonlinear-schedule}

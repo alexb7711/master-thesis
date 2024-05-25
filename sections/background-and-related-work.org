@@ -128,7 +128,7 @@ and even fuzzy set theory has been applied to allow for more flexible schedules 
 
 ** Problem Description
 :PROPERTIES:
-:CUSTOM_ID: sec:problem-description
+:CUSTOM_ID: sec:thesis-problem-description
 :END:
 
 The work of this thesis builds upon the Position Allocation Problem (PAP) [cite:@qarebagh-2019-optim-sched], a
