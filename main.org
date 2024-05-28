@@ -14,10 +14,7 @@
 \preliminaries   % set frontmatter style
 
 \maketitle
-
-\tableofcontents
-\listoftables
-\listoffigures
+\makecopyright
 #+end_export
 
 # ======================================================================================================================
@@ -31,6 +28,13 @@
 
 #+include: sections/dedication.org
 #+include: sections/acknowl.org
+
+#+begin_export latex
+\tableofcontents
+\listoftables
+\listoffigures
+#+end_export
+
 
 # ======================================================================================================================
 # Document

@@ -1,6 +1,6 @@
-% Created 2024-05-25 Sat 11:04
+% Created 2024-05-28 Tue 08:47
 % Intended LaTeX compiler: pdflatex
-\documentclass[ee,thesis]{usuthesis}
+\documentclass[ee,msthesis]{usuthesis}
 
 \usepackage{amsmath}                        % Cool math
 \usepackage{amsfonts}                       % Cool math fonts
@@ -121,10 +121,7 @@ citecolor=blue,urlcolor=blue} % Use when compiling the digital copy
 \preliminaries   % set frontmatter style
 
 \maketitle
-
-\tableofcontents
-\listoftables
-\listoffigures
+\makecopyright
 
 \begin{abstract}
 % A space is needed before the text starts so that the first paragraph
@@ -158,10 +155,19 @@ Alexander Brown
 \end{flushright}
 \end{acknowledgments}
 
+\tableofcontents
+\listoftables
+\listoffigures
+
+
 \body  % set main body style
 
 \chapter{INTRODUCTION}
 \label{sec:introduction}
+%%%%%%%% This line gets rid of page number on first page of text
+\thispagestyle{empty}
+%%%%%%%%%%%%%
+
 With an ever-increasing interest in the electrification of vehicles in the push for green transportation, many
 organizations and companies have been looking to adopt a fleet of electric vehicles \cite{khan-2022-inves}. This
 transition also stems into the electrification of public bus transportation via battery electric buses (BEBs)
@@ -323,7 +329,7 @@ various models presented in this work optimizes over peak power usage and energy
 optimize the amount of chargers utilized. Both linear and non-linear battery dynamics are introduced and implemented.
 
 \section{Mixed Integer Linear Programming}
-\label{sec:org489481e}
+\label{sec:orgde58ccf}
 
 A mixed integer linear programming (MILP) problem is a class of constrained optimization in which one seeks to find a
 set of continuous or integer values that maximizes or minimizes an objective function while satisfying a set of

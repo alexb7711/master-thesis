@@ -1,7 +1,7 @@
 %  -- usuthesis --
-%
+% 
 %  A LaTeX class for the preparation of USU thesis' and dissertations.
-%
+% 
 %  Time-stamp: "[usuthesis.cls] last modified by Scott Budge (scott) on 2019-01-17 (Thursday, 17 January 2019) at 16:23:44 on goga.ece.usu.edu"
 %
 %
@@ -12,7 +12,7 @@
 %
 %  --- Usage ---
 %
-%  Several options can be specified with in the documentclass statement...
+%  Several options can be specified with in the documentclass statement... 
 %
 %    Department - makes department specific format changes
 %    - ee
@@ -20,7 +20,7 @@
 %    - me
 %    - ae
 %    - cee
-%
+% 
 %    Document type - controls titlepage layout
 %    - msthesis = MS plan A thesis
 %    - msreport = MS plan B report
@@ -30,7 +30,7 @@
 %                    a finished document (alters title page layout)
 %    - proposal = MS proposal
 %
-%    Fontsize - defaults to 11pt
+%    Fontsize - defaults to 11pt 
 %    - 10pt
 %    - 11pt
 %    - 12pt
@@ -41,17 +41,17 @@
 %  --- Bug Reports ---
 %
 %  This class file is probably not perfect. Reports of any bugs you encounter
-%  are most welcome. Please email them to me at <amcinnes@cc.usu.edu>,
+%  are most welcome. Please email them to me at <amcinnes@cc.usu.edu>, 
 %  or stop by my office (EL-241C) and tell me what the problem is. I'll do
 %  my best to get it fixed ASAP.
 %
 %  --- Origins ---
 %
 %  Based on Lili Ma's modifications to version 1.6 of the original usuthesis
-%  class maintained by Dr. Scott Budge and Dr. Todd Moon. That class was in
+%  class maintained by Dr. Scott Budge and Dr. Todd Moon. That class was in 
 %  turn based on a combination of the standard LaTeX book.cls, and a thesis
 %  style file originating at Colorado State University. Also makes use of a
-%  variety of ideas from Mark Senn's puthesis.cls Purdue University
+%  variety of ideas from Mark Senn's puthesis.cls Purdue University 
 %  thesis class.
 %
 %  --- Notes ---
@@ -62,11 +62,11 @@
 %  afraid that transition would require a lot of tinkering with the vspace's
 %  and vskip's scattered throughout the frontmatter sections. I don't really
 %  want to tackle that right now.
-%
+%  
 %  --- Revision History ---
 %
 %  Note that this file is a lot more fun to work with if you have an editor
-%  that supports folding, like Jedit or Emacs. Hence all the {{{ }}} pairs.
+%  that supports folding, like Jedit or Emacs. Hence all the {{{ }}} pairs. 
 %
 %  History:
 %  2018-08-22  -  Added aerospace  engineering
@@ -75,27 +75,27 @@
 %  2018-01-26  -  Added civil and environmental engineering
 %                 option. Type cee in the doccument class instead of
 %                 ce or mae.
-%  2005-02-18  -  Restructured original files into one class
-%              -  Moved to layout control via setspace.sty and geometry.sty
+%  2005-02-18  -  Restructured original files into one class 
+%              -  Moved to layout control via setspace.sty and geometry.sty 
 %  2005-02-19  -  Added support for different types of title pages
 %  2005-02-20  -  Added \makeappendix, \makeappendices, and redef'ed \appendix
 %              -  Added \references
 %              -  Consolidated several environment definitions into \newfbmatter
 %              -  Added cite.sty and url.sty as required packages, to improve
-%                 citation and bibliography formatting
+%                 citation and bibliography formatting 
 %  2005-02-23  -  Minor tweaks to "notation" environment
-%  2005-03-03  -  Modified margin settings to ensure 1" bottom margin
+%  2005-03-03  -  Modified margin settings to ensure 1" bottom margin 
 %  2005-03-04  -  Modified handling of the proposal option
-%              -  Added signature blocks to proposal coversheets
+%              -  Added signature blocks to proposal coversheets 
 %              -  Fixed double spacing of LoT and LoF
 %  2005-08-29  -  Fixes based on feedback from Pat Patterson's dissertation
 %                 1. Reduced computed page count by 1
 %                 2. Removed an extra blank line between "Contents" and the ToC
 %                 3. Tweaked definition of \@chapter to prevent extra blank
 %                    lines from being inserted into LoT and LoF (thanks to
-%                    Dr. Todd Moon for help in tracking down the root cause of
+%                    Dr. Todd Moon for help in tracking down the root cause of 
 %                    this problem
-%                 4. Removed extra blank lines in chapter headings, between
+%                 4. Removed extra blank lines in chapter headings, between 
 %                    "Chapter xxx" and the chapter name, and between the
 %                    chapter name and the body text
 %                 5. Inserted an extra blank line between "References" and the
@@ -107,20 +107,20 @@
 %                 applied to the page counters to get the final page count.
 %  2005-10-26  -  Cleaned up handling of title page approval block formatting.
 %                 Removed the Grad Dean signature line from the approval
-%                 block for the msreport option (tip of the hat to Mitch
-%                 Whiteley for pointing out that grad dean approval is
+%                 block for the msreport option (tip of the hat to Mitch 
+%                 Whiteley for pointing out that grad dean approval is 
 %                 unnecessary for Plan B reports.
 %  2006-01-31  -  Setting of 'mae' option now sets the department and degree.
 %  2006-01-31  -  Handling of proposals fixed so that the word 'proposal'
-%                 actually appears on the cover sheet (tip of the hat to
+%                 actually appears on the cover sheet (tip of the hat to 
 %                 Dave Woffinden for the bug report).
 %  2006-07-20  -  Adjusted LoT and LoF to provide single-spacing within entries
 %                 and double-spacing between entries.
-%  2006-07-20  -  Alter page count (again) so that it is precisely frontmatter
-%                 (including cover page) + mainmatter. This is apparently what
+%  2006-07-20  -  Alter page count (again) so that it is precisely frontmatter 
+%                 (including cover page) + mainmatter. This is apparently what 
 %                 the page count is supposed to be.
 %
-% 2012-03-23 - 	Renamed the \year command to fix conflict with TikZ. The command
+% 2012-03-23 - 	Renamed the \year command to fix conflict with TikZ. The command 
 %	 						is now \gradyear
 % v2 2015-10-19	  Changed appearance of References for multi-paper, multi-bib format
 % 2015-10-19	  Changed headers to be all-caps, not bolded, normal size
@@ -153,7 +153,7 @@
 
 %{{{ Document type definitions
 %
-% What type of document are we producing.
+% What type of document are we producing. 
 % Used to determine formatting options.
 %
 \newcommand{\@@type}{msthesis}
@@ -217,7 +217,7 @@
 \ProcessOptions\relax
 %}}}
 
-%{{{ Load the base class
+%{{{ Load the base class 
 \LoadClass[letterpaper,\@@fontsize,oneside,onecolumn,titlepage]{book}[2001/04/21]
 %}}}
 
@@ -362,7 +362,7 @@
   \if@isproposal
     \doctype{proposal}
     \@reportORproposaltrue
-  \fi
+  \fi  
 }
 \ifthen{\equal{msreport}{\@@type}}{%
   \doctype{report}
@@ -370,7 +370,7 @@
   \lastreader{\Zsecondreader}
   \if@isproposal
     \doctype{proposal}
-  \fi
+  \fi  
   \@reportORproposaltrue
 }
 %}}}
@@ -384,7 +384,7 @@
 \def\body{%
     % Save the number of frontmatter pages, which is 1 less than the
     % current page number
-    \setcounter{savefrontpageno}{\value{page}}%
+    \setcounter{savefrontpageno}{\value{page}}% 
     \addtocounter{savefrontpageno}{-1}%
     % Reset line spacing, and page numbering style
     % Reset the page counter: mainmatter is numbered from '1'
@@ -413,13 +413,13 @@
     \chapter*{ \begin{center} \textnormal{LIST OF TABLES}  \end{center}}
     \addcontentsline{toc}{chapter}{\textnormal{LIST OF TABLES}}
     \addvspace{10pt}
-    \typeout{List of Tables...!!}
+    \typeout{!! List of Tables...!!}
     \noindent
     Table \hfill Page\\         % newline allows us to use a vspace...
     % vspace adjusts spacing to get a doublespace between table headings
     % and table contents
     \vspace{-\baselineskip}
-    \@starttoc{lot}
+    \@starttoc{lot}     
     \newpage
 }
 % Ensure double-spacing between entries
@@ -428,20 +428,20 @@
 %}}}
 
 %{{{ List of Figures
-% LoF should be single-spaced within entries and double-spaced between entries
+% LoF should be single-spaced within entries and double-spaced between entries 
 \renewcommand*{\listoffigures}{
     \vskip0pt
     \chapter*{\begin{center} \textnormal{LIST OF FIGURES} \end{center}}
     \addcontentsline{toc}{chapter}{\textnormal{LIST OF FIGURES}}
-    \addvspace{10pt}
-    \typeout{List of Figures...!!}
+    \addvspace{10pt} 
+    \typeout{!! List of Figures...!!}
     \noindent
     Figure \hfill Page\\         % newline allows us to use a vspace...
     % vspace adjusts spacing to get a doublespace between table headings
     % and table contents
-    \vspace{-\baselineskip}
-    \@starttoc{lof}
-    \newpage
+    \vspace{-\baselineskip} 
+    \@starttoc{lof}     
+    \newpage 
 }
 % Ensure double-spacing between entries
 \renewcommand*\l@figure{\par\addvspace{\bigskipamount}\pagebreak[2]
@@ -453,7 +453,7 @@
     \vskip0pt
     \chapter*{\begin{center} \textnormal{LIST OF ALGORITHMS} \end{center}}
     \addcontentsline{toc}{chapter}{\textnormal{LIST OF ALGORITHMS}}
-    \addvspace{10pt}
+    \addvspace{10pt} 
     \typeout{!! List of Algorithms...!!}
     \noindent
     Algorithm \hfill Page\\         % newline allows us to use a vspace...
@@ -461,7 +461,7 @@
     % and table contents
     \vspace{-\baselineskip}
     \@starttoc{alg}
-    \newpage
+    \newpage 
 }
 % Ensure double-spacing between entries
 \newcommand*\l@alg{\par\addvspace{\bigskipamount}\pagebreak[2]
@@ -484,7 +484,7 @@
         \chapter*{\begin{center} \textnormal{#2} \end{center}}
         \addcontentsline{toc}{chapter}{\textnormal{#2}}
         \vskip 00pt\par
-        % set the line spacing
+        % set the line spacing 
         \begin{#3}
     }
     % end definition
@@ -497,7 +497,7 @@
 
 %{{{ Define some frontmatter and backmatter environments
 % Acknowledgments
-\newfbmatter{acknowledgments}{\textnormal{ACKNOWLEDGMENTS}}{doublespacing}
+\newfbmatter{acknowledgments}{\textnormal{ACKNOWLEDGMENTS}}{doublespacing}  
 % Notations
 \newfbmatter{notation}{\textnormal{NOTATION}}{doublespacing}
 % Acronyms
@@ -512,11 +512,11 @@
 % "begin of environment" definition
 {
     \newpage
-    \null \vskip 26pt
+    \null \vskip 26pt  
     \addcontentsline{toc}{chapter}{\textnormal{PUBLIC ABSTRACT}}
     \begin{center}
         PUBLIC ABSTRACT\\
-        % empty line creates required triple space
+        % empty line creates required triple space 
         % between 'Abstract' and title
         \ \\
         \begin{doublespace}
@@ -536,11 +536,11 @@
 % beginning definition
 {
     \newpage
-    \null \vskip 26pt
+    \null \vskip 26pt  
     \addcontentsline{toc}{chapter}{\textnormal{ABSTRACT}}
     \begin{center}
         ABSTRACT\\
-        % empty line creates required triple space
+        % empty line creates required triple space 
         % between 'Abstract' and title
         \ \\
         \begin{doublespace}
@@ -578,7 +578,7 @@
     \null\vskip 200pt
     \vskip 20pt\par
 }
-% end
+% end  
 {
     \clearpage
 }
@@ -617,7 +617,7 @@
         }
         Approved:
         \null\vskip 2\baselineskip
-
+            
          % first row is common to all
         \rule{2.6in}{1pt} \hspace{0.3in}  \rule{2.6in}{1pt}\\[-3pt]
         \makebox[2.6in][l]{\Zmajorprof} \hspace{0.3in}
@@ -671,7 +671,7 @@
 \newcommand{\makecopyright}%
 {{
    \begin{center}
-      \null
+      \null 
       \vfill
       Copyright \hspace{5pt} \copyright \hspace{5pt} \Zauthor \hspace{5pt} \Zyear \\
       \vskip 14pt
@@ -778,8 +778,8 @@
 %}
 %%}}}
 
-%{{{ Appendices
-% Set up the appendix section by creating a coversheet and resetting the
+%{{{ Appendices 
+% Set up the appendix section by creating a coversheet and resetting the 
 % chapter counters
 
 % Use this if there is only one appendix
@@ -792,7 +792,7 @@
     \begin{center}
         APPENDIX
     \end{center}
-    \addcontentsline{toc}{chapter}{\textnormal{APPENDIX}}
+    \addcontentsline{toc}{chapter}{\textnormal{APPENDIX}} 
     \vfil\clearpage
 \setcounter{chapter}{0}  % tkm 4/16/12
 \renewcommand{\thechapter}{\Alph{chapter}}   % tkm 4/16/12
@@ -822,9 +822,9 @@
     \begin{center}
         APPENDICES
     \end{center}
-    \addcontentsline{toc}{chapter}{\textnormal{APPENDICES}}
+    \addcontentsline{toc}{chapter}{\textnormal{APPENDICES}} 
     \vfil\clearpage
-
+    
     \setcounter{chapter}{0}%
     \setcounter{section}{0}%
     \setcounter{subsection}{0}%
@@ -854,7 +854,7 @@
     \setcounter{subsubsection}{0}%
     \@makechapterheadappdxone{#1}
     \addcontentsline{toc}{section}{\thechapter\hspace{12pt} #1}    % tkm 4/16/12
-%    \addcontentsline{toc}{section}{\@chapapp{} \thechapter\hspace{12pt} #1}
+%    \addcontentsline{toc}{section}{\@chapapp{} \thechapter\hspace{12pt} #1} 
 }
 
 \newcommand{\appendixsection}{\section}
@@ -868,7 +868,7 @@
 % This is a bit of a hack, but seems to work...
 % Redefine \@chapter so that we don't get spurious blank lines
 % when the chapter changes in the LoT and LoF
-%
+% 
 
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
                        \if@mainmatter
@@ -898,20 +898,20 @@
 
 \def\@chapapp{CHAPTER}
 %{{{ Heading for \chapter command (includes chapter number)
-\def\@makechapterhead#1{
+\def\@makechapterhead#1{             
     \vspace*{25pt}                          % Space at top of text page.
-    {
+    { 
         \parindent 0pt \leftskip=0pt plus 1filll \rightskip=\leftskip
         \@chapapp{} \thechapter    			% 'Chapter' and number.
         \par
         #1\par								% Title.
         \nobreak                            % TeX penalty to prevent page break.
         \vskip 0.27\baselineskip            % Space between title and text.
-    }
+    } 
 }
 \def\@makechapterheadappdxone#1{             % tkm 4/16/12
     \vspace*{25pt}                          % Space at top of text page.
-    {
+    { 
         \parindent 0pt \leftskip=0pt plus 1filll \rightskip=\leftskip
 
 \ifthenelse{\boolean{oneappendix}}{}{  % tkm 5/8/12
@@ -922,18 +922,18 @@
         #1\par								% Title.
         \nobreak                            % TeX penalty to prevent page break.
         \vskip 0.27\baselineskip            % Space between title and text.
-    }
+    } 
 }
 %}}}
 %{{{ % Heading for \chapter* command (no chapter number)
-\def\@makeschapterhead#1{
+\def\@makeschapterhead#1{               
     \vspace*{10pt}                         % Space at top of page.
-    {
+    { 
         \parindent 0pt \leftskip=0pt plus 1filll \rightskip=\leftskip
         #1\par								% Title.
         \nobreak                           % TeX penalty to prevent page break.
         \vskip 0.1pt plus 0pt minus 0pt    % Space between title and text.
-    }
+    }  
 }
 %}}}
 
@@ -943,16 +943,16 @@
 %{{{ Define section heading styles
 \def\chapter{\clearpage  \global\@topnum\z@ \@afterindentfalse \secdef\@chapter\@schapter}
 \def\section{\@startsection {section}{1}{\z@}
-    {4.20ex}{0.04ex}{\normalsize\bf}}
+    {4.20ex}{0.04ex}{\normalsize\bf}}  
 \def\subsection{\@startsection{subsection}{2}{\z@}
-    {4.20ex}{0.04ex}{\normalsize\bf}}
+    {4.20ex}{0.04ex}{\normalsize\bf}}  
 \def\subsubsection{\@startsection{subsubsection}{3}{\z@}
-    {4.20ex}{0.04ex}{\normalsize\bf}}
+    {4.20ex}{0.04ex}{\normalsize\bf}}  
 \def\paragraph{\@startsection
      {paragraph}{4}{\z@}{3.25ex plus 1ex minus .2ex}{-1em}{\normalsize}}
 \def\subparagraph{\@startsection
      {subparagraph}{4}{\parindent}{3.25ex plus 1ex minus
-     .2ex}{-1em}{\normalsize}}
+     .2ex}{-1em}{\normalsize}}  
 %}}}
 
 %{{{ Adjust TOC layout
@@ -962,7 +962,7 @@
 
 \def\l@chapter#1#2{%
     \pagebreak[3]
-    \vskip .75em plus 1pt \@tempdima 1.5em
+    \vskip .75em plus 1pt \@tempdima 1.5em 
     \begingroup
         \parindent \z@ \rightskip \@pnumwidth
         \parfillskip -\@pnumwidth
@@ -991,9 +991,9 @@
 \RequirePackage{url}
 %}}}
 
-%{{{ Once we're done with everything else, count total number of pages
+%{{{ Once we're done with everything else, count total number of pages 
 \AtEndDocument{%
-    % A hack to get the total number of pages for the abstract pager
+    % A hack to get the total number of pages for the abstract pager 
     % First ensure we've finished paginating
     \clearpage%
     % Find the number of mainmatter pages. Since clearpage
@@ -1006,12 +1006,12 @@
     \setcounter{savetotalpageno}{\value{savemainpageno}}%
     \addtocounter{savetotalpageno}{\value{savefrontpageno}}%
     % Write page count to the aux file as a label, which can then
-    % be referred to on the abstract page
+    % be referred to on the abstract page 
     \immediate\write\@mainaux{\string\newlabel{totalpageno}{{\number\value{savetotalpageno}}{\number\value{savetotalpageno}}{}{}{}}}%
 }
 %}}}
 
-%{{{ Obsolete commands
+%{{{ Obsolete commands 
 \newcommand{\gettotalpages}{%
     % We don't use this command any more. The command definition is left
     % in for purposes of backwards compatibility with older thesis.tex files.

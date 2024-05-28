@@ -3,6 +3,12 @@
 :CUSTOM_ID: sec:introduction
 :END:
 
+#+begin_src latex
+%%%%%%%% This line gets rid of page number on first page of text
+\thispagestyle{empty}
+%%%%%%%%%%%%%
+#+end_src
+
 With an ever-increasing interest in the electrification of vehicles in the push for green transportation, many
 organizations and companies have been looking to adopt a fleet of electric vehicles [cite:@khan-2022-inves]. This
 transition also stems into the electrification of public bus transportation via battery electric buses (BEBs)
