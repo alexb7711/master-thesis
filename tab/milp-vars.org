@@ -1,5 +1,5 @@
 #+caption: Notation used throughout \ref{sec:milp-pap}.
-#+name: tab:variables
+#+name: tab:milp-variables
 #+ATTR_LATEX: :environment tabularx :width \textwidth :align L{0.3} L{1.2} L{0.3} L{1.2}
 | \textbf{Variable}  | \textbf{Description}                                                                            | \textbf{Variable}  | \textbf{Description}                                                                                      |
 |--------------------+-------------------------------------------------------------------------------------------------+--------------------+-----------------------------------------------------------------------------------------------------------|

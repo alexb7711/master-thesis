@@ -1,7 +1,7 @@
 #+OPTIONS: title:nil
 #+LANGUAGE: en
 
-#+TITLE:A SIMULATED ANNEALING APPROACH TO THE BATTERY ELECTRIC BUS CHARGING PROBLEM
+#+TITLE:A POSITION ALLOCATION APPROACH TO THE BATTERY ELECTRIC BUS CHARGING PROBLEM
 #+AUTHOR: Alexander Brown
 #+EMAIL: A01704744@usu.edu
 
@@ -14,10 +14,7 @@
 \preliminaries   % set frontmatter style
 
 \maketitle
-
-\tableofcontents
-\listoftables
-\listoffigures
+\makecopyright
 #+end_export
 
 # ======================================================================================================================
@@ -31,6 +28,13 @@
 
 #+include: sections/dedication.org
 #+include: sections/acknowl.org
+
+#+begin_export latex
+\tableofcontents
+\listoftables
+\listoffigures
+#+end_export
+
 
 # ======================================================================================================================
 # Document

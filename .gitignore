@@ -8,3 +8,7 @@
 
 .task/
 auto/
+main.blg
+main.fdb_latexmk
+main.out
+main.toc

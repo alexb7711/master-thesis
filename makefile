@@ -66,6 +66,8 @@ set-version: ## Stamp the document with date and git commit hash
 #
 clean:	## Clean LaTeX and output figure files
 	@rm -f $(FIGURES_PDF)
+	@make -C sup-doc/milp-pap-paper-frontiers clean
+	@make -C sup-doc/sa-pap-paper clean
 	@rm -f $(patsubst %.pdf, %.aux, $(FIGURES_PDF))
 	@rm -f $(patsubst %.pdf, %.log, $(FIGURES_PDF))
 	@rm -f $(TARGET)

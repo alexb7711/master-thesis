@@ -137,54 +137,49 @@ different convergence rates. Note from the figure, the values for the rate of co
 :CUSTOM_ID: sec:nonlinear-results
 :END:
 
-The following results are generated utilizing the same parameters and problem setup as [[#sec:sa-pap-example]]. Convergence
-rates of 0.1 and 0.002 are utilized for fast and slow chargers, respectively. As stated in
-[cite:@whitaker-2023-a-network], a convergence rate of 0.1 leads a 90% charge of a 388 kWh battery in about 23 minutes
-which is comparable to the 911 kW fast charger utilized in the slow model and a convergence rate of 0.01 leads to a 90%
-charge in about four hours. Assuming linear battery dynamics, that leads to a slow charger of 87 kW. Thus, to match the
-utilized 30 kW charger, a convergence rate of about 0.002 found to be comparable via plotting the convergence to 80% SOC
-(i.e. the linear portion of the SOC charge profile). Furthermore, the heuristic technique was executed utilizing the
-non-linear battery dynamics due to its better performance as discussed in the results of [[#sec:sa-pap-example]].
+The following results are generated utilizing the same parameters and problem setup as [[#sec:sa-pap-example]]. To
+approximate the linear charge speeds, the convergence rate for each charger type was adjusted such that the non-linear
+charge curve intersected the respective linear charge profile at the 80% SOC mark (i.e. the linear portion of the SOC
+charge profile). It was found that convergence rates of 0.002 and 0.000045 for fast and slow chargers, respectively,
+intersected their linear counterparts at 80% SOC as shown in [[fig:nonlinear-linear-match]]. Furthermore, the heuristic
+technique was executed utilizing the non-linear battery dynamics. The BPAP and linear heuristic SA plots are included as
+comparisons against the presented non-linear SA technique. Note that the BPAP and heuristic schedules are generated
+utilizing linear battery dynamics.
 
-#+include: ../tab/nonlinear-charge-count.org
+
+#+name: fig:nonlinear-linear-match
+#+caption: Plot of the linear and non-linear charge profiles. Note the intersections at the 80% SOC line indicated by the horizontal red dashed line.
+#+attr_latex: width: 0.8\textwidth
+[[../img/nonlinear-bat-lin.png]]
 
 \ref{subfig:schedule-nonlinear-sa} depicts the charge schedule generated utilizing non-linear battery dynamics.
 Similarly to before, the symbol represents the point at which a BEB begins charging. The horizontal line with vertical
-tic indicate the time over which said BEB receives its charge. For the vertical axis of \ref{fig:nonlinear-schedule}
-rows 0-14 represent the slow charging queues and rows 15-29 represent the fast charging queues. The schedule utilized a
-total of eight slow charging queues, one of which is not utilized. The MILP and heuristic SA are included in
-\ref{fig:nonlinear-schedule} as baseline comparisons against the presented non-linear SA. Note that the MILP and
-heuristic schedules are generated utilizing linear battery dynamics.
-
-\ref{tab:nonlinear-charge-count} tabulates the maximum and the required amount of charger queues for each schedule and
-\ref{fig:charger-usage-nonlinear-sa} visually depicts the number of chargers utilized over the time horizon. Referring
-to the slow charger values in \ref{tab:nonlinear-charge-count}, the MILP was the only technique able to present a
-schedule that required no further packing of the schedule. The heuristic SA utilized at most nine chargers in seven
-while requesting a total of nine queues. The non-linear schedule, on the other hand, was able to generate a schedule
-that only utilized five charges in parallel, but requested eight total queues. Thus, as previously concluded, a method
-of post-processing the schedule to further optimize the spacial component of the schedule could be of interest.
+tic indicate the time over which said BEB receives its charge. Idle chargers were removed for the sake of legibility and
+space, therefore rows 0-14 of \ref{fig:nonlinear-schedule} represent the slow charging queues and rows 15-29 represent
+the fast charging queues. The non-linear schedule utilized a total of nine slow charging queues and one fast charger. It
+is of note that schedules generated are of a similar structure. However, the charge times for the fast chargers are of
+longer durations due to the non-linear charge profile. That is, the rate at which the non-linear battery dynamics model
+accepts additional charge at SOCs above 80% is much lower than that of the linear battery dynamics, causing longer
+charge times.
 
 #+include: ../tab/nonlinear-charge.org
 
-\ref{fig:nonlinear-sa-charge} plots the initial SOC of each visit over time horizon and \ref{tab:nonlinear-charge}
-tabulates the mean and max demand SOC for each. The non-linear schedule maintained the highest mean SOC followed by the
-heuristic, then the MILP. Although having the largest mean SOC, the non-linear SA was unable to keep the SOC of the BEBs
-above the 25% threshold; however, the nonlinear schedule was more successful than the heuristic SA algorithm with a
-minimum SOC of 57.84 kWh. Similarly to the results of the linear battery dynamics results of [[#sec:sa-pap]], a possible
-method of assisting the SA in avoiding the BEBs going below the minimum threshold is to apply a safety factor, $S_{f}\nu_i
-\kappa_i$ where $S_{f} > 1;\; S_f \in \mathbb{R}$.
+\ref{tab:nonlinear-charge} tabulates the mean and max demand SOC for each. The mean SOC for both the linear and
+non-linear heuristic SA techniques were approximately the same, but the minimum SOC for the non-linear heuristic SA is
+lower than that of the linear. This is again due to the non-linear charge profile and the fact that the minimum SOC
+constraint is soft. This issue may be remedied by including a safety factor term to artificially elevate the minimum SOC
+threshold, $S_{f}\nu_i \kappa_i$ where $S_{f} > 1;\; S_f \in \mathbb{R}$.
 
 #+include: ../tab/nonlinear-power.org
 
 \ref{fig:power-usage-nonlinear-sa} plots the power usage over the time horizon and \ref{tab:nonlinear-power} tabulates
-the mean and max demand for each. The non-linear SA was able to maintain a lower mean demand, as compared to that of the
-heuristic SA, while the MILP PAP continues to maintain the lowest mean demand over all the schedules. In terms of peak
-demand, there is not much difference between each schedule with a range of src_latex{\fpeval{1911.9 - 1910}} kW. The
-demand of the non-linear SA contains longer sustained demand than the heuristic SA approach, which explains the larger
-mean demand for tho non-linear SA as well as it surpassing the MILP in the total energy consumed at the end of the
-working day.
+the mean and max demand for each. The BPAP and linear SA techniques maintain the lowest mean power demand. This is
+expected due to the longer charge durations required by the non-linear battery dynamics to reach the same SOC as the
+linear. However, it is vital to note that even with the non-linear charge profile, the peak demand was still below that
+of the BPAP and only 30 kW more than the linear SA. That is, even due to the longer charge durations, the schedule was
+still able to successfully minimize the power demand.
 
 The consumed energy by each schedule is shown in \ref{fig:energy-usage-nonlinear-sa}. The ordering of most energy
-consumed to least is as follows: heuristic SA, non-linear SA, and the MILP PAP with the respective energy consumption
-for each being 797.746 kWh, 4487.259 kWh, and 4256.746 kWh. The non-linear SA consumed about 231.1 kWh more than the
-MILP PAP. Notably, the ordering of the schedule mean demands are consistent with the energy consumed.
+consumed to least is as follows: non-linear SA, linear SA, and the BPAP with the respective energy consumption for each
+being \num{5919.230} kWh, \num{4295.660} kWh, and \num{4237.200} kWh. The non-linear SA consumed about \num{1163.07} kWh
+more than the BPAP. The energy consumed is considerably higher again due to the non-linear charge profile.

@@ -1,4 +1,4 @@
-* A POSITION ALLOCATION APPROACH WITH LINEAR BATTERY DYNAMICS
+* A MIXED INTEGER LINEAR PROGRAM APPROACH WITH LINEAR BATTERY DYNAMICS
 :PROPERTIES:
 :CUSTOM_ID: sec:milp-pap
 :END:
@@ -10,10 +10,10 @@
 
 The objective of this chapter is to utilize the PAP from [[#sec:overview-of-the-pap]] as a basis of deriving the formulation
 for scheduling a fleet of BEBs. Because the PAP was designed for a set of EVs with predefined arrival times, initial
-charges, and charge times, the PAP must be modified to support the behavior that a fleet of buses exhibit. As such, the
-contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This incorporates a
-proportional charging model into the MILP framework, includes consideration for multiple charger types, and
-consideration of each route in the schedule. The last contribution is of importance because both the BAP and PAP
+charge times, and final charge times, the PAP must be modified to support the behavior that a fleet of buses exhibit. As
+such, the contribution of this work is the extension of the PAP's novel approach to BEB charger scheduling. This
+incorporates a proportional charging model into the MILP framework, includes consideration for multiple charger types,
+and consideration of each route in the schedule. The last contribution is of importance because both the BAP and PAP
 consider each arrival to be unique; thus, the tracking of battery charge from one visit to the next must be considered.
 Furthermore, the input parameters for the model can be predefined in such a manner as to minimize the number of fast and
 slow chargers utilized as well as minimize the energy consumption. That is, the model will simultaneously minimize the
@@ -24,12 +24,6 @@ The remainder of this chapter proceeds as follows: \autoref{sec:problemformulati
 scheduling, including modifications to the PAP queuing constraints and the development of a dynamic charging model.
 \autoref{sec:example} demonstrates an example of using the formulation to coordinate \A buses over \N total visits
 to the station.
-
-** Position Allocation Problem :noexport:
-:PROPERTIES:
-:custom_id: sec:the-position-allocation-problem
-:END:
-#+include: ../sup-doc/milp-pap-paper-frontiers/sections/pap-problem.org::#sec:the-position-allocation-problem :only-contents t
 
 ** A Rectangle Packing Formulation for BEB Charging
 :PROPERTIES:
